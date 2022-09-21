@@ -18,5 +18,8 @@ class DatabaseSeeder extends Seeder
         $this->call(LocationTableSeeder::class);
         $this->call(CanaisMensagemTableSeeder::class);
         $this->call(MensagensTableSeeder::class);
+        $this->call(SecretariasTableSeeder::class);
+        $this->call(UnidadesSecrTableSeeder::class);
+        $this->call(AvaliacoesTableSeeder::class);
     }
 }

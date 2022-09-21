@@ -7,7 +7,7 @@
     <div class="d-sm-grid d-md-flex justify-content-between d-flex align-items-center">
         <h3 class="d-flex align-self-middle">Mensagens</h3>
         <div class="m-0 p-0 row gap-2">
-            <a href="{{ route('mensagens') }}" class="btn btn-info col-md-auto">
+            <a alt="abertos" href="{{ route('mensagens') }}" class="btn btn-info col-md-auto">
                 <p class="m-0 p-0">
                     Chats Aberto(s):
                 </p>
@@ -74,7 +74,7 @@
             <div class="col-md-3">
                 <label for="status">Status:</label>
                 <select id="status" class="form-select" name="status">
-                    <option value="0" selected>Selecione</option>
+                    <option value="" @if (is_null(request()->status)) selected @endif>Selecione</option>
                     @foreach ( canalMensagem()::STATUS_CANAL_MSG as $statusId => $statusName )
                     <option value="{{ $statusId }}" @if (request()->status == $statusId) selected @endif>
                         {{$statusName}}
@@ -101,7 +101,7 @@
     </form>
 
     <div class="table-responsive mt-3">
-        <table class="table table-sm table-striped">
+        <table class="table table-sm table-striped align-middle">
             <thead>
                 <tr>
                     <th class="text-center">Protocolo</th>
@@ -117,17 +117,17 @@
                 @if (isset($canaisMensagem))
                 @foreach ( $canaisMensagem as $canalMensagem )
                 <tr>
-                    <th class="align-middle text-center">
+                    <th class="text-center">
                         {{ $canalMensagem->manifestacao->protocolo }}
                     </th>
-                    <td class="align-middle">{{ $canalMensagem->manifestacao->autor->name }}</td>
-                    <td class="align-middle">
+                    <td class="">{{ $canalMensagem->manifestacao->autor->name }}</td>
+                    <td class="">
                         {{ formatarDataHora($canalMensagem->created_at) }}
                     </td>
-                    <td class="align-middle">
+                    <td class="">
                         {{ formatarDataHora($canalMensagem->updated_at) }}
                     </td>
-                    <td class="align-middle">
+                    <td class="">
                         {{ carbonDiffInDays($canalMensagem->updated_at) }}
                         dia(s)
                         {{ carbonDiffInHoursMinusDays($canalMensagem->updated_at) }}
@@ -135,7 +135,7 @@
                         {{ carbonDiffInMinutesMinusHours($canalMensagem->updated_at) }}
                         minutos(s)
                     </td>
-                    <td class="align-middle
+                    <td class="
                         @if ($canalMensagem->id_status == canalMensagem()::STATUS_ENCERRADO)
                         table-success
                         @endif
@@ -148,7 +148,7 @@
                     ">
                         {{ canalMensagem()::STATUS_CANAL_MSG[$canalMensagem->id_status] }}
                     </td>
-                    <td class="align-middle text-center">
+                    <td class=" text-center">
                         <a href="{{ route('visualizarMsg', $canalMensagem->id) }}" class="btn btn-primary">
                             <i class="fa-solid fa-arrow-up-right-from-square"></i>
                         </a>

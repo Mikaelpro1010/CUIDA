@@ -183,19 +183,19 @@ class ManifestApiController extends Controller
     //Canal Chat
     public function newMessage(Request $request)
     {
-        $manifestacao = Manifest::where('protocolo', $request->protocolo)->first();
+        $manifestacao = Manifest::with('canalMensagem')->where('protocolo', $request->protocolo)->first();
         if (is_null($manifestacao)) {
-            return $this->error("Manifestação não encontrada, tente novamente!", 422);
+            return $this->error("Manifestação não encontrada!", 404);
         }
-
-        if ($manifestacao->has('canalMensagem')) {
-            // if ($manifestacao->canalMensagem->id_status == CanalMensagem::STATUS_AGUARDANDO_RESPOSTA) {
-            //     return $this->error("Não é possivel enviar mensagens até que um administrador responda sua mensagem anterior!", 422);
-            // } elseif ($manifestacao->canalMensagem->id_status == CanalMensagem::STATUS_ENCERRADO) {
-            //     return $this->error("Não é possivel enviar mensagens quando o Chat já está encerrado!", 422);
-            // } else {
-            $canalManifestacao = $manifestacao->canalMensagem;
-            // }
+        // dd(count($manifestacao->canalMensagem));
+        if (count($manifestacao->canalMensagem)) {
+            if ($manifestacao->canalMensagem->id_status == CanalMensagem::STATUS_AGUARDANDO_RESPOSTA) {
+                return $this->error("Não é possivel enviar mensagens até que um administrador responda sua mensagem anterior!", 422);
+            } elseif ($manifestacao->canalMensagem->id_status == CanalMensagem::STATUS_ENCERRADO) {
+                return $this->error("Não é possivel enviar mensagens quando o Chat já está encerrado!", 422);
+            } else {
+                $canalManifestacao = $manifestacao->canalMensagem;
+            }
         } else {
             $canalManifestacao = new CanalMensagem();
             $canalManifestacao->id_manifestacao = $manifestacao->id;
@@ -247,5 +247,14 @@ class ManifestApiController extends Controller
         }
 
         return $this->success('Mensagem enviada com Sucesso!', 201);
+    }
+
+    public function getChatPorProtocolo($protocolo)
+    {
+        $manifestacao = Manifest::with('canalMensagem', 'canalMensagem.mensagens', 'canalMensagem.mensagens.anexos', 'autor')->where('protocolo', $protocolo)->first();
+        if (is_null($manifestacao)) {
+            return $this->error('Não foi possivel carregar as mensagens!', 404);
+        }
+        return $this->successWithData($manifestacao, 'Mensagens carregadas com sucesso!');
     }
 }

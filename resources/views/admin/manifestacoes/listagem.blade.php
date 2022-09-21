@@ -25,10 +25,11 @@
                 <input id="data-fim" class="form-control" type="date" name="data_fim" max="{{ dateAndFormat() }}"
                     value="@if (request()->data_fim){{ formatData(request()->data_fim) }}@endif">
             </div>
+
             <div class="col-md-3">
                 <label for="motivacao">Motivação:</label>
                 <select id="motivacao" class="form-select" name="motivacao">
-                    <option value="0" selected>Selecione</option>
+                    <option value="" @if(is_null(request()->motivacao)) selected @endif >Selecione</option>
                     @foreach ( manifest()::MOTIVACAO as $motivacaoId => $motivacao )
                     <option value="{{ $motivacaoId }}" @if (request()->motivacao == $motivacaoId) selected @endif>
                         {{ $motivacao }}
@@ -96,7 +97,7 @@
     </form>
 
     <div class="table-responsive mt-3">
-        <table class="table table-sm table-striped">
+        <table class="table table-sm table-striped align-middle">
             <thead>
                 <tr>
                     <th class="text-center">Protocolo</th>
@@ -114,30 +115,30 @@
                 @if (isset($manifestacoes) && count($manifestacoes) > 0)
                 @foreach ( $manifestacoes as $manifestacao )
                 <tr>
-                    <th class="align-middle text-center">
+                    <th class="text-center">
                         {{ $manifestacao->protocolo }}
                         /
                         {{ count($manifestacao->canalMensagem) }}
                     </th>
-                    <td class="align-middle">
+                    <td class="">
                         {{ manifest()::MOTIVACAO[$manifestacao->id_motivacao] }}
                     </td>
-                    <td class="align-middle">
+                    <td class="">
                         {{ manifest()::ESTADO_PROCESSO[$manifestacao->id_estado_processo] }}
                     </td>
-                    <td class="align-middle">
+                    <td class="">
                         {{ formatarDataHora($manifestacao->created_at) }}
                     </td>
-                    <td class="align-middle">
+                    <td class="">
                         {{ $manifestacao->autor->name }}
                     </td>
-                    <td class="align-middle">
+                    <td class="">
                         {{ manifest()::SITUACAO[$manifestacao->id_situacao] }}
                     </td>
-                    <td class="align-middle">
+                    <td class="">
                         {{ manifest()::TIPO_MANIFESTACAO[$manifestacao->id_tipo_manifestacao] }}
                     </td>
-                    <td class="align-middle">
+                    <td class="">
                         {{ carbonDiffInDays(carbon()::parse($manifestacao->created_at)->addDays(10)) }}
                         dia(s)
                         {{ carbonDiffInHoursMinusDays(carbon()::parse($manifestacao->created_at)->addDays(10 -
@@ -148,7 +149,7 @@
                         carbonDiffInDays(carbon()::parse($manifestacao->created_at)->addDays(10)))))) }}
                         minutos(s)
                     </td>
-                    <td class="align-middle text-center">
+                    <td class=" text-center">
                         <a href="{{ route('visualizarManifests', $manifestacao->id) }}" class="btn btn-primary">
                             <i class="fa-solid fa-arrow-up-right-from-square"></i>
                         </a>

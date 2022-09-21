@@ -23,7 +23,7 @@ class CanalMensagem extends Model
 
     public function mensagens()
     {
-        return $this->hasMany(Mensagens::class, 'id_canal_mensagem', 'id');
+        return $this->hasMany(Mensagem::class, 'id_canal_mensagem', 'id');
     }
 
     public function autor()

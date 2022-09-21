@@ -35,17 +35,12 @@ Route::get('/qr', function () {
     return QrCode::size(300)->generate('http://10.0.49.0:9000');
 })->name('qr');
 
-Route::get('/', function () {
-    return view('Home');
-})->name('home');
 
-Route::get('/politicas-de-privacidade', function () {
-    return view('politicas');
-})->name('politicas');
+//Rotas Não Logadas
+Route::view('/', 'public.home')->name('home');
+Route::view('/politicas-de-privacidade', 'public.politicas')->name('politicas');
+Route::view('/termos-de-uso', 'public.termos')->name('termos');
 
-Route::get('/termos-de-uso', function () {
-    return view('termos');
-})->name('termos');
 
 Route::get('/inicio', 'HomeController@index')->name('inicio');
 
