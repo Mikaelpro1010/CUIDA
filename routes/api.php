@@ -1,8 +1,6 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Api\UserController;
-use App\Http\Controllers\Api\ManifestApiController;
 
 
 
@@ -21,18 +19,18 @@ Route::middleware('api')->group(
     function () {
         //Api Ouvidoria
         //registrar usuário//
-        Route::post('register', 'UserController@cadastrar');
+        Route::post('register', 'Api\UserController@cadastrar');
         //login//
-        Route::post('login', 'UserController@login');
+        Route::post('login', 'Api\UserController@login');
         //get user by email//
-        Route::get('user', 'UserController@userByEmail');
+        Route::get('user', 'Api\UserController@userByEmail');
         //alterarSenha
-        Route::post('update-password', 'UserController@alterarSenha');
+        Route::post('update-password', 'Api\UserController@alterarSenha');
 
         //recuperarSenha
-        Route::post('password/password-recover', 'UserController@verificarDados');
+        Route::post('password/password-recover', 'Api\UserController@verificarDados');
         //novaSenha
-        Route::post('password/new-password', 'UserController@novaSenha');
+        Route::post('password/new-password', 'Api\UserController@novaSenha');
 
         //get tipo manifestação
         Route::get('manifest/tipos', 'Api\ManifestApiController@getTiposManifestacao');
@@ -43,12 +41,15 @@ Route::middleware('api')->group(
         //Criar recurso
         Route::post('manifest/create-appel', 'Api\ManifestApiController@criarRecurso');
 
+        //Chat
         //Inicia as mensagens do Chat
         Route::post('manifest/mensagem/new', 'Api\ManifestApiController@newMessage');
+        //Mensagens do Chat
+        Route::get('manifest/{protocolo}/chat/mensagem/', 'Api\ManifestApiController@getChatPorProtocolo');
 
         //APP exclusive routes
         //Usuario anonimo
-        Route::get('user-anonimo', 'UserController@getUserAnonimo');
+        Route::get('user-anonimo', 'Api\UserController@getUserAnonimo');
         //marcações no mapa 
         Route::get('mapa', 'Api\ManifestApiController@getMapaPins');
     }
