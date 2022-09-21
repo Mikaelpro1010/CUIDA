@@ -54,3 +54,28 @@ Route::post('/messages/encerrar/{id}', "MessagesController@encerrarCanal")->name
 Route::get('/download/{id}', 'AnexoMensagemController@downloadAnexo')->name('download-anexos');
 
 Auth::routes();
+
+// Rotas para a funcionalidade do QRcode
+Route::get('/qr', function () {
+    // QrCode::format('svg');  //Will return a svg image
+    // return QrCode::size(500)->generate('http://localhost:9000', '../public/qrcodes/qrcode.svg');
+    return QrCode::size(300)->generate('http://10.0.49.0:9000');
+})->name('qr');
+
+Route::namespace('Avaliacoes')->group(function () {
+    Route::get('/avaliacoes', 'AvaliacoesController@resumo')->name('resumo-avaliacoes');
+    Route::get('/avaliacoes/secretaria', 'AvaliacoesController@resumoSecretaria')->name('resumo-avaliacoes-secretaria');
+    Route::get('/avaliacoes/unidade', 'AvaliacoesController@resumoUnidadeSecr')->name('resumo-avaliacoes-unidade');
+
+    Route::get('/avaliacoes/unidade/lista', 'UnidadeSecrController@listagem')->name('unidades-secr-list');
+    Route::post('/avaliacoes/unidade/criar', 'UnidadeSecrController@novaUnidade')->name('nova-unidade');
+    Route::get('/avaliacoes/unidade/{unidade}', 'UnidadeSecrController@visualizar')->name('visualizar-unidade');
+    Route::put('/avaliacoes/unidade/atualizar', 'UnidadeSecrController@atualizarUnidade')->name('atualizar-unidade');
+    Route::get('/avaliacoes/unidade/{unidade}/ativar', 'UnidadeSecrController@ativarDesativar')->name('ativar-unidade');
+});
+
+//não logado
+Route::namespace('Avaliacoes')->group(function () {
+    Route::get('/avaliacoes/{unidade}/avaliar', 'UnidadeSecrController@paginaAvaliar')->name('get-avaliar-unidade');
+    Route::post('/avaliacoes/{unidade}/avaliar', 'UnidadeSecrController@avaliar')->name('post-avaliar-unidade');
+});
