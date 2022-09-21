@@ -54,20 +54,6 @@ class Manifest extends Model
         self::TIPO_DENÚNCIA => '#800200', //vermelho // "Denúncia"
         self::TIPO_DENUNCIA_FAKE_NEWS => '#800200', //vermelho "Denúncia Fake News"
     ];
-    /**
-     * if ($tipo->nome == 'DENÚNCIA FAKE NEWS' || $tipo->nome == 'DENÚNCIA') {
-        $item['cor'] = '#800200'; //vermelho
-    } elseif ($tipo->nome == 'SOLICITAÇÃO DE INFORMAÇÃO' || $tipo->nome == 'SOLICITAÇÃO ') {
-        $item['cor'] = '#d4bc06'; //amarelo
-    } elseif ($tipo->nome == 'RECLAMAÇÃO') {
-        $item['cor'] = '#bd7800'; //laranja
-    } elseif ($tipo->nome == 'ELOGIO') {
-        $item['cor'] = '#122578'; //azul
-    } elseif ($tipo->nome == 'SUGESTÃO') {
-        $item['cor'] = '#0092ed'; //azul claro
-    } else {
-        $item['cor'] = '#c3c3c3'; //cinza
-     */
 
     const SITUACAO_ABERTA = 1;
     const SITUACAO_EM_ANDAMENTO = 2;
