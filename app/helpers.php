@@ -118,10 +118,3 @@ if (!function_exists('manifest')) {
         return Manifest::class;
     }
 }
-
-if (!function_exists('routeClass')) {
-    function routeClass()
-    {
-        return Route::class;
-    }
-}
