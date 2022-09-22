@@ -29,12 +29,6 @@ Route::get('/anexos', function () {
     return $result;
 })->name('storageUrl');
 
-Route::get('/qr', function () {
-    QrCode::format('svg');  //Will return a svg image
-    // return QrCode::size(500)->generate('http://localhost:9000', '../public/qrcodes/qrcode.svg');
-    return QrCode::size(300)->generate('http://10.0.49.0:9000');
-})->name('qr');
-
 
 //Rotas Não Logadas
 Route::view('/', 'public.home')->name('home');
@@ -70,12 +64,13 @@ Route::namespace('Avaliacoes')->group(function () {
     Route::get('/avaliacoes/unidade/lista', 'UnidadeSecrController@listagem')->name('unidades-secr-list');
     Route::post('/avaliacoes/unidade/criar', 'UnidadeSecrController@novaUnidade')->name('nova-unidade');
     Route::get('/avaliacoes/unidade/{unidade}', 'UnidadeSecrController@visualizar')->name('visualizar-unidade');
-    Route::put('/avaliacoes/unidade/atualizar', 'UnidadeSecrController@atualizarUnidade')->name('atualizar-unidade');
+    Route::put('/avaliacoes/unidade/{unidade}/atualizar', 'UnidadeSecrController@atualizarUnidade')->name('atualizar-unidade');
     Route::get('/avaliacoes/unidade/{unidade}/ativar', 'UnidadeSecrController@ativarDesativar')->name('ativar-unidade');
 });
 
 //não logado
 Route::namespace('Avaliacoes')->group(function () {
-    Route::get('/avaliacoes/{unidade}/avaliar', 'UnidadeSecrController@paginaAvaliar')->name('get-avaliar-unidade');
-    Route::post('/avaliacoes/{unidade}/avaliar', 'UnidadeSecrController@avaliar')->name('post-avaliar-unidade');
+    Route::get('/avaliacoes/{token}/avaliar', 'UnidadeSecrController@paginaAvaliar')->name('get-avaliar-unidade');
+    Route::post('/avaliacoes/{token}/avaliar', 'UnidadeSecrController@avaliar')->name('post-avaliar-unidade');
+    Route::view('/avaliacoes/agradecer', 'public.unidade_secr.agradecimento')->name('agradecimento-avaliacao');
 });

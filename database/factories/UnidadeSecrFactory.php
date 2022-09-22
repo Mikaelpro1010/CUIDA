@@ -12,5 +12,6 @@ $factory->define(Unidade::class, function (Faker $faker) {
         'nome' => $faker->company(),
         'descricao' => $description,
         'ativo' => true,
+        'token' => substr(bin2hex(random_bytes(50)), 1),
     ];
 });

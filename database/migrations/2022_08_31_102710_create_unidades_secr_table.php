@@ -19,6 +19,7 @@ class CreateUnidadesSecrTable extends Migration
             $table->foreign('secretaria_id')->references('id')->on('secretarias');
             $table->string('nome');
             $table->text('descricao')->nullable();
+            $table->string('token');
             $table->boolean('ativo');
             $table->timestamps();
         });

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\avaliacoes;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\Avaliacao\Avaliacao;
 use App\Models\Avaliacao\Unidade;
 use App\Models\Secretaria;
 use Illuminate\Support\Facades\Validator;
@@ -82,6 +83,7 @@ class UnidadeSecrController extends Controller
             $unidade->secretaria_id = auth()->user()->secretaria_id;
         }
         $unidade->ativo = true;
+        $unidade->token = substr(bin2hex(random_bytes(50)), 1);
         $unidade->save();
 
         return redirect()->route('unidades-secr-list')->with('success', 'Unidade Cadastrada com Sucesso!');
@@ -89,7 +91,7 @@ class UnidadeSecrController extends Controller
 
     public function visualizar(Unidade $unidade)
     {
-        $qrcode = QrCode::size(200)->generate('http://10.0.49.0:9000');
+        $qrcode = QrCode::size(200)->generate('http://10.0.49.0:9000/avaliacoes/' . $unidade->token . '/avaliar');
         return view('admin.avaliacoes.unidades-secr.unidades-visualizacao', compact('unidade', 'qrcode'));
     }
 
@@ -139,13 +141,56 @@ class UnidadeSecrController extends Controller
         return redirect()->route('unidades-secr-list');
     }
 
-    public function paginaAvaliar(Unidade $unidade)
+    public function paginaAvaliar($token)
     {
+        $unidade = Unidade::where('token', $token)->first();
+
+        if (is_null($unidade)) {
+            return redirect()->route('home');
+        }
+
         return view('public.unidade_secr.avaliacao', compact('unidade'));
     }
 
-    public function avaliar(Request $request)
+    public function avaliar($token, Request $request)
     {
-        dd($request->all());
+        $validator = Validator::make(
+            $request->all(),
+            [
+                'avaliacao' => 'required|integer|max:5|min:1',
+                'comentario' => 'nullable|string',
+            ],
+            [
+                'required' => 'É necessário fazer uma :attribute!',
+                'max' => 'Algo deu errao com a sua :atribute!',
+                'min' => 'Algo deu errao com a sua :atribute!',
+            ],
+            [
+                'avaliacao' => 'Avaliação',
+                'comentario' => 'Comentário',
+            ]
+        );
+
+        if ($validator->fails()) {
+            return redirect()
+                ->back()
+                ->withErrors($validator)
+                ->withInput();
+        }
+
+        $unidade = Unidade::where('token', $token)->first();
+
+        if (is_null($unidade)) {
+            return redirect()->back()->withErrors(['unidade' => 'Unidade não encontrada!']);
+        }
+
+        $avaliacao = new Avaliacao();
+
+        $avaliacao->nota  = $request->avaliacao;
+        $avaliacao->comentario  = $request->comentario;
+        $avaliacao->unidade_secr_id  = $unidade->id;
+        $avaliacao->save();
+
+        return redirect()->route('agradecimento-avaliacao')->with(["success" => 'Avaliação cadastrada com sucesso!']);
     }
 }

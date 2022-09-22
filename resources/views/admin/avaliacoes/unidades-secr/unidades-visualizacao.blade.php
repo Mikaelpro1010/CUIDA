@@ -36,7 +36,7 @@
         </div>
     </div>
     <div class="col-md-6 d-flex justify-content-end">
-        <a href="{{ route('get-avaliar-unidade', $unidade) }}"> link avaliaçao</a>
+        <a href="{{ route('get-avaliar-unidade', $unidade->token) }}"> link avaliaçao</a>
         {{-- <b>Qr-Code:</b> --}}
         <?php echo $qrcode ?>
     </div>
@@ -88,7 +88,7 @@
                 <h5 class="modal-title" id="novaUnidadeTitle">Editar</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <form action="{{ route('atualizar-unidade') }}" method="POST">
+            <form action="{{ route('atualizar-unidade', $unidade) }}" method="POST">
                 {{ method_field('PUT') }}
                 {{ csrf_field() }}
                 <div class="modal-body">
@@ -104,7 +104,7 @@
                 </div>
                 <div class="modal-footer">
                     <a class="btn btn-secondary" href="javascript:fecharModal()">Fechar</a>
-                    <button type="submit" class="btn btn-primary">Criar</button>
+                    <button type="submit" class="btn btn-primary">Editar</button>
                 </div>
             </form>
         </div>
