@@ -22,6 +22,6 @@ class Unidade extends Model
 
     public function avaliacoes(): HasMany
     {
-        return $this->hasMany(Avaliacao::class, 'unidade_id', 'id');
+        return $this->hasMany(Avaliacao::class, 'unidade_secr_id', 'id');
     }
 }

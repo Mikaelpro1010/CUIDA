@@ -12,6 +12,6 @@ class Avaliacao extends Model
 
     public function unidade(): BelongsTo
     {
-        return $this->belongsTo(Unidade::class, 'unidade_id', 'id');
+        return $this->belongsTo(Unidade::class, 'unidade_secr_id', 'id');
     }
 }
