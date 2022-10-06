@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Secretaria;
 use Carbon\Carbon;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
@@ -13,7 +14,7 @@ class SecretariasTableSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('secretarias')->insert([
+        Secretaria::query()->insert([
             [
                 'id' => 1,
                 'nome' => 'Secretaria do Planejamento e Gestão',

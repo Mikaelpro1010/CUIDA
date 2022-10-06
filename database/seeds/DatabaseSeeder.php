@@ -12,7 +12,9 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         $this->call(RolesTableSeeder::class);
+        $this->call(SecretariasTableSeeder::class);
         $this->call(UsersTableSeeder::class);
+        $this->call(SecretariaUserTableSeeder::class);
 
         //Users from App
         $this->call(AppUsersTableSeeder::class);
@@ -25,7 +27,6 @@ class DatabaseSeeder extends Seeder
         //Modulo Chat 
         $this->call(CanaisMensagemTableSeeder::class);
         $this->call(MensagensTableSeeder::class);
-        $this->call(SecretariasTableSeeder::class);
 
         //Modulo de Avaliaçoes 
         $this->call(UnidadesSecrTableSeeder::class);
