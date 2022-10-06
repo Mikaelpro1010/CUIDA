@@ -2,7 +2,7 @@
 
 use App\Models\AppUser;
 use App\Models\Chat\CanalMensagem;
-use App\User;
+use App\Models\User;
 use Faker\Generator as Faker;
 
 $factory->define(App\Models\Chat\Mensagem::class, function (Faker $faker) {

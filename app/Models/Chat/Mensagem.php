@@ -3,7 +3,7 @@
 namespace App\Models\Chat;
 
 use App\Models\AppUser;
-use App\User;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
 
 class Mensagem extends Model
