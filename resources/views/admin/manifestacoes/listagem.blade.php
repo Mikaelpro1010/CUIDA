@@ -81,7 +81,7 @@
 
             <div class="col-md-4 row">
                 <div class="col-8 col-md-8 d-flex align-items-end">
-                    <button class="btn btn-success form-control mt-3" type="submit">
+                    <button class="btn btn-primary form-control mt-3" type="submit">
                         <i class="fa-solid fa-magnifying-glass"></i>
                         Buscar
                     </button>
