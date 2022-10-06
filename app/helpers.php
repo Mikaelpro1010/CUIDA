@@ -3,6 +3,7 @@
 use App\Models\Chat\CanalMensagem;
 use App\Models\Chat\Mensagem;
 use App\Models\Manifest\Manifest;
+use App\Models\Permission;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Route;
@@ -116,5 +117,12 @@ if (!function_exists('manifest')) {
     function manifest()
     {
         return Manifest::class;
+    }
+}
+
+if (!function_exists('permission')) {
+    function permission()
+    {
+        return Permission::class;
     }
 }
