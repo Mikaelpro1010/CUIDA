@@ -4,11 +4,13 @@
 
 @section('content')
 <div class="d-flex justify-content-between">
-    <h3>Unidades da Secretaria</h3>
+    <h3>Unidades da Secretaria - ({{ $unidades->total() }})</h3>
+    @can(permission()::PERMISSION_UNIDADE_SECRETARIA_CREATE)
     <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#novaUnidadeModal">
         <i class="fa-solid fa-plus"></i>
         Nova Unidade
     </button>
+    @endcan
 </div>
 <hr>
 <form class="" action="{{ route('unidades-secr-list') }}" method="GET">
@@ -18,20 +20,7 @@
             <input id="pesquisa" class="form-control" type="text" name="pesquisa" placeholder="Pesquisar"
                 value="{{ request()->pesquisa }}">
         </div>
-        @if (true)
-        <div class="col-md-3">
-            <label for="secretaria_pesq">Secretaria:</label>
-            <select id="secretaria_pesq" class="form-select" name="secretaria_pesq">
-                <option value="" @if(is_null(request()->secretaria_pesq)) selected @endif >Selecione</option>
-                @foreach ( $secretarias as $secretaria )
-                <option value="{{ $secretaria->id }}" @if (request()->secretaria_pesq == $secretaria->id) selected
-                    @endif>
-                    {{ $secretaria->sigla . " - " . $secretaria->nome }}
-                </option>
-                @endforeach
-            </select>
-        </div>
-        @endif
+
         <div class="col-md-2">
             <label for="situacao">Situação:</label>
             <select id="situacao" class="form-select" name="situacao">
@@ -40,8 +29,22 @@
                 <option value="inativo" @if (request()->situacao == 'inativo') selected @endif> Inativo </option>
             </select>
         </div>
+
+        <div class="col-md-3">
+            <label for="secretaria_pesq">Secretaria:</label>
+            <select id="secretaria_pesq" class="form-select" name="secretaria_pesq">
+                <option value="" @if(is_null(request()->secretaria_pesq)) selected @endif >Selecione</option>
+                @foreach ( $secretariasSearchSelect as $secretaria )
+                <option value="{{ $secretaria->id }}" @if (request()->secretaria_pesq == $secretaria->id) selected
+                    @endif>
+                    {{ $secretaria->sigla . " - " . $secretaria->nome }}
+                </option>
+                @endforeach
+            </select>
+        </div>
+
         <div class="col-md-2 d-flex align-items-end">
-            <button class="btn btn-success form-control mt-3" type="submit">
+            <button class="btn btn-primary form-control mt-3" type="submit">
                 <i class="fa-solid fa-magnifying-glass"></i>
                 Buscar
             </button>
@@ -59,17 +62,22 @@
     <table class="table table-sm table-striped table align-middle">
         <thead>
             <tr>
+                @can(permission()::PERMISSION_UNIDADE_SECRETARIA_TOGGLE_ATIVO)
                 <th class="text-center">Ativo</th>
+                @endcan
                 <th>Nome</th>
                 <th>Secretaria</th>
                 <th>Última Atualização</th>
+                @can(permission()::PERMISSION_UNIDADE_SECRETARIA_VIEW)
                 <th class="text-center">Ações</th>
+                @endcan
             </tr>
         </thead>
         <tbody class="table-group-divider">
             @if (isset($unidades) && count($unidades) > 0)
             @foreach ( $unidades as $unidade )
             <tr class="">
+                @can(permission()::PERMISSION_UNIDADE_SECRETARIA_TOGGLE_ATIVO)
                 <td>
                     <a class="btn" href="{{ route('ativar-unidade', $unidade) }}">
                         @if ($unidade->ativo)
@@ -79,14 +87,17 @@
                     </a>
                     @endif
                 </td>
+                @endcan
                 <td>{{$unidade->nome}}</td>
                 <td>{{ $unidade->secretaria->sigla . " - " . $unidade->secretaria->nome }}</td>
                 <td>{{ formatarDataHora($unidade->updated_at) }}</td>
+                @can(permission()::PERMISSION_UNIDADE_SECRETARIA_VIEW)
                 <td class="align-middle text-center">
                     <a href="{{ route('visualizar-unidade', $unidade) }}" class="btn btn-primary">
                         <i class="fa-solid fa-magnifying-glass"></i>
                     </a>
                 </td>
+                @endcan
             </tr>
             @endforeach
             @else
@@ -101,9 +112,7 @@
     {{ $unidades->links('pagination::bootstrap-4') }}
 </div>
 
-
-
-
+@can(permission()::PERMISSION_UNIDADE_SECRETARIA_CREATE)
 <!-- Modal -->
 <div class="modal fade" id="novaUnidadeModal" tabindex="-1" aria-labelledby="novaUnidadeTitle" aria-hidden="true">
     <div class="modal-dialog">
@@ -120,10 +129,10 @@
                         <input class="form-control" type="text" name="nome" id="nome">
                     </div>
                     <div>
-                        <label for="secretaria">Secretaria:</label>
+                        <label class="form-label" for="secretaria">Secretaria:</label>
                         <select id="secretaria" class="form-select" name="secretaria">
                             <option value="" @if(is_null(request()->secretaria)) selected @endif >Selecione</option>
-                            @foreach ( $secretarias as $secretaria )
+                            @foreach ( $secretariasCreateSelect as $secretaria )
                             <option value="{{ $secretaria->id }}" @if (request()->secretaria == $secretaria->id)
                                 selected @endif>
                                 {{ $secretaria->sigla . " - " . $secretaria->nome }}
@@ -132,18 +141,20 @@
                         </select>
                     </div>
                     <div>
-                        <label class="fomr-label" for="nome">Descrição</label>
+                        <label class="form-label" for="nome">Descrição</label>
                         <textarea class="form-control" name="descricao" rows="6" id="descricao"></textarea>
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <a class="btn btn-secondary" href="javascript:fecharModal()">Fechar</a>
+                    <a class="btn btn-danger" href="javascript:fecharModal()">Fechar</a>
                     <button type="submit" class="btn btn-primary">Criar</button>
                 </div>
             </form>
         </div>
     </div>
 </div>
+@endcan
+
 @endsection
 
 @section('scripts')
