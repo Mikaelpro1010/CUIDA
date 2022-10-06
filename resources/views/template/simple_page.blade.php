@@ -1,6 +1,4 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
-<!DOCTYPE html>
 <html lang="{{ app()->getLocale() }}">
 
 <head>
@@ -13,7 +11,7 @@
 
     <title>@yield('titulo', 'EscutaSol')</title>
 
-    <link rel="stylesheet" href="{{ mix('css/style.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/style.css') }}">
     <script src="{{ asset('js/fontawesome.js') }}"></script>
 </head>
 
@@ -121,7 +119,11 @@
                             </a>
                             <ul class="dropdown-menu">
                                 <li><a class="dropdown-item" href="{{ route('resumo-avaliacoes') }}">Resumos</a></li>
+
+                                @can(permission()::PERMISSION_UNIDADE_SECRETARIA_LIST)
                                 <li><a class="dropdown-item" href="{{ route('unidades-secr-list') }}">Unidades</a></li>
+
+                                @endcan
                             </ul>
                         </li>
                         <li class="nav-item dropdown">
@@ -153,7 +155,7 @@
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
         @endif
-        @if ($errors->any())
+        @if (isset($errors) && $errors->any())
         <div class="alert alert-danger alert-dismissible fade show" role="alert">
             @foreach ($errors->all() as $error)
             <li>{{ $error }}</li>
