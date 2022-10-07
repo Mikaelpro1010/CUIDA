@@ -12,25 +12,29 @@
         <form action="" method="POST">
             {{ csrf_field() }}
             <fieldset class="avaliar">
-                <label for="muito-triste" onclick="javascript:avaliar(1)">
-                    <input class="d-none" type="radio" name="avaliacao" id="muito-triste" value="1">
-                    <i id="1" class="fa-4x text-danger fa-regular fa-face-angry"></i>
-                </label>
-                <label for="triste" onclick="javascript:avaliar(2)">
-                    <input class="d-none" type="radio" name="avaliacao" id="triste" value="2">
-                    <i id="2" class="fa-4x text-danger fa-regular fa-face-frown"></i>
-                </label>
-                <label for="neutro" onclick="javascript:avaliar(3)">
-                    <input class="d-none" type="radio" name="avaliacao" id="neutro" value="3">
-                    <i id="3" class="fa-4x text-primary fa-regular fa-face-meh"></i>
-                </label>
-                <label for="feliz" onclick="javascript:avaliar(4)">
-                    <input class="d-none" type="radio" name="avaliacao" id="feliz" value="4">
-                    <i id="4" class="fa-4x text-success fa-regular fa-face-smile"></i>
-                </label>
                 <label for="muito-feliz" onclick="javascript:avaliar(5)">
                     <input class="d-none" type="radio" name="avaliacao" id="muito-feliz" value="5">
                     <i id="5" class="fa-4x text-success fa-regular fa-face-laugh-beam"></i>
+                </label>
+
+                <label for="feliz" onclick="javascript:avaliar(4)">
+                    <input class="d-none" type="radio" name="avaliacao" id="feliz" value="4">
+                    <i id="4" class="fa-4x text-primary fa-regular fa-face-smile"></i>
+                </label>
+
+                <label for="neutro" onclick="javascript:avaliar(3)">
+                    <input class="d-none" type="radio" name="avaliacao" id="neutro" value="3">
+                    <i id="3" class="fa-4x text-info fa-regular fa-face-meh"></i>
+                </label>
+
+                <label for="triste" onclick="javascript:avaliar(2)">
+                    <input class="d-none" type="radio" name="avaliacao" id="triste" value="2">
+                    <i id="2" class="fa-4x text-warning fa-regular fa-face-frown"></i>
+                </label>
+
+                <label for="muito-triste" onclick="javascript:avaliar(1)">
+                    <input class="d-none" type="radio" name="avaliacao" id="muito-triste" value="1">
+                    <i id="1" class="fa-4x text-danger fa-regular fa-face-angry"></i>
                 </label>
             </fieldset>
             <div class="px-3">
@@ -66,16 +70,16 @@
                 $('#avaliacao-text').html('<span class="text-danger">Muito Ruim</span>');        
                 break;
             case 2:
-                $('#'+valor).addClass('text-danger');
-                $('#avaliacao-text').html('<span class="text-danger">Ruim</span>');        
+                $('#'+valor).addClass('text-warning');
+                $('#avaliacao-text').html('<span class="text-warning">Ruim</span>');        
                 break;
             case 3:
-                $('#'+valor).addClass('text-primary');
-                $('#avaliacao-text').html('<span class="text-primary">Neutro</span>');        
+                $('#'+valor).addClass('text-info');
+                $('#avaliacao-text').html('<span class="text-info">Neutro</span>');        
                 break;
             case 4:
-                $('#'+valor).addClass('text-success');
-                $('#avaliacao-text').html('<span class="text-success">Bom</span>');        
+                $('#'+valor).addClass('text-primary');
+                $('#avaliacao-text').html('<span class="text-primary">Bom</span>');        
                 break;                
             case 5:
                 $('#'+valor).addClass('text-success');

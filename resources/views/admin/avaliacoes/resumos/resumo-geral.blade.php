@@ -1,43 +1,22 @@
 @extends('admin.avaliacoes.template.avaliacao')
 
-@section('titulo', 'Resumo por Secretaria')
+@section('titulo', 'Resumo Geral')
 @section('content')
-<div class="d-flex justify-content-between">
-    <h3 class="">
-        Resumo por Secretaria
-    </h3>
-    <form id="secretariaChange" class="row" action="">
-        <label class="col-md-2 col-form-label" for="secretaria">Secretaria:</label>
-        <div class="col-md-10">
-            <select id="secretaria" class="form-select" name="secretaria">
-                <option value="" @if(is_null(request()->secretaria)) selected @endif >Selecione</option>
-                @foreach ( $secretariasSearchSelect as $secretaria )
-                <option value="{{ $secretaria->id }}" @if (request()->secretaria == $secretaria->id) selected @endif>
-                    {{ $secretaria->sigla . " - " . $secretaria->nome }}
-                </option>
-                @endforeach
-            </select>
-        </div>
-    </form>
-</div>
+<h3>Resumo Geral</h3>
 <hr>
 
-@if (request()->secretaria)
-<h3 class="">
-    {{ $secretariaObj->nome }} - {{ $secretariaObj->sigla }}
-</h3>
 <div class="row">
     <div class="col-md-5 mt-3">
         <div class="card">
             <div class="card-header">
-                <h4>Avaliações ({{ $qtdAvaliacoes }})</h4>
+                <h4>Avaliações ({{ $totalNotas }})</h4>
             </div>
             <div class=" p-3">
                 <div class="mt-2 row d-flex align-items-center">
-                    <div class="d-inline col-2 col-md-1">
-                        <span class="text-nowrap">{{$notas[5]['qtd']}}</span>
+                    <div class="d-inline col-2 text-end">
+                        <span class="text-nowrap ">{{$notas[5]['qtd']}}</span>
                     </div>
-                    <div class="d-inline col-8 col-md-9">
+                    <div class="d-inline col-9">
                         <div class="progress">
                             <div class="progress-bar progress-bar-striped progress-bar-animated bg-success"
                                 role="progressbar" aria-label="Animated striped example"
@@ -47,16 +26,16 @@
                             </div>
                         </div>
                     </div>
-                    <div class="d-inline col-2 col-md-1">
+                    <div class="col-1 m-0 p-0">
                         <i class="fa-2x text-success fa-regular fa-face-laugh-beam"></i>
                     </div>
                 </div>
 
                 <div class="mt-2 row d-flex align-items-center">
-                    <div class="d-inline col-2 col-md-1">
+                    <div class="d-inline col-2 text-end">
                         <span class="text-nowrap">{{$notas[4]['qtd']}}</span>
                     </div>
-                    <div class="d-inline col-8 col-md-9">
+                    <div class="d-inline col-9">
                         <div class="progress">
                             <div class="progress-bar progress-bar-striped progress-bar-animated bg-primary"
                                 role="progressbar" aria-label="Animated striped example"
@@ -66,16 +45,16 @@
                             </div>
                         </div>
                     </div>
-                    <div class="d-inline col-2">
+                    <div class="col-1 m-0 p-0">
                         <i class="fa-2x text-primary fa-regular fa-face-smile"></i>
                     </div>
                 </div>
 
                 <div class="mt-2 row d-flex align-items-center">
-                    <div class="d-inline col-2 col-md-1">
+                    <div class="d-inline col-2 text-end">
                         <span class="text-nowrap">{{$notas[3]['qtd']}}</span>
                     </div>
-                    <div class="d-inline col-8 col-md-9">
+                    <div class="d-inline col-9">
                         <div class="progress">
                             <div class="progress-bar progress-bar-striped progress-bar-animated bg-info"
                                 role="progressbar" aria-label="Animated striped example"
@@ -85,16 +64,16 @@
                             </div>
                         </div>
                     </div>
-                    <div class="d-inline col-2">
+                    <div class="col-1 m-0 p-0">
                         <i class="fa-2x text-info fa-regular fa-face-meh"></i>
                     </div>
                 </div>
 
                 <div class="mt-2 row d-flex align-items-center">
-                    <div class="d-inline col-2 col-md-1">
+                    <div class="d-inline col-2 text-end">
                         <span class="text-nowrap">{{$notas[2]['qtd']}}</span>
                     </div>
-                    <div class="d-inline col-8 col-md-9">
+                    <div class="d-inline col-9">
                         <div class="progress">
                             <div class="progress-bar progress-bar-striped progress-bar-animated bg-warning"
                                 role="progressbar" aria-label="Animated striped example"
@@ -104,16 +83,16 @@
                             </div>
                         </div>
                     </div>
-                    <div class="d-inline col-2">
+                    <div class="col-1 m-0 p-0">
                         <i class="fa-2x text-warning fa-regular fa-face-frown"></i>
                     </div>
                 </div>
 
                 <div class="mt-2 row d-flex align-items-center">
-                    <div class="d-inline col-2 col-md-1">
+                    <div class="d-inline col-2 text-end">
                         <span class="text-nowrap">{{$notas[1]['qtd']}}</span>
                     </div>
-                    <div class="d-inline col-8 col-md-9">
+                    <div class="d-inline col-9">
                         <div class="progress">
                             <div class="progress-bar progress-bar-striped progress-bar-animated bg-danger"
                                 role="progressbar" aria-label="Animated striped example"
@@ -123,7 +102,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="d-inline col-2">
+                    <div class="col-1 m-0 p-0">
                         <i class="fa-2x text-danger fa-regular fa-face-angry d-inline"></i>
                     </div>
                 </div>
@@ -133,36 +112,34 @@
     <div class="col-md-7 mt-3">
         <div class="card">
             <div class="card-header">
-                <h4>Avaliação da Secretaria</h4>
+                <h4>Avaliação Geral</h4>
             </div>
-            @if ($qtdAvaliacoes > 0)
-
             <div class="">
                 <div class=" p-3">
                     <div class="d-flex justify-content-between align-items-end">
                         <i
-                            class="@if ($avaliacoesSecretariaAverage < 1.5) fa-6x @else fa-4x @endif text-danger fa-regular fa-face-angry"></i>
+                            class="@if ($generalAverage < 1.5) fa-6x @else fa-4x @endif text-danger fa-regular fa-face-angry"></i>
                         <i
-                            class="@if ($avaliacoesSecretariaAverage >= 1.5 && $avaliacoesSecretariaAverage < 2.5) fa-6x @else fa-4x @endif text-warning fa-regular fa-face-frown"></i>
+                            class="@if ($generalAverage >= 1.5 && $generalAverage < 2.5) fa-6x @else fa-4x @endif text-warning fa-regular fa-face-frown"></i>
                         <i
-                            class="@if ($avaliacoesSecretariaAverage >= 2.5 && $avaliacoesSecretariaAverage < 3.5) fa-6x @else fa-4x @endif text-info fa-regular fa-face-meh"></i>
+                            class="@if ($generalAverage >= 2.5 && $generalAverage < 3.5) fa-6x @else fa-4x @endif text-info fa-regular fa-face-meh"></i>
                         <i
-                            class="@if ($avaliacoesSecretariaAverage >= 3.5 && $avaliacoesSecretariaAverage < 4.5) fa-6x @else fa-4x @endif text-primary fa-regular fa-face-smile"></i>
+                            class="@if ($generalAverage >= 3.5 && $generalAverage < 4.5) fa-6x @else fa-4x @endif text-primary fa-regular fa-face-smile"></i>
                         <i
-                            class="@if ($avaliacoesSecretariaAverage >= 4.5) fa-6x @else fa-4x @endif text-success fa-regular fa-face-laugh-beam"></i>
+                            class="@if ($generalAverage >= 4.5) fa-6x @else fa-4x @endif text-success fa-regular fa-face-laugh-beam"></i>
                     </div>
                     <div class="mt-2 progress">
                         <div class="progress-bar progress-bar-striped progress-bar-animated
-                        @if ($avaliacoesSecretariaAverage < 1.5)
+                        @if ($generalAverage < 1.5)
                             bg-danger
                         @else
-                            @if ($avaliacoesSecretariaAverage >=  1.5 && $avaliacoesSecretariaAverage < 2.5)
+                            @if ($generalAverage >=  1.5 && $generalAverage < 2.5)
                             bg-warning                            
                             @else
-                            @if ($avaliacoesSecretariaAverage >=  2.5 && $avaliacoesSecretariaAverage < 3.5)
+                            @if ($generalAverage >=  2.5 && $generalAverage < 3.5)
                             bg-info                            
                             @else
-                            @if ($avaliacoesSecretariaAverage >=  3.5 && $avaliacoesSecretariaAverage < 4.5)
+                            @if ($generalAverage >=  3.5 && $generalAverage < 4.5)
                             bg-primary                            
                             @else
                             bg-success                            
@@ -179,16 +156,16 @@
                 <div class="text-center">
                     <span class="fs-3 fw-normal">Avaliação Geral:</span>
                     <p class="fs-1 fw-bold 
-                        @if ($avaliacoesSecretariaAverage < 1.5)
+                        @if ($generalAverage < 1.5)
                         text-danger
                         @else
-                            @if ($avaliacoesSecretariaAverage >=  1.5 && $avaliacoesSecretariaAverage < 2.5)
+                            @if ($generalAverage >=  1.5 && $generalAverage < 2.5)
                             text-warning                            
                             @else
-                                @if ($avaliacoesSecretariaAverage >=  2.5 && $avaliacoesSecretariaAverage < 3.5)
+                                @if ($generalAverage >=  2.5 && $generalAverage < 3.5)
                                 text-info                            
                                 @else
-                                    @if ($avaliacoesSecretariaAverage >=  3.5 && $avaliacoesSecretariaAverage < 4.5)
+                                    @if ($generalAverage >=  3.5 && $generalAverage < 4.5)
                                     text-primary                            
                                     @else
                                     text-success                            
@@ -196,39 +173,59 @@
                                 @endif    
                             @endif    
                         @endif">
-                        {{ $avaliacoesSecretariaAverage }}<span class="fs-3 fw-normal text-body">/5</span>
+                        {{ $generalAverage }}<span class="fs-3 fw-normal text-body">/5</span>
                     </p>
                 </div>
             </div>
-            @else
-            <div class=" m-3 alert alert-info">
-                <ul>
-                    <li>Não existem avaliações para esta Secretaria</li>
-                </ul>
-            </div>
-            @endif
         </div>
     </div>
 </div>
 
 <div class="row">
-    <div class="col-md-7 mt-3">
+    <div class="col-md-8 mt-3">
         <div class="card">
             <div class="card-header">
-                <h4>Melhores Unidades ({{ $qtdBestUnidades }})</h4>
+                <h4>Média das Avaliações</h4>
             </div>
-            <div class="" style="height: 35vh">
-                <canvas id="melhoresUnidades" height="100px"></canvas>
+            <div class="p-2" style="height: 35vh">
+                <canvas id="mediaAvaliacoes" height="100px"></canvas>
             </div>
         </div>
     </div>
+    <div class="col-md-4 mt-3">
+        <div class="card">
+            <div class="card-header">
+                <h4>Top 5 melhores Secretarias</h4>
+            </div>
+            <div class="px-2">
+                <table class="table">
+                    <tbody>
+                        @foreach ($bestSecretarias as $item)
+                        <tr>
+                            <td>{{ $item['nome'] }}</td>
+                            <td>{{ $item['nota'] }}</td>
+                        </tr>
+                        @if ($loop->iteration == 5)
+                        <tr>
+                            <td>...</td>
+                            <td>...</td>
+                        </tr>
+                        @break
+                        @endif
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
 
+<div class="row">
     <div class="col-md-5 mt-3">
         <div class="card">
             <div class="card-header">
                 <h4>Top 5 melhores Unidades</h4>
             </div>
-            @if (count($top5BestUnidades) > 0)
             <div class="px-2">
                 <table class="table">
                     <thead>
@@ -257,44 +254,43 @@
                     </tbody>
                 </table>
             </div>
-            @else
-            <div class=" m-3 alert alert-info">
-                <ul>
-                    <li>Esta Secretaria não possui Unidades.</li>
-                </ul>
-            </div>
-            @endif
         </div>
     </div>
-</div>
-<div class="row">
-    <div class="col-md-12 mt-3">
+    <div class="col-md-7 mt-3">
         <div class="card">
             <div class="card-header">
-                <h4>Avaliaçoes por mês</h4>
+                <h4>Melhores Unidades ({{ $qtdBestUnidades }})</h4>
             </div>
             <div class="" style="height: 35vh">
-                <canvas id="avaliacoesMes" height="100px"></canvas>
+                <canvas id="melhoresUnidades" height="100px"></canvas>
             </div>
         </div>
     </div>
 </div>
 
-@else
-<div class="alert alert-info">
-    <ul>
-        <li>Selecione uma Secretaria!</li>
-    </ul>
-</div>
-@endif
 @endsection
 
 @section('scripts')
 
 <script src="{{ asset('js/chart.js') }}"></script>
 <script>
-    $("#secretaria").change(function(){
-        $('#secretariaChange').submit();
+    const mediaAvaliacoesCtx = $('#mediaAvaliacoes')[0].getContext('2d');
+    const mediaAvaliacoes = new Chart(mediaAvaliacoesCtx, {
+        type: 'bar',
+        data: {
+            labels: ["Secretarias"],
+            datasets: <?= $secretariaAvg ?>,
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+                y: {
+                    min: 0,
+                    max: 5,
+                }
+            }
+        }
     });
 
     const melhoresUnidadesCtx = $('#melhoresUnidades')[0].getContext('2d');
@@ -311,25 +307,6 @@
                 y: {
                     min: 0,
                     max: 5,
-                }
-            }
-        }
-    });
-
-    const avaliacoesMesCtx = $('#avaliacoesMes')[0].getContext('2d');
-    const avaliacoesMes = new Chart(avaliacoesMesCtx, {
-        type: 'line',
-        data: {
-            labels: ["janeiro", "fevereiro", "março", "abril", "maio", "junho", "julho", "agosto", "setembro", "outubro", "novembro", "dezembro"],
-            datasets: 
-            //  <?= $bestUnidades ?>,
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            scales: {
-                y: {
-                    min: 0
                 }
             }
         }
