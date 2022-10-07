@@ -85,10 +85,7 @@ if (!function_exists('dateAndFormat')) {
 if (!function_exists('formatarDataHora')) {
     function formatarDataHora($data = null, $format = 'd/m/Y \à\s H:i\h')
     {
-        if (is_null($data)) {
-            $data = Carbon::now();
-        }
-        return Carbon::parse($data)->format($format);
+        return dateAndFormat($data, $format);
     }
 }
 
