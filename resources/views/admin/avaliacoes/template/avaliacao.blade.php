@@ -11,12 +11,12 @@
                 href=" {{ route('resumo-avaliacoes') }}">Geral</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link @if(Route::is('resumo-avaliacoes-secretaria-list')) active @endif"
+            <a class="nav-link @if(Route::is('resumo-avaliacoes-secretaria-list') || Route::is('resumo-avaliacoes-secretaria')) active @endif"
                 href="{{ route('resumo-avaliacoes-secretaria-list') }}">Avaliaçoes por Secretaria</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link @if(Route::is('resumo-avaliacoes-unidade')) active @endif"
-                href="{{ route('resumo-avaliacoes-unidade') }}">Avaliaçoes por Unidade</a>
+            <a class="nav-link @if(Route::is('resumo-avaliacoes-unidade-list')|| Route::is('resumo-avaliacoes-unidade')) active @endif"
+                href="{{ route('resumo-avaliacoes-unidade-list') }}">Avaliaçoes por Unidade</a>
         </li>
     </ul>
     <div class="px-3 py-4  bg-white shadow border border-top-0 border-1 rounded-bottom-2">
