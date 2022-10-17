@@ -5,7 +5,7 @@
 @section('content')
 <div class="d-flex justify-content-between">
     <h3>Unidades da Secretaria - ({{ $unidades->total() }})</h3>
-    @can(permission()::PERMISSION_UNIDADE_SECRETARIA_CREATE)
+    @can(permissionConstant()::UNIDADE_SECRETARIA_CREATE)
     <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#novaUnidadeModal">
         <i class="fa-solid fa-plus"></i>
         Nova Unidade
@@ -62,13 +62,13 @@
     <table class="table table-sm table-striped table align-middle">
         <thead>
             <tr>
-                @can(permission()::PERMISSION_UNIDADE_SECRETARIA_TOGGLE_ATIVO)
+                @can(permissionConstant()::UNIDADE_SECRETARIA_TOGGLE_ATIVO)
                 <th class="text-center">Ativo</th>
                 @endcan
                 <th>Nome</th>
                 <th>Secretaria</th>
                 <th>Última Atualização</th>
-                @can(permission()::PERMISSION_UNIDADE_SECRETARIA_VIEW)
+                @can(permissionConstant()::UNIDADE_SECRETARIA_VIEW)
                 <th class="text-center">Ações</th>
                 @endcan
             </tr>
@@ -77,7 +77,7 @@
             @if (isset($unidades) && count($unidades) > 0)
             @foreach ( $unidades as $unidade )
             <tr class="">
-                @can(permission()::PERMISSION_UNIDADE_SECRETARIA_TOGGLE_ATIVO)
+                @can(permissionConstant()::UNIDADE_SECRETARIA_TOGGLE_ATIVO)
                 <td>
                     <a class="btn" href="{{ route('ativar-unidade', $unidade) }}">
                         @if ($unidade->ativo)
@@ -91,7 +91,7 @@
                 <td>{{$unidade->nome}}</td>
                 <td>{{ $unidade->secretaria->sigla . " - " . $unidade->secretaria->nome }}</td>
                 <td>{{ formatarDataHora($unidade->updated_at) }}</td>
-                @can(permission()::PERMISSION_UNIDADE_SECRETARIA_VIEW)
+                @can(permissionConstant()::UNIDADE_SECRETARIA_VIEW)
                 <td class="align-middle text-center">
                     <a href="{{ route('visualizar-unidade', $unidade) }}" class="btn btn-primary">
                         <i class="fa-solid fa-magnifying-glass"></i>
@@ -112,7 +112,7 @@
     {{ $unidades->links('pagination::bootstrap-4') }}
 </div>
 
-@can(permission()::PERMISSION_UNIDADE_SECRETARIA_CREATE)
+@can(permissionConstant()::UNIDADE_SECRETARIA_CREATE)
 <!-- Modal -->
 <div class="modal fade" id="novaUnidadeModal" tabindex="-1" aria-labelledby="novaUnidadeTitle" aria-hidden="true">
     <div class="modal-dialog">

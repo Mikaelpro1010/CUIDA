@@ -6,7 +6,7 @@
 <div class="d-flex justify-content-between">
     <h3>{{$unidade->nome}} - {{ $unidade->secretaria->sigla }}</h3>
 
-    @can(permission()::PERMISSION_UNIDADE_SECRETARIA_UPDATE)
+    @can(permissionConstant()::UNIDADE_SECRETARIA_UPDATE)
     <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#novaUnidadeModal">
         <i class="fa-solid fa-pen-to-square"></i>
         Editar Unidade
@@ -81,7 +81,7 @@
 </div>
 
 
-@can(permission()::PERMISSION_UNIDADE_SECRETARIA_UPDATE)
+@can(permissionConstant()::UNIDADE_SECRETARIA_UPDATE)
 <!-- Modal -->
 <div class="modal fade" id="novaUnidadeModal" tabindex="-1" aria-labelledby="novaUnidadeTitle" aria-hidden="true">
     <div class="modal-dialog">

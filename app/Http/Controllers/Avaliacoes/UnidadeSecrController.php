@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers\avaliacoes;
 
+use App\Constants\Permission;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Avaliacao\Avaliacao;
 use App\Models\Avaliacao\Unidade;
-use App\Models\Permission;
 use App\Models\Secretaria;
 use Illuminate\Support\Facades\Validator;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
@@ -15,7 +15,7 @@ class UnidadeSecrController extends Controller
 {
     public function listagem()
     {
-        $this->authorize(Permission::PERMISSION_UNIDADE_SECRETARIA_LIST);
+        $this->authorize(Permission::UNIDADE_SECRETARIA_LIST);
         $ativo = ['ativo' => 1, 'inativo' => 0];
 
         $unidades = Unidade::query()->with('secretaria')
@@ -26,7 +26,7 @@ class UnidadeSecrController extends Controller
                 request()->secretaria_pesq,
                 function ($query) {
                     if (
-                        auth()->user()->can(Permission::PERMISSION_UNIDADE_SECRETARIA_ACCESS_ANY_SECRETARIA) ||
+                        auth()->user()->can(Permission::UNIDADE_SECRETARIA_ACCESS_ANY_SECRETARIA) ||
                         in_array(request()->secretaria_pesq, auth()->user()->secretarias->pluck('id')->toArray())
                     ) {
                         $query->where('secretaria_id', request()->secretaria_pesq);
@@ -35,7 +35,7 @@ class UnidadeSecrController extends Controller
                     }
                 },
                 function ($query) {
-                    if (auth()->user()->cant(Permission::PERMISSION_UNIDADE_SECRETARIA_ACCESS_ANY_SECRETARIA)) {
+                    if (auth()->user()->cant(Permission::UNIDADE_SECRETARIA_ACCESS_ANY_SECRETARIA)) {
                         $query->whereIn('secretaria_id', auth()->user()->secretarias->pluck('id'));
                     }
                 }
@@ -52,13 +52,13 @@ class UnidadeSecrController extends Controller
                 'situacao' => request()->situacao,
             ]);
 
-        if (auth()->user()->can(Permission::PERMISSION_UNIDADE_SECRETARIA_ACCESS_ANY_SECRETARIA)) {
+        if (auth()->user()->can(Permission::UNIDADE_SECRETARIA_ACCESS_ANY_SECRETARIA)) {
             $secretariasSearchSelect = Secretaria::query()->orderBy('nome', 'asc')->get();
         } else {
             $secretariasSearchSelect = auth()->user()->secretarias()->orderBy('nome', 'asc')->get();
         }
 
-        if (auth()->user()->can(Permission::PERMISSION_UNIDADE_SECRETARIA_CREATE_ANY)) {
+        if (auth()->user()->can(Permission::UNIDADE_SECRETARIA_CREATE_ANY)) {
             $secretariasCreateSelect = Secretaria::query()->orderBy('nome', 'asc')->get();
         } else {
             $secretariasCreateSelect = auth()->user()->secretarias()->orderBy('nome', 'asc')->get();
@@ -68,7 +68,7 @@ class UnidadeSecrController extends Controller
 
     public function novaUnidade(Request $request)
     {
-        $this->authorize(Permission::PERMISSION_UNIDADE_SECRETARIA_CREATE);
+        $this->authorize(Permission::UNIDADE_SECRETARIA_CREATE);
 
         $rules = [
             'nome' => 'required|string|max:255',
@@ -97,7 +97,7 @@ class UnidadeSecrController extends Controller
 
 
         if (
-            (auth()->user()->cant(Permission::PERMISSION_UNIDADE_SECRETARIA_CREATE_ANY) &&
+            (auth()->user()->cant(Permission::UNIDADE_SECRETARIA_CREATE_ANY) &&
                 !in_array($request->secretaria, auth()->user()->secretarias->pluck('id')->toArray()))
             || is_null(Secretaria::find($request->secretaria))
         ) {
@@ -117,15 +117,16 @@ class UnidadeSecrController extends Controller
 
     public function visualizar(Unidade $unidade)
     {
-        $this->authorize(Permission::PERMISSION_UNIDADE_SECRETARIA_VIEW);
+        $this->authorize(Permission::UNIDADE_SECRETARIA_VIEW);
         // $qrcode = QrCode::size(200)->generate('http://10.0.49.0:9000/avaliacoes/' . $unidade->token . '/avaliar');
         $qrcode = QrCode::size(200)->generate(route('get-avaliar-unidade', $unidade->token));
+        // dd(route('get-avaliar-unidade', $unidade->token));
         return view('admin.avaliacoes.unidades-secr.unidades-visualizacao', compact('unidade', 'qrcode'));
     }
 
     public function atualizarUnidade(Unidade $unidade, Request $request)
     {
-        $this->authorize(Permission::PERMISSION_UNIDADE_SECRETARIA_UPDATE);
+        $this->authorize(Permission::UNIDADE_SECRETARIA_UPDATE);
         $rules = [
             'nome' => 'required|string|max:255',
             'descricao' => 'nullable|string',
@@ -164,7 +165,7 @@ class UnidadeSecrController extends Controller
 
     public function ativarDesativar(Unidade $unidade)
     {
-        $this->authorize(Permission::PERMISSION_UNIDADE_SECRETARIA_TOGGLE_ATIVO);
+        $this->authorize(Permission::UNIDADE_SECRETARIA_TOGGLE_ATIVO);
         $unidade->ativo = !$unidade->ativo;
         $unidade->save();
 

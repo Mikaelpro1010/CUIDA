@@ -49,11 +49,8 @@
 
     <script src="{{ asset('js/jquery.js') }}"></script>
     <script src="{{ asset('js/bootstrap.js') }}"></script>
-    <script src="{{ asset('js/sweetalert2.all.min.js') }}"></script>
-    @yield('scripts')
     <script>
         $(document).ready(function(){
-            $("#liveToast").toast("show");
             print();
         });
     </script>
