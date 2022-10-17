@@ -1,5 +1,6 @@
 <?php
 
+use App\Constants\Permission as ConstantsPermission;
 use App\Models\Permission;
 use Illuminate\Database\Seeder;
 
@@ -12,10 +13,14 @@ class PermissionsTableSeeder extends Seeder
      */
     public function run()
     {
-        // Permission::query()->insert([
-        //     [
-        //         "permission" => Permission::PERMISSION_UNIDADE_SECRETARIA_LIST
-        //     ],
-        // ]);
+        $permissions = [];
+
+        foreach (ConstantsPermission::PERMISSIONS as $permission) {
+            $permissions[] = [
+                'permission' => $permission
+            ];
+        }
+
+        Permission::query()->insert($permissions);
     }
 }
