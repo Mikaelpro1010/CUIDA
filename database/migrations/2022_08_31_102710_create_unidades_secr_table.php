@@ -20,6 +20,7 @@ class CreateUnidadesSecrTable extends Migration
             $table->string('nome');
             $table->text('descricao')->nullable();
             $table->string('token');
+            $table->float('nota')->nullable();
             $table->boolean('ativo');
             $table->timestamps();
         });

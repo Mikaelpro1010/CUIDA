@@ -17,6 +17,7 @@ class CreateSecretariasTable extends Migration
             $table->increments('id');
             $table->string('nome');
             $table->string('sigla');
+            $table->float('nota')->nullable();
             $table->boolean('ativo');
             $table->timestamps();
             $table->softDeletes();
