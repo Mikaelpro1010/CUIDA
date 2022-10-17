@@ -1,6 +1,10 @@
 <?php
 
+use App\Constants\Permission as ConstantsPermission;
+use App\Models\Permission;
+use App\Models\Role;
 use Illuminate\Foundation\Inspiring;
+use Illuminate\Support\Facades\Artisan;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,6 +17,22 @@ use Illuminate\Foundation\Inspiring;
 |
 */
 
-Artisan::command('inspire', function () {
-    $this->comment(Inspiring::quote());
-})->describe('Display an inspiring quote');
+Artisan::command('givePermission {permission}', function ($permission) {
+    $role = Role::find(1);
+    $role->givePermission($permission);
+    $this->info("Permissao: \"" . $permission . "\" Inserida!");
+});
+
+Artisan::command('removePermission {permission}', function ($permission) {
+    $role = Role::find(1);
+    $role->removePermission($permission);
+    $this->info("Permissao: \"" . $permission . "\" Removida!");
+});
+
+Artisan::command('giveAllPermissions', function () {
+    $role = Role::find(1);
+    foreach (Permission::all() as $permission) {
+        $role->permissions()->attach($permission);
+    }
+});
+
