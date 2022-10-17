@@ -123,3 +123,10 @@ if (!function_exists('permission')) {
         return Permission::class;
     }
 }
+
+if (!function_exists('permissionConstant')) {
+    function permissionConstant()
+    {
+        return ConstantsPermission::class;
+    }
+}
