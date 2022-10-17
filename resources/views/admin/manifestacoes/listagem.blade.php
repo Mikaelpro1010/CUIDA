@@ -170,7 +170,7 @@
 </div>
 @endsection
 
-@section('scripts')
+@push('scripts')
 <script>
     function limparForm(){
         $('#protocolo').val('');
@@ -182,4 +182,4 @@
         $('#estado_processo').val(0);
     }
 </script>
-@endsection
+@endpush

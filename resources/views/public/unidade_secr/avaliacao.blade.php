@@ -54,7 +54,7 @@
 
 @endsection
 
-@section('scripts')
+@push('scripts')
 <script>
     function avaliar(valor){
         $('.avaliar i').each(function(index, element){
@@ -88,4 +88,4 @@
         }
     }
 </script>
-@endsection
+@endpush

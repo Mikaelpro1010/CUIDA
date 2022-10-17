@@ -201,7 +201,7 @@
 
 @endsection
 
-@section('scripts')
+@push('scripts')
 
 <script>
     function limpar(){
@@ -272,4 +272,4 @@
 
 </script>
 
-@endsection
+@endpush

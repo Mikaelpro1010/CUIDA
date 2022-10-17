@@ -270,7 +270,7 @@
 
 @endsection
 
-@section('scripts')
+@push('scripts_resumo')
 
 <script src="{{ asset('js/chart.js') }}"></script>
 <script>
@@ -311,6 +311,7 @@
             }
         }
     });
+
 </script>
 
-@endsection
+@endpush

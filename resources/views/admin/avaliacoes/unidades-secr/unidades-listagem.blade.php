@@ -157,7 +157,7 @@
 
 @endsection
 
-@section('scripts')
+@push('scripts')
 <script>
     function limparForm(){
         $('#pesquisa').val('');
@@ -171,4 +171,4 @@
         $('#descricao').val('');
     }
 </script>
-@endsection
+@endpush

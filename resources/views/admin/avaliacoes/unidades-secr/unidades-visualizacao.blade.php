@@ -117,10 +117,10 @@
 
 @endsection
 
-@section('scripts')
+@push('scripts')
 <script>
     function fecharModal(){
         $('#novaUnidadeModal').modal('hide');
     }
 </script>
-@endsection
+@endpush

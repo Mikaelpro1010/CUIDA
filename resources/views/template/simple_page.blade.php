@@ -56,7 +56,7 @@
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle text-white" data-bs-toggle="dropdown" role="button"
                                 aria-expanded="false" aria-haspopup="true" v-pre>
-                                {{ Auth::user()->name }} <span class="caret"></span>
+                                {{ auth()->user()->name }} <span class="caret"></span>
                             </a>
 
                             <ul class="dropdown-menu">
@@ -120,9 +120,8 @@
                             <ul class="dropdown-menu">
                                 <li><a class="dropdown-item" href="{{ route('resumo-avaliacoes') }}">Resumos</a></li>
 
-                                @can(permission()::PERMISSION_UNIDADE_SECRETARIA_LIST)
+                                @can(permissionConstant()::UNIDADE_SECRETARIA_LIST)
                                 <li><a class="dropdown-item" href="{{ route('unidades-secr-list') }}">Unidades</a></li>
-
                                 @endcan
                             </ul>
                         </li>
@@ -174,12 +173,12 @@
     <script src="{{ asset('js/jquery.js') }}"></script>
     <script src="{{ asset('js/bootstrap.js') }}"></script>
     <script src="{{ asset('js/sweetalert2.all.min.js') }}"></script>
-    @yield('scripts')
     <script>
         $(document).ready(function(){
             $("#liveToast").toast("show");
-    });
+        });
     </script>
+    @stack('scripts')
 </body>
 
 </html>

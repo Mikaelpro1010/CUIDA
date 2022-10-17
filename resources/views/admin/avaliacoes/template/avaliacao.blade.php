@@ -26,3 +26,8 @@
 </main>
 
 @endsection
+
+@push('scripts')
+<script src="{{ asset('js/chart.js') }}"></script>
+@stack('scripts_resumo')
+@endpush
