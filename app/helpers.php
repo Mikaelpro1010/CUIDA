@@ -1,5 +1,6 @@
 <?php
 
+use App\Constants\Permission as ConstantsPermission;
 use App\Models\Chat\CanalMensagem;
 use App\Models\Chat\Mensagem;
 use App\Models\Manifest\Manifest;
