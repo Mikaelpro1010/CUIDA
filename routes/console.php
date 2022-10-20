@@ -5,6 +5,7 @@ use App\Models\Permission;
 use App\Models\Role;
 use Illuminate\Foundation\Inspiring;
 use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\Cache;
 
 /*
 |--------------------------------------------------------------------------
@@ -36,3 +37,6 @@ Artisan::command('giveAllPermissions', function () {
     }
 });
 
+Artisan::command('cacheFlush', function () {
+    Cache::flush();
+});
