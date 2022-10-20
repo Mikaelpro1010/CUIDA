@@ -4,6 +4,14 @@ namespace App\Constants;
 
 class Permission
 {
+    //Gerenciamento
+    //Usuários
+    public const ADMIN_LIST_USERS = 'admin listar usuarios';
+    public const ADMIN_SEE_USER = 'admin visualizar usuario';
+    public const ADMIN_CREATE_USERS = 'admin criar usuario';
+    public const ADMIN_EDIT_USERS = 'admin editar usuario';
+    public const ADMIN_DELETE_USERS = 'admin deletar usuario';
+
 
     //Unidade Secretaria
     public const UNIDADE_SECRETARIA_LIST = 'listar unidade secretaria';
@@ -30,6 +38,7 @@ class Permission
         self::UNIDADE_SECRETARIA_UPDATE,
         self::UNIDADE_SECRETARIA_TOGGLE_ATIVO,
         self::UNIDADE_SECRETARIA_DELETE,
+
         self::RESUMO_AVALIACOES_GERAL_VIEW,
         self::RESUMO_AVALIACOES_SECRETARIA_VIEW,
     ];
