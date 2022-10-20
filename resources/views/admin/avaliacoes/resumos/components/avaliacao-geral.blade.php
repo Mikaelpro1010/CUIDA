@@ -84,7 +84,7 @@
                                             @endif    
                                         @endif    
                                     @endif">
-                    {{ $avaliacoesAverage }}<span class="fs-3 fw-normal text-body">/5</span>
+                    {{ number_format($avaliacoesAverage, 2, ',', '') }}<span class="fs-3 fw-normal text-body">/5</span>
                 </p>
             </div>
         </div>

@@ -19,28 +19,26 @@
             </tr>
         </thead>
         <tbody class="table-group-divider">
-            @if (isset($secretarias))
-            @foreach ($secretarias as $secretaria)
+            @forelse ($secretarias as $secretaria)
             <tr>
                 <td>{{ $secretaria->sigla }}</td>
                 <td>{{ $secretaria->nome }}</td>
                 <td>{{ $secretaria->unidades->count() }}</td>
-                <td>{{ $secretaria->media }}</td>
-                <td class="text-end">{{ $secretaria->avaliacoes->count() }}</td>
+                <td>{{ number_format($secretaria->nota, 2, ',', '') }}</td>
+                <td class="text-end">{{ $secretaria->getResumo()['qtd'] }}</td>
                 <td class="text-center">
                     <a href="{{route('resumo-avaliacoes-secretaria', $secretaria)}}">
                         <i class="fa-solid fa-magnifying-glass"></i>
                     </a>
                 </td>
             </tr>
-            @endforeach
-            @else
+            @empty
             <tr>
                 <td class="text-center table-danger" colspan="4">
                     Não existem Secretarias!
                 </td>
             </tr>
-            @endif
+            @endforelse
         </tbody>
     </table>
 </div>

@@ -54,25 +54,23 @@
             </tr>
         </thead>
         <tbody class="table-group-divider">
-            @if (isset($unidades) && count($unidades) > 0)
-            @foreach ( $unidades as $unidade )
+            @forelse ( $unidades as $unidade )
             <tr class="">
                 <td>{{$unidade->nome}}</td>
                 <td>{{ $unidade->secretaria->sigla . " - " . $unidade->secretaria->nome }}</td>
-                <td class="text-end">{{number_format($unidade->avaliacoes->avg('nota'), 2,",",'')}}</td>
-                <td class="text-end">{{$unidade->avaliacoes->count()}}</td>
+                <td class="text-end">{{number_format($unidade->nota, 2,",",'')}}</td>
+                <td class="text-end">{{ $unidade->getResumoFromCache()['qtd'] }}</td>
                 <td class="align-middle text-center">
                     <a href="{{ route('resumo-avaliacoes-unidade', [$unidade->secretaria_id, $unidade]) }}">
                         <i class="fa-solid fa-magnifying-glass"></i>
                     </a>
                 </td>
             </tr>
-            @endforeach
-            @else
+            @empty
             <tr>
                 <td class="text-center" colspan="5">Não existem Resultados!</td>
             </tr>
-            @endif
+            @endforelse
         </tbody>
     </table>
 </div>

@@ -144,19 +144,23 @@
 
 @if ($qtdAvaliacoes > 0)
 <script>
-    $("#avaliacoesMes").change(function(){
+    $(document).ready(function(){updateAvaliacoesMes({{ formatarDataHora(null, 'Y') }})});
+
+    $("#avaliacoesMes").change(function(){updateAvaliacoesMes($("#avaliacoesMes").val())});
+
+    function updateAvaliacoesMes(ano){
         $.ajax({
             url: "{{ route('resumo-avaliacoes-secretaria-avaliacoes-mes', $secretaria) }}",
             dataType:'json',
             data:{
-                    ano: $("#avaliacoesMes").val()
+                    ano: ano
                 },
             success: function(response) {
                 avaliacoesMes.data.datasets[0].data = response.resposta;
                 avaliacoesMes.update();
             }
         });
-    });
+    }
 
     const avaliacoesMesCtx = $('#avaliacoesMesChart')[0].getContext('2d');
     const avaliacoesMes = new Chart(avaliacoesMesCtx, {
@@ -164,7 +168,14 @@
         data: {
             labels: ["janeiro", "fevereiro", "março", "abril", "maio", "junho", "julho", "agosto", "setembro", "outubro", "novembro", "dezembro"],
                 datasets: [
-                    @json($avaliacoesMes),
+                    {
+                        label : "Quantidade de Avaliações",
+                        data : [0],
+                        borderColor : "rgba({{ $corGrafico  }}, 1)",
+                        backgroundColor : "rgba({{ $corGrafico  }}, 0.3)",
+                        fill : true,
+                        tension : 0.3
+                    },
                 ]
         },
         options: {

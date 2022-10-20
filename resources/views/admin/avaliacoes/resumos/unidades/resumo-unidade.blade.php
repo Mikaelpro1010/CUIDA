@@ -101,26 +101,34 @@
 
 @if ($qtdAvaliacoes > 0)
 <script>
-    $("#avaliacoesMes").change(function(){
+    $(document).ready(function(){
+        atualizarAvaliacoesMes({{ formatarDataHora(null, 'Y') }});
+        atualizarNotasMes({{ formatarDataHora(null, 'Y') }});
+    });
+
+    $("#avaliacoesMes").change(function(){ atualizarAvaliacoesMes($("#avaliacoesMes").val())});
+    $("#notasMes").change(function(){ atualizarNotasMes($("#notasMes").val());});
+    
+    function atualizarAvaliacoesMes(ano){
         $.ajax({
             url: "{{ route('resumo-avaliacoes-unidade-avaliacoes-mes', $unidade) }}",
             dataType:'json',
             data:{
-                    ano: $("#avaliacoesMes").val()
+                    ano: ano
                 },
             success: function(response) {
                 avaliacoesMes.data.datasets[0].data = response.resposta;
                 avaliacoesMes.update();
             }
         });
-    });
+    }
 
-    $("#notasMes").change(function(){
+    function atualizarNotasMes(ano){
         $.ajax({
             url: "{{ route('resumo-avaliacoes-unidade-notas-mes', $unidade) }}",
             dataType:'json',
             data:{
-                    ano: $("#notasMes").val()
+                    ano: ano
                 },
             success: function(response) {
                 notasMes.data.datasets[0].data = response.resposta[0];
@@ -131,15 +139,54 @@
                 notasMes.update();
             }
         });
-    });
+    }
 
-    const avaliacoesMesCtx = $('#avaliacoesMesChart')[0].getContext('2d');
-    const avaliacoesMes = new Chart(avaliacoesMesCtx, {
+    const notasMesCtx = $('#notasMesChart')[0].getContext('2d');
+    const notasMes = new Chart(notasMesCtx, {
         type: 'line',
         data: {
             labels: ["janeiro", "fevereiro", "março", "abril", "maio", "junho", "julho", "agosto", "setembro", "outubro", "novembro", "dezembro"],
             datasets: [
-                @json($avaliacoesMes),
+                {
+                    label : 'Muito Ruim',
+                    data : [0],
+                    borderColor : 'rgba(220,53,69,1)',
+                    backgroundColor : 'rgba(220,53,69,0.3)',
+                    fill : true,
+                    tension : 0.3,
+                },
+                {
+                    label : 'Ruim',
+                    data : [0],
+                    borderColor : 'rgba(255,193,6,1)',
+                    backgroundColor : 'rgba(255,193,6,0.3)',
+                    fill : true,
+                    tension : 0.3,
+                },
+                {
+                    label : 'Neutro',
+                    data : [0],
+                    borderColor : 'rgba(14,202,240,1)',
+                    backgroundColor : 'rgba(14,202,240,0.3)',
+                    fill : true,
+                    tension : 0.3,
+                },
+                {
+                    label : 'Bom',
+                    data : [0],
+                    borderColor : 'rgba(12,110,253,1)',
+                    backgroundColor : 'rgba(12,110,253,0.3)',
+                    fill : true,
+                    tension : 0.3,
+                },
+                {
+                    label : 'Muito Bom',
+                    data : [0],
+                    borderColor : 'rgba(26,135,84,1)',
+                    backgroundColor : 'rgba(26,135,84,0.3)',
+                    fill : true,
+                    tension : 0.3,
+                },
             ]
         },
         options: {
@@ -155,12 +202,22 @@
             }
         }
     });
-    const notasMesCtx = $('#notasMesChart')[0].getContext('2d');
-    const notasMes = new Chart(notasMesCtx, {
+
+    const avaliacoesMesCtx = $('#avaliacoesMesChart')[0].getContext('2d');
+    const avaliacoesMes = new Chart(avaliacoesMesCtx, {
         type: 'line',
         data: {
             labels: ["janeiro", "fevereiro", "março", "abril", "maio", "junho", "julho", "agosto", "setembro", "outubro", "novembro", "dezembro"],
-            datasets: @json($notasMes)
+            datasets: [
+                {
+                    label : "Avaliações por Mês",
+                    data : [0],
+                    borderColor : "rgba({{ $corGrafico }}, 1)",
+                    backgroundColor : "rgba({{ $corGrafico }}, 0.3)",
+                    fill : true,
+                    tension : 0.3
+                }
+            ]
         },
         options: {
             responsive: true,

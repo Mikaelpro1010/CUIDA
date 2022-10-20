@@ -6,10 +6,12 @@
 <main class="container mt-3">
 
     <ul class="nav nav-tabs">
+        @can(permissionConstant()::RESUMO_AVALIACOES_GERAL_VIEW)
         <li class="nav-item">
             <a class="nav-link @if(Route::is('resumo-avaliacoes')) active @endif"
                 href=" {{ route('resumo-avaliacoes') }}">Geral</a>
         </li>
+        @endcan
         <li class="nav-item">
             <a class="nav-link @if(Route::is('resumo-avaliacoes-secretaria-list') || Route::is('resumo-avaliacoes-secretaria')) active @endif"
                 href="{{ route('resumo-avaliacoes-secretaria-list') }}">Avaliaçoes por Secretaria</a>
