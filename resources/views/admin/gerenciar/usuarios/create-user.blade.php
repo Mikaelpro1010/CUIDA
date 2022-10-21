@@ -8,17 +8,17 @@
     <div class="row g-2">
         <div class="col-md-6">
             <label class="fw-bold" for="">Nome:</label>
-            <input class="form-control" type="text" name="name">
+            <input class="form-control" type="text" name="name" value="{{old('name')}}">
         </div>
         <div class="col-md-6">
             <label class="fw-bold" for="">Email:</label>
-            <input class="form-control" type="email" name="email">
+            <input class="form-control" type="email" name="email" value="{{old('email')}}">
         </div>
         <div class="col-md-12">
             <label class="fw-bold" for="">Tipo de Usuário:</label>
             <select class="form-select" name="tipo">
                 @foreach ($roles as $role)
-                <option value="{{ $role->id }}">{{ $role->name }}</option>
+                <option value="{{ $role->id }}" @if (old('tipo')==$role->id) selected @endif >{{ $role->name }}</option>
                 @endforeach
             </select>
         </div>
