@@ -69,6 +69,18 @@ Route::middleware(['auth'])->group(
             }
         );
 
+        Route::namespace('Configs')->prefix('admin/config')->group(
+            function () {
+                Route::get('/users-type', 'RolesController@listRoles')->name('get-roles-list');
+                Route::get('/users-type/create', 'RolesController@createRole')->name('get-create-role');
+                Route::post('/users-type', 'RolesController@storeRole')->name('post-store-role');
+                Route::get('/users-type/{role}', 'RolesController@viewRole')->name('get-role-view');
+                Route::get('/users-type/{role}/edit', 'RolesController@editRole')->name('get-edit-role-view');
+                Route::patch('/users-type/{role}', 'RolesController@updateRole')->name('patch-update-role');
+                Route::delete('/users-type/{role}', 'RolesController@deleteRole')->name('delete-delete-role');
+            }
+        );
+
 
         //manifestacoes
         Route::get('/manifestacoes', "ManifestsController@listagem")->name('manifestacoes');
