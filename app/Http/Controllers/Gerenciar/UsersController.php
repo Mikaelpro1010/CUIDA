@@ -13,7 +13,7 @@ class UsersController extends Controller
 {
     public function listUsers()
     {
-        $this->authorize(Permission::ADMIN_LIST_USERS);
+        $this->authorize(Permission::GERENCIAR_USUARIOS_LIST);
 
         $users = User::query()
             ->when(
@@ -54,20 +54,20 @@ class UsersController extends Controller
 
     public function viewUser(User $user)
     {
-        $this->authorize(Permission::ADMIN_SEE_USER);
+        $this->authorize(Permission::GERENCIAR_USUARIOS_VIEW);
         return view('admin.gerenciar.usuarios.see-user', compact('user'));
     }
 
     public function createUser(Request $request)
     {
-        $this->authorize(Permission::ADMIN_CREATE_USERS);
+        $this->authorize(Permission::GERENCIAR_USUARIOS_CREATE);
         $roles = Role::get();
         return view('admin.gerenciar.usuarios.create-user', compact('roles'));
     }
 
     public function storeUser(Request $request)
     {
-        $this->authorize(Permission::ADMIN_CREATE_USERS);
+        $this->authorize(Permission::GERENCIAR_USUARIOS_CREATE);
         $validator = Validator::make(
             $request->all(),
             [
@@ -77,9 +77,11 @@ class UsersController extends Controller
                 'senha' => 'required|string|min:8|confirmed',
             ],
             [
-                'required' => 'O campo :atribute não pode ser vazio!',
+                'required' => 'O campo :attribute não pode ser vazio!',
                 'email.email' => 'O campo Email precisa ter um Email válido!',
                 'name.max' => 'O campo Nome não pode conter mais de 255 caracteres!',
+                'unique' => 'O campo :attribute não pode ser vazio!',
+                'confirmed' => 'O campo Confirmar Senha deve ser igual a Senha!',
             ],
             [
                 'name' => 'Nome',
@@ -108,7 +110,7 @@ class UsersController extends Controller
 
     public function editUser(User $user)
     {
-        $this->authorize(Permission::ADMIN_EDIT_USERS);
+        $this->authorize(Permission::GERENCIAR_USUARIOS_EDIT);
         $roles = Role::get();
 
         return view('admin.gerenciar.usuarios.edit-user', compact('roles', 'user'));
@@ -116,7 +118,7 @@ class UsersController extends Controller
 
     public function updateUser(User $user, Request $request)
     {
-        $this->authorize(Permission::ADMIN_EDIT_USERS);
+        $this->authorize(Permission::GERENCIAR_USUARIOS_EDIT);
 
         $validator = Validator::make(
             $request->all(),
@@ -161,7 +163,7 @@ class UsersController extends Controller
 
     public function deleteUser(User $user)
     {
-        $this->authorize(Permission::ADMIN_DELETE_USERS);
+        $this->authorize(Permission::GERENCIAR_USUARIOS_DELETE);
         if ($user->is(auth()->user())) {
             return redirect()->route('get-users-list')->withErrors(['erro' => 'Não é possivel deletar seu próprio Usuário!']);
         } else {
