@@ -14,8 +14,9 @@ class PermissionsTableSeeder extends Seeder
     public function run()
     {
         $permissions = [];
+        $listPermissions = collect(ConstantsPermission::PERMISSIONS)->flatten();
 
-        foreach (ConstantsPermission::PERMISSIONS as $permission) {
+        foreach ($listPermissions as $permission) {
             $permissions[] = [
                 'permission' => $permission
             ];
