@@ -10,6 +10,7 @@ class Permission
     public const GERENCIAR_USUARIOS_VIEW = 'gerenciamento de usuarios visualizar';
     public const GERENCIAR_USUARIOS_CREATE = 'gerenciamento de usuarios criar';
     public const GERENCIAR_USUARIOS_EDIT = 'gerenciamento de usuarios editar';
+    public const GERENCIAR_USUARIOS_EDIT_PASSWORD = 'gerenciamento de usuarios editar senha';
     public const GERENCIAR_USUARIOS_DELETE = 'gerenciamento de usuarios deletar';
 
     public const GERENCIAR_USUARIOS = [
@@ -17,6 +18,7 @@ class Permission
         self::GERENCIAR_USUARIOS_VIEW,
         self::GERENCIAR_USUARIOS_CREATE,
         self::GERENCIAR_USUARIOS_EDIT,
+        self::GERENCIAR_USUARIOS_EDIT_PASSWORD,
         self::GERENCIAR_USUARIOS_DELETE,
     ];
 

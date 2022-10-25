@@ -161,6 +161,45 @@ class UsersController extends Controller
         return redirect()->route('get-users-list')->with(['success' => 'Usuário editado com Sucesso!']);
     }
 
+    public function editUserPassword(User $user)
+    {
+        $this->authorize(Permission::GERENCIAR_USUARIOS_EDIT_PASSWORD);
+        return view('admin.gerenciar.usuarios.edit-user-password', compact('user'));
+    }
+
+    public function updateUserPassword(User $user, Request $request)
+    {
+        $this->authorize(Permission::GERENCIAR_USUARIOS_EDIT_PASSWORD);
+
+        $validator = Validator::make(
+            $request->all(),
+            [
+                'senha' => 'required|string|min:8|confirmed',
+            ],
+            [
+                'required' => 'O campo :attribute não pode ser vazio!',
+                'confirmed' => 'O campo Confirmar Senha deve ser igual a Senha!',
+            ],
+            [
+                'senha' => 'Senha',
+                'senha_Confirmation' => 'Confirmar Senha',
+            ]
+        );
+
+        if ($validator->fails()) {
+            return redirect()
+                ->back()
+                ->withErrors($validator)
+                ->withInput();
+        }
+
+        $user->update([
+            'password' => $request->senha
+        ]);
+
+        return redirect()->route('get-users-list')->with(['success' => 'Senha atualizada com Sucesso!']);
+    }
+
     public function deleteUser(User $user)
     {
         $this->authorize(Permission::GERENCIAR_USUARIOS_DELETE);

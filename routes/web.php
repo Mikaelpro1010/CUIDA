@@ -65,6 +65,8 @@ Route::middleware(['auth'])->group(
                 Route::get('/users/{user}', 'UsersController@viewUser')->name('get-user-view');
                 Route::get('/users/{user}/edit', 'UsersController@editUser')->name('get-edit-user-view');
                 Route::patch('/users/{user}', 'UsersController@updateUser')->name('patch-update-user');
+                Route::get('/users/{user}/password', 'UsersController@editUserPassword')->name('get-edit-user-password-view');
+                Route::patch('/users/{user}/password', 'UsersController@updateUserPassword')->name('patch-update-user-password');
                 Route::delete('/users/{user}', 'UsersController@deleteUser')->name('delete-delete-user');
             }
         );

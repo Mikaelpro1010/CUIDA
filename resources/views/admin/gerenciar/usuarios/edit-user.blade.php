@@ -1,7 +1,17 @@
 @extends('template.base')
 
 @section('content')
-<h1 class="text-primary">Editar Usuário</h1>
+<div class="d-flex justify-content-between">
+    <h1 class="text-primary">Editar Usuário</h1>
+    @can(permissionConstant()::GERENCIAR_USUARIOS_EDIT_PASSWORD)
+    <div>
+        <a class="btn btn-warning" href="{{ route('get-edit-user-password-view', $user) }}">
+            <i class="fa-solid fa-pen-to-square"></i>
+            Editar Senha
+        </a>
+    </div>
+    @endcan
+</div>
 <hr>
 <form method="POST" action="{{ route('patch-update-user', $user) }}">
     {{ csrf_field() }}
