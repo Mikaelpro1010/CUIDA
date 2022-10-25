@@ -52,7 +52,7 @@ class UpdateNotasFromUnidadesAndSecretarias extends Command
         foreach ($secretarias as $secretaria) {
             $this->info($secretaria->sigla);
             $secretaria->update([
-                'nota' => $secretaria->unidades->avg()
+                'nota' => $secretaria->unidades->avg('nota')
             ]);
         }
     }
