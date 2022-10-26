@@ -13,7 +13,7 @@
     @endcan
 </div>
 <hr>
-<form method="POST" action="{{ route('patch-update-user', $user) }}">
+<form id="editForm" method="POST" action="{{ route('patch-update-user', $user) }}">
     {{ csrf_field() }}
     {{ method_field('PATCH') }}
     <div class="row">
@@ -35,13 +35,50 @@
             </select>
         </div>
     </div>
-    <div class="d-flex justify-content-end mt-2">
-        <button class="btn btn-primary " type="submit">
-            <i class="fa-solid fa-pen-to-square"></i>
-            Editar
-        </button>
+
+    <div id="secretarias">
+        @foreach ($user->secretarias as $secretaria)
+        <input id="secretaria_{{$secretaria->id}}" type="hidden" name="secretaria[]" value="{{$secretaria->id}}">
+        @endforeach
     </div>
+
 </form>
+<div class="row">
+    <div class="col-md-8">
+        <label class="fw-bold" for="">Secretaria(s):</label>
+        <select id="secretariaSelect" class="form-select">
+            <option value="">Selecione</option>
+            @foreach ($secretarias as $secretaria)
+            <option value="{{ $secretaria->id }}" @if (old('secretaria')==$secretaria->id) selected @endif >
+                {{ $secretaria->sigla }} - {{ $secretaria->nome }}
+            </option>
+            @endforeach
+        </select>
+    </div>
+</div>
+
+<div class="row mt-3">
+    <div class="col-md-8">
+        <ul id="secretarias_list" class="list-group">
+            @foreach ($user->secretarias as $secretaria)
+            <li id="list_{{$secretaria->id}}" class="list-group-item d-flex justify-content-between">
+                {{$secretaria->sigla}} - {{$secretaria->nome}}
+                <a href="javascript:removerItem({{$secretaria->id}})">
+                    <i class="fa-xl text-danger fa-solid fa-trash"></i>
+                </a>
+            </li>
+            @endforeach
+        </ul>
+    </div>
+</div>
+
+
+<div class="d-flex justify-content-end mt-2">
+    <a class="btn btn-primary" href="javascript:$('#editForm').submit()">
+        <i class="fa-solid fa-pen-to-square"></i>
+        Editar
+    </a>
+</div>
 <div class="d-flex justify-content-around">
     <a class="btn btn-warning" href="{{ route('get-users-list') }}">
         <i class="fa-solid fa-chevron-left"></i>
@@ -49,3 +86,32 @@
     </a>
 </div>
 @endsection
+
+@push('scripts')
+<script>
+    $("#secretariaSelect").change(function (){
+        console.log('#secretaria_'+ $("#secretariaSelect").val());
+        console.log($('#secretaria_' + $("#secretariaSelect").val()).length);
+        if($('#secretaria_' + $("#secretariaSelect").val()).length == 0){
+            $('#secretarias').append(`
+                <input id="secretaria_`+ $("#secretariaSelect").val() +`" type="hidden" name="secretaria[]" value="` + $("#secretariaSelect").val() + `">
+            `);
+            $("#secretarias_list").append(`
+                <li id="list_` + $("#secretariaSelect").val() + `" class="list-group-item d-flex justify-content-between">`+ $("#secretariaSelect option:selected").text() +`
+                    <a href="javascript:removerItem(` + $("#secretariaSelect").val() + `)">
+                        <i class="fa-xl text-danger fa-solid fa-trash"></i>
+                    </a>
+                </li>
+            `);
+            $("#secretarias_list").removeClass('d-none');
+        }
+        $("#secretariaSelect").val(''); 
+    });
+
+    function removerItem(id){
+        $('#secretaria_'+id).remove();
+        $('#list_'+id).remove();
+    }
+
+</script>
+@endpush

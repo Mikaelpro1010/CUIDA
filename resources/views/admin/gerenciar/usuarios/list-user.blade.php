@@ -69,7 +69,7 @@
                 <td class="email">{{ $user->email }}</td>
                 <td class="role">{{ $user->role->name }}</td>
                 <td>{{ formatarDataHora($user->created_at) }}</td>
-                <td>
+                <td class="col-md-1">
                     <div class="d-flex justify-content-around">
                         <a href="{{ route('get-user-view', $user) }}">
                             <i class="fa-xl fa-solid fa-magnifying-glass"></i>

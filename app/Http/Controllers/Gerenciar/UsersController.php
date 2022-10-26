@@ -6,6 +6,7 @@ use App\Constants\Permission;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Role;
+use App\Models\Secretaria;
 use App\Models\User;
 use Illuminate\Support\Facades\Validator;
 
@@ -39,7 +40,7 @@ class UsersController extends Controller
                         ->where('role_id', request()->tipo_usuario);
                 }
             )
-            ->with('role')
+            ->with('role', 'secretarias')
             ->orderBy('updated_at', 'desc')
             ->paginate(15)
             ->appends([
@@ -52,9 +53,10 @@ class UsersController extends Controller
         return view('admin.gerenciar.usuarios.list-user', compact('users', 'roles'));
     }
 
-    public function viewUser(User $user)
+    public function viewUser($user_id)
     {
         $this->authorize(Permission::GERENCIAR_USUARIOS_VIEW);
+        $user = User::with('secretarias', 'role')->find($user_id);
         return view('admin.gerenciar.usuarios.see-user', compact('user'));
     }
 
@@ -62,7 +64,8 @@ class UsersController extends Controller
     {
         $this->authorize(Permission::GERENCIAR_USUARIOS_CREATE);
         $roles = Role::get();
-        return view('admin.gerenciar.usuarios.create-user', compact('roles'));
+        $secretarias = Secretaria::where('ativo', true)->orderBy('nome', 'asc')->get();
+        return view('admin.gerenciar.usuarios.create-user', compact('roles', 'secretarias'));
     }
 
     public function storeUser(Request $request)
@@ -74,6 +77,7 @@ class UsersController extends Controller
                 'name' => 'required|string|max:255',
                 'email' => 'required|email|unique:users',
                 'tipo' => 'required|integer',
+                'secretaria' => 'required|array',
                 'senha' => 'required|string|min:8|confirmed',
             ],
             [
@@ -88,6 +92,7 @@ class UsersController extends Controller
                 'email' => 'Email',
                 'tipo' => 'Tipo de Usuário',
                 'senha' => 'Senha',
+                'secretaria' => 'Secretaria',
             ]
         );
 
@@ -98,12 +103,14 @@ class UsersController extends Controller
                 ->withInput();
         }
 
-        User::create([
+        $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
             'role_id' => $request->tipo,
             'password' => bcrypt($request->senha),
         ]);
+
+        $user->secretarias()->attach($request->secretaria);
 
         return redirect()->route('get-users-list')->with(['success' => 'Usuário Cadastrado com Sucesso!']);
     }
@@ -112,12 +119,14 @@ class UsersController extends Controller
     {
         $this->authorize(Permission::GERENCIAR_USUARIOS_EDIT);
         $roles = Role::get();
+        $secretarias = Secretaria::where('ativo', true)->orderBy('nome', 'asc')->get();
 
-        return view('admin.gerenciar.usuarios.edit-user', compact('roles', 'user'));
+        return view('admin.gerenciar.usuarios.edit-user', compact('roles', 'user', 'secretarias'));
     }
 
     public function updateUser(User $user, Request $request)
     {
+        // dd($request->all());
         $this->authorize(Permission::GERENCIAR_USUARIOS_EDIT);
 
         $validator = Validator::make(
@@ -125,12 +134,14 @@ class UsersController extends Controller
             [
                 'name' => 'required|string|max:255',
                 'email' => 'required|email',
-                'tipo' => 'required|integer'
+                'tipo' => 'required|integer',
+                'secretaria' => 'required|array',
             ],
             [
                 'name.required' => 'O campo Nome não pode ser vazio!',
                 'email.required' => 'O campo Email não pode ser vazio!',
                 'tipo.required' => 'O campo Tipo de Usuário não pode ser vazio!',
+                'secretaria.required' => 'O campo Secretaria não pode ser vazio!',
                 'email.email' => 'O campo Email precisa ter um Email válido!',
                 'name.max' => 'O campo Nome não pode conter mais de 255 caracteres!',
             ]
@@ -157,6 +168,8 @@ class UsersController extends Controller
             'email' => $request->email,
             'role_id' => $request->tipo
         ]);
+
+        $user->secretarias()->sync($request->secretaria);
 
         return redirect()->route('get-users-list')->with(['success' => 'Usuário editado com Sucesso!']);
     }
