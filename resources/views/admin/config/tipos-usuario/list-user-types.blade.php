@@ -55,7 +55,7 @@
                 <td class="name">{{ $role->name }}</td>
                 <td>{{ $role->users->count() }}</td>
                 <td>{{ formatarDataHora($role->created_at) }}</td>
-                <td>
+                <td class="col-md-1">
                     <div class="d-flex justify-content-around">
                         <a href="{{ route('get-role-view', $role) }}">
                             <i class="fa-xl fa-solid fa-magnifying-glass"></i>
