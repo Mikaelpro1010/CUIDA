@@ -13,23 +13,9 @@
     </div>
 
     <hr>
-    <h4 class="text-primary">Permissões</h4>
-    <div class="row mx-0">
-        @foreach ($permissionGroups as $key => $permissionGroup )
-        <ul class="col-md-4 list-group mb-2">
-            <li class="list-group-item active">
-                {{$key}}
-            </li>
-            @foreach ($permissionGroup as $permission)
-            <li class="list-group-item">
-                <input class="form-check-input me-1" type="checkbox" name="permissions[]"
-                    value="{{permission()::getPermission($permission)->id}}">
-                <label class="form-check-label">{{ $permission }}</label>
-            </li>
-            @endforeach
-        </ul>
-        @endforeach
-    </div>
+
+    @component('admin.config.tipos-usuario.components.permissions', compact('permissionGroups'))
+    @endcomponent
 
     <div class="d-flex justify-content-end mt-2">
         <button class="btn btn-primary " type="submit">

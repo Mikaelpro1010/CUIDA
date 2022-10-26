@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Configs;
 use App\Constants\Permission;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Models\Permission as ModelsPermission;
 use App\Models\Role;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Validator;
@@ -14,7 +13,7 @@ class RolesController extends Controller
 {
     public function listRoles()
     {
-        // $this->authorize(Permission::GERENCIAR_USUARIOS_LIST);
+        $this->authorize(Permission::GERENCIAR_TIPOS_USUARIOS_LIST);
 
         $roles = Role::query()
             ->when(
@@ -41,7 +40,7 @@ class RolesController extends Controller
 
     public function viewRole(Role $role)
     {
-        // $this->authorize(Permission::GERENCIAR_USUARIOS_VIEW);
+        $this->authorize(Permission::GERENCIAR_TIPOS_USUARIOS_VIEW);
 
         $permissionGroups = Permission::PERMISSIONS;
 
@@ -50,7 +49,7 @@ class RolesController extends Controller
 
     public function createRole(Request $request)
     {
-        // $this->authorize(Permission::GERENCIAR_USUARIOS_CREATE);
+        $this->authorize(Permission::GERENCIAR_TIPOS_USUARIOS_CREATE);
         $permissionGroups = Permission::PERMISSIONS;
 
         return view('admin.config.tipos-usuario.create-user-type', compact('permissionGroups'));
@@ -58,7 +57,7 @@ class RolesController extends Controller
 
     public function storeRole(Request $request)
     {
-        // $this->authorize(Permission::GERENCIAR_USUARIOS_CREATE);
+        $this->authorize(Permission::GERENCIAR_TIPOS_USUARIOS_CREATE);
         $validator = Validator::make(
             $request->all(),
             [
@@ -91,7 +90,7 @@ class RolesController extends Controller
 
     public function editRole(Role $role)
     {
-        // $this->authorize(Permission::GERENCIAR_USUARIOS_EDIT);
+        $this->authorize(Permission::GERENCIAR_TIPOS_USUARIOS_EDIT);
         $permissionGroups = Permission::PERMISSIONS;
 
         return view('admin.config.tipos-usuario.edit-user-type', compact('role', 'permissionGroups'));
@@ -99,7 +98,7 @@ class RolesController extends Controller
 
     public function updateRole(Role $role, Request $request)
     {
-        // $this->authorize(Permission::GERENCIAR_USUARIOS_EDIT);
+        $this->authorize(Permission::GERENCIAR_TIPOS_USUARIOS_EDIT);
         $validator = Validator::make(
             $request->all(),
             [
@@ -130,7 +129,7 @@ class RolesController extends Controller
 
     public function deleteRole(Role $role)
     {
-        // $this->authorize(Permission::GERENCIAR_USUARIOS_DELETE);
+        $this->authorize(Permission::GERENCIAR_TIPOS_USUARIOS_DELETE);
 
         if ($role->users->isNotEmpty()) {
             return redirect()->route('get-roles-list')->withErrors(['Erro' => 'Não é possivel deletar um tipo de Usuario que contenha Usuários ativos!']);

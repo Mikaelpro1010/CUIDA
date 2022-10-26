@@ -22,6 +22,21 @@ class Permission
         self::GERENCIAR_USUARIOS_DELETE,
     ];
 
+    // Tipos de Usuario
+    public const GERENCIAR_TIPOS_USUARIOS_LIST = 'gerenciamento de tipos de usuarios listar';
+    public const GERENCIAR_TIPOS_USUARIOS_VIEW = 'gerenciamento de tipos de usuarios visualizar';
+    public const GERENCIAR_TIPOS_USUARIOS_CREATE = 'gerenciamento de tipos de usuarios criar';
+    public const GERENCIAR_TIPOS_USUARIOS_EDIT = 'gerenciamento de tipos de usuarios editar';
+    public const GERENCIAR_TIPOS_USUARIOS_DELETE = 'gerenciamento de tipos de usuarios deletar';
+
+    public const GERENCIAR_TIPOS_USUARIOS = [
+        self::GERENCIAR_TIPOS_USUARIOS_LIST,
+        self::GERENCIAR_TIPOS_USUARIOS_VIEW,
+        self::GERENCIAR_TIPOS_USUARIOS_CREATE,
+        self::GERENCIAR_TIPOS_USUARIOS_EDIT,
+        self::GERENCIAR_TIPOS_USUARIOS_DELETE,
+    ];
+
     //Unidade Secretaria
     public const UNIDADE_SECRETARIA_LIST = 'listar unidade secretaria';
     public const UNIDADE_SECRETARIA_ACCESS_ANY_SECRETARIA = 'unidade secretaria acessar qualquer secretaria';
@@ -56,6 +71,7 @@ class Permission
 
     public const PERMISSIONS = [
         'Gerenciamento de Usuários' => self::GERENCIAR_USUARIOS,
+        'Gerenciamento de Tipos de Usuário' => self::GERENCIAR_TIPOS_USUARIOS,
         'Modulo Unidades das Secretarias' => self::UNIDADE_SECRETARIA,
         'Relatórios Modulo Avaliação' => self::RESUMO_AVALIACOES,
     ];

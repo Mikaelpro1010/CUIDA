@@ -1,7 +1,7 @@
 @extends('template.base')
 
 @section('content')
-<h1 class="text-primary">Editar Usuário</h1>
+<h1 class="text-primary">Editar Tipo de Usuário</h1>
 <hr>
 <form method="POST" action="{{ route('patch-update-role', $role) }}">
     {{ csrf_field() }}
@@ -14,24 +14,9 @@
     </div>
 
     <hr>
-    <h4 class="text-primary">Permissões</h4>
-    <div class="row mx-0">
-        @foreach ($permissionGroups as $key => $permissionGroup )
-        <ul class="col-md-4 list-group mb-2">
-            <li class="list-group-item active">
-                {{$key}}
-            </li>
-            @foreach ($permissionGroup as $permission)
-            <li class="list-group-item">
-                <input class="form-check-input me-1" type="checkbox" name="permissions[]"
-                    value="{{permission()::getPermission($permission)->id}}" @if ($role->hasPermission($permission))
-                checked @endif>
-                <label class=" form-check-label">{{ $permission }}</label>
-            </li>
-            @endforeach
-        </ul>
-        @endforeach
-    </div>
+
+    @component('admin.config.tipos-usuario.components.permissions', compact('permissionGroups', 'role'))
+    @endcomponent
 
     <div class="d-flex justify-content-end mt-2">
         <button class="btn btn-primary " type="submit">
