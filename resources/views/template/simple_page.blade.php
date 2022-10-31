@@ -81,7 +81,6 @@
                     </ul>
                 </div>
             </div>
-
         </nav>
         @auth
         <div class="navbar navbar-expand-lg bg-warning py-0">
@@ -97,6 +96,7 @@
                             href="{{ route('inicio') }}">
                             Inicio
                         </a>
+                        @can(permissionConstant()::MANIFESTACAO_LIST)
                         <a class="nav-link @if(Route::is('manifestacoes')) border-bottom border-3 border-primary @endif"
                             href="{{ route('manifestacoes') }}">
                             Manifestações
@@ -104,6 +104,8 @@
                                 {{ manifestacoesNaoEncerradasNotification() }}
                             </span>
                         </a>
+                        @endcan
+                        @can(permissionConstant()::MANIFESTACAO_CHAT)
                         <a class="nav-link @if(Route::is('mensagens')) border-bottom border-3 border-primary @endif"
                             href="{{ route('mensagens') }}">
                             Mensagens
@@ -111,6 +113,7 @@
                                 {{ canaisAguardandoRespostaNotification() }}
                             </span>
                         </a>
+                        @endcan
                         <li class="nav-item dropdown @if(Route::current()->action['namespace'] == 
                             'App\Http\Controllers\Avaliacoes') border-bottom border-3 border-primary @endif">
                             <a class=" nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
@@ -118,23 +121,54 @@
                                 Avaliações
                             </a>
                             <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="{{ route('resumo-avaliacoes') }}">Resumos</a></li>
-
+                                <li><a class="dropdown-item" href="
+                                    @if (auth()->user()->can(permissionConstant()::RELATORIO_AVALIACOES_GERAL_VIEW))
+                                    {{ route('resumo-avaliacoes') }}
+                                    @else
+                                    {{ route('resumo-avaliacoes-secretaria-list') }}
+                                    @endif
+                                    ">Resumos</a></li>
                                 @can(permissionConstant()::UNIDADE_SECRETARIA_LIST)
                                 <li><a class="dropdown-item" href="{{ route('unidades-secr-list') }}">Unidades</a></li>
                                 @endcan
                             </ul>
                         </li>
+                        @if (
+                        auth()->user()->can(permissionConstant()::GERENCIAR_USUARIOS_LIST) ||
+                        auth()->user()->can(permissionConstant()::GERENCIAR_SECRETARIAS_LIST)
+                        )
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                                aria-expanded="false">
+                                Gerenciar
+                            </a>
+                            <ul class="dropdown-menu">
+                                @can(permissionConstant()::GERENCIAR_USUARIOS_LIST)
+                                <li><a class="dropdown-item" href="{{ route('get-users-list') }}">Usuários</a></li>
+                                @endcan
+                                @can(permissionConstant()::GERENCIAR_SECRETARIAS_LIST)
+                                <li><a class="dropdown-item" href="#">Secretarias</a></li>
+                                @endcan
+                            </ul>
+                        </li>
+                        @endif
+                        @if (
+                        auth()->user()->can(permissionConstant()::GERENCIAR_TIPOS_USUARIOS_LIST)
+                        )
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
                                 aria-expanded="false">
                                 Configurações
                             </a>
                             <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="#">Secretarias</a></li>
-                                <li><a class="dropdown-item" href="#">Another action</a></li>
+                                @can(permissionConstant()::GERENCIAR_TIPOS_USUARIOS_LIST)
+                                <li>
+                                    <a class="dropdown-item" href="{{ route('get-roles-list') }}">Tipos de Usuários</a>
+                                </li>
+                                @endcan
                             </ul>
                         </li>
+                        @endif
                     </div>
                 </div>
             </div>

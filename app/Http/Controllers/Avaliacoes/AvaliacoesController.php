@@ -137,7 +137,7 @@ class AvaliacoesController extends Controller
     {
         abort_unless(
             auth()->user()->can(Permission::UNIDADE_SECRETARIA_ACCESS_ANY_SECRETARIA) ||
-                (auth()->user()->secretarias->contains($secretaria) && auth()->user()->can(Permission::RESUMO_AVALIACOES_SECRETARIA_VIEW)),
+                (auth()->user()->secretarias->contains($secretaria) && auth()->user()->can(Permission::RELATORIO_AVALIACOES_SECRETARIA_VIEW)),
             Response::HTTP_FORBIDDEN
         );
 
@@ -284,7 +284,7 @@ class AvaliacoesController extends Controller
             auth()->user()->can(Permission::UNIDADE_SECRETARIA_ACCESS_ANY_SECRETARIA) ||
                 (auth()->user()->secretarias->contains($secretaria) &&
                     $secretaria->unidades->contains($unidade) &&
-                    auth()->user()->can(Permission::RESUMO_AVALIACOES_UNIDADE_VIEW)),
+                    auth()->user()->can(Permission::RELATORIO_AVALIACOES_UNIDADE_VIEW)),
             Response::HTTP_FORBIDDEN
         );
 
