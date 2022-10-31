@@ -12,25 +12,25 @@ use Illuminate\Support\Facades\Route;
 if (!function_exists('canaisAguardandoRespostaNotification')) {
     function canaisAguardandoRespostaNotification()
     {
-        $qtdNotifications =  CanalMensagem::where('id_status', canalMensagem()::STATUS_AGUARDANDO_RESPOSTA)->count();
-        Cache::put('qtdNotifications' . auth()->user()->id, $qtdNotifications);
-        if ($qtdNotifications  > 99) {
-            return '99+';
-        } else {
-            return $qtdNotifications;
-        }
+        // $qtdNotifications =  CanalMensagem::where('id_status', canalMensagem()::STATUS_AGUARDANDO_RESPOSTA)->count();
+        // Cache::put('qtdNotifications' . auth()->user()->id, $qtdNotifications);
+        // if ($qtdNotifications  > 99) {
+        //     return '99+';
+        // } else {
+        //     return $qtdNotifications;
+        // }
     }
 }
 
 if (!function_exists('manifestacoesNaoEncerradasNotification')) {
     function manifestacoesNaoEncerradasNotification()
     {
-        $qtdNotifications =  Manifest::where('id_situacao', "!=", Manifest::SITUACAO_CONCLUIDA)->count();
-        if ($qtdNotifications  > 99) {
-            return '99+';
-        } else {
-            return $qtdNotifications;
-        }
+        // $qtdNotifications =  Manifest::where('id_situacao', "!=", Manifest::SITUACAO_CONCLUIDA)->count();
+        // if ($qtdNotifications  > 99) {
+        //     return '99+';
+        // } else {
+        //     return $qtdNotifications;
+        // }
     }
 }
 
