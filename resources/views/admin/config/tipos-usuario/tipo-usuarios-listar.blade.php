@@ -4,12 +4,14 @@
 
 <div class="d-flex justify-content-between">
     <h1 class="m-0 text-primary">Tipos de Usuário</h1>
+    @can(permissionConstant()::GERENCIAR_TIPOS_USUARIOS_CREATE)
     <div>
         <a class="btn btn-primary" href="{{ route('get-create-role') }}">
             <i class="fa-solid fa-plus me-1"></i>
             Novo Tipo de Usuário
         </a>
     </div>
+    @endcan
 </div>
 <hr>
 
@@ -57,12 +59,19 @@
                 <td>{{ formatarDataHora($role->created_at) }}</td>
                 <td class="col-md-1">
                     <div class="d-flex justify-content-around">
+                        @can(permissionConstant()::GERENCIAR_TIPOS_USUARIOS_VIEW)
                         <a href="{{ route('get-role-view', $role) }}">
                             <i class="fa-xl fa-solid fa-magnifying-glass"></i>
                         </a>
+                        @endcan
+
+                        @can(permissionConstant()::GERENCIAR_TIPOS_USUARIOS_EDIT)
                         <a href="{{ route('get-edit-role-view', $role) }}">
                             <i class="fa-xl text-warning fa-solid fa-pen-to-square"></i>
                         </a>
+                        @endcan
+
+                        @can(permissionConstant()::GERENCIAR_TIPOS_USUARIOS_DELETE)
                         <form class="d-none" id="deleteRole_{{ $role->id }}"
                             action="{{ route('delete-delete-role', $role) }}" method="POST">
                             {{ csrf_field() }}
@@ -71,6 +80,7 @@
                         <a href="javascript:deleteRole({{ $role->id }})">
                             <i class="fa-xl text-danger fa-solid fa-trash"></i>
                         </a>
+                        @endcan
                     </div>
                 </td>
             </tr>
@@ -85,7 +95,7 @@
         {{ $roles->links('pagination::bootstrap-4') }}
     </div>
 </div>
-
+@can(permissionConstant()::GERENCIAR_TIPOS_USUARIOS_DELETE)
 <div id="deleteModal" class="modal" tabindex="-1">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -104,21 +114,24 @@
         </div>
     </div>
 </div>
+@endcan
 @endsection
 
 @push('scripts')
 <script>
+    @can(permissionConstant()::GERENCIAR_TIPOS_USUARIOS_DELETE)
     var userType;
-        function deleteRole(id) {
-            $("#deleteRoleName").text($("#" + id + " .name").text());
-            $('#deleteModal').modal('show');
-            userType = id;
-        }
+    function deleteRole(id) {
+        $("#deleteRoleName").text($("#" + id + " .name").text());
+        $('#deleteModal').modal('show');
+        userType = id;
+    }
 
-        function deleteConfirm() {
-            $('#deleteModal').modal('hide');
-            $('#deleteRole_' + userType).submit();
-            userType = 0;
-        }
+    function deleteConfirm() {
+        $('#deleteModal').modal('hide');
+        $('#deleteRole_' + userType).submit();
+        userType = 0;
+    }
+    @endcan
 </script>
 @endpush

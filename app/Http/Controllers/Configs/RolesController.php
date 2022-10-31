@@ -35,7 +35,7 @@ class RolesController extends Controller
                 'tipo_usuario' => request()->tipo_usuario,
             ]);
 
-        return view('admin.config.tipos-usuario.list-user-types', compact('roles'));
+        return view('admin.config.tipos-usuario.tipo-usuarios-listar', compact('roles'));
     }
 
     public function viewRole(Role $role)
@@ -44,7 +44,7 @@ class RolesController extends Controller
 
         $permissionGroups = Permission::PERMISSIONS;
 
-        return view('admin.config.tipos-usuario.see-user-type', compact('role', 'permissionGroups'));
+        return view('admin.config.tipos-usuario.tipo-usuario-visualizar', compact('role', 'permissionGroups'));
     }
 
     public function createRole(Request $request)
@@ -52,7 +52,7 @@ class RolesController extends Controller
         $this->authorize(Permission::GERENCIAR_TIPOS_USUARIOS_CREATE);
         $permissionGroups = Permission::PERMISSIONS;
 
-        return view('admin.config.tipos-usuario.create-user-type', compact('permissionGroups'));
+        return view('admin.config.tipos-usuario.tipo-usuario-criar', compact('permissionGroups'));
     }
 
     public function storeRole(Request $request)
@@ -83,7 +83,7 @@ class RolesController extends Controller
             'name' => $request->name
         ]);
 
-        $role->permissions()->toggle($request->permissions);
+        $role->permissions()->sync($request->permissions);
 
         return redirect()->route('get-roles-list')->with(['success' => 'Tipo de Usuário Cadastrado com Sucesso!']);
     }
@@ -93,7 +93,7 @@ class RolesController extends Controller
         $this->authorize(Permission::GERENCIAR_TIPOS_USUARIOS_EDIT);
         $permissionGroups = Permission::PERMISSIONS;
 
-        return view('admin.config.tipos-usuario.edit-user-type', compact('role', 'permissionGroups'));
+        return view('admin.config.tipos-usuario.tipo-usuario-editar', compact('role', 'permissionGroups'));
     }
 
     public function updateRole(Role $role, Request $request)
