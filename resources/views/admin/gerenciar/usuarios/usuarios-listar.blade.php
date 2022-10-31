@@ -4,12 +4,14 @@
 
 <div class="d-flex justify-content-between">
     <h1 class="m-0 text-primary">Usuários</h1>
+    @can(permissionConstant()::GERENCIAR_USUARIOS_CREATE)
     <div>
         <a class="btn btn-primary" href="{{ route('get-create-user') }}">
             <i class="fa-solid fa-user-plus me-1"></i>
             Novo Usuário
         </a>
     </div>
+    @endcan
 </div>
 <hr>
 
@@ -71,12 +73,17 @@
                 <td>{{ formatarDataHora($user->created_at) }}</td>
                 <td class="col-md-1">
                     <div class="d-flex justify-content-around">
+                        @can(permissionConstant()::GERENCIAR_USUARIOS_VIEW)
                         <a href="{{ route('get-user-view', $user) }}">
                             <i class="fa-xl fa-solid fa-magnifying-glass"></i>
                         </a>
+                        @endcan
+                        @can(permissionConstant()::GERENCIAR_USUARIOS_EDIT)
                         <a href="{{ route('get-edit-user-view', $user) }}">
                             <i class="fa-xl text-warning fa-solid fa-pen-to-square"></i>
                         </a>
+                        @endcan
+                        @can(permissionConstant()::GERENCIAR_USUARIOS_DELETE)
                         <form class="d-none" id="deleteUser_{{ $user->id }}"
                             action="{{ route('delete-delete-user', $user) }}" method="POST">
                             {{ csrf_field() }}
@@ -85,6 +92,7 @@
                         <a href="javascript:deleteUser({{ $user->id }})">
                             <i class="fa-xl text-danger fa-solid fa-trash"></i>
                         </a>
+                        @endcan
                     </div>
                 </td>
             </tr>
@@ -100,6 +108,7 @@
     </div>
 </div>
 
+@can(permissionConstant()::GERENCIAR_USUARIOS_DELETE)
 <div id="deleteModal" class="modal" tabindex="-1">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -133,29 +142,32 @@
         </div>
     </div>
 </div>
+@endcan
 @endsection
 
 @push('scripts')
 <script>
+    function limparForm() {
+        $('#pesquisa').val('');
+        $('#tipo_usuario').val('');
+    }
+    
+    @can(permissionConstant()::GERENCIAR_USUARIOS_DELETE)
     var user;
-        function limparForm() {
-            $('#pesquisa').val('');
-            $('#tipo_usuario').val('');
-        }
-
-        function deleteUser(id) {
-            $("#deleteUserName").text($("#" + id + " .name").text());
-            $("#deleteUserEmail").text($("#" + id + " .email").text());
-            $("#deleteUserRole").text($("#" + id + " .role").text());
-
-            $('#deleteModal').modal('show');
-            user = id;
-        }
-
-        function deleteConfirm() {
-            $('#deleteModal').modal('hide');
-            $('#deleteUser_' + user).submit();
-            user = 0;
-        }
+    function deleteUser(id) {
+        $("#deleteUserName").text($("#" + id + " .name").text());
+        $("#deleteUserEmail").text($("#" + id + " .email").text());
+        $("#deleteUserRole").text($("#" + id + " .role").text());
+        
+        $('#deleteModal').modal('show');
+        user = id;
+    }
+    
+    function deleteConfirm() {
+        $('#deleteModal').modal('hide');
+        $('#deleteUser_' + user).submit();
+        user = 0;
+    }
+    @endcan
 </script>
 @endpush

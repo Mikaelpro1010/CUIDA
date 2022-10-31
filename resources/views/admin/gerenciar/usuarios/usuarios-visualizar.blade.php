@@ -3,12 +3,14 @@
 @section('content')
 <div class="d-flex justify-content-between">
     <h1 class="m-0 text-primary">Informações do Usuário</h1>
+    @can(permissionConstant()::GERENCIAR_USUARIOS_EDIT)
     <div>
         <a class="btn btn-warning" href="{{ route('get-edit-user-view', $user) }}">
             <i class="fa-solid fa-pen-to-square me-1"></i>
             Editar Usuário
         </a>
     </div>
+    @endcan
 </div>
 <hr>
 

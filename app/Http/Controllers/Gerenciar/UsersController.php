@@ -50,14 +50,14 @@ class UsersController extends Controller
 
         $roles = Role::get();
 
-        return view('admin.gerenciar.usuarios.list-user', compact('users', 'roles'));
+        return view('admin.gerenciar.usuarios.usuarios-listar', compact('users', 'roles'));
     }
 
     public function viewUser($user_id)
     {
         $this->authorize(Permission::GERENCIAR_USUARIOS_VIEW);
         $user = User::with('secretarias', 'role')->find($user_id);
-        return view('admin.gerenciar.usuarios.see-user', compact('user'));
+        return view('admin.gerenciar.usuarios.usuarios-visualizar', compact('user'));
     }
 
     public function createUser(Request $request)
@@ -65,7 +65,7 @@ class UsersController extends Controller
         $this->authorize(Permission::GERENCIAR_USUARIOS_CREATE);
         $roles = Role::get();
         $secretarias = Secretaria::where('ativo', true)->orderBy('nome', 'asc')->get();
-        return view('admin.gerenciar.usuarios.create-user', compact('roles', 'secretarias'));
+        return view('admin.gerenciar.usuarios.usuario-criar', compact('roles', 'secretarias'));
     }
 
     public function storeUser(Request $request)
@@ -121,12 +121,11 @@ class UsersController extends Controller
         $roles = Role::get();
         $secretarias = Secretaria::where('ativo', true)->orderBy('nome', 'asc')->get();
 
-        return view('admin.gerenciar.usuarios.edit-user', compact('roles', 'user', 'secretarias'));
+        return view('admin.gerenciar.usuarios.usuario-editar', compact('roles', 'user', 'secretarias'));
     }
 
     public function updateUser(User $user, Request $request)
     {
-        // dd($request->all());
         $this->authorize(Permission::GERENCIAR_USUARIOS_EDIT);
 
         $validator = Validator::make(
@@ -177,7 +176,7 @@ class UsersController extends Controller
     public function editUserPassword(User $user)
     {
         $this->authorize(Permission::GERENCIAR_USUARIOS_EDIT_PASSWORD);
-        return view('admin.gerenciar.usuarios.edit-user-password', compact('user'));
+        return view('admin.gerenciar.usuarios.usuario-editar-senha', compact('user'));
     }
 
     public function updateUserPassword(User $user, Request $request)
