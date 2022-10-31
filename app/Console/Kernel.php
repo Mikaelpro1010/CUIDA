@@ -25,8 +25,6 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         $schedule->command('UpdateNotasFromUnidadesAndSecretarias')->daily('3:00');
-        // $schedule->command('inspire')
-        //          ->hourly();
     }
 
     /**
