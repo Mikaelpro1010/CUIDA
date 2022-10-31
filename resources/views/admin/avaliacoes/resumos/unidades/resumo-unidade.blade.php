@@ -3,7 +3,7 @@
 @section('titulo', 'Resumo por Unidade')
 
 @section('content')
-<h2>{{ $unidade->nome }}</h2>
+<h2 class="text-primary">{{ $unidade->nome }}</h2>
 <h5 class="text-secondary">{{ $secretaria->nome }} - {{ $secretaria->sigla }}</h5>
 <hr>
 

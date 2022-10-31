@@ -4,9 +4,9 @@
 
 @section('content')
 <div class="d-flex justify-content-between">
-    <h3>Unidades da Secretaria - ({{ $unidades->total() }})</h3>
+    <h3 class="text-primary">Unidades da Secretaria - ({{ $unidades->total() }})</h3>
     @can(permissionConstant()::UNIDADE_SECRETARIA_CREATE)
-    <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#novaUnidadeModal">
+    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#novaUnidadeModal">
         <i class="fa-solid fa-plus"></i>
         Nova Unidade
     </button>
@@ -93,8 +93,8 @@
                 <td>{{ formatarDataHora($unidade->updated_at) }}</td>
                 @can(permissionConstant()::UNIDADE_SECRETARIA_VIEW)
                 <td class="align-middle text-center">
-                    <a href="{{ route('visualizar-unidade', $unidade) }}" class="btn btn-primary">
-                        <i class="fa-solid fa-magnifying-glass"></i>
+                    <a href="{{ route('visualizar-unidade', $unidade) }}">
+                        <i class="fa-xl fa-solid fa-magnifying-glass"></i>
                     </a>
                 </td>
                 @endcan
@@ -117,37 +117,43 @@
 <div class="modal fade" id="novaUnidadeModal" tabindex="-1" aria-labelledby="novaUnidadeTitle" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="novaUnidadeTitle">Nova Unidade</h5>
+            <div class="modal-header bg-primary">
+                <h5 class="modal-title text-light" id="novaUnidadeTitle">Nova Unidade</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <form action="{{ route('nova-unidade') }}" method="POST">
                 {{ csrf_field() }}
                 <div class="modal-body">
-                    <div>
-                        <label class="form-label" for="nome">Nome:</label>
-                        <input class="form-control" type="text" name="nome" id="nome">
-                    </div>
-                    <div>
-                        <label class="form-label" for="secretaria">Secretaria:</label>
-                        <select id="secretaria" class="form-select" name="secretaria">
-                            <option value="" @if(is_null(request()->secretaria)) selected @endif >Selecione</option>
-                            @foreach ( $secretariasCreateSelect as $secretaria )
-                            <option value="{{ $secretaria->id }}" @if (request()->secretaria == $secretaria->id)
-                                selected @endif>
-                                {{ $secretaria->sigla . " - " . $secretaria->nome }}
-                            </option>
-                            @endforeach
-                        </select>
-                    </div>
-                    <div>
-                        <label class="form-label" for="nome">Descrição</label>
-                        <textarea class="form-control" name="descricao" rows="6" id="descricao"></textarea>
+                    <div class="row g-1">
+                        <div class="col-md-12">
+                            <label class="form-label fw-bold" for="nome">Nome:</label>
+                            <input class="form-control" type="text" name="nome" id="nome" placeholder="Nome">
+                        </div>
+                        <div class="col-md-12">
+                            <label class="form-label fw-bold" for="secretaria">Secretaria:</label>
+                            <select id="secretaria" class="form-select" name="secretaria">
+                                <option value="" @if(is_null(request()->secretaria)) selected @endif >Selecione</option>
+                                @foreach ( $secretariasCreateSelect as $secretaria )
+                                <option value="{{ $secretaria->id }}" @if (request()->secretaria == $secretaria->id)
+                                    selected @endif>
+                                    {{ $secretaria->sigla . " - " . $secretaria->nome }}
+                                </option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="col-md-12">
+                            <label class="form-label fw-bold" for="nome">Descrição:</label>
+                            <textarea class="form-control" name="descricao" rows="6" id="descricao"
+                                placeholder="Descrição"></textarea>
+                        </div>
                     </div>
                 </div>
                 <div class="modal-footer">
                     <a class="btn btn-danger" href="javascript:fecharModal()">Fechar</a>
-                    <button type="submit" class="btn btn-primary">Criar</button>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fa-solid fa-plus"></i>
+                        Criar
+                    </button>
                 </div>
             </form>
         </div>

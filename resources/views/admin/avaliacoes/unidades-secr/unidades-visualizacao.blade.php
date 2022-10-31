@@ -4,7 +4,7 @@
 
 @section('content')
 <div class="d-flex justify-content-between">
-    <h3>{{$unidade->nome}} - {{ $unidade->secretaria->sigla }}</h3>
+    <h3 class="text-primary">{{$unidade->nome}} - {{ $unidade->secretaria->sigla }}</h3>
 
     @can(permissionConstant()::UNIDADE_SECRETARIA_UPDATE)
     <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#novaUnidadeModal">
@@ -77,7 +77,10 @@
 </div>
 
 <div class="d-flex justify-content-center">
-    <a class="btn btn-primary" href="{{ route('unidades-secr-list') }}">Voltar</a>
+    <a class="btn btn-warning" href="{{ route('unidades-secr-list') }}">
+        <i class="fa-solid fa-chevron-left"></i>
+        Voltar
+    </a>
 </div>
 
 
@@ -86,7 +89,7 @@
 <div class="modal fade" id="novaUnidadeModal" tabindex="-1" aria-labelledby="novaUnidadeTitle" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
-            <div class="modal-header">
+            <div class="modal-header bg-warning">
                 <h5 class="modal-title" id="novaUnidadeTitle">Editar</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
@@ -105,8 +108,11 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <a class="btn btn-secondary" href="javascript:fecharModal()">Fechar</a>
-                    <button type="submit" class="btn btn-primary">Editar</button>
+                    <a class="btn btn-danger" href="javascript:fecharModal()">Fechar</a>
+                    <button type="submit" class="btn btn-warning">
+                        <i class="fa-solid fa-pen-to-square"></i>
+                        Editar
+                    </button>
                 </div>
             </form>
         </div>

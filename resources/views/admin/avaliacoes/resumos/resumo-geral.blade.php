@@ -2,7 +2,7 @@
 
 @section('titulo', 'Resumo Geral')
 @section('content')
-<h3>Resumo Geral</h3>
+<h3 class="text-primary">Resumo Geral</h3>
 <hr>
 
 <div class="row">

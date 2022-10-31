@@ -2,7 +2,7 @@
 
 @section('titulo', 'EscutaSol - Mensagens')
 @section('content')
-<div>
+<div class="d-flex justify-content-between">
     <h3 class="modal-title">
         Manifestação:
         {{ $manifestacao->protocolo }}
@@ -11,6 +11,12 @@
         -
         {{ manifest()::SITUACAO[$manifestacao->id_situacao]}}
     </h3>
+    <div>
+        <a class="btn btn-primary" href="">
+            <i class="fa-solid fa-comments"></i>
+            Mensagens Chat
+        </a>
+    </div>
 </div>
 <hr>
 
@@ -85,26 +91,79 @@
 </div>
 <!-- Nav tabs -->
 <ul class="nav nav-tabs" role="tablist">
-    <li class="nav-item">
-        <button class="nav-link active" id="recursos-tab" data-bs-toggle="tab" data-bs-target="#recursos" type="button"
-            role="tab" aria-controls="recursos" aria-selected="true">Recursos</button>
+    <li class="nav-item active">
+        <button class="nav-link" id="inicial-tab" data-bs-toggle="tab" data-bs-target="#inicial" type="button"
+            role="tab" aria-controls="inicial" aria-selected="true">
+            Inicial
+        </button>
     </li>
     <li class="nav-item">
-        <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button"
-            role="tab" aria-controls="profile" aria-selected="false">Profile</button>
+        <button class="nav-link" id="anexos-tab" data-bs-toggle="tab" data-bs-target="#anexos" type="button" role="tab"
+            aria-controls="anexos" aria-selected="true">
+            Anexos
+        </button>
     </li>
     <li class="nav-item">
-        <button class="nav-link" id="messages-tab" data-bs-toggle="tab" data-bs-target="#messages" type="button"
-            role="tab" aria-controls="messages" aria-selected="false">Messages</button>
+        <button class="nav-link" id="respostas-tab" data-bs-toggle="tab" data-bs-target="#respostas" type="button"
+            role="tab" aria-controls="respostas" aria-selected="true">
+            Respostas
+        </button>
     </li>
     <li class="nav-item">
-        <button class="nav-link" id="settings-tab" data-bs-toggle="tab" data-bs-target="#settings" type="button"
-            role="tab" aria-controls="settings" aria-selected="false">Settings</button>
+        <button class="nav-link" id="compartilhamentos-tab" data-bs-toggle="tab" data-bs-target="#compartilhamentos"
+            type="button" role="tab" aria-controls="compartilhamentos" aria-selected="true">
+            Compartilhamentos
+        </button>
+    </li>
+    <li class="nav-item">
+        <button class="nav-link" id="prorrogacao-tab" data-bs-toggle="tab" data-bs-target="#prorrogacao" type="button"
+            role="tab" aria-controls="prorrogacao" aria-selected="true">
+            Prorrogação
+        </button>
+    </li>
+    <li class="nav-item">
+        <button class="nav-link" id="historico-tab" data-bs-toggle="tab" data-bs-target="#historico" type="button"
+            role="tab" aria-controls="historico" aria-selected="true">
+            Histórico
+        </button>
+    </li>
+    <li class="nav-item">
+        <button class="nav-link" id="invalidar-tab" data-bs-toggle="tab" data-bs-target="#invalidar" type="button"
+            role="tab" aria-controls="invalidar" aria-selected="true">
+            Invalidar
+        </button>
+    </li>
+    <li class="nav-item">
+        <button class="nav-link" id="recursos-tab" data-bs-toggle="tab" data-bs-target="#recursos" type="button"
+            role="tab" aria-controls="recursos" aria-selected="true">
+            Recursos
+        </button>
     </li>
 </ul>
 
 <div class="tab-content">
-    <div class="tab-pane active" id="recursos" role="tabpanel" aria-labelledby="recursos-tab" tabindex="0">
+    <div class="tab-pane active" id="inicial" role="tabpanel" aria-labelledby="inicial-tab" tabindex="0">
+        Inicial
+    </div>
+    <div class="tab-pane" id="anexos" role="tabpanel" aria-labelledby="anexos-tab" tabindex="0">
+        Anexos
+    </div>
+    <div class="tab-pane" id="respostas" role="tabpanel" aria-labelledby="respostas-tab" tabindex="0">
+        Respostas
+    </div>
+    <div class="tab-pane" id="compartilhamentos" role="tabpanel" aria-labelledby="compartilhamentos-tab" tabindex="0">
+        compartilhamento
+    </div>
+    <div class="tab-pane" id="prorrogacao" role="tabpanel" aria-labelledby="prorrogacao-tab" tabindex="0">
+        Prorrogação
+    </div>
+    <div class="tab-pane" id="historico" role="tabpanel" aria-labelledby="historico-tab" tabindex="0">
+        Histórico
+    </div>
+    <div class="tab-pane" id="invalidar" role="tabpanel" aria-labelledby="invalidar-tab" tabindex="0">
+        Invalidar
+    </div>
+    <div class="tab-pane" id="recursos" role="tabpanel" aria-labelledby="recursos-tab" tabindex="0">
         <div class="p-2 border border-1">
             <div class="accordion" id="accordion">
                 @foreach ($manifestacao->recursos as $key => $recurso)
@@ -165,9 +224,6 @@
             </div>
         </div>
     </div>
-    <div class="tab-pane" id="profile" role="tabpanel" aria-labelledby="profile-tab" tabindex="0">2.</div>
-    <div class="tab-pane" id="messages" role="tabpanel" aria-labelledby="messages-tab" tabindex="0">.3..</div>
-    <div class="tab-pane" id="settings" role="tabpanel" aria-labelledby="settings-tab" tabindex="0">.4..</div>
 </div>
 
 {{-- Modal --}}
@@ -267,9 +323,6 @@
         });
         $("#uploaded-files").html(text);
     }
-
-
-
 </script>
 
 @endpush

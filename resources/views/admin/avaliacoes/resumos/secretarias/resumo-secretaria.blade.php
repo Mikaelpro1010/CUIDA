@@ -3,7 +3,7 @@
 @section('titulo', 'Resumo por Secretaria')
 @section('content')
 
-<h3 class="">
+<h3 class="text-primary">
     {{ $secretaria->nome }} - {{ $secretaria->sigla }}
 </h3>
 <hr>

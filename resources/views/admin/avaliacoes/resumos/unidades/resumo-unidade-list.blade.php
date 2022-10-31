@@ -3,7 +3,7 @@
 @section('titulo', 'Resumo por Unidade')
 @section('content')
 
-<h3>Unidades da Secretaria - ({{ $unidades->total() }})</h3>
+<h3 class="text-primary">Unidades da Secretaria - ({{ $unidades->total() }})</h3>
 <hr>
 
 <form class="" action="{{ route('resumo-avaliacoes-unidade-list') }}" method="GET">
