@@ -59,6 +59,7 @@ Route::middleware(['auth'])->group(
 
         Route::namespace('Gerenciar')->prefix('admin')->group(
             function () {
+                // Usuarios
                 Route::get('/users', 'UsersController@listUsers')->name('get-users-list');
                 Route::get('/users/create', 'UsersController@createUser')->name('get-create-user');
                 Route::post('/users', 'UsersController@storeUser')->name('post-store-user');
@@ -68,6 +69,16 @@ Route::middleware(['auth'])->group(
                 Route::get('/users/{user}/password', 'UsersController@editUserPassword')->name('get-edit-user-password-view');
                 Route::patch('/users/{user}/password', 'UsersController@updateUserPassword')->name('patch-update-user-password');
                 Route::delete('/users/{user}', 'UsersController@deleteUser')->name('delete-delete-user');
+
+                // Secretarias
+                Route::get('secretarias', 'SecretariasController@listSecretarias')->name("get-secretarias-list");
+                Route::get('secretarias/create', 'SecretariasController@visualizarCadastro')->name("vis-cadastro-secretarias");
+                Route::post('secretarias', 'SecretariasController@cadastrarSecretaria')->name("cadastrar-secretaria");
+                Route::get('secretarias/{id}', 'SecretariasController@visualizarSecretaria')->name("visualizar-secretarias");
+                Route::get('secretarias/{id}/edit', 'SecretariasController@editarSecretaria')->name("vis-editar-secretarias");
+                Route::patch('secretarias/{id}', 'SecretariasController@atualizar')->name("editar-secretarias");
+                Route::get('secretarias/{id}/toggle', 'SecretariasController@ativareDesativar')->name("ativar-secretarias");
+                Route::delete('secretarias/{id}', 'SecretariasController@deletarSecretaria')->name("deletar-secretaria");
             }
         );
 
