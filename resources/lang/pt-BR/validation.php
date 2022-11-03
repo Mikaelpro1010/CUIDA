@@ -122,6 +122,9 @@ return [
     'attributes' => [
         'password' => 'senha',
         'name' => 'nome',
+        'nome' => 'nome',
+        'sigla' => 'sigla',
+
     ],
 
 ];
