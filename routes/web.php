@@ -61,9 +61,9 @@ Route::middleware(['auth'])->group(
             function () {
                 // Usuarios
                 Route::get('/users', 'UsersController@listUsers')->name('get-users-list');
+                Route::get('/users/{user_id}', 'UsersController@viewUser')->name('get-user-view');
                 Route::get('/users/create', 'UsersController@createUser')->name('get-create-user');
                 Route::post('/users', 'UsersController@storeUser')->name('post-store-user');
-                Route::get('/users/{user_id}', 'UsersController@viewUser')->name('get-user-view');
                 Route::get('/users/{user}/edit', 'UsersController@editUser')->name('get-edit-user-view');
                 Route::patch('/users/{user}', 'UsersController@updateUser')->name('patch-update-user');
                 Route::get('/users/{user}/password', 'UsersController@editUserPassword')->name('get-edit-user-password-view');
@@ -72,13 +72,12 @@ Route::middleware(['auth'])->group(
 
                 // Secretarias
                 Route::get('secretarias', 'SecretariasController@listSecretarias')->name("get-secretarias-list");
-                Route::get('secretarias/create', 'SecretariasController@visualizarCadastro')->name("vis-cadastro-secretarias");
-                Route::post('secretarias', 'SecretariasController@cadastrarSecretaria')->name("cadastrar-secretaria");
-                Route::get('secretarias/{id}', 'SecretariasController@visualizarSecretaria')->name("visualizar-secretarias");
-                Route::get('secretarias/{id}/edit', 'SecretariasController@editarSecretaria')->name("vis-editar-secretarias");
-                Route::patch('secretarias/{id}', 'SecretariasController@atualizar')->name("editar-secretarias");
-                Route::get('secretarias/{id}/toggle', 'SecretariasController@ativareDesativar')->name("ativar-secretarias");
-                Route::delete('secretarias/{id}', 'SecretariasController@deletarSecretaria')->name("deletar-secretaria");
+                Route::get('secretaria/{secretaria}', 'SecretariasController@viewSecretaria')->name("get-secretaria-view");
+                Route::get('secretarias/create', 'SecretariasController@createSecretaria')->name("get-create-secretaria");
+                Route::post('secretarias', 'SecretariasController@storeSecretaria')->name("post-store-secretaria");
+                Route::get('secretarias/{secretaria}/edit', 'SecretariasController@editSecretaria')->name("get-edit-secretaria");
+                Route::patch('secretarias/{secretaria}', 'SecretariasController@updateSecretaria')->name("patch-update-secretaria");
+                Route::get('secretarias/{secretaria}/toggle', 'SecretariasController@toggleSecretariaStatus')->name("get-toggle-secretaria-status");
             }
         );
 

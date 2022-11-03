@@ -15,6 +15,11 @@ class Secretaria extends Model
     protected $table = "secretarias";
     protected $guarded = [];
 
+    public function setSiglaAttribute($value)
+    {
+        $this->attributes['sigla'] = strtoupper($value);
+    }
+
     public function unidades(): HasMany
     {
         return $this->hasMany(Unidade::class, 'secretaria_id');

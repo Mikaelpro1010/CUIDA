@@ -1,122 +1,102 @@
 @extends('template.base')
 
 @section('content')
-    <div class="card p-4 shadow">
-        <div class="col-lg-12 d-flex justify-content-between align-itens-center">
-            <h2>Secretarias<h2>
-                    <a href="{{ route('vis-cadastro-secretarias') }}" class="btn btn-success">Cadastrar</a>
+<div class="d-flex justify-content-between align-items-center">
+    <h1 class="text-primary">Secretarias</h1>
+    @can(permissionConstant()::GERENCIAR_SECRETARIAS_CREATE)
+    <a href="{{ route('get-create-secretaria') }}" class="btn btn-primary">
+        <i class="fa-solid fa-plus me-1"></i>
+        Nova Secretaria
+    </a>
+    @endcan
+</div>
+
+<hr>
+
+<form action="{{ route('get-secretarias-list') }}" method="GET">
+    <div class="m-0 p-0 row">
+        <div class="col-md-5">
+            <label for="pesquisa">Secretaria:</label>
+            <input id="pesquisa" class="form-control" type="text" name="pesquisa" placeholder="Pesquisar"
+                value="{{ request()->pesquisa }}">
         </div>
 
-        @if (session('mensagem'))
-            <div class="alert alert-success" role="alert">
-                {{ session('mensagem') }}
-            </div>
-        @endif
+        <div class="col-md-2 d-flex align-items-end">
+            <button class="btn btn-primary form-control mt-3" type="submit">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                Buscar
+            </button>
+        </div>
 
-        <form action="">
-            <div class="d-flex justify-content-end">
-                <div class="col-3 mx-3">
-                    <input type="text" class=" form-control mx-1" placeholder="Nome" name="pesquisa" id="pesquisa"
-                        class="form-control" value="">
-                </div>
-                <button class="btn btn-primary" type="submit"><i class="fa-xl fa-solid fa-magnifying-glass text-white"
-                        type="submit"></i></button>
-            </div>
-        </form>
-
-        <table class="table table-striped">
-            <thead>
-                <th>Id</th>
-                <th>Ativo</th>
-                <th>Nome</th>
-                <th>Sigla</th>
-                <th>Última alteração</th>
-                <th class="text-center">Ações</th>
-            </thead>
-            <tbody>
-                @if (isset($secretarias))
-                    @foreach ($secretarias as $secretaria)
-                        <tr>
-                            <td>
-                                {{ $secretaria->id }}
-                            </td>
-                            <td>
-                                @if ($secretaria->ativo)
-                                    <a class="btn" href="{{ route('ativar-secretarias', ['id' => $secretaria->id]) }}">
-                                        <i class="text-success fa-solid fa-circle-check"></i>
-                                    </a>
-                                @else
-                                    <a class="btn" href="{{ route('ativar-secretarias', ['id' => $secretaria->id]) }}">
-                                        <i class="text-danger fa-solid fa-circle-xmark"></i>
-                                    </a>
-                                @endif
-                            </td>
-                            <td>
-                                {{ $secretaria->nome }}
-                            </td>
-                            <td>
-                                {{ $secretaria->sigla }}
-                            </td>
-                            <td>
-                                {{ Carbon\Carbon::parse($secretaria->updated_at)->format('d/m/Y \à\s H:i\h') }}
-                            </td>
-                            <td class="col-md-1">
-                                <div class="d-flex justify-content-evenly">
-                                    <a href="{{ route('visualizar-secretarias', ['id' => $secretaria->id]) }}">
-                                        <i class="fa-xl fa-solid fa-magnifying-glass text-primary"></i>
-                                    </a>
-                                    <a href="{{ route('vis-editar-secretarias', ['id' => $secretaria->id]) }}">
-                                        <i class="fa-xl fa-solid fa-pen-to-square text-warning"></i>
-                                    </a>
-                                    <a href="javascript:deletar({{ $secretaria->id }})">
-                                        <i class="fa-xl fa-solid fa-trash text-danger"></i>
-                                    </a>
-                                </div>
-                            </td>
-                        </tr>
-                    @endforeach
-                @else
-                    <p>não existem registros</p>
-                @endif
-            </tbody>
-        </table>
-        <div class='mx-auto'>
-            {{ $secretarias->links('pagination::bootstrap-4') }}
+        <div class="col-md-2 d-flex align-items-end">
+            <a class="btn btn-warning form-control mt-3" onclick="$('#pesquisa').val('')">
+                Limpar
+                <i class="fa-solid fa-eraser"></i>
+            </a>
         </div>
     </div>
-    <div id="myModal1" name="id" class="modal" tabindex="-1">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Deletar elemento</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <form class="" action="{{ route('deletar-secretaria') }}" method="POST">
-                        <p>Tem certeza que deseja excluir esses dados?</p>
-                        {{ csrf_field() }}
-                        <input type="hidden" id="deletar" name="id" value="">
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancelar</button>
-                            <button type="submit" class="btn btn-success"
-                                onclick="close_modal($secretaria->id)">Deletar</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
+</form>
+
+<div class="table-responsive">
+    <table class="table table-striped ">
+        <thead>
+            <th class="text-center">Id</th>
+            <th class="text-center">Status</th>
+            <th>Sigla</th>
+            <th>Nome</th>
+            <th>Última alteração</th>
+            <th class="text-center">Ações</th>
+        </thead>
+        <tbody class="table-group-divider">
+            @forelse ($secretarias as $secretaria)
+            <tr>
+                <td class="text-end">
+                    {{ $secretaria->id }}
+                </td>
+                <td class="text-center">
+                    <a href="{{ route('get-toggle-secretaria-status', $secretaria) }}">
+                        @if ($secretaria->ativo)
+                        <i class="text-success fa-solid fa-circle-check"></i>
+                        @else
+                        <i class="text-danger fa-solid fa-circle-xmark"></i>
+                        @endif
+                    </a>
+                </td>
+                <td>
+                    {{ $secretaria->sigla }}
+                </td>
+                <td>
+                    {{ $secretaria->nome }}
+                </td>
+                <td>
+                    {{ formatarDataHora($secretaria->updated_at)}}
+                </td>
+                <td class="col-md-1">
+                    <div class="d-flex justify-content-evenly">
+                        @can(permissionConstant()::GERENCIAR_SECRETARIAS_VIEW)
+                        <a href="{{ route('get-secretaria-view', $secretaria) }}">
+                            <i class="fa-xl fa-solid fa-magnifying-glass text-primary"></i>
+                        </a>
+                        @endcan
+                        @can(permissionConstant()::GERENCIAR_SECRETARIAS_EDIT)
+                        <a href="{{ route('get-edit-secretaria', $secretaria->id) }}">
+                            <i class="fa-xl fa-solid fa-pen-to-square text-warning"></i>
+                        </a>
+                        @endcan
+                    </div>
+                </td>
+            </tr>
+            @empty
+            <tr>
+                <td class="text-center fw-bold" colspan="6">
+                    Não existem registros!
+                </td>
+            </tr>
+            @endforelse
+        </tbody>
+    </table>
+    <div class="d-flex justify-content-evenly">
+        {{ $secretarias->links('pagination::bootstrap-4') }}
     </div>
-@endsection
-
-@section('scripts')
-    <script>
-        function deletar(id) {
-            $('#deletar').val(id);
-            $('#myModal1').modal('show');
-        }
-
-        function close_modal() {
-            $('#myModal1').modal('hide');
-        }
-    </script>
+</div>
 @endsection

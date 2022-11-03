@@ -12,8 +12,8 @@ class SecretariasController extends Controller
     {
         $secretarias = Secretaria::query()
             ->when(request()->pesquisa, function ($query) {
-                $query->where('nome', 'like', "%" . request()->pesquisa . "%")
-                    ->orWhere('sigla', 'like', "%" . request()->pesquisa . "%");
+                $query->where('nome', 'ilike', "%" . request()->pesquisa . "%")
+                    ->orWhere('sigla', 'ilike', "%" . request()->pesquisa . "%");
             })
             ->orderBy('ativo', 'desc')
             ->orderBy('updated_at', 'desc')
@@ -25,88 +25,57 @@ class SecretariasController extends Controller
         return view('admin.gerenciar.secretarias.secretarias-listar', compact('secretarias'));
     }
 
-    public function visualizarCadastro()
+    public function viewSecretaria(Secretaria $secretaria)
     {
-        return view('admin.secretarias.vis-cadastro-secretarias');
+        return view('admin.gerenciar.secretarias.secretaria-visualizar', compact('secretaria'));
     }
 
-    public function cadastrarSecretaria(Request $request)
+    public function createSecretaria()
     {
-        $secretaria = new Secretarias();
+        return view('admin.gerenciar.secretarias.secretaria-criar');
+    }
 
-        $secretaria->ativo = true;
-        $secretaria->nome = $request->nome;
-        $secretaria->sigla = $request->sigla;
+    public function storeSecretaria(Request $request)
+    {
+        $request->validate([
+            'sigla' => 'required|string|max:255',
+            'nome' => 'required|string|max:255',
+        ]);
 
+        Secretaria::create([
+            'nome' => $request->nome,
+            'sigla' => $request->sigla,
+            'ativo' => true,
+        ]);
+
+        return redirect()->route('get-secretarias-list')->with(['success' => 'Secretaria cadastrada com Sucesso!']);
+    }
+
+    public function editSecretaria(Secretaria $secretaria)
+    {
+        return view('admin.gerenciar.secretarias.secretaria-editar', compact('secretaria'));
+    }
+
+    public function updateSecretaria(Request $request, Secretaria $secretaria)
+    {
+        $request->validate([
+            'sigla' => 'required|string|max:255',
+            'nome' => 'required|string|max:255',
+        ]);
+
+        $secretaria->update([
+            'sigla' => $request->sigla,
+            'nome' => $request->nome,
+        ]);
+
+        return redirect()->route('get-secretarias-list')->with(['success' => 'Secretaria atualizada com sucesso!']);
+    }
+
+    public function toggleSecretariaStatus(Secretaria $secretaria)
+    {
+        $secretaria->ativo = !$secretaria->ativo;
         $secretaria->save();
 
-        return redirect()->route('listagem-secretarias');
-    }
-
-    public function visualizarSecretaria($id)
-    {
-        $secretaria = Secretarias::find($id);
-
-        return view('admin.secretarias.visualizar-secretarias', ['secretaria' => $secretaria]);
-    }
-
-    public function editarSecretaria($id)
-    {
-        $secretaria = Secretarias::find($id);
-        return view('admin.secretarias.editar-secretarias', ['secretaria' => $secretaria]);
-    }
-
-    public function atualizar(Request $request, $id)
-    {
-        $validator = Validator::make(
-            $request->only(['nome', 'sigla']),
-            [
-                'nome' => 'required|string|max:255',
-                'sigla' => 'required|string|max:255',
-            ],
-            [
-                'required.nome' => 'É necessário possuir um nome para ser editado!',
-                'required.sigla' => 'É necessário possuir uma sigla para ser editado!',
-                'max' => 'Quantidade de caracteres ultrapassada, o nome deve ter menos que 254 caracteres!',
-            ]
-        );
-
-        if ($validator->fails()) {
-            return redirect()
-                ->back()
-                ->withErrors($validator)
-                ->withInput();
-        }
-
-        $secretaria = Secretarias::find($id);
-
-        $secretaria->nome = $request->nome;
-        $secretaria->sigla = $request->sigla;
-        $secretaria->save();
-
-        return redirect()->route('listagem-secretarias', $secretaria->id)->with('mensagem', 'Atualizado com sucesso!');
-    }
-
-    public function deletarSecretaria(Request $request)
-    {
-        $secretaria = Secretarias::find($request->id);
-        $secretaria->delete();
-        return redirect()->route('listagem-secretarias')->with('mensagem', 'Deletado com sucesso!');
-    }
-
-    public function ativareDesativar($id)
-    {
-        $secretarias = Secretarias::find($id);
-        $secretarias->ativo = !$secretarias->ativo;
-        $secretarias->save();
-
-        return redirect()->route('listagem-secretarias');
-    }
-
-    public function selecionarSecretaria($id)
-    {
-        $secretarias = Secretarias::find($id);
-
-        return view('admin.manifestacao.visualizar-manifestacao', ['secretarias' => $secretarias]);
+        return redirect()->route('get-secretarias-list')->with(['success' => "Secretaria " . ($secretaria->ativo ? "Ativada" : "Desativada") . " com Sucesso!"]);
     }
 }
