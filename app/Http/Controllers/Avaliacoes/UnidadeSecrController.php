@@ -112,7 +112,7 @@ class UnidadeSecrController extends Controller
             'token' => substr(bin2hex(random_bytes(50)), 1),
         ]);
 
-        return redirect()->route('unidades-secr-list')->with('success', 'Unidade Cadastrada com Sucesso!');
+        return redirect()->route('unidades-secr-list')->with(['success' => 'Unidade Cadastrada com Sucesso!']);
     }
 
     public function visualizar(Unidade $unidade)
@@ -160,7 +160,7 @@ class UnidadeSecrController extends Controller
 
         return redirect()
             ->route('visualizar-unidade', compact('unidade'))
-            ->with('success', 'Unidade editada com Sucesso!');
+            ->with(['success' => 'Unidade editada com Sucesso!']);
     }
 
     public function ativarDesativar(Unidade $unidade)

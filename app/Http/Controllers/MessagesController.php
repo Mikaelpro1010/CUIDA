@@ -69,7 +69,7 @@ class MessagesController extends Controller
         $canalManifestacao = CanalMensagem::with('manifestacao', 'manifestacao.autor')->find($id);
 
         if (is_null($canalManifestacao)) {
-            return redirect()->route('mensagens')->withInput()->with('warning', 'Canal não encontrado!');
+            return redirect()->route('mensagens')->withInput()->with(['warning' => 'Canal não encontrado!']);
         }
 
         $mensagens = Mensagem::with('anexos', 'canalMensagens', 'canalMensagens.manifestacao', 'canalMensagens.manifestacao.autor')->where('id_canal_mensagem', $id)->get();
@@ -87,7 +87,7 @@ class MessagesController extends Controller
     {
         $canalManifestacao = CanalMensagem::find($id);
         if (is_null($canalManifestacao)) {
-            return redirect()->route('visualizarMsg', ['id' => $id])->with('warning', 'Não foi possivel enviar a mensagem!');
+            return redirect()->route('visualizarMsg', ['id' => $id])->with(['warning' => 'Não foi possivel enviar a mensagem!']);
         }
 
         $novaMensagem = new Mensagem();
@@ -100,7 +100,7 @@ class MessagesController extends Controller
             if ($request->has('anexo')) {
                 $novaMensagem->mensagem = 'Anexo(s)';
             } else {
-                return redirect()->back()->withInput()->with('warning', 'Mensagem vazia e nenhum anexo inserido!');
+                return redirect()->back()->withInput()->with(['warning' => 'Mensagem vazia e nenhum anexo inserido!']);
             }
         }
         $novaMensagem->save();
@@ -137,7 +137,7 @@ class MessagesController extends Controller
         Cache::forget('qtdNotifications' . auth()->user()->id);
         canaisAguardandoRespostaNotification();
 
-        return redirect()->route('visualizarMsg', ['id' => $id])->with('success', 'Mensagem Enviada com sucesso!');
+        return redirect()->route('visualizarMsg', ['id' => $id])->with(['success' => 'Mensagem Enviada com sucesso!']);
     }
 
     public function encerrarCanal($id)
@@ -151,9 +151,9 @@ class MessagesController extends Controller
                 Cache::forget('qtdNotifications' . auth()->user()->id);
                 canaisAguardandoRespostaNotification();
 
-                return redirect()->route('visualizarMsg', ['id' => $id])->with('success', 'Chat encerrado!');
+                return redirect()->route('visualizarMsg', ['id' => $id])->with(['success' => 'Chat encerrado!']);
             }
-            return redirect()->route('visualizarMsg', ['id' => $id])->with('warning', 'Não foi possivel encerrar o chat!');
+            return redirect()->route('visualizarMsg', ['id' => $id])->with(['warning' => 'Não foi possivel encerrar o chat!']);
         }
     }
 }
