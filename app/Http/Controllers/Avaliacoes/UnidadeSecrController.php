@@ -70,31 +70,11 @@ class UnidadeSecrController extends Controller
     {
         $this->authorize(Permission::UNIDADE_SECRETARIA_CREATE);
 
-        $rules = [
+        $request->validate([
             'nome' => 'required|string|max:255',
             'descricao' => 'nullable|string',
             'secretaria' => 'required|int'
-        ];
-
-        $validator = Validator::make(
-            $request->all(),
-            $rules,
-            [
-                'required' => 'É necessário informar um :attribute!',
-                'max' => 'Quantidade de caracteres ultrapassada, o campo :attribute precisa ter menos que 254 caracteres!',
-                'int' => 'O campo :attribute precisa ser informado !',
-            ],
-            [
-                'nome' => "Nome",
-                'descricao' => 'Descrição',
-                'secretaria' => 'Secretaria'
-            ]
-        );
-
-        if ($validator->fails()) {
-            return redirect()->back()->withErrors($validator)->withInput();
-        }
-
+        ]);
 
         if (
             (auth()->user()->cant(Permission::UNIDADE_SECRETARIA_CREATE_ANY) &&
@@ -127,31 +107,11 @@ class UnidadeSecrController extends Controller
     public function atualizarUnidade(Unidade $unidade, Request $request)
     {
         $this->authorize(Permission::UNIDADE_SECRETARIA_UPDATE);
-        $rules = [
+
+        $request->validate([
             'nome' => 'required|string|max:255',
             'descricao' => 'nullable|string',
-        ];
-
-        $validator = Validator::make(
-            $request->all(),
-            $rules,
-            [
-                'required' => 'É necessário informar um :attribute!',
-                'max' => 'Quantidade de caracteres ultrapassada, o campo :attribute precisa ter menos que 254 caracteres!',
-                'int' => 'O campo :attribute precisa ser informado !',
-            ],
-            [
-                'nome' => "Nome",
-                'descricao' => 'Descrição',
-            ]
-        );
-
-        if ($validator->fails()) {
-            return redirect()
-                ->back()
-                ->withErrors($validator)
-                ->withInput();
-        }
+        ]);
 
         $unidade->nome = $request->nome;
         $unidade->descricao = $request->descricao;
@@ -194,29 +154,10 @@ class UnidadeSecrController extends Controller
 
     public function avaliar($token, Request $request)
     {
-        $validator = Validator::make(
-            $request->all(),
-            [
-                'avaliacao' => 'required|integer|max:5|min:1',
-                'comentario' => 'nullable|string',
-            ],
-            [
-                'required' => 'É necessário fazer uma :attribute!',
-                'max' => 'Algo deu errao com a sua :atribute!',
-                'min' => 'Algo deu errao com a sua :atribute!',
-            ],
-            [
-                'avaliacao' => 'Avaliação',
-                'comentario' => 'Comentário',
-            ]
-        );
-
-        if ($validator->fails()) {
-            return redirect()
-                ->back()
-                ->withErrors($validator)
-                ->withInput();
-        }
+        $request->validate([
+            'avaliacao' => 'required|integer|max:5|min:1',
+            'comentario' => 'nullable|string',
+        ]);
 
         $unidade = Unidade::where('token', $token)->first();
 

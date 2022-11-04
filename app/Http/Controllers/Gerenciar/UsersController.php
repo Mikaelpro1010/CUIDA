@@ -71,42 +71,19 @@ class UsersController extends Controller
     public function storeUser(Request $request)
     {
         $this->authorize(Permission::GERENCIAR_USUARIOS_CREATE);
-        $validator = Validator::make(
-            $request->all(),
-            [
-                'name' => 'required|string|max:255',
-                'email' => 'required|email|unique:users',
-                'tipo' => 'required|integer',
-                'secretaria' => 'required|array',
-                'senha' => 'required|string|min:8|confirmed',
-            ],
-            [
-                'required' => 'O campo :attribute não pode ser vazio!',
-                'email.email' => 'O campo Email precisa ter um Email válido!',
-                'name.max' => 'O campo Nome não pode conter mais de 255 caracteres!',
-                'unique' => 'O campo :attribute não pode ser vazio!',
-                'confirmed' => 'O campo Confirmar Senha deve ser igual a Senha!',
-            ],
-            [
-                'name' => 'Nome',
-                'email' => 'Email',
-                'tipo' => 'Tipo de Usuário',
-                'senha' => 'Senha',
-                'secretaria' => 'Secretaria',
-            ]
-        );
 
-        if ($validator->fails()) {
-            return redirect()
-                ->back()
-                ->withErrors($validator)
-                ->withInput();
-        }
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|unique:users',
+            'tipo_usuario' => 'required|integer',
+            'secretaria' => 'required|array',
+            'senha' => 'required|string|min:8|confirmed',
+        ]);
 
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
-            'role_id' => $request->tipo,
+            'role_id' => $request->tipo_usuario,
             'password' => bcrypt($request->senha),
         ]);
 
@@ -128,30 +105,12 @@ class UsersController extends Controller
     {
         $this->authorize(Permission::GERENCIAR_USUARIOS_EDIT);
 
-        $validator = Validator::make(
-            $request->all(),
-            [
-                'name' => 'required|string|max:255',
-                'email' => 'required|email',
-                'tipo' => 'required|integer',
-                'secretaria' => 'required|array',
-            ],
-            [
-                'name.required' => 'O campo Nome não pode ser vazio!',
-                'email.required' => 'O campo Email não pode ser vazio!',
-                'tipo.required' => 'O campo Tipo de Usuário não pode ser vazio!',
-                'secretaria.required' => 'O campo Secretaria não pode ser vazio!',
-                'email.email' => 'O campo Email precisa ter um Email válido!',
-                'name.max' => 'O campo Nome não pode conter mais de 255 caracteres!',
-            ]
-        );
-
-        if ($validator->fails()) {
-            return redirect()
-                ->back()
-                ->withErrors($validator)
-                ->withInput();
-        }
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email',
+            'tipo' => 'required|integer',
+            'secretaria' => 'required|array',
+        ]);
 
         $user2 = User::query()->where('email', $request->email)->first();
 
@@ -183,27 +142,9 @@ class UsersController extends Controller
     {
         $this->authorize(Permission::GERENCIAR_USUARIOS_EDIT_PASSWORD);
 
-        $validator = Validator::make(
-            $request->all(),
-            [
-                'senha' => 'required|string|min:8|confirmed',
-            ],
-            [
-                'required' => 'O campo :attribute não pode ser vazio!',
-                'confirmed' => 'O campo Confirmar Senha deve ser igual a Senha!',
-            ],
-            [
-                'senha' => 'Senha',
-                'senha_Confirmation' => 'Confirmar Senha',
-            ]
-        );
-
-        if ($validator->fails()) {
-            return redirect()
-                ->back()
-                ->withErrors($validator)
-                ->withInput();
-        }
+        $request->validate([
+            'senha' => 'required|string|min:8|confirmed',
+        ]);
 
         $user->update([
             'password' => $request->senha

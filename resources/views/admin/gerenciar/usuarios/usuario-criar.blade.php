@@ -17,9 +17,10 @@
 
         <div class="col-md-12">
             <label class="fw-bold" for="">Tipo de Usuário:</label>
-            <select class="form-select" name="tipo">
+            <select class="form-select" name="tipo_usuario">
                 @foreach ($roles as $role)
-                <option value="{{ $role->id }}" @if (old('tipo')==$role->id) selected @endif >{{ $role->name }}</option>
+                <option value="{{ $role->id }}" @if (old('tipo_usuario')==$role->id) selected @endif >{{ $role->name }}
+                </option>
                 @endforeach
             </select>
         </div>

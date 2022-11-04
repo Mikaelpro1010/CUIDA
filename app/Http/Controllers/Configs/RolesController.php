@@ -58,26 +58,10 @@ class RolesController extends Controller
     public function storeRole(Request $request)
     {
         $this->authorize(Permission::GERENCIAR_TIPOS_USUARIOS_CREATE);
-        $validator = Validator::make(
-            $request->all(),
-            [
-                'name' => 'required|string|max:255',
-            ],
-            [
-                'required' => 'O campo :atribute não pode ser vazio!',
-                'name.max' => 'O campo Nome não pode conter mais de 255 caracteres!',
-            ],
-            [
-                'name' => 'Nome',
-            ]
-        );
 
-        if ($validator->fails()) {
-            return redirect()
-                ->back()
-                ->withErrors($validator)
-                ->withInput();
-        }
+        $request->validate([
+            'name' => 'required|string|max:255',
+        ]);
 
         $role = Role::create([
             'name' => $request->name
@@ -99,23 +83,10 @@ class RolesController extends Controller
     public function updateRole(Role $role, Request $request)
     {
         $this->authorize(Permission::GERENCIAR_TIPOS_USUARIOS_EDIT);
-        $validator = Validator::make(
-            $request->all(),
-            [
-                'name' => 'required|string|max:255',
-            ],
-            [
-                'name.required' => 'O campo Nome não pode ser vazio!',
-                'name.max' => 'O campo Nome não pode conter mais de 255 caracteres!',
-            ]
-        );
 
-        if ($validator->fails()) {
-            return redirect()
-                ->back()
-                ->withErrors($validator)
-                ->withInput();
-        }
+        $request->validate([
+            'name' => 'required|string|max:255',
+        ]);
 
         $role->update([
             'name' => $request->name,

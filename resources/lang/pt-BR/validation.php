@@ -103,8 +103,8 @@ return [
         'attribute-name' => [
             'rule-name' => 'custom-message',
         ],
-        'password' => [
-            'confirmed' => 'O campo confirmação de senha não confere.',
+        'senha' => [
+            'confirmed' => 'O campo confirmar senha não confere.',
         ]
     ],
 
@@ -124,6 +124,13 @@ return [
         'name' => 'nome',
         'nome' => 'nome',
         'sigla' => 'sigla',
+        'email' => 'email',
+        'tipo_usuario' => 'tipo de usuário',
+        'senha' => 'senha',
+        'secretaria' => 'secretaria',
+        'descricao' => 'descricao',
+        'avaliacao' => 'avaliacao',
+        'comentario' => 'comentario',
 
     ],
 
