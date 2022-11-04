@@ -62,8 +62,12 @@
                             <ul class="dropdown-menu">
                                 <li>
                                     <a class="dropdown-item" href="{{ route('inicio') }}">Inicio</a>
+                                    @can(permissionConstant()::MANIFESTACAO_LIST)
                                     <a class="dropdown-item" href="{{ route('inicio') }}">Manifestações</a>
+                                    @endcan
+                                    @can(permissionConstant()::MANIFESTACAO_CHAT)
                                     <a class="dropdown-item" href="{{ route('mensagens') }}">Mensagens</a>
+                                    @endcan
                                     <hr>
                                     <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
                                             document.getElementById('logout-form').submit();">
