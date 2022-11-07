@@ -15,42 +15,42 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('api')->group(
+Route::middleware('api')->namespace('Api')->group(
     function () {
         //Api Ouvidoria
         //registrar usuário//
-        Route::post('register', 'Api\UserController@cadastrar');
+        Route::post('register', 'UserController@cadastrar');
         //login//
-        Route::post('login', 'Api\UserController@login');
+        Route::post('login', 'UserController@login');
         //get user by email//
-        Route::get('user', 'Api\UserController@userByEmail');
+        Route::get('user', 'UserController@userByEmail');
         //alterarSenha
-        Route::post('update-password', 'Api\UserController@alterarSenha');
+        Route::post('update-password', 'UserController@alterarSenha');
 
         //recuperarSenha
-        Route::post('password/password-recover', 'Api\UserController@verificarDados');
+        Route::post('password/password-recover', 'UserController@verificarDados');
         //novaSenha
-        Route::post('password/new-password', 'Api\UserController@novaSenha');
+        Route::post('password/new-password', 'UserController@novaSenha');
 
         //get tipo manifestação
-        Route::get('manifest/tipos', 'Api\ManifestApiController@getTiposManifestacao');
+        Route::get('manifest/tipos', 'ManifestApiController@getTiposManifestacao');
         //get manifestacoes
-        Route::get('manifest/all', 'Api\ManifestApiController@getManifestacoes');
+        Route::get('manifest/all', 'ManifestApiController@getManifestacoes');
         //criar manifestacao
-        Route::post('manifest/create', 'Api\ManifestApiController@create');
+        Route::post('manifest/create', 'ManifestApiController@create');
         //Criar recurso
-        Route::post('manifest/create-appel', 'Api\ManifestApiController@criarRecurso');
+        Route::post('manifest/create-appel', 'ManifestApiController@criarRecurso');
 
         //Chat
         //Inicia as mensagens do Chat
-        Route::post('manifest/mensagem/new', 'Api\ManifestApiController@newMessage');
+        Route::post('manifest/mensagem/new', 'ManifestApiController@newMessage');
         //Mensagens do Chat
-        Route::get('manifest/{protocolo}/chat/mensagem/', 'Api\ManifestApiController@getChatPorProtocolo');
+        Route::get('manifest/{protocolo}/chat/mensagem/', 'ManifestApiController@getChatPorProtocolo');
 
         //APP exclusive routes
         //Usuario anonimo
-        Route::get('user-anonimo', 'Api\UserController@getUserAnonimo');
+        Route::get('user-anonimo', 'UserController@getUserAnonimo');
         //marcações no mapa 
-        Route::get('mapa', 'Api\ManifestApiController@getMapaPins');
+        Route::get('mapa', 'ManifestApiController@getMapaPins');
     }
 );
