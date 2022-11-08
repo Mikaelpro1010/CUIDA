@@ -80,7 +80,7 @@ Route::middleware(['auth'])->group(
                 Route::get('secretarias/{secretaria}/toggle', 'SecretariasController@toggleSecretariaStatus')->name("get-toggle-secretaria-status");
             }
         );
-
+        
         Route::namespace('Configs')->prefix('admin/config')->group(
             function () {
                 Route::get('/users-type', 'RolesController@listRoles')->name('get-roles-list');
@@ -90,6 +90,16 @@ Route::middleware(['auth'])->group(
                 Route::get('/users-type/{role}/edit', 'RolesController@editRole')->name('get-edit-role-view');
                 Route::patch('/users-type/{role}', 'RolesController@updateRole')->name('patch-update-role');
                 Route::delete('/users-type/{role}', 'RolesController@deleteRole')->name('delete-delete-role');
+                
+                Route::get('tipo-manifestacao', 'TipoManifestacaoController@listTipoManifestacao')->name('get-tipo-manifestacao-list');
+                Route::get('tipo-manifestacao/create', 'TipoManifestacaoController@createTipoManifestacao')->name('get-create-tipo-manifestacao');
+                Route::post('tipo-manifestacao', 'TipoManifestacaoController@storeTipoManifestacao')->name('post-store-tipo-manifestacao');
+                Route::get('tipo-manifestacao/{tipoManifestacao}', 'TipoManifestacaoController@viewTipoManifestacao')->name('get-tipo-manifestacao-view');
+                Route::get('tipo-manifestacao/{tipoManifestacao}/edit', 'TipoManifestacaoController@editTipoManifestacao')->name('get-edit-tipo-manifestacao-view');
+                Route::patch('tipo-manifestacao/{tipoManifestacao}', 'TipoManifestacaoController@updateTipoManifestacao')->name('patch-update-tipo-manifestacao');
+                Route::delete('tipo-manifestacao/{tipoManifestacao}', 'TipoManifestacaoController@deleteTipoManifestacao')->name('delete-delete-tipo-manifestacao');
+                Route::get('tipo-mnifestacao/{tipoManifestacao}/toggle', 'TipoManifestacaoController@toggleTipoManifestacaoStatus')->name("get-toggle-tipo-manifestacao-status");
+                
             }
         );
 
