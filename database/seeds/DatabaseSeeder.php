@@ -36,5 +36,7 @@ class DatabaseSeeder extends Seeder
         //Modulo de Avaliaçoes 
         $this->call(UnidadesSecrTableSeeder::class);
         $this->call(AvaliacoesTableSeeder::class);
+
+        $this->call(TiposManifestacaoTableSeeder::class);
     }
 }

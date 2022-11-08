@@ -164,8 +164,16 @@
                             <ul class="dropdown-menu">
                                 @can(permissionConstant()::GERENCIAR_TIPOS_USUARIOS_LIST)
                                 <li>
-                                    <a class="dropdown-item" href="{{ route('get-roles-list') }}">Tipos de
-                                        Usuários</a>
+                                    <a class="dropdown-item" href="{{ route('get-roles-list') }}">
+                                        Tipos de Usuários
+                                    </a>
+                                </li>
+                                @endcan
+                                @can(permissionConstant()::GERENCIAR_TIPOS_MANIFESTACAO_LIST)
+                                <li>
+                                    <a class="dropdown-item" href="{{ route('get-tipo-manifestacao-list') }}">
+                                        Tipos de Manifestacao
+                                    </a>
                                 </li>
                                 @endcan
                             </ul>
