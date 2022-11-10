@@ -113,7 +113,7 @@
                     <p>Deseja realmente deletar o Tipo de Manifestação: <span id="deleteName" class="fw-bold"></span>
                     </p>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancelar</button>
+                        <button type="button" class="btn btn-warning" data-bs-dismiss="modal">Cancelar</button>
                         <button type="submit" class="btn btn-success" onclick="close_modal()">Deletar</button>
                     </div>
                 </div>

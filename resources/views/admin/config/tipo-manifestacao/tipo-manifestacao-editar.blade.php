@@ -10,8 +10,9 @@
             Editar Tipo de Manifestação
         </h2>
         <hr>
-    <form class="row" action="{{ route('get-edit-tipo-manifestacao-view', $tipoManifestacao->id) }}" method="POST">
+    <form class="row" action="{{ route('patch-update-tipo-manifestacao', $tipoManifestacao->id) }}" method="POST">
         {{ csrf_field() }}
+        {{ method_field('PATCH') }}
             <div class="col-6">
                 <label for="nome" class="form-label mb-1 mt-3">Campo para editar o nome:</label>
                 <input type="text" name="nome" id="nome" class="form-control" value="{{ $tipoManifestacao->nome }}">

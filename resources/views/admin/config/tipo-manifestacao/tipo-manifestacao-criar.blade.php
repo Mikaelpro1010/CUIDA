@@ -5,11 +5,12 @@
         <h2>
             Cadastrar Tipo de Manifestação
         </h2>
+        <hr>
     </div>
-    <div class="p-4">
+    <div>
         <form class="row" action="{{route('post-store-tipo-manifestacao')}}" method="POST">
             {{ csrf_field() }}
-            <div class="col-8">
+            <div class="col-12">
                 <label for="nome" class="form-label mb-1 mt-3">Informe o nome:</label>
                 <input type="text" name="nome" id="nome" class="form-control">
             </div>

@@ -12,14 +12,11 @@ class TipoManifestacaoController extends Controller
 {
     public function listTipoManifestacao()
     {
-
-
-        // $this->authorize(Permission::GERENCIAR_TIPOS_MANIFESTACAO_LIST);
+        $this->authorize(Permission::GERENCIAR_TIPOS_MANIFESTACAO_LIST);
 
         $tipo_manifestacoes = TiposManifestacao::query()
             ->when(request()->pesquisa, function ($query) {
-                $query->where('nome', 'like', "%" . request()->pesquisa . "%")
-                    ->orWhere('descricao', 'like', "%" . request()->pesquisa . "%");
+                $query->where('nome', 'like', "%" . request()->pesquisa . "%");
             })
             ->orderBy('ativo', 'desc')
             ->orderBy('updated_at', 'desc')

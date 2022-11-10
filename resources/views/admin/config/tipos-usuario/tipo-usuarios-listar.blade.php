@@ -2,7 +2,7 @@
 
 @section('content')
 
-<div class="d-flex justify-content-between">
+<div class="d-flex justify-content-between align-items-center">
     <h1 class="m-0 text-primary">Tipos de Usuário</h1>
     @can(permissionConstant()::GERENCIAR_TIPOS_USUARIOS_CREATE)
     <div>
@@ -104,8 +104,8 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <p>Deseja realmente deletar o Tipo de Usuário:</p>
-                <span id="deleteRoleName" class="fw-bold"></span>
+                <p>Deseja realmente deletar o Tipo de Usuário: <span id="deleteRoleName" class="fw-bold"></span></p>
+                
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-warning" data-bs-dismiss="modal">cancelar</button>
