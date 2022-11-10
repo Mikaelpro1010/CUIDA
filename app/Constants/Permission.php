@@ -58,6 +58,7 @@ class Permission
         self::GERENCIAR_SECRETARIAS_ACTIVE_TOGGLE,
     ];
 
+    //configurações
     // Tipos de Usuário
     public const GERENCIAR_TIPOS_USUARIOS_LIST = 'Listar Tipos de Usuário';
     public const GERENCIAR_TIPOS_USUARIOS_VIEW = 'Visualizar Tipos de Usuário';
@@ -72,6 +73,37 @@ class Permission
         self::GERENCIAR_TIPOS_USUARIOS_EDIT,
         self::GERENCIAR_TIPOS_USUARIOS_DELETE,
     ];
+
+    // Tipos de Usuário
+    public const GERENCIAR_TIPOS_MANIFESTACAO_LIST = 'Listar Tipos de Manifestacao';
+    public const GERENCIAR_TIPOS_MANIFESTACAO_VIEW = 'Visualizar Tipos de Manifestacao';
+    public const GERENCIAR_TIPOS_MANIFESTACAO_CREATE = 'Criar Tipos de Manifestacao';
+    public const GERENCIAR_TIPOS_MANIFESTACAO_EDIT = 'Editar Tipos de Manifestacao';
+    public const GERENCIAR_TIPOS_MANIFESTACAO_DELETE = 'Deletar Tipos de Manifestacao';
+
+    public const GERENCIAR_TIPOS_MANIFESTACAO = [
+        self::GERENCIAR_TIPOS_MANIFESTACAO_LIST,
+        self::GERENCIAR_TIPOS_MANIFESTACAO_VIEW,
+        self::GERENCIAR_TIPOS_MANIFESTACAO_CREATE,
+        self::GERENCIAR_TIPOS_MANIFESTACAO_EDIT,
+        self::GERENCIAR_TIPOS_MANIFESTACAO_DELETE,
+    ];
+    
+    public const GERENCIAR_ESTADOS_PROCESSO_LIST = 'Listar Estados do Processo';
+    public const GERENCIAR_ESTADOS_PROCESSO_VIEW = 'Visualizar Estados do Processo';
+    public const GERENCIAR_ESTADOS_PROCESSO_CREATE = 'Criar Estados do Processo';
+    public const GERENCIAR_ESTADOS_PROCESSO_EDIT = 'Editar Estados do Processo';
+    public const GERENCIAR_ESTADOS_PROCESSO_DELETE = 'Deletar Estados do Processo';
+
+    public const GERENCIAR_ESTADOS_PROCESSO = [
+        self::GERENCIAR_ESTADOS_PROCESSO_LIST,
+        self::GERENCIAR_ESTADOS_PROCESSO_VIEW,
+        self::GERENCIAR_ESTADOS_PROCESSO_CREATE,
+        self::GERENCIAR_ESTADOS_PROCESSO_EDIT,
+        self::GERENCIAR_ESTADOS_PROCESSO_DELETE,
+    ];
+
+
 
     //Avaliacoes
     public const UNIDADE_SECRETARIA_LIST = 'Listar Unidades da Secretaria';
@@ -109,7 +141,10 @@ class Permission
     public const PERMISSIONS = [
         'Gerenciamento de Usuários' => self::GERENCIAR_USUARIOS,
         'Gerenciamento de Secretarias' => self::GERENCIAR_SECRETARIAS,
-        'Gerenciamento de Tipos de Usuário' => self::GERENCIAR_TIPOS_USUARIOS,
+        'Configuração de Tipos de Usuário' => self::GERENCIAR_TIPOS_USUARIOS,
+        'Configuração de Tipos de Manifestação' => self::GERENCIAR_TIPOS_MANIFESTACAO,
+        'Configuração de Estados do Processo' => self::GERENCIAR_ESTADOS_PROCESSO,
+
         'Manifestações' => self::MANIFESTACOES,
         'Modulo Avaliação' => self::UNIDADE_SECRETARIA,
         'Relatórios Modulo Avaliação' => self::RELATORIO_AVALIACOES,
