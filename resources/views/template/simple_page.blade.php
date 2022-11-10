@@ -176,6 +176,13 @@
                                     </a>
                                 </li>
                                 @endcan
+                                @can(permissionConstant()::GERENCIAR_ESTADOS_PROCESSO_LIST)
+                                <li>
+                                    <a class="dropdown-item" href="{{ route('get-estado-processo-list') }}">
+                                        Estados do Processo
+                                    </a>
+                                </li>
+                                @endcan
                             </ul>
                         </li>
                         @endif
