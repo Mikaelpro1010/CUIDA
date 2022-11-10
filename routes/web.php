@@ -100,6 +100,14 @@ Route::middleware(['auth'])->group(
                 Route::delete('tipo-manifestacao/{tipoManifestacao}', 'TipoManifestacaoController@deleteTipoManifestacao')->name('delete-delete-tipo-manifestacao');
                 Route::get('tipo-mnifestacao/{tipoManifestacao}/toggle', 'TipoManifestacaoController@toggleTipoManifestacaoStatus')->name("get-toggle-tipo-manifestacao-status");
                 
+                Route::get('estado-processo', 'EstadoProcessoController@listEstadoProcesso')->name('get-estado-processo-list');
+                Route::get('estado-processo/create', 'EstadoProcessoController@createEstadoProcesso')->name('get-create-estado-processo');
+                Route::post('estado-processo', 'EstadoProcessoController@storeEstadoProcesso')->name('post-store-estado-processo');
+                Route::get('estado-processo/{estadoProcesso}', 'EstadoProcessoController@viewEstadoProcesso')->name('get-estado-processo-view');
+                Route::get('estado-processo/{estadoProcesso}/edit', 'EstadoProcessoController@editEstadoProcesso')->name('get-edit-estado-processo-view');
+                Route::patch('estado-processo/{estadoProcesso}', 'EstadoProcessoController@updateEstadoProcesso')->name('patch-update-estado-processo');
+                Route::delete('estado-processo/{estadoProcesso}', 'EstadoProcessoController@deleteEstadoProcesso')->name('delete-delete-estado-processo');
+                Route::get('estado-processo/{estadoProcesso}/toggle', 'EstadoProcessoController@toggleEstadoProcessoStatus')->name("get-toggle-estado-processo-status");
             }
         );
 
