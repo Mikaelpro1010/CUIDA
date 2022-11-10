@@ -183,6 +183,13 @@
                                     </a>
                                 </li>
                                 @endcan
+                                @can(permissionConstant()::GERENCIAR_MOTIVACOES_LIST)
+                                <li>
+                                    <a class="dropdown-item" href="{{ route('get-motivacao-list') }}">
+                                        Motivações
+                                    </a>
+                                </li>
+                                @endcan
                             </ul>
                         </li>
                         @endif

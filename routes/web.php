@@ -108,6 +108,15 @@ Route::middleware(['auth'])->group(
                 Route::patch('estado-processo/{estadoProcesso}', 'EstadoProcessoController@updateEstadoProcesso')->name('patch-update-estado-processo');
                 Route::delete('estado-processo/{estadoProcesso}', 'EstadoProcessoController@deleteEstadoProcesso')->name('delete-delete-estado-processo');
                 Route::get('estado-processo/{estadoProcesso}/toggle', 'EstadoProcessoController@toggleEstadoProcessoStatus')->name("get-toggle-estado-processo-status");
+                
+                Route::get('motivacao', 'MotivacaoController@listMotivacao')->name('get-motivacao-list');
+                Route::get('motivacao/create', 'MotivacaoController@createMotivacao')->name('get-create-motivacao');
+                Route::post('motivacao', 'MotivacaoController@storeMotivacao')->name('post-store-motivacao');
+                Route::get('motivacao/{Motivacao}', 'MotivacaoController@viewMotivacao')->name('get-motivacao-view');
+                Route::get('motivacao/{Motivacao}/edit', 'MotivacaoController@editMotivacao')->name('get-edit-motivacao-view');
+                Route::patch('motivacao/{Motivacao}', 'MotivacaoController@updateMotivacao')->name('patch-update-motivacao');
+                Route::delete('motivacao/{Motivacao}', 'MotivacaoController@deleteMotivacao')->name('delete-delete-motivacao');
+                Route::get('motivacao/{Motivacao}/toggle', 'MotivacaoController@toggleMotivacaoStatus')->name("get-toggle-motivacao-status");
             }
         );
 
