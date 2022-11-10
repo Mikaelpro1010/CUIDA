@@ -102,7 +102,20 @@ class Permission
         self::GERENCIAR_ESTADOS_PROCESSO_EDIT,
         self::GERENCIAR_ESTADOS_PROCESSO_DELETE,
     ];
+    
+    public const GERENCIAR_MOTIVACOES_LIST = 'Listar Motivacoes';
+    public const GERENCIAR_MOTIVACOES_VIEW = 'Visualizar Motivacoes';
+    public const GERENCIAR_MOTIVACOES_CREATE = 'Criar Motivacoes';
+    public const GERENCIAR_MOTIVACOES_EDIT = 'Editar Motivacoes';
+    public const GERENCIAR_MOTIVACOES_DELETE = 'Deletar Motivacoes';
 
+    public const GERENCIAR_MOTIVACOES = [
+        self::GERENCIAR_MOTIVACOES_LIST,
+        self::GERENCIAR_MOTIVACOES_VIEW,
+        self::GERENCIAR_MOTIVACOES_CREATE,
+        self::GERENCIAR_MOTIVACOES_EDIT,
+        self::GERENCIAR_MOTIVACOES_DELETE,
+    ];
 
 
     //Avaliacoes
@@ -144,6 +157,7 @@ class Permission
         'Configuração de Tipos de Usuário' => self::GERENCIAR_TIPOS_USUARIOS,
         'Configuração de Tipos de Manifestação' => self::GERENCIAR_TIPOS_MANIFESTACAO,
         'Configuração de Estados do Processo' => self::GERENCIAR_ESTADOS_PROCESSO,
+        'Configuração de Motivações' => self::GERENCIAR_MOTIVACOES,
 
         'Manifestações' => self::MANIFESTACOES,
         'Modulo Avaliação' => self::UNIDADE_SECRETARIA,
