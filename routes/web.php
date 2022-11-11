@@ -117,6 +117,15 @@ Route::middleware(['auth'])->group(
                 Route::patch('motivacao/{Motivacao}', 'MotivacaoController@updateMotivacao')->name('patch-update-motivacao');
                 Route::delete('motivacao/{Motivacao}', 'MotivacaoController@deleteMotivacao')->name('delete-delete-motivacao');
                 Route::get('motivacao/{Motivacao}/toggle', 'MotivacaoController@toggleMotivacaoStatus')->name("get-toggle-motivacao-status");
+                
+                Route::get('situacao', 'SituacaoController@listSituacao')->name('get-situacao-list');
+                Route::get('situacao/create', 'SituacaoController@createSituacao')->name('get-create-situacao');
+                Route::post('situacao', 'SituacaoController@storeSituacao')->name('post-store-situacao');
+                Route::get('situacao/{Situacao}', 'SituacaoController@viewSituacao')->name('get-situacao-view');
+                Route::get('situacao/{Situacao}/edit', 'SituacaoController@editSituacao')->name('get-edit-situacao-view');
+                Route::patch('situacao/{Situacao}', 'SituacaoController@updateSituacao')->name('patch-update-situacao');
+                Route::delete('situacao/{Situacao}', 'SituacaoController@deleteSituacao')->name('delete-delete-situacao');
+                Route::get('situacao/{Situacao}/toggle', 'SituacaoController@toggleSituacaoStatus')->name("get-toggle-situacao-status");
             }
         );
 
