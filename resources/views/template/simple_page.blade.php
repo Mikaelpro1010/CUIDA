@@ -190,6 +190,14 @@
                                     </a>
                                 </li>
                                 @endcan
+                                
+                                @can(permissionConstant()::GERENCIAR_SITUACOES_LIST)
+                                <li>
+                                    <a class="dropdown-item" href="{{ route('get-situacao-list') }}">
+                                        Situações
+                                    </a>
+                                </li>
+                                @endcan
                             </ul>
                         </li>
                         @endif

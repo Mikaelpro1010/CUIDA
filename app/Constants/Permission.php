@@ -116,7 +116,20 @@ class Permission
         self::GERENCIAR_MOTIVACOES_EDIT,
         self::GERENCIAR_MOTIVACOES_DELETE,
     ];
+    
+    public const GERENCIAR_SITUACOES_LIST = 'Listar Situacoes';
+    public const GERENCIAR_SITUACOES_VIEW = 'Visualizar Situacoes';
+    public const GERENCIAR_SITUACOES_CREATE = 'Criar Situacoes';
+    public const GERENCIAR_SITUACOES_EDIT = 'Editar Situacoes';
+    public const GERENCIAR_SITUACOES_DELETE = 'Deletar Situacoes';
 
+    public const GERENCIAR_SITUACOES = [
+        self::GERENCIAR_SITUACOES_LIST,
+        self::GERENCIAR_SITUACOES_VIEW,
+        self::GERENCIAR_SITUACOES_CREATE,
+        self::GERENCIAR_SITUACOES_EDIT,
+        self::GERENCIAR_SITUACOES_DELETE,
+    ];
 
     //Avaliacoes
     public const UNIDADE_SECRETARIA_LIST = 'Listar Unidades da Secretaria';
@@ -158,7 +171,7 @@ class Permission
         'Configuração de Tipos de Manifestação' => self::GERENCIAR_TIPOS_MANIFESTACAO,
         'Configuração de Estados do Processo' => self::GERENCIAR_ESTADOS_PROCESSO,
         'Configuração de Motivações' => self::GERENCIAR_MOTIVACOES,
-
+        'Configuração de Situações' => self::GERENCIAR_SITUACOES,
         'Manifestações' => self::MANIFESTACOES,
         'Modulo Avaliação' => self::UNIDADE_SECRETARIA,
         'Relatórios Modulo Avaliação' => self::RELATORIO_AVALIACOES,
