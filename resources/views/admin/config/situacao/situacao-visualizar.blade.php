@@ -5,29 +5,19 @@
         </h1>
         <hr>
         <div class="row align-items-start">
-            <div class="col">
+            <div class="col-8">
                 <label class="fw-bold" for="">Nome:</label>
                 <div class="border-2 border-bottom border-warning">
                     {{ $situacao->nome }}
                 </div>
             </div>
-            <div class="col">
-                <label class="fw-bold" for="">Descrição:</label>
-                <div class="border-2 border-bottom border-warning">
-                    @if ($situacao->descricao == null)
-                        -
-                    @else
-                        {{ $situacao->descricao }}
-                    @endif
-                </div>
-            </div>
-            <div class="col">
+            <div class="col-1">
                 <label class="fw-bold" for="">Ativo:</label>
                 <div class="border-2 border-bottom border-warning">
                     @if (true)
-                        <i class="text-success fa-solid fa-circle-check"></i>
+                    <i class="text-success fa-solid fa-circle-check"></i>
                     @else
-                        <i class="fa-solid fa-circle-xmark"></i>
+                    <i class="fa-solid fa-circle-xmark"></i>
                     @endif
                 </div>
             </div>
@@ -35,6 +25,16 @@
                 <label class="fw-bold" for="">Última Alteração:</label>
                 <div class="border-2 border-bottom border-warning">
                     {{ Carbon\Carbon::parse($situacao->updated_at)->format('d/m/Y \à\s H:i\h') }}
+                </div>
+            </div>
+            <div class="col-12 mt-3">
+                <label class="fw-bold" for="">Descrição:</label>
+                <div class="border-2 border border-warning p-2">
+                    @if ($situacao->descricao == null)
+                        -
+                    @else
+                        {{ $situacao->descricao }}
+                    @endif
                 </div>
             </div>
             <div class="text-center">
