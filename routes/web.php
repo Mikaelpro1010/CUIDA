@@ -127,15 +127,15 @@ Route::middleware(['auth'])->group(
                 Route::delete('situacao/{Situacao}', 'SituacaoController@deleteSituacao')->name('delete-delete-situacao');
                 Route::get('situacao/{Situacao}/toggle', 'SituacaoController@toggleSituacaoStatus')->name("get-toggle-situacao-status");
                 
-                Route::get('faq', 'FAQController@listFAQ')->name('get-faq-list');
-                Route::get('faq/create', 'FAQController@createFAQ')->name('get-create-faq');
-                Route::post('faq', 'FAQController@storeFAQ')->name('post-store-faq');
-                Route::get('faq/{FAQ}', 'FAQController@viewFAQ')->name('get-faq-view');
-                Route::get('faq/{FAQ}/edit', 'FAQController@editFAQ')->name('get-edit-faq-view');
-                Route::patch('faq/{FAQ}', 'FAQController@updateFAQ')->name('patch-update-faq');
-                Route::delete('faq/{FAQ}', 'FAQController@deleteFAQ')->name('delete-delete-faq');
-                Route::get('faq/{FAQ}/toggle', 'FAQController@toggleFAQStatus')->name("get-toggle-faq-status");
-                Route::post('faq/order', 'FAQController@orderFAQ')->name("order-faq");
+                Route::get('faq', 'FaqController@listFAQ')->name('get-faq-list');
+                Route::get('faq/create', 'FaqController@createFAQ')->name('get-create-faq');
+                Route::post('faq', 'FaqController@storeFAQ')->name('post-store-faq');
+                Route::get('faq/{FAQ}', 'FaqController@viewFAQ')->name('get-faq-view');
+                Route::get('faq/{FAQ}/edit', 'FaqController@editFAQ')->name('get-edit-faq-view');
+                Route::patch('faq/{FAQ}', 'FaqController@updateFAQ')->name('patch-update-faq');
+                Route::delete('faq/{FAQ}', 'FaqController@deleteFAQ')->name('delete-delete-faq');
+                Route::get('faq/{FAQ}/toggle', 'FaqController@toggleFAQStatus')->name("get-toggle-faq-status");
+                Route::post('faq/order', 'FaqController@orderFAQ')->name("order-faq");
             }
         );
 
