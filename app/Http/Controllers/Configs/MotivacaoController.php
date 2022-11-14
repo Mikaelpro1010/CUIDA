@@ -55,13 +55,13 @@ class MotivacaoController extends Controller
                 ->withInput();
         }
 
-        $estado_processo = new Motivacao();
+        $motivacao = new Motivacao();
 
-        $estado_processo->ativo = true;
-        $estado_processo->nome = $request->nome;
-        $estado_processo->descricao = $request->descricao;
+        $motivacao->ativo = true;
+        $motivacao->nome = $request->nome;
+        $motivacao->descricao = $request->descricao;
 
-        $estado_processo->save();
+        $motivacao->save();
 
         return redirect()->route('get-motivacao-list');
     }

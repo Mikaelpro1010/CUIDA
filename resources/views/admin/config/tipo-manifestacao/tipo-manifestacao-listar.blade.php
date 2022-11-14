@@ -114,7 +114,7 @@
                     </p>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-warning" data-bs-dismiss="modal">Cancelar</button>
-                        <button type="submit" class="btn btn-success" onclick="close_modal()">Deletar</button>
+                        <button type="submit" class="btn btn-danger" onclick="close_modal()">Deletar</button>
                     </div>
                 </div>
             </div>
