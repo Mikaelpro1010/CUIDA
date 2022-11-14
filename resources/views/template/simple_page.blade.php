@@ -198,6 +198,14 @@
                                     </a>
                                 </li>
                                 @endcan
+                                
+                                @can(permissionConstant()::GERENCIAR_FAQS_LIST)
+                                <li>
+                                    <a class="dropdown-item" href="{{ route('get-faq-list') }}">
+                                        FAQs
+                                    </a>
+                                </li>
+                                @endcan
                             </ul>
                         </li>
                         @endif
@@ -238,6 +246,7 @@
     </footer>
     <script src="{{ asset('js/jquery.js') }}"></script>
     <script src="{{ asset('js/bootstrap.js') }}"></script>
+    <script src="{{ asset('js/jquery-ui.min.js') }}"></script>
     <script src="{{ asset('js/sweetalert2.all.min.js') }}"></script>
     <script>
         $(document).ready(function() {
