@@ -126,6 +126,16 @@ Route::middleware(['auth'])->group(
                 Route::patch('situacao/{Situacao}', 'SituacaoController@updateSituacao')->name('patch-update-situacao');
                 Route::delete('situacao/{Situacao}', 'SituacaoController@deleteSituacao')->name('delete-delete-situacao');
                 Route::get('situacao/{Situacao}/toggle', 'SituacaoController@toggleSituacaoStatus')->name("get-toggle-situacao-status");
+                
+                Route::get('faq', 'FAQController@listFAQ')->name('get-faq-list');
+                Route::get('faq/create', 'FAQController@createFAQ')->name('get-create-faq');
+                Route::post('faq', 'FAQController@storeFAQ')->name('post-store-faq');
+                Route::get('faq/{FAQ}', 'FAQController@viewFAQ')->name('get-faq-view');
+                Route::get('faq/{FAQ}/edit', 'FAQController@editFAQ')->name('get-edit-faq-view');
+                Route::patch('faq/{FAQ}', 'FAQController@updateFAQ')->name('patch-update-faq');
+                Route::delete('faq/{FAQ}', 'FAQController@deleteFAQ')->name('delete-delete-faq');
+                Route::get('faq/{FAQ}/toggle', 'FAQController@toggleFAQStatus')->name("get-toggle-faq-status");
+                Route::post('faq/order', 'FAQController@orderFAQ')->name("order-faq");
             }
         );
 

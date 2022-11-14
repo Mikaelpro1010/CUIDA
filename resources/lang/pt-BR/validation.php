@@ -131,7 +131,8 @@ return [
         'descricao' => 'descricao',
         'avaliacao' => 'avaliacao',
         'comentario' => 'comentario',
-
+        'pergunta' => 'pergunta',
+        'resposta' => 'resposta',
     ],
 
 ];

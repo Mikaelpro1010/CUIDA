@@ -103,11 +103,11 @@ class Permission
         self::GERENCIAR_ESTADOS_PROCESSO_DELETE,
     ];
     
-    public const GERENCIAR_MOTIVACOES_LIST = 'Listar Motivacoes';
-    public const GERENCIAR_MOTIVACOES_VIEW = 'Visualizar Motivacoes';
-    public const GERENCIAR_MOTIVACOES_CREATE = 'Criar Motivacoes';
-    public const GERENCIAR_MOTIVACOES_EDIT = 'Editar Motivacoes';
-    public const GERENCIAR_MOTIVACOES_DELETE = 'Deletar Motivacoes';
+    public const GERENCIAR_MOTIVACOES_LIST = 'Listar Motivações';
+    public const GERENCIAR_MOTIVACOES_VIEW = 'Visualizar Motivações';
+    public const GERENCIAR_MOTIVACOES_CREATE = 'Criar Motivações';
+    public const GERENCIAR_MOTIVACOES_EDIT = 'Editar Motivações';
+    public const GERENCIAR_MOTIVACOES_DELETE = 'Deletar Motivações';
 
     public const GERENCIAR_MOTIVACOES = [
         self::GERENCIAR_MOTIVACOES_LIST,
@@ -117,11 +117,11 @@ class Permission
         self::GERENCIAR_MOTIVACOES_DELETE,
     ];
     
-    public const GERENCIAR_SITUACOES_LIST = 'Listar Situacoes';
-    public const GERENCIAR_SITUACOES_VIEW = 'Visualizar Situacoes';
-    public const GERENCIAR_SITUACOES_CREATE = 'Criar Situacoes';
-    public const GERENCIAR_SITUACOES_EDIT = 'Editar Situacoes';
-    public const GERENCIAR_SITUACOES_DELETE = 'Deletar Situacoes';
+    public const GERENCIAR_SITUACOES_LIST = 'Listar Situações';
+    public const GERENCIAR_SITUACOES_VIEW = 'Visualizar Situações';
+    public const GERENCIAR_SITUACOES_CREATE = 'Criar Situações';
+    public const GERENCIAR_SITUACOES_EDIT = 'Editar Situações';
+    public const GERENCIAR_SITUACOES_DELETE = 'Deletar Situações';
 
     public const GERENCIAR_SITUACOES = [
         self::GERENCIAR_SITUACOES_LIST,
@@ -129,6 +129,20 @@ class Permission
         self::GERENCIAR_SITUACOES_CREATE,
         self::GERENCIAR_SITUACOES_EDIT,
         self::GERENCIAR_SITUACOES_DELETE,
+    ];
+    
+    public const GERENCIAR_FAQS_LIST = 'Listar FAQs';
+    public const GERENCIAR_FAQS_VIEW = 'Visualizar FAQs';
+    public const GERENCIAR_FAQS_CREATE = 'Criar FAQs';
+    public const GERENCIAR_FAQS_EDIT = 'Editar FAQs';
+    public const GERENCIAR_FAQS_DELETE = 'Deletar FAQs';
+
+    public const GERENCIAR_FAQS = [
+        self::GERENCIAR_FAQS_LIST,
+        self::GERENCIAR_FAQS_VIEW,
+        self::GERENCIAR_FAQS_CREATE,
+        self::GERENCIAR_FAQS_EDIT,
+        self::GERENCIAR_FAQS_DELETE,
     ];
 
     //Avaliacoes
@@ -172,6 +186,7 @@ class Permission
         'Configuração de Estados do Processo' => self::GERENCIAR_ESTADOS_PROCESSO,
         'Configuração de Motivações' => self::GERENCIAR_MOTIVACOES,
         'Configuração de Situações' => self::GERENCIAR_SITUACOES,
+        'Configuração de FAQs' => self::GERENCIAR_FAQS,
         'Manifestações' => self::MANIFESTACOES,
         'Modulo Avaliação' => self::UNIDADE_SECRETARIA,
         'Relatórios Modulo Avaliação' => self::RELATORIO_AVALIACOES,
