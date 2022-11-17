@@ -10,8 +10,15 @@ class AnexoMensagem extends Model
     protected $table = 'anexos_mensagens';
     protected $guarded = [];
 
-    public function getUrl()
+    protected $appends = ['viewUrl', 'downloadUrl'];
+
+    public function getViewUrlAttribute()
     {
-        return url(Storage::url($this->caminho . $this->nome));
+        return route('view-anexo', $this->id);
+    }
+
+    public function getDownloadUrlAttribute()
+    {
+        return route('download-anexo', $this->id);
     }
 }
