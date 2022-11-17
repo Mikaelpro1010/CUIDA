@@ -34,6 +34,12 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav me-auto pb-2 pb-lg-0">
                         <li class="nav-item">
+                            <a class="nav-link text-white @if (Route::is('pagina-inicial')) border-bottom border-3 border-info @endif"
+                                href="{{ route('pagina-inicial') }}">
+                                Pagina Inicial
+                            </a>
+                        </li>
+                        <li class="nav-item">
                             <a class="nav-link text-white @if (Route::is('politicas')) border-bottom border-3 border-info @endif"
                                 href="{{ route('politicas') }}">
                                 Políticas de Privacidade
@@ -248,6 +254,7 @@
     <script src="{{ asset('js/bootstrap.js') }}"></script>
     <script src="{{ asset('js/jquery-ui.min.js') }}"></script>
     <script src="{{ asset('js/sweetalert2.all.min.js') }}"></script>
+    <script src="{{ asset('js/jquery.mask.min.js') }}"></script>
     <script>
         $(document).ready(function() {
             $("#liveToast").toast("show");

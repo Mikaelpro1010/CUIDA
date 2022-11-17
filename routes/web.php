@@ -49,9 +49,13 @@ Route::get('/anexos', function () {
 
 
 //Rotas Não Logadas
+Route::view('/pagina-inicial', 'public.pagina-inicial')-> name("pagina-inicial");
 Route::view('/', 'public.home')->name('home');
 Route::view('/politicas-de-privacidade', 'public.politicas')->name('politicas');
 Route::view('/termos-de-uso', 'public.termos')->name('termos');
+Route::get('pagina-manifestacao/visualizar', 'Publico\PaginaManifestController@visualizarPagina')->name("vis-pagina_manifestacao");
+Route::post('manifestacao/cadastrar/novo', 'Publico\PaginaManifestController@cadastrar')->name("cadastrar-manifestacao");
+Route::get('/pagina-inicial', 'Publico\FaqController@paginaInicial')-> name("pagina-inicial");
 
 Route::middleware(['auth'])->group(
     function () {
