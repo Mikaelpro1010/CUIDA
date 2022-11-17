@@ -23,6 +23,11 @@ class RolesTableSeeder extends Seeder
                 'name' => "Ouvidor",
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
+            ],
+            [
+                'name' => "Avaliador",
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
             ]
         ]);
     }
