@@ -204,9 +204,9 @@ Route::middleware(['auth:web'])->group(
 );
 
 //não logado
-Route::prefix('avaliacoes')->namespace('Avaliacoes')->group(function () {
-    Route::get('/{token}/avaliar', 'UnidadeSecrController@paginaAvaliar')->name('get-avaliar-unidade');
-    Route::post('/{token}/avaliar', 'UnidadeSecrController@avaliar')->name('post-avaliar-unidade');
+Route::prefix('avaliacoes')->namespace('Publico')->group(function () {
+    Route::get('/{token}/avaliar', 'AvaliacoesController@viewAvaliacao')->name('get-view-avaliacao');
+    Route::post('/{token}/avaliar', 'AvaliacoesController@storeAvaliacao')->name('post-store-avaliacao');
     // ->middleware('throttle:1,1440');
     Route::view('/agradecer', 'public.unidade_secr.agradecimento')->name('agradecimento-avaliacao');
 });

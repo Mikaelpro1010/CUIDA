@@ -131,11 +131,11 @@
                     ano: ano
                 },
             success: function(response) {
-                notasMes.data.datasets[0].data = response.resposta[0];
-                notasMes.data.datasets[1].data = response.resposta[1];
-                notasMes.data.datasets[2].data = response.resposta[2];
-                notasMes.data.datasets[3].data = response.resposta[3];
-                notasMes.data.datasets[4].data = response.resposta[4];
+                notasMes.data.datasets[0].data = response.resposta[1];
+                notasMes.data.datasets[1].data = response.resposta[3];
+                notasMes.data.datasets[2].data = response.resposta[5];
+                notasMes.data.datasets[3].data = response.resposta[7];
+                notasMes.data.datasets[4].data = response.resposta[9];
                 notasMes.update();
             }
         });
