@@ -99,8 +99,8 @@ class UnidadeSecrController extends Controller
     {
         $this->authorize(Permission::UNIDADE_SECRETARIA_VIEW);
         // $qrcode = QrCode::size(200)->generate('http://10.0.49.0:9000/avaliacoes/' . $unidade->token . '/avaliar');
-        $qrcode = QrCode::size(200)->generate(route('get-avaliar-unidade', $unidade->token));
-        // dd(route('get-avaliar-unidade', $unidade->token));
+        $qrcode = QrCode::size(200)->generate(route('get-view-avaliacao', $unidade->token));
+        // dd(route('get-view-avaliacao', $unidade->token));
         return view('admin.avaliacoes.unidades-secr.unidades-visualizacao', compact('unidade', 'qrcode'));
     }
 
@@ -138,40 +138,5 @@ class UnidadeSecrController extends Controller
         $qrcode = QrCode::size(500)->generate($baseUrl . '/avaliacoes/' . $unidade->token . '/avaliar');
 
         return view('admin.avaliacoes.unidades-secr.qrcode-view', compact('unidade', 'qrcode'));
-    }
-
-
-    public function paginaAvaliar($token)
-    {
-        $unidade = Unidade::where('token', $token)->first();
-
-        if (is_null($unidade)) {
-            return redirect()->route('home');
-        }
-
-        return view('public.unidade_secr.avaliacao', compact('unidade'));
-    }
-
-    public function avaliar($token, Request $request)
-    {
-        $request->validate([
-            'avaliacao' => 'required|integer|max:5|min:1',
-            'comentario' => 'nullable|string',
-        ]);
-
-        $unidade = Unidade::where('token', $token)->first();
-
-        if (is_null($unidade)) {
-            return redirect()->back()->withErrors(['unidade' => 'Unidade não encontrada!']);
-        }
-
-        $avaliacao = new Avaliacao();
-
-        $avaliacao->nota  = $request->avaliacao;
-        $avaliacao->comentario  = $request->comentario;
-        $avaliacao->unidade_secr_id  = $unidade->id;
-        $avaliacao->save();
-
-        return redirect()->route('agradecimento-avaliacao')->with(["success" => 'Avaliação cadastrada com sucesso!']);
     }
 }

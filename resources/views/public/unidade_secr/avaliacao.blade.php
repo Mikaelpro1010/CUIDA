@@ -9,31 +9,31 @@
     <div class="text-center">
         <p>Como gostaria de nos avaliar hoje?</p>
 
-        <form action="" method="POST">
+        <form action="{{ route('post-store-avaliacao', $unidade->token) }}" method="POST">
             {{ csrf_field() }}
             <fieldset class="avaliar">
                 <label for="muito-feliz" onclick="javascript:avaliar(5)">
-                    <input class="d-none" type="radio" name="avaliacao" id="muito-feliz" value="5">
+                    <input class="d-none" type="radio" name="avaliacao" id="muito-feliz" value="10">
                     <i id="5" class="fa-4x text-success fa-regular fa-face-laugh-beam"></i>
                 </label>
 
                 <label for="feliz" onclick="javascript:avaliar(4)">
-                    <input class="d-none" type="radio" name="avaliacao" id="feliz" value="4">
+                    <input class="d-none" type="radio" name="avaliacao" id="feliz" value="8">
                     <i id="4" class="fa-4x text-primary fa-regular fa-face-smile"></i>
                 </label>
 
                 <label for="neutro" onclick="javascript:avaliar(3)">
-                    <input class="d-none" type="radio" name="avaliacao" id="neutro" value="3">
+                    <input class="d-none" type="radio" name="avaliacao" id="neutro" value="6">
                     <i id="3" class="fa-4x text-info fa-regular fa-face-meh"></i>
                 </label>
 
                 <label for="triste" onclick="javascript:avaliar(2)">
-                    <input class="d-none" type="radio" name="avaliacao" id="triste" value="2">
+                    <input class="d-none" type="radio" name="avaliacao" id="triste" value="4">
                     <i id="2" class="fa-4x text-warning fa-regular fa-face-frown"></i>
                 </label>
 
                 <label for="muito-triste" onclick="javascript:avaliar(1)">
-                    <input class="d-none" type="radio" name="avaliacao" id="muito-triste" value="1">
+                    <input class="d-none" type="radio" name="avaliacao" id="muito-triste" value="2">
                     <i id="1" class="fa-4x text-danger fa-regular fa-face-angry"></i>
                 </label>
             </fieldset>
