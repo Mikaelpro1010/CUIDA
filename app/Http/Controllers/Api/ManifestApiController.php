@@ -10,7 +10,9 @@ use App\Models\Chat\Mensagem;
 use App\Models\Manifest\Manifest;
 use App\Traits\ApiResponser;
 use Carbon\Carbon;
+use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Storage;
 
 class ManifestApiController extends Controller
@@ -185,14 +187,14 @@ class ManifestApiController extends Controller
     {
         $manifestacao = Manifest::with('canalMensagem')->where('protocolo', $request->protocolo)->first();
         if (is_null($manifestacao)) {
-            return $this->error("Manifestação não encontrada!", 404);
+            return $this->error("Manifestação não encontrada!", Response::HTTP_NOT_FOUND);
         }
-        // dd(count($manifestacao->canalMensagem));
-        if (count($manifestacao->canalMensagem)) {
+
+        if (!is_null($manifestacao->canalMensagem)) {
             if ($manifestacao->canalMensagem->id_status == CanalMensagem::STATUS_AGUARDANDO_RESPOSTA) {
-                return $this->error("Não é possivel enviar mensagens até que um administrador responda sua mensagem anterior!", 422);
+                return $this->error("Não é possivel enviar mensagens até que um administrador responda sua mensagem anterior!", Response::HTTP_UNPROCESSABLE_ENTITY);
             } elseif ($manifestacao->canalMensagem->id_status == CanalMensagem::STATUS_ENCERRADO) {
-                return $this->error("Não é possivel enviar mensagens quando o Chat já está encerrado!", 422);
+                return $this->error("Não é possivel enviar mensagens quando o Chat já está encerrado!", Response::HTTP_UNPROCESSABLE_ENTITY);
             } else {
                 $canalManifestacao = $manifestacao->canalMensagem;
             }
@@ -200,60 +202,59 @@ class ManifestApiController extends Controller
             $canalManifestacao = new CanalMensagem();
             $canalManifestacao->id_manifestacao = $manifestacao->id;
         }
+
         $canalManifestacao->id_status = CanalMensagem::STATUS_AGUARDANDO_RESPOSTA;
         $canalManifestacao->updated_at = Carbon::now();
         $canalManifestacao->save();
 
-        $novaMensagem = new Mensagem();
-        $novaMensagem->id_canal_mensagem = $canalManifestacao->id;
-        $novaMensagem->msg_type = Mensagem::TIPO_APP_USER;
-        $novaMensagem->id_app_user = $manifestacao->autor->id;
-
-        $novaMensagem->mensagem = $request->mensagem;
-
         if ($request->mensagem == '') {
             if ($request->has('anexo')) {
-                $novaMensagem->mensagem = 'Anexo(s)';
+                $mensagem = 'Anexo(s)';
             } else {
-                return $this->error('Mensagem vazia e nenhum anexo inserido!', 401);
+                return $this->error('Mensagem vazia e nenhum anexo inserido!', Response::HTTP_UNPROCESSABLE_ENTITY);
             }
         } else {
-            $novaMensagem->mensagem = $request->mensagem;
+            $mensagem = $request->mensagem;
         }
-        $novaMensagem->save();
+
+        $novaMensagem = Mensagem::create([
+            'id_canal_mensagem' => $canalManifestacao->id,
+            'msg_type' => Mensagem::TIPO_APP_USER,
+            'id_app_user' => $manifestacao->autor->id,
+            'mensagem' => $mensagem,
+        ]);
+
         if ($request->has('anexo')) {
-            foreach ($request->file('anexo') as $file) {
+            foreach ($request->file('anexo') as $key => $file) {
                 $uploadedFile = $file;
                 $nameArray = explode(".", $uploadedFile->getClientOriginalName());
                 $extensão = array_pop($nameArray);
                 $originName = implode('', $nameArray);
-                $filename = time() . "-" . str_slug($originName) . "." . $extensão;
-                // dd($uploadedFile->getClientOriginalName(), $nameArray, $originName, $extensão, $filename);
-                $caminho = "public/anexos-msgs/$canalManifestacao->id/$novaMensagem->id/";
-                Storage::disk('local')->putFileAs(
+                $filename = time() . "-" . $key . "-" . str_slug($originName) . "." . $extensão;
+                $caminho = "$canalManifestacao->id/$novaMensagem->id/";
+                Storage::disk('msgs_anexos')->putFileAs(
                     $caminho,
                     $uploadedFile,
                     $filename
                 );
 
-                $upload = new AnexoMensagem();
-                $upload->nome = $filename;
-                $upload->caminho = $caminho;
-                $upload->nome_original = $uploadedFile->getClientOriginalName();
-                $upload->id_mensagem = $novaMensagem->id;
-
-                $upload->save();
+                AnexoMensagem::create([
+                    'nome' => $filename,
+                    'caminho' => $caminho,
+                    'nome_original' => $uploadedFile->getClientOriginalName(),
+                    'id_mensagem' => $novaMensagem->id,
+                ]);
             }
         }
 
-        return $this->success('Mensagem enviada com Sucesso!', 201);
+        return $this->success('Mensagem enviada com Sucesso!', Response::HTTP_CREATED);
     }
 
     public function getChatPorProtocolo($protocolo)
     {
         $manifestacao = Manifest::with('canalMensagem', 'canalMensagem.mensagens', 'canalMensagem.mensagens.anexos', 'autor')->where('protocolo', $protocolo)->first();
         if (is_null($manifestacao)) {
-            return $this->error('Não foi possivel carregar as mensagens!', 404);
+            return $this->error('Não foi possivel carregar as mensagens!', Response::HTTP_NOT_FOUND);
         }
         return $this->successWithData($manifestacao, 'Mensagens carregadas com sucesso!');
     }

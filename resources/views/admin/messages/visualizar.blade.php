@@ -42,7 +42,7 @@
                         </th>
                         @foreach ($mensagem->anexos as $anexo)
                         <td>
-                            <a href="{{$anexo->getUrl()}}" target='_blank'
+                            <a href="{{route('view-anexo', $anexo)}}" target='_blank'
                                 download="{{$anexo->nome_original}}">{{$anexo->nome_original}}</a>
                         </td>
                         @endforeach
@@ -73,7 +73,7 @@
                         </th>
                         @foreach ($mensagem->anexos as $anexo)
                         <td>
-                            <a href="{{$anexo->getUrl()}}" target='_blank'
+                            <a href="{{$anexo->viewUrl}}" target='_blank'
                                 download="{{$anexo->nome_original}}">{{$anexo->nome_original}}</a>
                         </td>
                         @endforeach

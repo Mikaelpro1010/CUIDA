@@ -31,6 +31,14 @@ class UsersTableSeeder extends Seeder
                 'updated_at' => Carbon::now(),
             ],
             [
+                'name' => "Avaliador",
+                'role_id' => 3,
+                'email' => "avaliador@mail.com",
+                'password' => bcrypt('123'),
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
+            ],
+            [
                 'name' => "SauloDc",
                 'role_id' => 1,
                 'email' => "saulocastro@sobral.ce.gov.br",
@@ -40,6 +48,6 @@ class UsersTableSeeder extends Seeder
             ],
         ]);
 
-        factory(User::class, 150)->create();
+        factory(User::class, 10)->create();
     }
 }
