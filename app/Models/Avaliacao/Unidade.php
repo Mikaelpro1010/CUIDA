@@ -40,11 +40,11 @@ class Unidade extends Model
                     'nota' => $this->avaliacoes->avg('nota')
                 ]);
 
-                $notas1 = $this->avaliacoes->where('nota', 1)->count();
-                $notas2 = $this->avaliacoes->where('nota', 2)->count();
-                $notas3 = $this->avaliacoes->where('nota', 3)->count();
-                $notas4 = $this->avaliacoes->where('nota', 4)->count();
-                $notas5 = $this->avaliacoes->where('nota', 5)->count();
+                $notas1 = $this->avaliacoes->where('nota', 2)->count();
+                $notas2 = $this->avaliacoes->where('nota', 4)->count();
+                $notas3 = $this->avaliacoes->where('nota', 6)->count();
+                $notas4 = $this->avaliacoes->where('nota', 8)->count();
+                $notas5 = $this->avaliacoes->where('nota', 10)->count();
 
                 $qtdAvaliacoes = $notas1 + $notas2 + $notas3 + $notas4 + $notas5;
 
@@ -65,24 +65,24 @@ class Unidade extends Model
             $unidadeInfo =  Cache::get('Unidade_' . $avaliacao->unidade_secr_id);
 
             switch ($avaliacao->nota) {
-                case 1:
+                case 2:
                     $unidadeInfo['notas1']++;
                     break;
-                case 2:
+                case 4:
                     $unidadeInfo['notas2']++;
                     break;
-                case 3:
+                case 6:
                     $unidadeInfo['notas3']++;
                     break;
-                case 4:
+                case 8:
                     $unidadeInfo['notas4']++;
                     break;
-                case 5:
+                case 10:
                     $unidadeInfo['notas5']++;
                     break;
             }
 
-            $media = ($unidadeInfo['notas1'] + ($unidadeInfo['notas2'] * 2) + ($unidadeInfo['notas3'] * 3) + ($unidadeInfo['notas4'] * 4) + ($unidadeInfo['notas5'] * 5))
+            $media = (($unidadeInfo['notas1'] * 2) + ($unidadeInfo['notas2'] * 4) + ($unidadeInfo['notas3'] * 6) + ($unidadeInfo['notas4'] * 8) + ($unidadeInfo['notas5'] * 10))
                 / ($unidadeInfo['notas1'] + $unidadeInfo['notas2'] + $unidadeInfo['notas3'] + $unidadeInfo['notas4'] + $unidadeInfo['notas5']);
 
             $unidadeInfo['qtd']++;

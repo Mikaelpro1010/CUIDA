@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Avaliacoes;
 
 use App\Constants\Permission;
 use App\Http\Controllers\Controller;
-use App\Models\Avaliacao\Avaliacao;
 use App\Models\Avaliacao\Unidade;
 use App\Models\Secretaria;
 use Illuminate\Http\Response;
@@ -19,18 +18,18 @@ class AvaliacoesController extends Controller
         $qtdAvaliacoes = $resumoSecretarias['qtd'];
 
         $notas = [
-            1 => ['qtd' => $resumoSecretarias['notas1'], "percent" => $qtdAvaliacoes > 0 ? number_format($resumoSecretarias['notas1'] / $qtdAvaliacoes * 100, 1, '.', '') : 0],
-            2 => ['qtd' => $resumoSecretarias['notas2'], "percent" => $qtdAvaliacoes > 0 ? number_format($resumoSecretarias['notas2'] / $qtdAvaliacoes * 100, 1, '.', '') : 0],
-            3 => ['qtd' => $resumoSecretarias['notas3'], "percent" => $qtdAvaliacoes > 0 ? number_format($resumoSecretarias['notas3'] / $qtdAvaliacoes * 100, 1, '.', '') : 0],
-            4 => ['qtd' => $resumoSecretarias['notas4'], "percent" => $qtdAvaliacoes > 0 ? number_format($resumoSecretarias['notas4'] / $qtdAvaliacoes * 100, 1, '.', '') : 0],
-            5 => ['qtd' => $resumoSecretarias['notas5'], "percent" => $qtdAvaliacoes > 0 ? number_format($resumoSecretarias['notas5'] / $qtdAvaliacoes * 100, 1, '.', '') : 0],
+            2 => ['qtd' => $resumoSecretarias['notas1'], "percent" => $qtdAvaliacoes > 0 ? number_format($resumoSecretarias['notas1'] / $qtdAvaliacoes * 100, 1, '.', '') : 0],
+            4 => ['qtd' => $resumoSecretarias['notas2'], "percent" => $qtdAvaliacoes > 0 ? number_format($resumoSecretarias['notas2'] / $qtdAvaliacoes * 100, 1, '.', '') : 0],
+            6 => ['qtd' => $resumoSecretarias['notas3'], "percent" => $qtdAvaliacoes > 0 ? number_format($resumoSecretarias['notas3'] / $qtdAvaliacoes * 100, 1, '.', '') : 0],
+            8 => ['qtd' => $resumoSecretarias['notas4'], "percent" => $qtdAvaliacoes > 0 ? number_format($resumoSecretarias['notas4'] / $qtdAvaliacoes * 100, 1, '.', '') : 0],
+            10 => ['qtd' => $resumoSecretarias['notas5'], "percent" => $qtdAvaliacoes > 0 ? number_format($resumoSecretarias['notas5'] / $qtdAvaliacoes * 100, 1, '.', '') : 0],
         ];
 
         $secretarias = Secretaria::query()->orderBy('nota', 'desc')->get();
 
         //media Geral
         $avaliacoesAverage = $secretarias->avg('nota');
-        $percentAverage = $avaliacoesAverage / 5 * 100;
+        $percentAverage = $avaliacoesAverage * 10;
         $avaliacoesAverage = floatval(number_format($avaliacoesAverage, 2, '.', ''));
 
         //media das Secretarias
@@ -147,16 +146,16 @@ class AvaliacoesController extends Controller
         $qtdAvaliacoes = $resumoSecretaria['qtd'];
 
         $notas = [
-            1 => ['qtd' => $resumoSecretaria['notas1'], "percent" => $qtdAvaliacoes > 0 ? number_format($resumoSecretaria['notas1'] / $qtdAvaliacoes * 100, 1, '.', '') : 0],
-            2 => ['qtd' => $resumoSecretaria['notas2'], "percent" => $qtdAvaliacoes > 0 ? number_format($resumoSecretaria['notas2'] / $qtdAvaliacoes * 100, 1, '.', '') : 0],
-            3 => ['qtd' => $resumoSecretaria['notas3'], "percent" => $qtdAvaliacoes > 0 ? number_format($resumoSecretaria['notas3'] / $qtdAvaliacoes * 100, 1, '.', '') : 0],
-            4 => ['qtd' => $resumoSecretaria['notas4'], "percent" => $qtdAvaliacoes > 0 ? number_format($resumoSecretaria['notas4'] / $qtdAvaliacoes * 100, 1, '.', '') : 0],
-            5 => ['qtd' => $resumoSecretaria['notas5'], "percent" => $qtdAvaliacoes > 0 ? number_format($resumoSecretaria['notas5'] / $qtdAvaliacoes * 100, 1, '.', '') : 0],
+            2 => ['qtd' => $resumoSecretaria['notas1'], "percent" => $qtdAvaliacoes > 0 ? number_format($resumoSecretaria['notas1'] / $qtdAvaliacoes * 100, 1, '.', '') : 0],
+            4 => ['qtd' => $resumoSecretaria['notas2'], "percent" => $qtdAvaliacoes > 0 ? number_format($resumoSecretaria['notas2'] / $qtdAvaliacoes * 100, 1, '.', '') : 0],
+            6 => ['qtd' => $resumoSecretaria['notas3'], "percent" => $qtdAvaliacoes > 0 ? number_format($resumoSecretaria['notas3'] / $qtdAvaliacoes * 100, 1, '.', '') : 0],
+            8 => ['qtd' => $resumoSecretaria['notas4'], "percent" => $qtdAvaliacoes > 0 ? number_format($resumoSecretaria['notas4'] / $qtdAvaliacoes * 100, 1, '.', '') : 0],
+            10 => ['qtd' => $resumoSecretaria['notas5'], "percent" => $qtdAvaliacoes > 0 ? number_format($resumoSecretaria['notas5'] / $qtdAvaliacoes * 100, 1, '.', '') : 0],
         ];
 
         //media Geral
         $avaliacoesAverage = floatval(number_format($secretaria->nota, 2, '.', ''));
-        $percentAverage = $avaliacoesAverage / 5 * 100;
+        $percentAverage = $avaliacoesAverage * 10;
 
         //top 5 melhores Unidades
         $top5BestUnidades = [];
@@ -290,7 +289,7 @@ class AvaliacoesController extends Controller
 
         //media Geral
         $avaliacoesAverage = floatval(number_format($unidade->nota, 2, '.', ''));
-        $percentAverage = $avaliacoesAverage / 5 * 100;
+        $percentAverage = $avaliacoesAverage * 10;
 
         //notas qtd
         $resumoUnidade = $unidade->getResumoFromCache();
@@ -298,11 +297,11 @@ class AvaliacoesController extends Controller
         $qtdAvaliacoes = $resumoUnidade['qtd'];
 
         $notas = [
-            1 => ['qtd' => $resumoUnidade['notas1'], "percent" => $qtdAvaliacoes > 0 ? number_format($resumoUnidade['notas1'] / $qtdAvaliacoes * 100, 1, '.', '') : 0],
-            2 => ['qtd' => $resumoUnidade['notas2'], "percent" => $qtdAvaliacoes > 0 ? number_format($resumoUnidade['notas2'] / $qtdAvaliacoes * 100, 1, '.', '') : 0],
-            3 => ['qtd' => $resumoUnidade['notas3'], "percent" => $qtdAvaliacoes > 0 ? number_format($resumoUnidade['notas3'] / $qtdAvaliacoes * 100, 1, '.', '') : 0],
-            4 => ['qtd' => $resumoUnidade['notas4'], "percent" => $qtdAvaliacoes > 0 ? number_format($resumoUnidade['notas4'] / $qtdAvaliacoes * 100, 1, '.', '') : 0],
-            5 => ['qtd' => $resumoUnidade['notas5'], "percent" => $qtdAvaliacoes > 0 ? number_format($resumoUnidade['notas5'] / $qtdAvaliacoes * 100, 1, '.', '') : 0],
+            2 => ['qtd' => $resumoUnidade['notas1'], "percent" => $qtdAvaliacoes > 0 ? number_format($resumoUnidade['notas1'] / $qtdAvaliacoes * 100, 1, '.', '') : 0],
+            4 => ['qtd' => $resumoUnidade['notas2'], "percent" => $qtdAvaliacoes > 0 ? number_format($resumoUnidade['notas2'] / $qtdAvaliacoes * 100, 1, '.', '') : 0],
+            6 => ['qtd' => $resumoUnidade['notas3'], "percent" => $qtdAvaliacoes > 0 ? number_format($resumoUnidade['notas3'] / $qtdAvaliacoes * 100, 1, '.', '') : 0],
+            8 => ['qtd' => $resumoUnidade['notas4'], "percent" => $qtdAvaliacoes > 0 ? number_format($resumoUnidade['notas4'] / $qtdAvaliacoes * 100, 1, '.', '') : 0],
+            10 => ['qtd' => $resumoUnidade['notas5'], "percent" => $qtdAvaliacoes > 0 ? number_format($resumoUnidade['notas5'] / $qtdAvaliacoes * 100, 1, '.', '') : 0],
         ];
 
         //gerando cores aleatorias
@@ -359,11 +358,11 @@ class AvaliacoesController extends Controller
             // Avaliacoes por mes (qtd)
             $aux = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
 
-            $resposta[0] = $aux;
             $resposta[1] = $aux;
-            $resposta[2] = $aux;
             $resposta[3] = $aux;
-            $resposta[4] = $aux;
+            $resposta[5] = $aux;
+            $resposta[7] = $aux;
+            $resposta[9] = $aux;
 
             $avaliacoesAno = $unidade->avaliacoes()->whereYear('avaliacoes.created_at', request()->ano)->get();
 
