@@ -135,7 +135,7 @@
             scales: {
                 y: {
                     min: 0,
-                    max: 5,
+                    max: 10,
                 }
             }
         }
