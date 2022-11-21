@@ -81,6 +81,7 @@ class AvaliacoesController extends Controller
 
             //melhores unidades
             $top5BestUnidades[] = [
+                'id' => $unidade->id,
                 'nome' => $unidade->nome . " - " . $secretaria->sigla,
                 'nota' => $nota,
                 'qtd' => $qtd,
@@ -171,6 +172,7 @@ class AvaliacoesController extends Controller
 
             //melhores unidades
             $top5BestUnidades[] = [
+                'id' => $unidade->id,
                 'nome' => $unidade->nome,
                 'nota' => is_null($nota) ? '0,00' : number_format($nota, 2, ',', ''),
                 'qtd' => $qtd,
