@@ -8,7 +8,7 @@ use App\Models\Avaliacao\Unidade;
 use App\Models\Secretaria;
 use Illuminate\Http\Response;
 
-class AvaliacoesController extends Controller
+class RelatoriosAvaliacoesController extends Controller
 {
     //resumo Geral
     public function resumo()
@@ -56,6 +56,7 @@ class AvaliacoesController extends Controller
             $mediaAvaliacoes[] = $dataSet;
 
             $bestSecretarias[] = [
+                "id" => $secretaria->id,
                 "nome" => $secretaria->nome . " - " . $secretaria->sigla,
                 "nota" => is_null($secretaria->nota) ? floatval('0.00') : floatval(number_format($secretaria->nota, 2, '.', '')),
             ];
@@ -67,7 +68,7 @@ class AvaliacoesController extends Controller
         //melhores Unidades
         $bestUnidades = [];
 
-        $unidades = Unidade::query()->orderBy('nota', 'desc')->limit(20)->get();
+        $unidades = Unidade::query()->with('secretaria')->orderBy('nota', 'desc')->limit(20)->get();
 
         foreach ($unidades as $unidade) {
             $dataSetbestUnidades = [];
@@ -82,7 +83,8 @@ class AvaliacoesController extends Controller
             //melhores unidades
             $top5BestUnidades[] = [
                 'id' => $unidade->id,
-                'nome' => $unidade->nome . " - " . $secretaria->sigla,
+                'secretaria_id' => $unidade->secretaria_id,
+                'nome' => $unidade->nome . " - " . $unidade->secretaria->sigla,
                 'nota' => $nota,
                 'qtd' => $qtd,
             ];
