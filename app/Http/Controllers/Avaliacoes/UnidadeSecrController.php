@@ -88,6 +88,7 @@ class UnidadeSecrController extends Controller
             'nome' => $request->nome,
             'descricao' => $request->descricao,
             'secretaria_id' => $request->secretaria,
+            'nota' => 0,
             'ativo' => true,
             'token' => substr(bin2hex(random_bytes(50)), 1),
         ]);
