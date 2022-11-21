@@ -94,6 +94,11 @@ class FaqController extends Controller
         $faqs->ativo = !$faqs->ativo;
         $faqs->save();
 
+        if($faqs->ativo){
+            return redirect()->route('get-faq-list')->with('success', 'FAQ ativado com sucesso!');
+        } else{
+            return redirect()->route('get-faq-list')->with('success', 'FAQ desativado com sucesso!');
+        }
         return redirect()->route('get-faq-list');
     }
 
