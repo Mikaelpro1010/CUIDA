@@ -34,10 +34,11 @@ class Unidade extends Model
 
     public function getResumoFromCache(): array
     {
-        return
-            Cache::rememberForever('Unidade_' . $this->id, function () {
+        return Cache::rememberForever('Unidade_' . $this->id, function () {
+            $notaUnidade = $this->avaliacoes->avg('nota');
+            if (!is_null($notaUnidade) && $notaUnidade != $this->nota) {
                 $this->update([
-                    'nota' => $this->avaliacoes->avg('nota')
+                    'nota' => $notaUnidade
                 ]);
 
                 $notas1 = $this->avaliacoes->where('nota', 2)->count();
@@ -56,7 +57,17 @@ class Unidade extends Model
                     'notas4' => $notas4,
                     'notas5' => $notas5,
                 ];
-            });
+            } elseif (is_null($notaUnidade)) {
+                return [
+                    'qtd' => 0,
+                    'notas1' => 0,
+                    'notas2' => 0,
+                    'notas3' => 0,
+                    'notas4' => 0,
+                    'notas5' => 0,
+                ];
+            }
+        });
     }
 
     public function updateResumoCache(Avaliacao $avaliacao): void

@@ -10,7 +10,8 @@
 <div class="row">
     @component('admin.avaliacoes.resumos.components.total-avaliacoes', compact('qtdAvaliacoes', 'notas'))
     @endcomponent
-    @component('admin.avaliacoes.resumos.components.avaliacao-geral', compact('avaliacoesAverage', 'percentAverage'))
+    @component('admin.avaliacoes.resumos.components.avaliacao-geral', compact('avaliacoesAverage',
+    'percentAverage','qtdAvaliacoes'))
     @slot('title')
     Avaliação da Unidade
     @endslot
@@ -30,7 +31,7 @@
                         <label class="col-md-9 col-form-label text-end" for="notasMes">Ano:</label>
                         <div class="col-md-3">
                             <select id="notasMes" class="form-select" name="notasMes">
-                                @for ($ano = intval(formatarDataHora(null, 'Y')); $ano >= 2020 ; $ano--)
+                                @for ($ano = intval(formatarDataHora(null, 'Y')); $ano >= 2022 ; $ano--)
                                 <option value="{{$ano}}" @if (request()->ano == $ano) selected @endif>
                                     {{ $ano }}
                                 </option>
@@ -69,7 +70,7 @@
                         <label class="col-md-9 col-form-label text-end" for="avaliacoesMes">Ano:</label>
                         <div class="col-md-3">
                             <select id="avaliacoesMes" class="form-select" name="avaliacoesMes">
-                                @for ($ano = intval(formatarDataHora(null, 'Y')); $ano >= 2020 ; $ano--)
+                                @for ($ano = intval(formatarDataHora(null, 'Y')); $ano >= 2022 ; $ano--)
                                 <option value="{{$ano}}" @if (request()->ano == $ano) selected @endif>
                                     {{ $ano }}
                                 </option>
@@ -102,8 +103,8 @@
 @if ($qtdAvaliacoes > 0)
 <script>
     $(document).ready(function(){
-        atualizarAvaliacoesMes({{ formatarDataHora(null, 'Y') }});
-        atualizarNotasMes({{ formatarDataHora(null, 'Y') }});
+        atualizarAvaliacoesMes({{ formatarDataHora(today(), 'Y') }});
+        atualizarNotasMes({{ formatarDataHora(today(), 'Y') }});
     });
 
     $("#avaliacoesMes").change(function(){ atualizarAvaliacoesMes($("#avaliacoesMes").val())});

@@ -42,5 +42,8 @@
         </tbody>
     </table>
 </div>
+<div class="d-flex justify-content-evenly">
+    {{ $secretarias->links('pagination::bootstrap-4') }}
+</div>
 
 @endsection

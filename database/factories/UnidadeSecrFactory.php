@@ -11,6 +11,7 @@ $factory->define(Unidade::class, function (Faker $faker) {
         'secretaria_id' => $secretaria->id,
         'nome' => $faker->company(),
         'descricao' => $description,
+        'nota' => 0,
         'ativo' => true,
         'token' => substr(bin2hex(random_bytes(50)), 1),
     ];

@@ -11,7 +11,8 @@
 <div class="row">
     @component('admin.avaliacoes.resumos.components.total-avaliacoes', compact('qtdAvaliacoes', 'notas'))
     @endcomponent
-    @component('admin.avaliacoes.resumos.components.avaliacao-geral', compact('avaliacoesAverage', 'percentAverage'))
+    @component('admin.avaliacoes.resumos.components.avaliacao-geral', compact('avaliacoesAverage',
+    'percentAverage','qtdAvaliacoes'))
     @slot('title')
     Avaliação da Secretaria
     @endslot
@@ -24,9 +25,17 @@
             <div class="card-header">
                 <h4>Melhores Unidades ({{ $qtdBestUnidades }})</h4>
             </div>
+            @if ($qtdAvaliacoes > 0)
             <div class="" style="height: 35vh">
                 <canvas id="melhoresUnidades" height="100px"></canvas>
             </div>
+            @else
+            <div class="m-3 alert alert-info">
+                <ul>
+                    <li>Não existem avaliações para esta Secretaria</li>
+                </ul>
+            </div>
+            @endif
         </div>
     </div>
 
@@ -48,7 +57,12 @@
                     <tbody>
                         @foreach ($top5BestUnidades as $item)
                         <tr>
-                            <td>{{ $item['nome'] }}</td>
+                            <td>
+                                <a href="{{ route('resumo-avaliacoes-unidade', ['secretaria' => $secretaria, 'unidade' => $item['id']]) }}"
+                                    target="_blank">
+                                    {{ $item['nome'] }}
+                                </a>
+                            </td>
                             <td>{{ $item['nota'] }}</td>
                             <td class="text-center">{{ $item['qtd'] }}</td>
                         </tr>
@@ -87,7 +101,7 @@
                         <label class="col-md-9 col-form-label text-end" for="avaliacoesMes">Ano:</label>
                         <div class="col-md-3">
                             <select id="avaliacoesMes" class="form-select" name="avaliacoesMes">
-                                @for ($ano = intval(formatarDataHora(null, 'Y')); $ano >= 2020 ; $ano--)
+                                @for ($ano = intval(formatarDataHora(null, 'Y')); $ano >= 2022 ; $ano--)
                                 <option value="{{$ano}}" @if (request()->ano == $ano) selected @endif>
                                     {{ $ano }}
                                 </option>
@@ -144,7 +158,7 @@
 
 @if ($qtdAvaliacoes > 0)
 <script>
-    $(document).ready(function(){updateAvaliacoesMes({{ formatarDataHora(null, 'Y') }})});
+    $(document).ready(function(){updateAvaliacoesMes({{ formatarDataHora(today(), 'Y') }})});
 
     $("#avaliacoesMes").change(function(){updateAvaliacoesMes($("#avaliacoesMes").val())});
 

@@ -64,13 +64,13 @@ Route::get('/anexos', function () {
 
 
 //Rotas Não Logadas
-Route::view('/pagina-inicial', 'public.pagina-inicial')-> name("pagina-inicial");
+Route::view('/pagina-inicial', 'public.pagina-inicial')->name("pagina-inicial");
 Route::view('/', 'public.home')->name('home');
 Route::view('/politicas-de-privacidade', 'public.politicas')->name('politicas');
 Route::view('/termos-de-uso', 'public.termos')->name('termos');
 Route::get('pagina-manifestacao/visualizar', 'Publico\PaginaManifestController@visualizarPagina')->name("vis-pagina_manifestacao");
 Route::post('manifestacao/cadastrar/novo', 'Publico\PaginaManifestController@cadastrar')->name("cadastrar-manifestacao");
-Route::get('/pagina-inicial', 'Publico\FaqController@paginaInicial')-> name("pagina-inicial");
+Route::get('/pagina-inicial', 'Publico\FaqController@paginaInicial')->name("pagina-inicial");
 
 Route::middleware(['auth:web'])->group(
     function () {
@@ -99,7 +99,7 @@ Route::middleware(['auth:web'])->group(
                 Route::get('secretarias/{secretaria}/toggle', 'SecretariasController@toggleSecretariaStatus')->name("get-toggle-secretaria-status");
             }
         );
-        
+
         Route::namespace('Configs')->prefix('admin/config')->group(
             function () {
                 Route::get('/users-type', 'RolesController@listRoles')->name('get-roles-list');
@@ -109,7 +109,7 @@ Route::middleware(['auth:web'])->group(
                 Route::get('/users-type/{role}/edit', 'RolesController@editRole')->name('get-edit-role-view');
                 Route::patch('/users-type/{role}', 'RolesController@updateRole')->name('patch-update-role');
                 Route::delete('/users-type/{role}', 'RolesController@deleteRole')->name('delete-delete-role');
-                
+
                 Route::get('tipo-manifestacao', 'TipoManifestacaoController@listTipoManifestacao')->name('get-tipo-manifestacao-list');
                 Route::get('tipo-manifestacao/create', 'TipoManifestacaoController@createTipoManifestacao')->name('get-create-tipo-manifestacao');
                 Route::post('tipo-manifestacao', 'TipoManifestacaoController@storeTipoManifestacao')->name('post-store-tipo-manifestacao');
@@ -118,7 +118,7 @@ Route::middleware(['auth:web'])->group(
                 Route::patch('tipo-manifestacao/{tipoManifestacao}', 'TipoManifestacaoController@updateTipoManifestacao')->name('patch-update-tipo-manifestacao');
                 Route::delete('tipo-manifestacao/{tipoManifestacao}', 'TipoManifestacaoController@deleteTipoManifestacao')->name('delete-delete-tipo-manifestacao');
                 Route::get('tipo-mnifestacao/{tipoManifestacao}/toggle', 'TipoManifestacaoController@toggleTipoManifestacaoStatus')->name("get-toggle-tipo-manifestacao-status");
-                
+
                 Route::get('estado-processo', 'EstadoProcessoController@listEstadoProcesso')->name('get-estado-processo-list');
                 Route::get('estado-processo/create', 'EstadoProcessoController@createEstadoProcesso')->name('get-create-estado-processo');
                 Route::post('estado-processo', 'EstadoProcessoController@storeEstadoProcesso')->name('post-store-estado-processo');
@@ -127,7 +127,7 @@ Route::middleware(['auth:web'])->group(
                 Route::patch('estado-processo/{estadoProcesso}', 'EstadoProcessoController@updateEstadoProcesso')->name('patch-update-estado-processo');
                 Route::delete('estado-processo/{estadoProcesso}', 'EstadoProcessoController@deleteEstadoProcesso')->name('delete-delete-estado-processo');
                 Route::get('estado-processo/{estadoProcesso}/toggle', 'EstadoProcessoController@toggleEstadoProcessoStatus')->name("get-toggle-estado-processo-status");
-                
+
                 Route::get('motivacao', 'MotivacaoController@listMotivacao')->name('get-motivacao-list');
                 Route::get('motivacao/create', 'MotivacaoController@createMotivacao')->name('get-create-motivacao');
                 Route::post('motivacao', 'MotivacaoController@storeMotivacao')->name('post-store-motivacao');
@@ -136,7 +136,7 @@ Route::middleware(['auth:web'])->group(
                 Route::patch('motivacao/{Motivacao}', 'MotivacaoController@updateMotivacao')->name('patch-update-motivacao');
                 Route::delete('motivacao/{Motivacao}', 'MotivacaoController@deleteMotivacao')->name('delete-delete-motivacao');
                 Route::get('motivacao/{Motivacao}/toggle', 'MotivacaoController@toggleMotivacaoStatus')->name("get-toggle-motivacao-status");
-                
+
                 Route::get('situacao', 'SituacaoController@listSituacao')->name('get-situacao-list');
                 Route::get('situacao/create', 'SituacaoController@createSituacao')->name('get-create-situacao');
                 Route::post('situacao', 'SituacaoController@storeSituacao')->name('post-store-situacao');
@@ -145,7 +145,7 @@ Route::middleware(['auth:web'])->group(
                 Route::patch('situacao/{Situacao}', 'SituacaoController@updateSituacao')->name('patch-update-situacao');
                 Route::delete('situacao/{Situacao}', 'SituacaoController@deleteSituacao')->name('delete-delete-situacao');
                 Route::get('situacao/{Situacao}/toggle', 'SituacaoController@toggleSituacaoStatus')->name("get-toggle-situacao-status");
-                
+
                 Route::get('faq', 'FaqController@listFAQ')->name('get-faq-list');
                 Route::get('faq/create', 'FaqController@createFAQ')->name('get-create-faq');
                 Route::post('faq', 'FaqController@storeFAQ')->name('post-store-faq');
@@ -175,20 +175,20 @@ Route::middleware(['auth:web'])->group(
 
         //modulo Avaliacoes
         Route::prefix('avaliacoes')->namespace('Avaliacoes')->group(function () {
-            Route::get('/', 'AvaliacoesController@resumo')->name('resumo-avaliacoes');
+            Route::get('/', 'RelatoriosAvaliacoesController@resumo')->name('resumo-avaliacoes');
 
-            Route::get('/secretaria', 'AvaliacoesController@resumoSecretariasList')->name('resumo-avaliacoes-secretaria-list');
-            Route::get('/secretaria/{secretaria}', 'AvaliacoesController@resumoSecretaria')->name('resumo-avaliacoes-secretaria');
-            Route::get('/secretaria/{secretaria}/avaliacoes/mes', 'AvaliacoesController@avaliacoesPorMesSecretaria')
+            Route::get('/secretaria', 'RelatoriosAvaliacoesController@resumoSecretariasList')->name('resumo-avaliacoes-secretaria-list');
+            Route::get('/secretaria/{secretaria}', 'RelatoriosAvaliacoesController@resumoSecretaria')->name('resumo-avaliacoes-secretaria');
+            Route::get('/secretaria/{secretaria}/avaliacoes/mes', 'RelatoriosAvaliacoesController@avaliacoesPorMesSecretaria')
                 ->middleware('throttle:60,60')
                 ->name('resumo-avaliacoes-secretaria-avaliacoes-mes');
 
-            Route::get('/unidade', 'AvaliacoesController@resumoUnidadeSecrList')->name('resumo-avaliacoes-unidade-list');
-            Route::get('/secretaria/{secretaria}/unidade/{unidade}', 'AvaliacoesController@resumoUnidadeSecr')->name('resumo-avaliacoes-unidade');
-            Route::get('/unidade/{unidade}/notas-mes', 'AvaliacoesController@notasPorMesUnidade')
+            Route::get('/unidade', 'RelatoriosAvaliacoesController@resumoUnidadeSecrList')->name('resumo-avaliacoes-unidade-list');
+            Route::get('/secretaria/{secretaria}/unidade/{unidade}', 'RelatoriosAvaliacoesController@resumoUnidadeSecr')->name('resumo-avaliacoes-unidade');
+            Route::get('/unidade/{unidade}/notas-mes', 'RelatoriosAvaliacoesController@notasPorMesUnidade')
                 ->middleware('throttle:60,60')
                 ->name('resumo-avaliacoes-unidade-notas-mes');
-            Route::get('/unidade/{unidade}/avaliacoes-mes', 'AvaliacoesController@avaliacoesPorMesUnidade')
+            Route::get('/unidade/{unidade}/avaliacoes-mes', 'RelatoriosAvaliacoesController@avaliacoesPorMesUnidade')
                 ->middleware('throttle:60,60')
                 ->name('resumo-avaliacoes-unidade-avaliacoes-mes');
 

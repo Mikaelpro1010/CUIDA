@@ -88,9 +88,14 @@ class Secretaria extends Model
             $resumoSecretaria['notas5'] += $resumoUnidade['notas5'];
         }
 
-        $this->update([
-            'nota' => $this->unidades->avg('nota')
-        ]);
+        $notaSecretaria = $this->unidades->avg('nota');
+
+        if (!is_null($notaSecretaria) && $notaSecretaria != $this->nota) {
+            $this->update([
+                'nota' => $notaSecretaria
+            ]);
+        }
+
 
         return $resumoSecretaria;
     }
