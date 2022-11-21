@@ -65,7 +65,7 @@ class EstadoProcessoController extends Controller
 
         $estado_processo->save();
 
-        return redirect()->route('get-estado-processo-list');
+        return redirect()->route('get-estado-processo-list')->with('success', 'Estado do Processo cadastrado com sucesso!');
     }
 
     public function viewEstadoProcesso($id)
@@ -94,14 +94,14 @@ class EstadoProcessoController extends Controller
         $estadoProcesso->descricao = $request->descricao;
         $estadoProcesso->save();
 
-        return redirect()->route('get-estado-processo-list', $estadoProcesso->id)->with('mensagem', 'Atualizado com sucesso!');
+        return redirect()->route('get-estado-processo-list', $estadoProcesso->id)->with('success', 'Atualizado com sucesso!');
     }
 
     public function deleteEstadoProcesso(EstadosProcesso  $estadoProcesso)
     {
         $this->authorize(Permission::GERENCIAR_ESTADOS_PROCESSO_DELETE);
         $estadoProcesso->delete();
-        return redirect()->route('get-estado-processo-list')->with('mensagem', 'Deletado com sucesso!');
+        return redirect()->route('get-estado-processo-list')->with('success', 'Deletado com sucesso!');
     }
 
     public function toggleEstadoProcessoStatus($id)
