@@ -110,6 +110,10 @@ class EstadoProcessoController extends Controller
         $estado_processos->ativo = !$estado_processos->ativo;
         $estado_processos->save();
 
-        return redirect()->route('get-estado-processo-list');
+        if($estado_processos->ativo){
+            return redirect()->route('get-estado-processo-list')->with('success', 'Estado do Processo ativado com sucesso!');
+        } else{
+            return redirect()->route('get-estado-processo-list')->with('success', 'Estado do Processo desativado com sucesso!');
+        }
     }
 }
