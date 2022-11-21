@@ -101,7 +101,7 @@
                         <label class="col-md-9 col-form-label text-end" for="avaliacoesMes">Ano:</label>
                         <div class="col-md-3">
                             <select id="avaliacoesMes" class="form-select" name="avaliacoesMes">
-                                @for ($ano = intval(formatarDataHora(null, 'Y')); $ano >= 2020 ; $ano--)
+                                @for ($ano = intval(formatarDataHora(null, 'Y')); $ano >= 2022 ; $ano--)
                                 <option value="{{$ano}}" @if (request()->ano == $ano) selected @endif>
                                     {{ $ano }}
                                 </option>
@@ -158,7 +158,7 @@
 
 @if ($qtdAvaliacoes > 0)
 <script>
-    $(document).ready(function(){updateAvaliacoesMes({{ formatarDataHora(null, 'Y') }})});
+    $(document).ready(function(){updateAvaliacoesMes({{ formatarDataHora(today(), 'Y') }})});
 
     $("#avaliacoesMes").change(function(){updateAvaliacoesMes($("#avaliacoesMes").val())});
 
