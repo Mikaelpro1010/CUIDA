@@ -48,26 +48,28 @@ class PaginaManifestController extends Controller
             $manifestacao = Manifestacoes::where('protocolo', $new_protocolo)->orWhere('senha', $new_senha)->first();
         }while(!is_null($manifestacao));
         
+
         $manifestacao = new Manifestacoes();
         $manifestacao->protocolo = $new_protocolo;
         $manifestacao->senha = $new_senha;
-        $manifestacao->nome = $request->nome;
-        $manifestacao->anonimo = $request->anonimo;
-        $manifestacao->email = $request->email;
-        $manifestacao->numero_telefone = $request->numero_telefone;
-        $manifestacao->tipo_telefone = $request->tipo_telefone;
-        $manifestacao->endereco = $request->endereco;
-        $manifestacao->bairro = $request->bairro;
-        $manifestacao->tipo_manifestacao_id = $request->tipo_manifestacao;
-        $manifestacao->manifestacao = $request->manifestacao;
-        $manifestacao->situacao_id = Situacao::where('nome', 'Aberta')->first()->id;
-        $manifestacao->estado_processo_id = EstadosProcesso::where('nome', 'Inicial')->first()->id;
-        $manifestacao->motivacao_id = Motivacao::where('nome', 'Manifestação')->first()->id;
-
+        if($request->anonimo == 0){
+            $manifestacao->nome = $request->nome;
+            $manifestacao->email = $request->email;
+            $manifestacao->numero_telefone = $request->numero_telefone;
+            $manifestacao->tipo_telefone = $request->tipo_telefone;
+        }
+            $manifestacao->anonimo = $request->anonimo;
+            $manifestacao->endereco = $request->endereco;
+            $manifestacao->bairro = $request->bairro;
+            $manifestacao->tipo_manifestacao_id = $request->tipo_manifestacao;
+            $manifestacao->manifestacao = $request->manifestacao;
+            $manifestacao->situacao_id = Situacao::where('nome', 'Aberta')->first()->id;
+            $manifestacao->estado_processo_id = EstadosProcesso::where('nome', 'Inicial')->first()->id;
+            $manifestacao->motivacao_id = Motivacao::where('nome', 'Manifestação')->first()->id;
 
         $manifestacao->save();
 
-        return redirect()->route('pagina-inicial')->with('mensagem','Usuário cadastrado com sucesso!');
+        return redirect()->route('pagina-inicial')->with('success','Usuário cadastrado com sucesso!');
     }
 
     public function visualizarManifestacao(Request $request){

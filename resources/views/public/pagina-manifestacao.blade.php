@@ -116,5 +116,27 @@
         $(document).ready(function(){
             $('#numero').mask('(00) 00000-0000')
         });
+        $("#select_sim").change(function(){
+            $("#nome").prop("disabled", true)
+            $("#nome").val("");
+            $("#email").prop("disabled", true)
+            $("#nome").val("");
+            $("#numero").prop("disabled", true)
+            $("#nome").val("");
+            $("#tipoCel").prop("disabled", true)
+            $("#nome").val("");
+            $("#tipoFixo").prop("disabled", true)
+            $("#nome").val("");
+            $("#tipoWhats").prop("disabled", true)
+            $("#nome").val("");
+        })
+        $("#select_nao").change(function(){
+            $("#nome").prop("disabled", false)
+            $("#email").prop("disabled", false)
+            $("#numero").prop("disabled", false)
+            $("#tipoCel").prop("disabled", false)
+            $("#tipoFixo").prop("disabled", false)
+            $("#tipoWhats").prop("disabled", false)
+        })
     </script>
 @endpush

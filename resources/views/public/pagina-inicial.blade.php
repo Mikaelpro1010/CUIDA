@@ -2,11 +2,6 @@
 
 @section('content')
     <div class="p-3 row align-items-start">
-        @if (session('mensagem'))
-        <div class="alert alert-success" role="alert">
-            {{ session('mensagem') }}
-        </div>
-        @endif
         <div class="border p-3 col-md-6 mb-3">
             <nav>
                 <div class="nav nav-tabs" id="nav-tab" role="tablist">
