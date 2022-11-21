@@ -8,7 +8,8 @@
 <div class="row">
     @component('admin.avaliacoes.resumos.components.total-avaliacoes', compact('qtdAvaliacoes', 'notas'))
     @endcomponent
-    @component('admin.avaliacoes.resumos.components.avaliacao-geral', compact('avaliacoesAverage', 'percentAverage'))
+    @component('admin.avaliacoes.resumos.components.avaliacao-geral', compact('avaliacoesAverage',
+    'percentAverage','qtdAvaliacoes'))
     @slot('title')
     Avaliação Geral
     @endslot

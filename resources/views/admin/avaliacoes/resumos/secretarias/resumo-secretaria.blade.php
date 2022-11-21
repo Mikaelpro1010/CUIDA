@@ -11,7 +11,8 @@
 <div class="row">
     @component('admin.avaliacoes.resumos.components.total-avaliacoes', compact('qtdAvaliacoes', 'notas'))
     @endcomponent
-    @component('admin.avaliacoes.resumos.components.avaliacao-geral', compact('avaliacoesAverage', 'percentAverage'))
+    @component('admin.avaliacoes.resumos.components.avaliacao-geral', compact('avaliacoesAverage',
+    'percentAverage','qtdAvaliacoes'))
     @slot('title')
     Avaliação da Secretaria
     @endslot
@@ -24,9 +25,17 @@
             <div class="card-header">
                 <h4>Melhores Unidades ({{ $qtdBestUnidades }})</h4>
             </div>
+            @if ($qtdAvaliacoes > 0)
             <div class="" style="height: 35vh">
                 <canvas id="melhoresUnidades" height="100px"></canvas>
             </div>
+            @else
+            <div class="m-3 alert alert-info">
+                <ul>
+                    <li>Não existem avaliações para esta Secretaria</li>
+                </ul>
+            </div>
+            @endif
         </div>
     </div>
 
