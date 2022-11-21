@@ -76,6 +76,7 @@ Route::middleware(['auth:web'])->group(
     function () {
         Route::get('/inicio', 'HomeController@index')->name('inicio');
 
+        //Gerenciamento
         Route::namespace('Gerenciar')->prefix('admin')->group(
             function () {
                 // Usuarios
@@ -100,6 +101,7 @@ Route::middleware(['auth:web'])->group(
             }
         );
 
+        //Configuraçoes
         Route::namespace('Configs')->prefix('admin/config')->group(
             function () {
                 Route::get('/users-type', 'RolesController@listRoles')->name('get-roles-list');
@@ -159,9 +161,13 @@ Route::middleware(['auth:web'])->group(
         );
 
 
+
+        Route::get('/manifestacoes2', "Manifests2Controller@list")->name('manifestacoes2');
+        Route::post('manifestacao2', 'Manifests2Controller@storeManifest')->name("post-store-manifest2");
+        Route::get('manifestacao2/view', 'Manifests2Controller@create')->name("get-create-manifest2");
         //manifestacoes
-        Route::get('/manifestacoes', "ManifestsController@listagem")->name('manifestacoes');
-        Route::get('/manifestacoes/{id}', "ManifestsController@visualizarManifest")->name('visualizarManifests');
+        Route::get('/manifestacoes', "ManifestsController@list")->name('manifestacoes');
+        Route::get('/manifestacoes/{id}', "ManifestsController@viewManifest")->name('visualizarManifests');
 
         //mensagens
         Route::get('/messages', "MessagesController@index")->name('mensagens');

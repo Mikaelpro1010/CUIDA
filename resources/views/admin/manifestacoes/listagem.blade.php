@@ -3,103 +3,25 @@
 @section('titulo', 'EscutaSol - Manifestações')
 @section('content')
 <div>
+    {{-- @if (session('mensagem'))
+        <div class="alert alert-success" role="alert">
+            {{ session('mensagem') }}
+        </div>
+    @endif --}}
     <div class="d-sm-grid d-md-flex justify-content-between d-flex align-items-center">
         <h3 class="d-flex align-self-middle">Manifestações</h3>
+        <a class="btn btn-primary" href="{{ route('get-create-manifest2') }}">
+            <i class="fa-solid fa-plus me-1"></i>
+            Nova Manifestação
+        </a>
     </div>
     <hr>
-
-    <form class="" action="{{ route('manifestacoes') }}" method="GET" id="filtroCanaisMensagem">
-        <div class="m-0 p-0 row">
-            <div class="col-md-2">
-                <label for="protocolo">Protocolo:</label>
-                <input id="protocolo" class="form-control" type="text" name="protocolo" placeholder="Pesquisar"
-                    value="{{ request()->protocolo }}">
-            </div>
-            <div class="col-md-2">
-                <label for="data-inicio">Data Inicio:</label>
-                <input id="data-inicio" class="form-control" type="date" name="data_inicio" max="{{ dateAndFormat() }}"
-                    value="@if (request()->data_inicio){{ formatData(request()->data_inicio) }}@endif">
-            </div>
-            <div class="col-md-2">
-                <label for="data-fim">Data Fim:</label>
-                <input id="data-fim" class="form-control" type="date" name="data_fim" max="{{ dateAndFormat() }}"
-                    value="@if (request()->data_fim){{ formatData(request()->data_fim) }}@endif">
-            </div>
-
-            <div class="col-md-3">
-                <label for="motivacao">Motivação:</label>
-                <select id="motivacao" class="form-select" name="motivacao">
-                    <option value="" @if(is_null(request()->motivacao)) selected @endif >Selecione</option>
-                    @foreach ( manifest()::MOTIVACAO as $motivacaoId => $motivacao )
-                    <option value="{{ $motivacaoId }}" @if (request()->motivacao == $motivacaoId) selected @endif>
-                        {{ $motivacao }}
-                    </option>
-                    @endforeach
-                </select>
-            </div>
-
-            <div class="col-md-3">
-                <label for="tipo">Tipo:</label>
-                <select id="tipo" class="form-select" name="tipo">
-                    <option value="0" selected>Selecione</option>
-                    @foreach ( manifest()::TIPO_MANIFESTACAO as $tipoId => $tipoNome )
-                    <option value="{{ $tipoId }}" @if (request()->tipo == $tipoId) selected @endif>
-                        {{$tipoNome}}
-                    </option>
-                    @endforeach
-                </select>
-            </div>
-
-        </div>
-
-        <div class="m-0 p-0 row justify-content-between">
-            <div class="col-md-6 row">
-                <div class="col-md-6">
-                    <label for="situacao">Situação:</label>
-                    <select id="situacao" class="form-select" name="situacao">
-                        <option value="0" selected>Selecione</option>
-                        @foreach ( manifest()::SITUACAO as $situacaoId => $situacaoNome )
-                        <option value="{{ $situacaoId }}" @if (request()->situacao == $situacaoId) selected @endif>
-                            {{$situacaoNome}}
-                        </option>
-                        @endforeach
-                    </select>
-                </div>
-
-                <div class="col-md-5">
-                    <label for="estado_processo">Estado do Processo:</label>
-                    <select id="estado_processo" class="form-select" name="estado_processo">
-                        <option value="0" selected>Selecione</option>
-                        @foreach ( manifest()::ESTADO_PROCESSO as $estadoId => $estadoProcesso )
-                        <option value="{{ $estadoId }}" @if (request()->estado_processo == $estadoId) selected @endif>
-                            {{$estadoProcesso}}
-                        </option>
-                        @endforeach
-                    </select>
-                </div>
-            </div>
-
-            <div class="col-md-4 row">
-                <div class="col-8 col-md-8 d-flex align-items-end">
-                    <button class="btn btn-primary form-control mt-3" type="submit">
-                        <i class="fa-solid fa-magnifying-glass"></i>
-                        Buscar
-                    </button>
-                </div>
-                <div class="col-4 col-md-4 d-flex align-items-end">
-                    <a class="btn btn-warning form-control mt-3" onclick="limparForm()">
-                        Limpar
-                        <i class="fa-solid fa-eraser"></i>
-                    </a>
-                </div>
-            </div>
-        </div>
-    </form>
 
     <div class="table-responsive mt-3">
         <table class="table table-sm table-striped align-middle">
             <thead>
                 <tr>
+                    <th>ID</th>
                     <th class="text-center">Protocolo</th>
                     <th>Motivo</th>
                     <th>Estado</th>
@@ -107,7 +29,7 @@
                     <th>Manifestante</th>
                     <th>Situação</th>
                     <th>Tipo de Manifestação</th>
-                    <th>Prazo</th>
+                    <th>Data</th>
                     <th class="text-center">Ações</th>
                 </tr>
             </thead>
@@ -115,39 +37,35 @@
                 @if (isset($manifestacoes) && count($manifestacoes) > 0)
                 @foreach ( $manifestacoes as $manifestacao )
                 <tr>
+                    <td>
+                        {{$manifestacao->id}}
+                    </td>
                     <th class="text-center">
                         {{ $manifestacao->protocolo }}
                         /
                         {{ count($manifestacao->canalMensagem) }}
                     </th>
                     <td class="">
-                        {{ manifest()::MOTIVACAO[$manifestacao->id_motivacao] }}
+                        {{ $manifestacao->motivacao->nome }}
                     </td>
                     <td class="">
-                        {{ manifest()::ESTADO_PROCESSO[$manifestacao->id_estado_processo] }}
+                        {{ $manifestacao->estadoProcesso->nome }}
                     </td>
                     <td class="">
                         {{ formatarDataHora($manifestacao->created_at) }}
                     </td>
                     <td class="">
-                        {{ $manifestacao->autor->name }}
+                        {{-- {{ $manifestacao->autor->name }} --}}
                     </td>
                     <td class="">
-                        {{ manifest()::SITUACAO[$manifestacao->id_situacao] }}
+                        {{ $manifestacao->situacao->nome }}
                     </td>
                     <td class="">
-                        {{ manifest()::TIPO_MANIFESTACAO[$manifestacao->id_tipo_manifestacao] }}
+                        {{ $manifestacao->tipoManifestacao->nome }}
                     </td>
+
                     <td class="">
-                        {{ carbonDiffInDays(carbon()::parse($manifestacao->created_at)->addDays(10)) }}
-                        dia(s)
-                        {{ carbonDiffInHoursMinusDays(carbon()::parse($manifestacao->created_at)->addDays(10 -
-                        carbonDiffInDays(carbon()::parse($manifestacao->created_at)->addDays(10)))) }}
-                        horas(s)
-                        {{ carbonDiffInMinutesMinusHours(carbon()::parse($manifestacao->created_at)->addDays(10-
-                        carbonDiffInHoursMinusDays(carbon()::parse($manifestacao->created_at)->addDays(10 -
-                        carbonDiffInDays(carbon()::parse($manifestacao->created_at)->addDays(10)))))) }}
-                        minutos(s)
+                        {{$manifestacao->created_at}}
                     </td>
                     <td class=" text-center">
                         <a href="{{ route('visualizarManifests', $manifestacao->id) }}" class="btn btn-primary">
