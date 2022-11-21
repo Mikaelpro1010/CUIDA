@@ -49,7 +49,7 @@ class FaqController extends Controller
         
         $faq->save();
         
-        return redirect()->route('get-faq-list');
+        return redirect()->route('get-faq-list')->with('success', 'FAQ cadastrado com sucesso com sucesso!');
     }
     
     public function viewFAQ($id)
@@ -78,14 +78,14 @@ class FaqController extends Controller
         $FAQ->resposta = $request->resposta;
         $FAQ->save();
         
-        return redirect()->route('get-faq-list', $FAQ->id)->with('mensagem', 'Atualizado com sucesso!');
+        return redirect()->route('get-faq-list', $FAQ->id)->with('success', 'Atualizado com sucesso!');
     }
 
     public function deleteFAQ(FAQ  $FAQ)
     {
         $this->authorize(Permission::GERENCIAR_FAQS_DELETE);
         $FAQ->delete();
-        return redirect()->route('get-faq-list')->with('mensagem', 'Deletado com sucesso!');
+        return redirect()->route('get-faq-list')->with('success', 'Deletado com sucesso!');
     }
 
     public function toggleFAQStatus($id)
@@ -103,6 +103,6 @@ class FaqController extends Controller
             $faq->ordem = $key+1;
             $faq->save();
         }
-        return json_encode(['success'=> 'true', 'message'=> 'Ordem alterada com sucesso!']);
+        return json_encode(['success'=> 'true', 'success'=> 'Ordem alterada com sucesso!']);
     }
 }
