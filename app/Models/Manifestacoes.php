@@ -22,12 +22,12 @@ class Manifestacoes extends Model
 
     public function estadoProcesso()
     {
-        return $this->hasOne(EstadoProcesso::class, 'id','estado_processo_id');
+        return $this->hasOne(EstadosProcesso::class, 'id','estado_processo_id');
     }
 
     public function tipoManifestacao()
     {
-        return $this->hasOne(TipoManifestacao::class, 'id', 'tipo_manifestacao_id');
+        return $this->hasOne(TiposManifestacao::class, 'id', 'tipo_manifestacao_id');
     }
 
     public function situacao()
@@ -44,6 +44,9 @@ class Manifestacoes extends Model
     public function recursos(){
         return $this->hasMany(Recurso::class, 'manifestacao_id', 'id');
     }
-
+    
+    public function motivacao(){
+        return $this->hasOne(Motivacao::class, 'id', 'motivacao_id');
+    }
 
 }
