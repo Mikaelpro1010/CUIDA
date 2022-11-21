@@ -108,6 +108,10 @@ class MotivacaoController extends Controller
         $motivacoes->ativo = !$motivacoes->ativo;
         $motivacoes->save();
 
-        return redirect()->route('get-motivacao-list');
+        if($motivacoes->ativo){
+            return redirect()->route('get-motivacao-list')->with('success', 'Motivação ativada com sucesso!');
+        } else{
+            return redirect()->route('get-motivacao-list')->with('success', 'Motivação desativada com sucesso!');
+        }
     }
 }
