@@ -63,7 +63,7 @@ class MotivacaoController extends Controller
 
         $motivacao->save();
 
-        return redirect()->route('get-motivacao-list');
+        return redirect()->route('get-motivacao-list')->with('success', 'Motivação cadastrada com sucesso!');
     }
 
     public function viewMotivacao($id)
@@ -92,14 +92,14 @@ class MotivacaoController extends Controller
         $Motivacao->descricao = $request->descricao;
         $Motivacao->save();
 
-        return redirect()->route('get-motivacao-list', $Motivacao->id)->with('mensagem', 'Atualizado com sucesso!');
+        return redirect()->route('get-motivacao-list', $Motivacao->id)->with('success', 'Atualizado com sucesso!');
     }
 
     public function deleteMotivacao(Motivacao  $Motivacao)
     {
         $this->authorize(Permission::GERENCIAR_MOTIVACOES_DELETE);
         $Motivacao->delete();
-        return redirect()->route('get-motivacao-list')->with('mensagem', 'Deletado com sucesso!');
+        return redirect()->route('get-motivacao-list')->with('success', 'Deletado com sucesso!');
     }
 
     public function toggleMotivacaoStatus($id)
