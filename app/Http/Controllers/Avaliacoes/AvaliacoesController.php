@@ -119,9 +119,9 @@ class AvaliacoesController extends Controller
     public function resumoSecretariasList()
     {
         if (auth()->user()->can(Permission::UNIDADE_SECRETARIA_ACCESS_ANY_SECRETARIA)) {
-            $secretarias = Secretaria::query()->with('unidades')->orderBy('nome', 'asc')->get();
+            $secretarias = Secretaria::query()->with('unidades')->orderBy('nome', 'asc')->paginate(15);
         } else {
-            $secretarias = auth()->user()->secretarias()->with('unidades')->orderBy('nome', 'asc')->get();
+            $secretarias = auth()->user()->secretarias()->with('unidades')->orderBy('nome', 'asc')->paginate(15);
         };
 
         if ($secretarias->count() == 1) {
@@ -262,6 +262,7 @@ class AvaliacoesController extends Controller
                 }
             )
             ->with('secretaria')
+            ->orderBy('nota', 'desc')
             ->paginate(15)
             ->appends([
                 'pesquisa' => request()->pesquisa,
