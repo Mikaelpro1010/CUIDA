@@ -48,7 +48,12 @@
                     <tbody>
                         @foreach ($top5BestUnidades as $item)
                         <tr>
-                            <td>{{ $item['nome'] }}</td>
+                            <td>
+                                <a href="{{ route('resumo-avaliacoes-unidade', ['secretaria' => $secretaria, 'unidade' => $item['id']]) }}"
+                                    target="_blank">
+                                    {{ $item['nome'] }}
+                                </a>
+                            </td>
                             <td>{{ $item['nota'] }}</td>
                             <td class="text-center">{{ $item['qtd'] }}</td>
                         </tr>

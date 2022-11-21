@@ -36,7 +36,11 @@
                     <tbody>
                         @foreach ($bestSecretarias as $item)
                         <tr>
-                            <td>{{ $item['nome'] }}</td>
+                            <td>
+                                <a href="{{ route('resumo-avaliacoes-secretaria', $item['id']) }}" target="_blank">
+                                    {{ $item['nome'] }}
+                                </a>
+                            </td>
                             <td>{{ number_format($item['nota'],2,',','') }}</td>
                         </tr>
                         @if ($loop->iteration == 5)
@@ -72,7 +76,12 @@
                     <tbody>
                         @foreach ($top5BestUnidades as $item)
                         <tr>
-                            <td>{{ $item['nome'] }}</td>
+                            <td>
+                                <a href="{{ route('resumo-avaliacoes-unidade', ['secretaria' => $item['secretaria_id'], 'unidade' => $item['id']]) }}"
+                                    target="_blank">
+                                    {{ $item['nome'] }}
+                                </a>
+                            </td>
                             <td>{{ number_format($item['nota'],2,',','') }}</td>
                             <td class="text-center">{{ $item['qtd'] }}</td>
                         </tr>
