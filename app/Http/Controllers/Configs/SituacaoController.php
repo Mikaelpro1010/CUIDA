@@ -108,6 +108,10 @@ class SituacaoController extends Controller
         $situacoes->ativo = !$situacoes->ativo;
         $situacoes->save();
 
-        return redirect()->route('get-situacao-list');
+        if($situacoes->ativo){
+            return redirect()->route('get-situacao-list')->with('success', 'Situação ativada com sucesso!');
+        } else{
+            return redirect()->route('get-situacao-list')->with('success', 'Situação desativada com sucesso!');
+        }
     }
 }
