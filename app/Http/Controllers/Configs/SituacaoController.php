@@ -63,7 +63,7 @@ class SituacaoController extends Controller
 
         $situacao->save();
 
-        return redirect()->route('get-situacao-list');
+        return redirect()->route('get-situacao-list')->with('success', 'Situação cadastrada com sucesso!');
     }
 
     public function viewSituacao($id)
@@ -92,14 +92,14 @@ class SituacaoController extends Controller
         $Situacao->descricao = $request->descricao;
         $Situacao->save();
 
-        return redirect()->route('get-situacao-list', $Situacao->id)->with('mensagem', 'Atualizado com sucesso!');
+        return redirect()->route('get-situacao-list', $Situacao->id)->with('success', 'Atualizado com sucesso!');
     }
 
     public function deleteSituacao(Situacao  $Situacao)
     {
         $this->authorize(Permission::GERENCIAR_MOTIVACOES_DELETE);
         $Situacao->delete();
-        return redirect()->route('get-situacao-list')->with('mensagem', 'Deletado com sucesso!');
+        return redirect()->route('get-situacao-list')->with('success', 'Deletado com sucesso!');
     }
 
     public function toggleSituacaoStatus($id)
