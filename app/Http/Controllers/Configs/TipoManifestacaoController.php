@@ -50,7 +50,7 @@ class TipoManifestacaoController extends Controller
 
         $tipoManifestacao->save();
 
-        return redirect()->route('get-tipo-manifestacao-list');
+        return redirect()->route('get-tipo-manifestacao-list')->with('success', 'Tipo de manifestação cadastrada com sucesso!');
     }
 
     public function viewTipoManifestacao(TiposManifestacao $tipoManifestacao)
@@ -78,7 +78,7 @@ class TipoManifestacaoController extends Controller
         $tipoManifestacao->descricao = $request->descricao;
         $tipoManifestacao->save();
 
-        return redirect()->route('get-tipo-manifestacao-list', $tipoManifestacao->id)->with('mensagem', 'Atualizado com sucesso!');
+        return redirect()->route('get-tipo-manifestacao-list', $tipoManifestacao->id)->with('success', 'Atualizado com sucesso!');
     }
 
     public function deleteTipoManifestacao(TiposManifestacao $tipoManifestacao)
@@ -93,7 +93,11 @@ class TipoManifestacaoController extends Controller
         $tipo_manifestacao = TiposManifestacao::find($id);
         $tipo_manifestacao->ativo = !$tipo_manifestacao->ativo;
         $tipo_manifestacao->save();
-
-        return redirect()->route('get-tipo-manifestacao-list');
+        if($tipo_manifestacao->ativo){
+            return redirect()->route('get-tipo-manifestacao-list')->with('success', 'Tipo de manifestação ativada com sucesso!');
+        } else{
+            return redirect()->route('get-tipo-manifestacao-list')->with('success', 'Tipo de manifestação desativada com sucesso!');
+        }
+        
     }
 }
