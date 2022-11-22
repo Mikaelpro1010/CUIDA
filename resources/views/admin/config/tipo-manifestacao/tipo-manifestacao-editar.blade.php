@@ -1,5 +1,6 @@
 @extends('template.base')
 
+@section('titulo', 'EscutaSol - Tipos de Manifestação')
 @section('content')
     @if (session('mensagem'))
         <div class="alert alert-success" role="alert">
