@@ -18,7 +18,7 @@ class FaqController extends Controller
                 $query->where('pergunta', 'like', "%". request()->pesquisa."%");
             })
             ->orderBy('ordem', 'asc')
-            ->paginate(10)
+            ->paginate(40)
             ->appends(
                 ['pesquisa'=>request()->pesquisa]
             );
@@ -105,7 +105,7 @@ class FaqController extends Controller
     public function orderFAQ(Request $request){
         foreach($request->ordem as $key=>$ordem){
             $faq = Faq::find($ordem);
-            $faq->ordem = $key+1;
+            $faq->ordem = ++$key;
             $faq->save();
         }
         return json_encode(['success'=> 'true', 'success'=> 'Ordem alterada com sucesso!']);
