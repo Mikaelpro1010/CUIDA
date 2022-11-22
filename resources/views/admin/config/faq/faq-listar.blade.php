@@ -1,5 +1,6 @@
 @extends('template.base')
 
+@section('titulo', 'EscutaSol - Faq')
 @section('content')
     <div id="mensagem">
     </div>
