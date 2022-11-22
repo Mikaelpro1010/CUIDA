@@ -1,5 +1,6 @@
 @extends('template.base')
 
+@section('titulo', 'EscutaSol - Situação')
 @section('content')
 <h2 class="text-primary">
     Editar Situação
