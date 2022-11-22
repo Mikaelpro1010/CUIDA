@@ -1,5 +1,6 @@
 @extends('template.base')
 
+@section('titulo', 'EscutaSol - Situação')
 @section('content')
     <div class="text-primary">
         <h2>

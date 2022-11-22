@@ -1,4 +1,6 @@
 @extends('template.base')
+
+@section('titulo', 'EscutaSol - Situação')
 @section('content')
         <h1 class="text-primary">
             Situação

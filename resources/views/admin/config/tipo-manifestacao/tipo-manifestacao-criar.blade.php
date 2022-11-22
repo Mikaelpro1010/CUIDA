@@ -1,5 +1,6 @@
 @extends('template.base')
 
+@section('titulo', 'EscutaSol - Tipos de Manifestação')
 @section('content')
     <div class="text-primary">
         <h2>
