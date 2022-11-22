@@ -1,5 +1,6 @@
 @extends('template.base')
 
+@section('titulo', 'EscutaSol - Estados do Processo')
 @section('content')
     @if (session('mensagem'))
         <div class="alert alert-success" role="alert">

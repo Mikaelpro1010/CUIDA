@@ -1,5 +1,6 @@
 @extends('template.base')
 
+@section('titulo', 'EscutaSol - Estados do Processo')
 @section('content')
     <div class="text-primary">
         <h2>
