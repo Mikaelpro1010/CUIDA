@@ -1,5 +1,6 @@
 @extends('template.base')
 
+@section('titulo', 'EscutaSol - Motivação')
 @section('content')
     @if (session('mensagem'))
         <div class="alert alert-success" role="alert">
