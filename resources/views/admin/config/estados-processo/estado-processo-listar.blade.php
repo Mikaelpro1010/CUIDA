@@ -18,7 +18,7 @@
                 <input id="pesquisa" class="form-control" type="text" name="pesquisa" placeholder="Pesquisar"
                     value="{{ request()->pesquisa }}">
             </div>
-    
+
             <div class="col-md-2 d-flex align-items-end">
                 <button class="btn btn-primary form-control mt-3" type="submit">
                     <i class="fa-solid fa-magnifying-glass"></i>
@@ -32,7 +32,7 @@
                 </a>
             </div>
         </div>
-    
+
     </form>
 
     <table class="table table-striped">
@@ -45,58 +45,60 @@
             <th class="text-center">Ações</th>
         </thead>
         <tbody>
-            @if (isset($estados_processo))
-                @foreach ($estados_processo as $estado_processo)
-                    <tr id="{{ $estado_processo->id }}">
-                        <td>
-                            {{ $estado_processo->id }}
-                        </td>
-                        <td>
-                            @if ($estado_processo->ativo)
-                                <a class="btn"
-                                    href="{{ route('get-toggle-estado-processo-status', ['id' => $estado_processo->id]) }}">
-                                    <i class="text-success fa-solid fa-circle-check"></i>
-                                </a>
-                            @else
-                                <a class="btn"
-                                    href="{{ route('get-toggle-estado-processo-status', ['id' => $estado_processo->id]) }}">
-                                    <i class="text-danger fa-solid fa-circle-xmark"></i>
-                                </a>
-                            @endif
-                        </td>
-                        <td class="name">
-                            {{ $estado_processo->nome }}
-                        </td>
-                        <td>
-                            {{ $estado_processo->descricao }}
-                        </td>
-                        <td>
-                            {{ Carbon\Carbon::parse($estado_processo->updated_at)->format('d/m/Y \à\s H:i\h') }}
-                        </td>
-                        <td class="col-md-1">
-                            <div class="d-flex justify-content-evenly">
-                                <a href="{{ route('get-estado-processo-view', ['id' => $estado_processo->id]) }}">
-                                    <i class="fa-xl fa-solid fa-magnifying-glass text-primary"></i>
-                                </a>
-                                <a href="{{ route('get-edit-estado-processo-view', ['id' => $estado_processo->id]) }}">
-                                    <i class="fa-xl fa-solid fa-pen-to-square text-warning"></i>
-                                </a>
-                                <a href="javascript:deletar({{ $estado_processo->id }})">
-                                    <i class="fa-xl fa-solid fa-trash text-danger"></i>
-                                </a>
-                                <form class="d-none" id="deleteEstadoProcesso{{ $estado_processo->id }}"
-                                    action="{{ route('delete-delete-estado-processo', $estado_processo) }}"
-                                    method="POST">
-                                    {{ csrf_field() }}
-                                    {{ method_field('DELETE') }}
-                                </form>
-                            </div>
-                        </td>
-                    </tr>
-                @endforeach
-            @else
-                <p>não existem registros</p>
-            @endif
+
+            @forelse ($estados_processo as $estado_processo)
+                <tr id="{{ $estado_processo->id }}">
+                    <td>
+                        {{ $estado_processo->id }}
+                    </td>
+                    <td>
+                        @if ($estado_processo->ativo)
+                            <a class="btn"
+                                href="{{ route('get-toggle-estado-processo-status', ['id' => $estado_processo->id]) }}">
+                                <i class="text-success fa-solid fa-circle-check"></i>
+                            </a>
+                        @else
+                            <a class="btn"
+                                href="{{ route('get-toggle-estado-processo-status', ['id' => $estado_processo->id]) }}">
+                                <i class="text-danger fa-solid fa-circle-xmark"></i>
+                            </a>
+                        @endif
+                    </td>
+                    <td class="name">
+                        {{ $estado_processo->nome }}
+                    </td>
+                    <td>
+                        {{ $estado_processo->descricao }}
+                    </td>
+                    <td>
+                        {{ Carbon\Carbon::parse($estado_processo->updated_at)->format('d/m/Y \à\s H:i\h') }}
+                    </td>
+                    <td class="col-md-1">
+                        <div class="d-flex justify-content-evenly">
+                            <a href="{{ route('get-estado-processo-view', ['id' => $estado_processo->id]) }}">
+                                <i class="fa-xl fa-solid fa-magnifying-glass text-primary"></i>
+                            </a>
+                            <a href="{{ route('get-edit-estado-processo-view', ['id' => $estado_processo->id]) }}">
+                                <i class="fa-xl fa-solid fa-pen-to-square text-warning"></i>
+                            </a>
+                            <a href="javascript:deletar({{ $estado_processo->id }})">
+                                <i class="fa-xl fa-solid fa-trash text-danger"></i>
+                            </a>
+                            <form class="d-none" id="deleteEstadoProcesso{{ $estado_processo->id }}"
+                                action="{{ route('delete-delete-estado-processo', $estado_processo) }}" method="POST">
+                                {{ csrf_field() }}
+                                {{ method_field('DELETE') }}
+                            </form>
+                        </div>
+                    </td>
+                </tr>
+            @empty
+            <tr>
+                <td colspan="6" class="text-center bg-warning">
+                    Nenhum resultado encontrado!
+                </td>
+            </tr>
+            @endforelse
         </tbody>
     </table>
     <div class='mx-auto'>
