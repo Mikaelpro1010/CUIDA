@@ -15,7 +15,7 @@ class MotivacaoController extends Controller
         $this->authorize(Permission::GERENCIAR_MOTIVACOES_LIST);
         $motivacoes = Motivacao::query()
             ->when(request()->pesquisa, function($query){
-                $query->where('nome', 'like', "%". request()->pesquisa."%");
+                $query->where('nome', 'ilike', "%". request()->pesquisa."%");
             })  
             ->orderBy('ativo', 'desc')
             ->orderBy('updated_at', 'desc')
