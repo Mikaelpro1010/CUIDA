@@ -22,7 +22,7 @@ class RolesController extends Controller
                     return $query
                         ->where(
                             'name',
-                            'like',
+                            'ilike',
                             '%' . request()->pesquisa . '%'
                         );
                 }

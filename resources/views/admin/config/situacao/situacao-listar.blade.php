@@ -45,8 +45,7 @@
             <th class="text-center">Ações</th>
         </thead>
         <tbody>
-            @if (isset($situacoes))
-                @foreach ($situacoes as $situacao)
+                @forelse ($situacoes as $situacao)
                     <tr id="{{ $situacao->id }}">
                         <td>
                             {{ $situacao->id }}
@@ -93,10 +92,13 @@
                             </div>
                         </td>
                     </tr>
-                @endforeach
-            @else
-                <p>não existem registros</p>
-            @endif
+                @empty
+                <tr>
+                    <td colspan="6" class="text-center bg-warning">
+                        Nenhum resultado encontrado!
+                    </td>
+                </tr>
+                @endforelse
         </tbody>
     </table>
     <div class='mx-auto'>
