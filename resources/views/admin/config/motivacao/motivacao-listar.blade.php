@@ -92,14 +92,13 @@
                             </div>
                         </td>
                     </tr>
-                @endforeach
-            @empty
-            <tr>
-                <td colspan="6" class="text-center bg-warning">
-                    Nenhum resultado encontrado!
-                </td>
-            </tr>
-            @endforelse
+                @empty
+                <tr>
+                    <td colspan="6" class="text-center bg-warning">
+                        Nenhum resultado encontrado!
+                    </td>
+                </tr>
+                @endforelse
         </tbody>
     </table>
     <div class='mx-auto'>
