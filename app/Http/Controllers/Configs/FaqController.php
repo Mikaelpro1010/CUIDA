@@ -15,7 +15,7 @@ class FaqController extends Controller
         $this->authorize(Permission::GERENCIAR_FAQS_LIST);
         $faqs = FAQ::query()
             ->when(request()->pesquisa, function($query){
-                $query->where('pergunta', 'like', "%". request()->pesquisa."%");
+                $query->where('pergunta', 'ilike', "%". request()->pesquisa."%");
             })
             ->orderBy('ordem', 'asc')
             ->paginate(40)
