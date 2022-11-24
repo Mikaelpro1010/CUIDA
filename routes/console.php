@@ -18,25 +18,25 @@ use Illuminate\Support\Facades\Cache;
 |
 */
 
-Artisan::command('givePermission {permission}', function ($permission) {
-    $role = Role::find(1);
-    $role->givePermission($permission);
-    $this->info("Permissao: \"" . $permission . "\" Inserida!");
-});
+// Artisan::command('givePermission {permission}', function ($permission) {
+//     $role = Role::find(3);
+//     $role->givePermission($permission);
+//     $this->info("Permissao: \"" . $permission . "\" Inserida!");
+// });
 
-Artisan::command('removePermission {permission}', function ($permission) {
-    $role = Role::find(1);
-    $role->removePermission($permission);
-    $this->info("Permissao: \"" . $permission . "\" Removida!");
-});
+// Artisan::command('removePermission {permission}', function ($permission) {
+//     $role = Role::find(3);
+//     $role->removePermission($permission);
+//     $this->info("Permissao: \"" . $permission . "\" Removida!");
+// });
 
-Artisan::command('giveAllPermissions', function () {
-    $role = Role::find(1);
-    foreach (Permission::all() as $permission) {
-        $role->permissions()->attach($permission);
-    }
-});
+// Artisan::command('giveAllPermissions', function () {
+//     $role = Role::find(1);
+//     foreach (Permission::all() as $permission) {
+//         $role->permissions()->attach($permission);
+//     }
+// });
 
-Artisan::command('cacheFlush', function () {
-    Cache::flush();
-});
+// Artisan::command('cacheFlush', function () {
+//     Cache::flush();
+// });
