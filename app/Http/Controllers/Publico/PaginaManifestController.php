@@ -73,9 +73,7 @@ class PaginaManifestController extends Controller
     }
 
     public function visualizarManifestacao(Request $request){
-        $validator = Validator::make(
-            $request->validate(['protocolo', 'senha']),
-            [
+            $request->validate([
                 'protocolo' => 'required|digits:5',
                 'senha' => 'required|digits:5',
             ]);
@@ -85,7 +83,7 @@ class PaginaManifestController extends Controller
         if(is_null($manifestacao)){
             return redirect()->back()->withErrors(['error'=>'não foi possível encontrar essa manifestação!']);
         } else{
-            return view('Publico.vis-manifestacao',  ['manifestacao' => $manifestacao]);
+            return view('public.vis-manifestacao',  ['manifestacao' => $manifestacao]);
         }
         
     }
