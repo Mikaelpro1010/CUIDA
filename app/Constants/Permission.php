@@ -88,7 +88,7 @@ class Permission
         self::GERENCIAR_TIPOS_MANIFESTACAO_EDIT,
         self::GERENCIAR_TIPOS_MANIFESTACAO_DELETE,
     ];
-    
+
     public const GERENCIAR_ESTADOS_PROCESSO_LIST = 'Listar Estados do Processo';
     public const GERENCIAR_ESTADOS_PROCESSO_VIEW = 'Visualizar Estados do Processo';
     public const GERENCIAR_ESTADOS_PROCESSO_CREATE = 'Criar Estados do Processo';
@@ -102,7 +102,7 @@ class Permission
         self::GERENCIAR_ESTADOS_PROCESSO_EDIT,
         self::GERENCIAR_ESTADOS_PROCESSO_DELETE,
     ];
-    
+
     public const GERENCIAR_MOTIVACOES_LIST = 'Listar Motivações';
     public const GERENCIAR_MOTIVACOES_VIEW = 'Visualizar Motivações';
     public const GERENCIAR_MOTIVACOES_CREATE = 'Criar Motivações';
@@ -116,7 +116,7 @@ class Permission
         self::GERENCIAR_MOTIVACOES_EDIT,
         self::GERENCIAR_MOTIVACOES_DELETE,
     ];
-    
+
     public const GERENCIAR_SITUACOES_LIST = 'Listar Situações';
     public const GERENCIAR_SITUACOES_VIEW = 'Visualizar Situações';
     public const GERENCIAR_SITUACOES_CREATE = 'Criar Situações';
@@ -130,7 +130,7 @@ class Permission
         self::GERENCIAR_SITUACOES_EDIT,
         self::GERENCIAR_SITUACOES_DELETE,
     ];
-    
+
     public const GERENCIAR_FAQS_LIST = 'Listar FAQs';
     public const GERENCIAR_FAQS_VIEW = 'Visualizar FAQs';
     public const GERENCIAR_FAQS_CREATE = 'Criar FAQs';
@@ -178,6 +178,7 @@ class Permission
         self::RELATORIO_AVALIACOES_UNIDADE_VIEW,
     ];
 
+    // SuperAdmin
     public const PERMISSIONS = [
         'Gerenciamento de Usuários' => self::GERENCIAR_USUARIOS,
         'Gerenciamento de Secretarias' => self::GERENCIAR_SECRETARIAS,
@@ -190,5 +191,32 @@ class Permission
         'Manifestações' => self::MANIFESTACOES,
         'Modulo Avaliação' => self::UNIDADE_SECRETARIA,
         'Relatórios Modulo Avaliação' => self::RELATORIO_AVALIACOES,
+    ];
+
+    // Ouvidor
+    public const OUVIDOR_PERMISSIONS = [
+        'Configuração de Tipos de Manifestação' => self::GERENCIAR_TIPOS_MANIFESTACAO,
+        'Configuração de Estados do Processo' => self::GERENCIAR_ESTADOS_PROCESSO,
+        'Configuração de Motivações' => self::GERENCIAR_MOTIVACOES,
+        'Configuração de Situações' => self::GERENCIAR_SITUACOES,
+        'Configuração de FAQs' => self::GERENCIAR_FAQS,
+        'Manifestações' => self::MANIFESTACOES,
+    ];
+
+    // Avaliador
+    public const AVALIADOR_PERMISSIONS = [
+        // Modulo Avaliação
+        self::UNIDADE_SECRETARIA_LIST,
+        // self::UNIDADE_SECRETARIA_ACCESS_ANY_SECRETARIA,
+        self::UNIDADE_SECRETARIA_CREATE,
+        // self::UNIDADE_SECRETARIA_CREATE_ANY,
+        self::UNIDADE_SECRETARIA_VIEW,
+        self::UNIDADE_SECRETARIA_UPDATE,
+        self::UNIDADE_SECRETARIA_TOGGLE_ATIVO,
+        self::UNIDADE_SECRETARIA_DELETE,
+        // Relatórios Modulo Avaliação,
+        self::RELATORIO_AVALIACOES_GERAL_VIEW,
+        self::RELATORIO_AVALIACOES_SECRETARIA_VIEW,
+        self::RELATORIO_AVALIACOES_UNIDADE_VIEW,
     ];
 }
