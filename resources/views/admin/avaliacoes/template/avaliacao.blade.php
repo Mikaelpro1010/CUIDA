@@ -12,14 +12,18 @@
                 href=" {{ route('resumo-avaliacoes') }}">Geral</a>
         </li>
         @endcan
+        @can(permissionConstant()::RELATORIO_AVALIACOES_SECRETARIA_VIEW)
         <li class="nav-item">
             <a class="nav-link @if(Route::is('resumo-avaliacoes-secretaria-list') || Route::is('resumo-avaliacoes-secretaria')) active @endif"
                 href="{{ route('resumo-avaliacoes-secretaria-list') }}">Avaliaçoes por Secretaria</a>
         </li>
+        @endcan
+        @can(permissionConstant()::RELATORIO_AVALIACOES_UNIDADE_VIEW)
         <li class="nav-item">
             <a class="nav-link @if(Route::is('resumo-avaliacoes-unidade-list')|| Route::is('resumo-avaliacoes-unidade')) active @endif"
                 href="{{ route('resumo-avaliacoes-unidade-list') }}">Avaliaçoes por Unidade</a>
         </li>
+        @endcan
     </ul>
     <div class="px-3 py-4  bg-white shadow border border-top-0 border-1 rounded-bottom-2">
         @yield('content')
@@ -30,6 +34,5 @@
 @endsection
 
 @push('scripts')
-<script src="{{ asset('js/chart.js') }}"></script>
 @stack('scripts_resumo')
 @endpush
