@@ -16,11 +16,11 @@
         {{ method_field('PATCH') }}
             <div class="col-12">
                 <label for="nome" class="form-label mb-1 mt-3">Campo para editar a pergunta:</label>
-                <input type="text" name="pergunta" id="pergunta" class="form-control" value="{{ $FAQ->pergunta }}">
+                <textarea class="form-control" name="pergunta" id="pergunta" rows="5">{{ $FAQ->pergunta }}</textarea>
             </div>
             <div class="col-12">
                 <label for="resposta" class="form-label mb-1 mt-3">Campo para editar a resposta:</label>
-                <input type="text" name="resposta" id="resposta" class="form-control" value="{{ $FAQ->resposta }}">
+                <textarea class="form-control" name="resposta" id="resposta" rows="5">{{ $FAQ->resposta }}</textarea>
             </div>
             <div class="text-center">
                 <a href="{{ route('get-faq-list') }}" class="mt-3 btn btn-warning" tabindex="-1"
