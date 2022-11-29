@@ -120,15 +120,15 @@
             $("#nome").prop("disabled", true)
             $("#nome").val("");
             $("#email").prop("disabled", true)
-            $("#nome").val("");
+            $("#email").val("");
             $("#numero").prop("disabled", true)
-            $("#nome").val("");
+            $("#numero").val("");
             $("#tipoCel").prop("disabled", true)
-            $("#nome").val("");
+            $("#tipoCel").val("");
             $("#tipoFixo").prop("disabled", true)
-            $("#nome").val("");
+            $("#tipoFixo").val("");
             $("#tipoWhats").prop("disabled", true)
-            $("#nome").val("");
+            $("#tipoWhats").val("");
         })
         $("#select_nao").change(function(){
             $("#nome").prop("disabled", false)

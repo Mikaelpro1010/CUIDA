@@ -69,7 +69,7 @@ class PaginaManifestController extends Controller
 
         $manifestacao->save();
 
-        return redirect()->route('pagina-inicial')->with('success','Usuário cadastrado com sucesso!');
+        return redirect()->route('pagina-inicial')->with('success','Protocolo: '.$manifestacao->protocolo.' e Senha: '.$manifestacao->senha);
     }
 
     public function visualizarManifestacao(Request $request){
