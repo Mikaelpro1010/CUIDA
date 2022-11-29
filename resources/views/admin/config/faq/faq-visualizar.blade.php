@@ -40,7 +40,7 @@
                 role="button" aria-disabled="true">
                 <i class="fa-solid fa-chevron-left"></i>
                 Voltar
-            </a>
-        </div>
+                </a>
+            </div>
         </div>
 @endsection
