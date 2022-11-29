@@ -41,9 +41,9 @@
                 <button type="submit" class="btn btn-primary py-2 px-4">
                     Login
                 </button>
-                <a class="btn btn-link" href="{{ route('password.request') }}">
+                {{-- <a class="btn btn-link" href="{{ route('password.request') }}">
                     Esqueceu a Senha?
-                </a>
+                </a> --}}
             </div>
         </form>
     </div>
