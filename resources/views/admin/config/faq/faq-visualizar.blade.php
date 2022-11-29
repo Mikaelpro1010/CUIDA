@@ -1,6 +1,6 @@
 @extends('template.base')
 
-@section('titulo', 'EscutaSol - Faq')
+@section('titulo', 'EscutaSol - FAQ')
 @section('content')
         <h1 class="text-primary">
             FAQ

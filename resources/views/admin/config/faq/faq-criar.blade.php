@@ -1,7 +1,7 @@
 @extends('template.base')
 
 
-@section('titulo', 'EscutaSol - Faq')
+@section('titulo', 'EscutaSol - FAQ')
 @section('content')
     <div class="text-primary">
         <h2>
