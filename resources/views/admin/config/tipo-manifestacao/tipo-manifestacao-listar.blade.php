@@ -93,7 +93,7 @@
                 </tr>
             @empty
                 <tr>
-                    <td colspan="6" class="text-center bg-warning">
+                    <td colspan="6" class="text-center table-warning">
                         Nenhum resultado encontrado!
                     </td>
                 </tr>
