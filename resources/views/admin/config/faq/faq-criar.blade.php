@@ -22,8 +22,12 @@
                 <textarea class="form-control" name="resposta" id="resposta" rows="5"></textarea>
             </div>
 
-            <div class="d-flex">
-                <button class="btn btn-info mt-4" type="submit">Salvar cadastro</button>
+            <div class="text-center">
+                <a href="{{ route('get-faq-list') }}" class="mt-3 btn btn-warning" tabindex="-1"
+                role="button" aria-disabled="true">
+                <i class="fa-solid fa-chevron-left"></i>
+                Voltar
+                </a>
             </div>
 
         </form>
