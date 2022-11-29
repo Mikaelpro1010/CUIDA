@@ -1,5 +1,6 @@
 @extends('template.base')
 
+@section('titulo', 'EscutaSol - Tipo de Usuário')
 @section('content')
 <h1 class="text-primary">Cadastrar Tipo de Usuário</h1>
 <hr>

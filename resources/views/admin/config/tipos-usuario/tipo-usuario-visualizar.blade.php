@@ -1,5 +1,6 @@
 @extends('template.base')
 
+@section('titulo', 'EscutaSol - Tipo de Usuário')
 @section('content')
 <div class="d-flex justify-content-between">
     <h1 class="m-0 text-primary">Informações do Tipo de Usuário</h1>
