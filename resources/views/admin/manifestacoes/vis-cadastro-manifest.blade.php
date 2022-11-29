@@ -72,7 +72,7 @@
             <div class="col-4 mb-3">
                 <label class="mb-1 mt-3" for="">Tipo de assunto:</label>
                 <select class="form-select" name="tipo_manifestacao">
-                    <option value="">Tipo de assunto</option>
+                    <option value="">Selecione</option>
                     @foreach ($tipos_manifestacao as $tipo_manifestacao)
                         <option value="{{ $tipo_manifestacao->id }}">{{ $tipo_manifestacao->nome }}</option>
                     @endforeach
@@ -82,7 +82,7 @@
             <div class="col-4 mt-3">
                 <label class="mb-1 mt-3" for="">Situação:</label>
                 <select class="form-select" name="situacao">
-                    <option value="">Situação</option>
+                    <option value="">Selecione</option>
                     @foreach ($situacoes as $situacao)
                         <option value="{{ $situacao->id }}">{{ $situacao->nome }}</option>
                     @endforeach
@@ -92,7 +92,7 @@
             <div class="col-4 mt-3">
                 <label class="mb-1 mt-3" for="">Estado-processo:</label>
                 <select class="form-select" name="estado_processo">
-                    <option value="">Estado-processo</option>
+                    <option value="">Selecione</option>
                     @foreach ($estados_processo as $estado_processo)
                         <option name="estados_processo" value="{{ $estado_processo->id }}">{{ $estado_processo->nome }}
                         </option>
@@ -103,7 +103,7 @@
             <div class="col-4 mt-3">
                 <label class="mb-1 mt-3" for="">Motivação:</label>
                 <select class="form-select" name="motivacao">
-                    <option value="">Motivação</option>
+                    <option value="">Selecione</option>
                     @foreach ($motivacoes as $motivacao)
                         <option name="motivacoes" value="{{ $motivacao->id }}">{{ $motivacao->nome }}</option>
                     @endforeach
@@ -146,15 +146,15 @@
             $("#nome").prop("disabled", true)
             $("#nome").val("");
             $("#email").prop("disabled", true)
-            $("#nome").val("");
+            $("#email").val("");
             $("#numero").prop("disabled", true)
-            $("#nome").val("");
+            $("#numero").val("");
             $("#tipoCel").prop("disabled", true)
-            $("#nome").val("");
+            $("#tipoCel").val("");
             $("#tipoFixo").prop("disabled", true)
-            $("#nome").val("");
+            $("#tipoFixo").val("");
             $("#tipoWhats").prop("disabled", true)
-            $("#nome").val("");
+            $("#tipoWhats").val("");
         })
         $("#select_nao").change(function(){
             $("#nome").prop("disabled", false)
