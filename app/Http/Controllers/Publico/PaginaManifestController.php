@@ -69,7 +69,11 @@ class PaginaManifestController extends Controller
 
         $manifestacao->save();
 
-        return redirect()->route('pagina-inicial')->with('success','Protocolo: '.$manifestacao->protocolo.' e Senha: '.$manifestacao->senha);
+        $msg ='Manifestação cadastrada com sucesso, para poder consulta-la com as informações de  Protocolo: '.$manifestacao->protocolo.' e Senha: '.$manifestacao->senha.' preencha as mesmas no campo de acompanhar manifestação.';
+
+        return redirect()
+            ->route('pagina-inicial')
+            ->with('success', $msg);
     }
 
     public function visualizarManifestacao(Request $request){
