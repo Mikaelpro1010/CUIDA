@@ -55,56 +55,96 @@
                 </div>
             </div>
         </div>
-        <div class="accordion-item mb-3">
-            <h3 class="accordion-header">
-                <button class="accordion-button fw-bold" type="button" data-bs-toggle="collapse"
-                    data-bs-target="#collapseThree" aria-expanded="true" aria-controls="collapseThree">
-                    Recurso:
-                </button>
-            </h3>
-            <div id="collapseThree" class="accordion-collapse collapse show" aria-labelledby="headingThree"
+        <div class="accordion mb-3">
+            <div class="accordion-item mb-3">
+                <h3 class="accordion-header">
+                    <button class="accordion-button fw-bold" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree"
+                        aria-expanded="true" aria-controls="collapseOne">
+                        Histórico:
+                    </button>
+                </h3>
+                <div id="collapseThree" class="accordion-collapse collapse show" aria-labelledby="headingThree"
                 data-bs-parent="#accordionExample">
-                <div class="accordion-body">
-                    <div class='p-3 text-center'>
-                        <button class="btn btn-primary mt-4" onclick="deletar()" type="submit">Entrar com recurso</button>
+                    <table class="table table-striped">
+                        <thead>
+                            <th>Etapas</th>
+                            <th>Data de criação</th>
+                        </thead>
+                        <tbody>
+                            @forelse ($manifestacao->historico as $etapa)
+                                <tr id="{{ $etapa->id }}">
+                                    <td class="name">
+                                        {{ $etapa->etapas }}
+                                    </td>
+                                    <td>
+                                        {{ formatarDataHora($etapa->created_at) }}
+                                    </td>
+                                </tr>
+                            @empty
+                                <tr>
+                                    <td colspan="6" class="text-center table-warning">
+                                        Nenhum resultado encontrado!
+                                    </td>
+                                </tr>
+                            @endforelse
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+                <div class="accordion-item mb-3">
+                    <h3 class="accordion-header">
+                        <button class="accordion-button fw-bold" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#collapseFour" aria-expanded="true" aria-controls="collapseFour">
+                            Recurso:
+                        </button>
+                    </h3>
+                    <div id="collapseFour" class="accordion-collapse collapse show" aria-labelledby="headingFour"
+                        data-bs-parent="#accordionExample">
+                        <div class="accordion-body">
+                            <div class='p-3 text-center'>
+                                <button class="btn btn-primary mt-4" onclick="deletar()" type="submit">Entrar com
+                                    recurso</button>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
-    <div id="myModal1" name="id" class="modal" tabindex="-1">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Informar recurso</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <form class="" name="recurso" id="recurso" action="" method="POST">
-                        <p>Digite um texto relacioando ao seu recurso:</p>
-                        {{ csrf_field() }}
-                        <input type="hidden" name="manifestacao_id" value="{{ $manifestacao->id }}">
-                        <textarea class="form-control" name="recurso" id="recurso" rows="5"></textarea>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancelar</button>
-                            <button type="submit" class="btn btn-success" onclick="close_modal()">Enviar</button>
+            <div id="myModal1" name="id" class="modal" tabindex="-1">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Informar recurso</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
-                    </form>
+                        <div class="modal-body">
+                            <form class="" name="recurso" id="recurso" action="" method="POST">
+                                <p>Digite um texto relacioando ao seu recurso:</p>
+                                {{ csrf_field() }}
+                                <input type="hidden" name="manifestacao_id" value="{{ $manifestacao->id }}">
+                                <textarea class="form-control" name="recurso" id="recurso" rows="5"></textarea>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-danger"
+                                        data-bs-dismiss="modal">Cancelar</button>
+                                    <button type="submit" class="btn btn-success"
+                                        onclick="close_modal()">Enviar</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
                 </div>
             </div>
-        </div>
-    </div>
-@endsection
+        @endsection
 
-@section('scripts')
-    <script>
-        function deletar(id) {
-            // $('#deletar').val(id);
-            $('#myModal1').modal('show');
-        }
+        @section('scripts')
+            <script>
+                function deletar(id) {
+                    // $('#deletar').val(id);
+                    $('#myModal1').modal('show');
+                }
 
-        function close_modal() {
-            $('#myModal1').modal('hide');
-        }
-    </script>
-@endsection
+                function close_modal() {
+                    $('#myModal1').modal('hide');
+                }
+            </script>
+        @endsection

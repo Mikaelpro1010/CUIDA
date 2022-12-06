@@ -7,9 +7,9 @@
         Manifestação:
         {{ $manifestacao->protocolo }}
         /
-        {{ manifest()::TIPO_MANIFESTACAO[$manifestacao->id_tipo_manifestacao]}}
+        {{ $manifestacao->tipoManifestacao->nome }} 
         -
-        {{ manifest()::SITUACAO[$manifestacao->id_situacao]}}
+        {{ $manifestacao->situacao->nome }}
     </h3>
     <div>
         <a class="btn btn-primary" href="">
@@ -21,7 +21,7 @@
 <hr>
 
 <div class="row">
-    <div class="col-md-4">
+    {{-- <div class="col-md-4">
         <b>Usuário:</b>
         <p class="border-2 border-bottom border-warning">{{
             $manifestacao->autor->name }}</p>
@@ -31,7 +31,7 @@
         <p class="border-2 border-bottom border-warning">
             {{ $manifestacao->autor->email }}
         </p>
-    </div>
+    </div> --}}
     <div class="col-md-3">
         <b>Data da Manifestação:</b>
         <p class="border-2 border-bottom border-warning">
@@ -49,36 +49,31 @@
     <div class="col-md-2">
         <b>Motivação:</b>
         <p class="border-2 border-bottom border-warning">
-            {{
-            manifest()::MOTIVACAO[$manifestacao->id_motivacao]}}
+            {{ $manifestacao->motivacao->nome }}
         </p>
     </div>
     <div class="col-md-2">
         <b>Estado:</b>
         <p class="border-2 border-bottom border-warning">
-            {{
-            manifest()::ESTADO_PROCESSO[$manifestacao->id_estado_processo]}}
+            {{ $manifestacao->estadoProcesso->nome }}
         </p>
     </div>
     <div class="col-md-3">
         <b>Tipo de Manifestação:</b>
         <p class="border-2 border-bottom border-warning">
-            {{
-            manifest()::TIPO_MANIFESTACAO[$manifestacao->id_tipo_manifestacao]}}
+            {{ $manifestacao->tipoManifestacao->nome }}
         </p>
     </div>
     <div class="col-md-2">
         <b>Situação:</b>
         <p class="border-2 border-bottom border-warning">
-            {{
-            manifest()::SITUACAO[$manifestacao->id_situacao]}}
+            {{ $manifestacao->situacao->nome }}
         </p>
     </div>
     <div class="col-md-3">
         <b>Prazo:</b>
         <p class="border-2 border-bottom border-warning">
-            {{
-            manifest()::SITUACAO[$manifestacao->id_situacao]}}
+            {{ $manifestacao->situacao->nome }}
         </p>
     </div>
 
@@ -126,6 +121,7 @@
             role="tab" aria-controls="historico" aria-selected="true">
             Histórico
         </button>
+        
     </li>
     <li class="nav-item">
         <button class="nav-link" id="invalidar-tab" data-bs-toggle="tab" data-bs-target="#invalidar" type="button"
@@ -158,7 +154,30 @@
         Prorrogação
     </div>
     <div class="tab-pane" id="historico" role="tabpanel" aria-labelledby="historico-tab" tabindex="0">
-        Histórico
+        <table class="table table-striped">
+            <thead>
+                <th>Etapas</th>
+                <th>Data de criação</th>
+            </thead>
+            <tbody>
+                @forelse ($manifestacao->historico as $etapa)
+                    <tr id="{{ $etapa->id }}">
+                        <td class="name">
+                            {{ $etapa->alternativo }}
+                        </td>
+                        <td>
+                            {{ formatarDataHora($etapa->created_at) }}
+                        </td>
+                    </tr>
+                @empty
+                    <tr>
+                        <td colspan="6" class="text-center table-warning">
+                            Nenhum resultado encontrado!
+                        </td>
+                    </tr>
+                @endforelse
+            </tbody>
+        </table>
     </div>
     <div class="tab-pane" id="invalidar" role="tabpanel" aria-labelledby="invalidar-tab" tabindex="0">
         Invalidar
@@ -182,7 +201,7 @@
                                 <div class="mw-50 bg-secondary bg-opacity-25 p-3">
                                     <p class="m-0 text-start">
                                         <b>
-                                            {{ $manifestacao->autor->name }}
+                                            {{-- {{ $manifestacoes->autor->name }} --}}
                                             -
                                             {{ formatarDataHora($recurso->created_at) }}
                                         </b>

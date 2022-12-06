@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\EstadosProcesso;
+use App\Models\Historico;
 use App\Models\Manifestacoes;
 use App\Models\Motivacao;
 use App\Models\Situacao;
@@ -102,6 +103,20 @@ class Manifests2Controller extends Controller
 
         $manifestacao->save();
 
+        $historico = Historico::create([
+            'manifestacao_id' => $manifestacao->id,
+            'etapas' => 'A manifestação foi criada!',
+            'alternativo' => "A manifestação foi criada por ". auth()->user()->name ."!",
+            'created_at' => now()
+        ]);
+
         return redirect()->route('manifestacoes2')->with('mensagem', 'Usuario cadastrado com sucesso');
+    }
+
+    public function viewManifest($id)
+    {
+        $manifestacao = Manifestacoes::with('recursos')->find($id);
+
+        return view('admin.manifestacoes.visualizarManifest', ['manifestacao' => $manifestacao]);
     }
 }

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Publico;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\EstadosProcesso;
+use App\Models\Historico;
 use App\Models\Manifestacoes;
 use App\Models\Manifestacoes\Manifest;
 use App\Models\Motivacao;
@@ -71,9 +72,16 @@ class PaginaManifestController extends Controller
 
         $msg ='Manifestação cadastrada com sucesso, para poder consulta-la com as informações de  Protocolo: '.$manifestacao->protocolo.' e Senha: '.$manifestacao->senha.' preencha as mesmas no campo de acompanhar manifestação.';
 
+        $historico = Historico::create([
+            'manifestacao_id' => $manifestacao->id,
+            'etapas' => 'A manifestação foi criada!',
+            'created_at' => now()
+        ]);
+
         return redirect()
             ->route('pagina-inicial')
             ->with('success', $msg);
+       
     }
 
     public function visualizarManifestacao(Request $request){
@@ -83,11 +91,10 @@ class PaginaManifestController extends Controller
             ]);
 
         $manifestacao = Manifestacoes::where('protocolo', $request->protocolo)->where('senha', $request->senha)->first();
-
         if(is_null($manifestacao)){
             return redirect()->back()->withErrors(['error'=>'não foi possível encontrar essa manifestação!']);
         } else{
-            return view('public.vis-manifestacao',  ['manifestacao' => $manifestacao]);
+            return view('public.vis-manifestacao',  compact('manifestacao'));
         }
         
     }

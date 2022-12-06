@@ -47,5 +47,6 @@ class DatabaseSeeder extends Seeder
         $this->call(FaqTableSeeder::class);
 
         $this->call(ManifestacoesTableSeeder::class);
+        $this->call(HistoricoTableSeeder::class);
     }
 }
