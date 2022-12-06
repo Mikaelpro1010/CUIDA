@@ -42,5 +42,8 @@ class DatabaseSeeder extends Seeder
         $this->call(MotivacaoTableSeeder::class);
         $this->call(SituacaoTableSeeder::class);
         $this->call(FaqTableSeeder::class);
+        $this->call(ManifestacoesTableSeeder::class);
+        $this->call(HistoricoTableSeeder::class);
+
     }
 }

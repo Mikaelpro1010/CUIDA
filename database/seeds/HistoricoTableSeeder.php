@@ -1,9 +1,9 @@
 <?php
 
-use App\Models\Manifestacoes;
+use App\Models\Historico;
 use Illuminate\Database\Seeder;
 
-class ManifestacoesTableSeeder extends Seeder
+class HistoricoTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -12,6 +12,6 @@ class ManifestacoesTableSeeder extends Seeder
      */
     public function run()
     {
-           factory(Manifestacoes::class, 200)->create();
+        factory(Historico::class, 200)->create();
     }
 }

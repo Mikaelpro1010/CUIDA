@@ -168,7 +168,7 @@ Route::middleware(['auth:web'])->group(
         Route::get('manifestacao2/view', 'Manifests2Controller@create')->name("get-create-manifest2");
         //manifestacoes
         Route::get('/manifestacoes', "ManifestsController@list")->name('manifestacoes');
-        Route::get('/manifestacoes/{id}', "ManifestsController@viewManifest")->name('visualizarManifests');
+        Route::get('/manifestacoes2/{id}', "Manifests2Controller@viewManifest")->name('visualizarManifests');
 
         //mensagens
         Route::get('/messages', "MessagesController@index")->name('mensagens');
