@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Manifestacoes;
 use Illuminate\Database\Seeder;
 
 class ManifestacoesTableSeeder extends Seeder
@@ -11,6 +12,6 @@ class ManifestacoesTableSeeder extends Seeder
      */
     public function run()
     {
-           factory(Manifestacao::class, 200)->create();
+        factory(Manifestacoes::class, 200)->create();
     }
 }
