@@ -167,6 +167,7 @@ Route::middleware(['auth:web'])->group(
         Route::get('/manifestacoes2', "Manifests2Controller@list")->name('manifestacoes2');
         Route::post('manifestacao2', 'Manifests2Controller@storeManifest')->name("post-store-manifest2");
         Route::get('manifestacao2/view', 'Manifests2Controller@create')->name("get-create-manifest2");
+        Route::post('manifestacao2/{id}/prorrogacao/create', 'ProrrogacaoController@create')->name("criar-prorrogacao");
         //manifestacoes
         Route::get('/manifestacoes', "ManifestsController@list")->name('manifestacoes');
         Route::get('/manifestacoes2/{id}', "Manifests2Controller@viewManifest")->name('visualizarManifests');
