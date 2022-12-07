@@ -209,7 +209,7 @@
 
 @push('scripts')
 
-<script>
+<script nonce="{{ app('csp-nonce') }}">
     $(document).ready(function(){ 
         $('#final')[0].scrollIntoView();
     });

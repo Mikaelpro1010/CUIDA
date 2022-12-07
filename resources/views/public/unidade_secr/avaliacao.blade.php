@@ -12,27 +12,27 @@
         <form action="{{ route('post-store-avaliacao', $unidade->token) }}" method="POST">
             {{ csrf_field() }}
             <fieldset class="avaliar">
-                <label for="muito-feliz" onclick="javascript:avaliar(5)">
+                <label id="label-muito-feliz" for="muito-feliz">
                     <input class="d-none" type="radio" name="avaliacao" id="muito-feliz" value="10">
                     <i id="5" class="fa-4x text-success fa-regular fa-face-laugh-beam"></i>
                 </label>
 
-                <label for="feliz" onclick="javascript:avaliar(4)">
+                <label id="label-feliz" for="feliz">
                     <input class="d-none" type="radio" name="avaliacao" id="feliz" value="8">
                     <i id="4" class="fa-4x text-primary fa-regular fa-face-smile"></i>
                 </label>
 
-                <label for="neutro" onclick="javascript:avaliar(3)">
+                <label id="label-neutro" for="neutro">
                     <input class="d-none" type="radio" name="avaliacao" id="neutro" value="6">
                     <i id="3" class="fa-4x text-info fa-regular fa-face-meh"></i>
                 </label>
 
-                <label for="triste" onclick="javascript:avaliar(2)">
+                <label id="label-triste" for="triste">
                     <input class="d-none" type="radio" name="avaliacao" id="triste" value="4">
                     <i id="2" class="fa-4x text-warning fa-regular fa-face-frown"></i>
                 </label>
 
-                <label for="muito-triste" onclick="javascript:avaliar(1)">
+                <label id="label-muito-triste" for="muito-triste">
                     <input class="d-none" type="radio" name="avaliacao" id="muito-triste" value="2">
                     <i id="1" class="fa-4x text-danger fa-regular fa-face-angry"></i>
                 </label>
@@ -55,33 +55,44 @@
 @endsection
 
 @push('scripts')
-<script>
+<script nonce="{{ app('csp-nonce') }}">
+    $("#label-muito-feliz").click(fn => {avaliar(5)});
+    $("#label-feliz").click(fn => {avaliar(4)});
+    $("#label-neutro").click(fn => {avaliar(3)});
+    $("#label-triste").click(fn => {avaliar(2)});
+    $("#label-muito-triste").click(fn => {avaliar(1)});
+
     function avaliar(valor){
-        $('.avaliar i').each(function(index, element){
+        $('.avaliar label').each(function(index, element){
             $(element).addClass('opacity-50');
         });
-        $('#'+valor).removeClass('opacity-50');
+        // $('#'+valor).removeClass('opacity-50');
         $("#comentario").removeClass('d-none');
         $("#btn-avaliacao").removeClass('d-none');
         
         switch (valor) {
             case 1:
+                $("#label-muito-triste").removeClass('opacity-50');
                 $('#'+valor).addClass('text-danger');
                 $('#avaliacao-text').html('<span class="text-danger">Muito Ruim</span>');        
                 break;
             case 2:
+                $("#label-triste").removeClass('opacity-50');
                 $('#'+valor).addClass('text-warning');
                 $('#avaliacao-text').html('<span class="text-warning">Ruim</span>');        
                 break;
             case 3:
+                $("#label-neutro").removeClass('opacity-50');
                 $('#'+valor).addClass('text-info');
                 $('#avaliacao-text').html('<span class="text-info">Neutro</span>');        
                 break;
             case 4:
+                $("#label-feliz").removeClass('opacity-50');
                 $('#'+valor).addClass('text-primary');
                 $('#avaliacao-text').html('<span class="text-primary">Bom</span>');        
                 break;                
             case 5:
+                $("#label-muito-feliz").removeClass('opacity-50');
                 $('#'+valor).addClass('text-success');
                 $('#avaliacao-text').html('<span class="text-success">Muito Bom</span>');        
                 break;

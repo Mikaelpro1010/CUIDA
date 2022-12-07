@@ -34,7 +34,7 @@
             </button>
         </div>
         <div class="col-md-2 d-flex align-items-end">
-            <a class="btn btn-warning form-control mt-3" onclick="limparForm()">
+            <a id="btnLimpaForm" class="btn btn-warning form-control mt-3">
                 Limpar
                 <i class="fa-solid fa-eraser"></i>
             </a>
@@ -46,6 +46,7 @@
     <table class="table table-sm table-striped align-middle">
         <thead>
             <tr>
+                <th>Ativo</th>
                 <th>Nome</th>
                 <th>Secretaria</th>
                 <th class="text-end">Nota</th>
@@ -56,6 +57,13 @@
         <tbody class="table-group-divider">
             @forelse ( $unidades as $unidade )
             <tr class="">
+                <td class="text-center">
+                    @if ($unidade->ativo)
+                    <i class="text-success fa-solid fa-circle-check"></i>
+                    @else
+                    <i class="text-danger fa-solid fa-circle-xmark"></i>
+                    @endif
+                </td>
                 <td>{{$unidade->nome}}</td>
                 <td>{{ $unidade->secretaria->sigla . " - " . $unidade->secretaria->nome }}</td>
                 <td class="text-end">{{number_format($unidade->nota, 2,",",'')}}</td>
@@ -81,12 +89,12 @@
 @endsection
 
 @push('scripts')
-<script>
-    function limparForm(){
+<script nonce="{{ app('csp-nonce') }}">
+    $('#btnLimpaForm').click(fn =>{
         $('#pesquisa').val('');
         $('#secretaria_pesq').val('');
         $('#situacao').val('');
-    }
+    });
 </script>
 
 @endpush

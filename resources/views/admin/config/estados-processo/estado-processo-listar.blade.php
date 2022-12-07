@@ -123,11 +123,10 @@
 @endsection
 
 @push('scripts')
-    <script>
-        var estadoProcessoID = 0;
+<script nonce="{{ app('csp-nonce') }}">
+    var estadoProcessoID = 0;
 
         function deletar(id) {
-            console.log($("#" + id + " .name").text());
             $("#deleteName").text($("#" + id + " .name").text());
             $('#deleteModal_1').modal('show');
             estadoProcessoID = id;
@@ -137,5 +136,5 @@
             $('#deleteModal_1').modal('hide');
             $('#deleteEstadoProcesso' + estadoProcessoID).submit();
         }
-    </script>
+</script>
 @endpush

@@ -22,7 +22,7 @@
             <div class="card-header">
                 <h4>Média das Avaliações</h4>
             </div>
-            <div class="p-2" style="height: 35vh">
+            <div id="graphDiv" class="p-2">
                 <canvas id="mediaAvaliacoes" height="100px"></canvas>
             </div>
         </div>
@@ -105,18 +105,17 @@
             <div class="card-header">
                 <h4>Melhores Unidades ({{ $qtdBestUnidades }})</h4>
             </div>
-            <div class="" style="height: 35vh">
+            <div id="graphDiv" class="p-2">
                 <canvas id="melhoresUnidades" height="100px"></canvas>
             </div>
         </div>
     </div>
 </div>
-
 @endsection
 
 @push('scripts_resumo')
 
-<script>
+<script nonce="{{ app('csp-nonce') }}">
     const mediaAvaliacoesCtx = $('#mediaAvaliacoes')[0].getContext('2d');
     const mediaAvaliacoes = new Chart(mediaAvaliacoesCtx, {
         type: 'bar',

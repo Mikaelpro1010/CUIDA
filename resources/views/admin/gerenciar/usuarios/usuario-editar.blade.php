@@ -61,11 +61,11 @@
     <div class="col-md-8">
         <ul id="secretarias_list" class="list-group">
             @foreach ($user->secretarias as $secretaria)
-            <li id="list_{{$secretaria->id}}" class="list-group-item d-flex justify-content-between">
+            <li id="list_{{$secretaria->id}}" class="list-group-item d-flex justify-content-between align-items-center">
                 {{$secretaria->sigla}} - {{$secretaria->nome}}
-                <a href="javascript:removerItem({{$secretaria->id}})">
+                <button class="btn deleteSecretaria" data-id="{{ $secretaria->id }}">
                     <i class="fa-xl text-danger fa-solid fa-trash"></i>
-                </a>
+                </button>
             </li>
             @endforeach
         </ul>
@@ -74,10 +74,10 @@
 
 
 <div class="d-flex justify-content-end mt-2">
-    <a class="btn btn-primary" href="javascript:$('#editForm').submit()">
+    <button id="btnEditForm" class="btn btn-primary">
         <i class="fa-solid fa-pen-to-square"></i>
         Editar
-    </a>
+    </button>
 </div>
 <div class="d-flex justify-content-around">
     <a class="btn btn-warning" href="{{ route('get-users-list') }}">
@@ -88,19 +88,26 @@
 @endsection
 
 @push('scripts')
-<script>
+<script nonce="{{ app('csp-nonce') }}">
+    $("#btnEditForm").click(function() {
+        $("#editForm").submit();
+    });
+
+    $("#secretarias_list").on('click', '.deleteSecretaria', function() {
+        removerItem($(this).data('id'));
+    });
+
     $("#secretariaSelect").change(function (){
-        console.log('#secretaria_'+ $("#secretariaSelect").val());
-        console.log($('#secretaria_' + $("#secretariaSelect").val()).length);
         if($('#secretaria_' + $("#secretariaSelect").val()).length == 0){
             $('#secretarias').append(`
                 <input id="secretaria_`+ $("#secretariaSelect").val() +`" type="hidden" name="secretaria[]" value="` + $("#secretariaSelect").val() + `">
             `);
             $("#secretarias_list").append(`
-                <li id="list_` + $("#secretariaSelect").val() + `" class="list-group-item d-flex justify-content-between">`+ $("#secretariaSelect option:selected").text() +`
-                    <a href="javascript:removerItem(` + $("#secretariaSelect").val() + `)">
+                <li id="list_` + $("#secretariaSelect").val() + `" class="list-group-item d-flex justify-content-between align-items-center">
+                   `+ $("#secretariaSelect option:selected").text() +`
+                    <button class="btn deleteSecretaria" data-id="` + $("#secretariaSelect").val() + `">
                         <i class="fa-xl text-danger fa-solid fa-trash"></i>
-                    </a>
+                    </button>
                 </li>
             `);
             $("#secretarias_list").removeClass('d-none');

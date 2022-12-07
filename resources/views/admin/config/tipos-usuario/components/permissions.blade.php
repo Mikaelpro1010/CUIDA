@@ -2,7 +2,7 @@
 <div class="row mx-0">
     @foreach ($permissionGroups as $key => $permissionGroup )
     <ul id="{{$loop->iteration}}" class="col-md-4 list-group mb-2">
-        <li onclick="javascript:markAll('{{$loop->iteration}}')" class="list-group-item active">
+        <li class="itemHead list-group-item active" data-id="{{ $loop->iteration }}">
             {{$key}}
         </li>
         @foreach ($permissionGroup as $permission)
@@ -19,11 +19,11 @@
 </div>
 
 @push('scripts')
-<script>
-    function markAll(id){
-        $("#"+id).children().each(function (){
+<script nonce="{{ app('csp-nonce') }}">
+    $('.itemHead').click(function() {
+        $("#"+$(this).data('id')).children().each(function (){
             $(this).children('input').prop('checked', true);
         });
-    }
+    });
 </script>
 @endpush

@@ -6,11 +6,9 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <meta name="csrf-token" content="{{ csrf_token() }}">
-
     <title>@yield('titulo', 'EscutaSol')</title>
 
-    <link rel="stylesheet" href="{{ asset('css/styles.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/styles.css') }}" nonce="{{ csp_nonce()}}">
 </head>
 
 <body class="bg-light">
@@ -81,13 +79,12 @@
                                         Resumos das Avaliações
                                     </a>
                                     <hr>
-                                    <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
-                                            document.getElementById('logout-form').submit();">
-                                        Logout
+                                    @endcan
+                                    <a id="logoutBtn" class="dropdown-item" href="{{ route('logout') }}">
+                                        Sair
                                     </a>
 
-                                    <form id="logout-form" action="{{ route('logout') }}" method="POST"
-                                        style="display: none;">
+                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
                                         {{ csrf_field() }}
                                     </form>
                                 </li>
@@ -258,7 +255,13 @@
             EscutaSol - Controladoria e Ouvidoria Geral do Municipio de Sobral - CGM - 2022
         </div>
     </footer>
-    <script src="{{ asset('js/scripts.js') }}"></script>
+    <script src="{{ asset('js/scripts.js') }}" nonce="{{ app('csp-nonce') }}" data-auto-add-css="false"></script>
+    <script nonce="{{ app('csp-nonce') }}">
+        $('#logoutBtn').click( function(e) {
+            e.preventDefault();
+            $('#logout-form').submit();
+        });
+    </script>
     @stack('scripts')
 </body>
 

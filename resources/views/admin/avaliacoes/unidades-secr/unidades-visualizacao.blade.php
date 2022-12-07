@@ -124,7 +124,7 @@
 @endsection
 
 @push('scripts')
-<script>
+<script nonce="{{ app('csp-nonce') }}">
     function fecharModal(){
         $('#novaUnidadeModal').modal('hide');
     }

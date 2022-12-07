@@ -43,7 +43,7 @@
                 </div>
             </div>
             @if ($qtdAvaliacoes > 0)
-            <div class="p-3" style="height: 35vh">
+            <div id="graphDiv" class="p-3">
                 <canvas id="notasMesChart" height="100px"></canvas>
             </div>
             @else
@@ -82,7 +82,7 @@
                 </div>
             </div>
             @if ($qtdAvaliacoes > 0)
-            <div class="p-3" style="height: 35vh">
+            <div id="graphDiv" class="p-3">
                 <canvas id="avaliacoesMesChart" height="100px"></canvas>
             </div>
             @else
@@ -101,7 +101,7 @@
 @push('scripts_resumo')
 
 @if ($qtdAvaliacoes > 0)
-<script>
+<script nonce="{{ app('csp-nonce') }}">
     $(document).ready(function(){
         atualizarAvaliacoesMes({{ formatarDataHora(today(), 'Y') }});
         atualizarNotasMes({{ formatarDataHora(today(), 'Y') }});

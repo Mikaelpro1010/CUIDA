@@ -72,10 +72,8 @@
 @endsection
 
 @push('scripts')
-<script>
+<script nonce="{{ app('csp-nonce') }}">
     $("#secretariaSelect").change(function (){
-        console.log('#secretaria_'+ $("#secretariaSelect").val());
-        console.log($('#secretaria_' + $("#secretariaSelect").val()).length);
         if($('#secretaria_' + $("#secretariaSelect").val()).length == 0){
             $('#secretarias').append(`
                 <input id="secretaria_`+ $("#secretariaSelect").val() +`" type="hidden" name="secretaria[]" value="` + $("#secretariaSelect").val() + `">

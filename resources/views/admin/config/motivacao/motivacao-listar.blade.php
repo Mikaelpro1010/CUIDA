@@ -123,11 +123,10 @@
 @endsection
 
 @push('scripts')
-    <script>
-        var MotivacaoID = 0;
+<script nonce="{{ app('csp-nonce') }}">
+    var MotivacaoID = 0;
 
         function deletar(id) {
-            console.log($("#" + id + " .name").text());
             $("#deleteName").text($("#" + id + " .name").text());
             $('#deleteModal_2').modal('show');
             MotivacaoID = id;
@@ -137,5 +136,5 @@
             $('#deleteModal_2').modal('hide');
             $('#deleteMotivacao' + MotivacaoID).submit();
         }
-    </script>
+</script>
 @endpush

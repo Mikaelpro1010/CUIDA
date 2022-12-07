@@ -6,14 +6,10 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <!-- CSRF Token -->
-    <meta name="csrf-token" content="{{ csrf_token() }}">
-
     <title>@yield('titulo', 'EscutaSol')</title>
 
-    <link rel="stylesheet" href="{{ asset('css/style.css') }}">
-    <script src="{{ asset('js/fontawesome.js') }}"></script>
-    <style>
+    <link rel="stylesheet" href="{{ asset('css/styles.css') }}" nonce="{{ app('csp-nonce') }}">
+    <style nonce="{{ app('csp-nonce') }}">
         @media print {
 
             .logo-container,
@@ -42,14 +38,13 @@
 
         <footer class="d-flex justify-content-center mt-2 mb-3 mx-3">
             <div class="border-bottom text-center">
-                EscutaSol - Controladoria e Ouvidoria Geral do Municipio de Sobral - CGM - 2022
+                EscutaSol - Controladoria e Ouvidoria Geral do Municipio de Sobral - CGM - {{ now()->year }}
             </div>
         </footer>
     </div>
 
-    <script src="{{ asset('js/jquery.js') }}"></script>
-    <script src="{{ asset('js/bootstrap.js') }}"></script>
-    <script>
+    <script src="{{ asset('js/scripts.js') }}" nonce="{{ app('csp-nonce') }}" data-auto-add-css="false"></script>
+    <script nonce="{{ app('csp-nonce') }}">
         $(document).ready(function(){
             print();
         });
