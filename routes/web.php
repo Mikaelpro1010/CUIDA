@@ -11,7 +11,9 @@
 |
 */
 
-use App\Constants\Permission as ConstantsPermission;
+// use App\Constants\Permission as ConstantsPermission;
+// use App\Models\Permission;
+// use Illuminate\Http\Response;
 // use App\Models\Avaliacao\Unidade;
 // use App\Models\Chat\AnexoMensagem;
 // use App\Models\Manifest\AnexoManifest;
@@ -175,14 +177,12 @@ Route::middleware(['auth:web'])->group(
             }
         );
 
-
-
-        Route::get('/manifestacoes2', "Manifests2Controller@list")->name('manifestacoes2');
-        Route::post('manifestacao2', 'Manifests2Controller@storeManifest')->name("post-store-manifest2");
-        Route::get('manifestacao2/view', 'Manifests2Controller@create')->name("get-create-manifest2");
+        // Route::get('/manifestacoes2', "Manifests2Controller@list")->name('manifestacoes2');
+        // Route::post('manifestacao2', 'Manifests2Controller@storeManifest')->name("post-store-manifest2");
+        // Route::get('manifestacao2/view', 'Manifests2Controller@create')->name("get-create-manifest2");
         // manifestacoes
-        Route::get('/manifestacoes', "ManifestsController@list")->name('manifestacoes');
-        Route::get('/manifestacoes/{id}', "ManifestsController@viewManifest")->name('visualizarManifests');
+        // Route::get('/manifestacoes', "ManifestsController@list")->name('manifestacoes');
+        // Route::get('/manifestacoes/{id}', "ManifestsController@viewManifest")->name('visualizarManifests');
 
         // //mensagens
         // Route::get('/messages', "MessagesController@index")->name('mensagens');
@@ -192,7 +192,6 @@ Route::middleware(['auth:web'])->group(
 
         // Route::get('/messages/download/{anexo}', 'AnexoMensagemController@downloadAnexo')->name('download-anexo');
         // Route::get('/messages/view/{anexo}', 'AnexoMensagemController@viewAnexo')->name('view-anexo');
-
 
         //modulo Avaliacoes
         Route::prefix('avaliacoes')->namespace('Avaliacoes')->group(function () {
