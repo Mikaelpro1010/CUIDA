@@ -56,11 +56,11 @@
 
 @push('scripts')
 <script nonce="{{ app('csp-nonce') }}">
-    $("#label-muito-feliz").click(fn => {avaliar(5)});
-    $("#label-feliz").click(fn => {avaliar(4)});
-    $("#label-neutro").click(fn => {avaliar(3)});
-    $("#label-triste").click(fn => {avaliar(2)});
-    $("#label-muito-triste").click(fn => {avaliar(1)});
+    $("#label-muito-feliz").click(function () {avaliar(5)});
+    $("#label-feliz").click(function () {avaliar(4)});
+    $("#label-neutro").click(function () {avaliar(3)});
+    $("#label-triste").click(function () {avaliar(2)});
+    $("#label-muito-triste").click(function () {avaliar(1)});
 
     function avaliar(valor){
         $('.avaliar label').each(function(index, element){

@@ -90,7 +90,7 @@
 
 @push('scripts')
 <script nonce="{{ app('csp-nonce') }}">
-    $('#btnLimpaForm').click(fn =>{
+    $('#btnLimpaForm').click(function(){
         $('#pesquisa').val('');
         $('#secretaria_pesq').val('');
         $('#situacao').val('');

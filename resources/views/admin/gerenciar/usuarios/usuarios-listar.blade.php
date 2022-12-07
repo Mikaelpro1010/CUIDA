@@ -147,7 +147,7 @@
 
 @push('scripts')
 <script nonce="{{ app('csp-nonce') }}">
-    $('#btnLimpaForm').click(fn => {
+    $('#btnLimpaForm').click(function () {
         $('#pesquisa').val('');
         $('#tipo_usuario').val('');
     });
