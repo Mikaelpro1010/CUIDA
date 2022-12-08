@@ -53,7 +53,7 @@
                         <!-- Authentication Links -->
                         @guest
                         <li><a class="btn btn-outline-light" href="{{ route('login') }}">Login</a></li>
-                        <li><a class="btn btn-outline-light" href="{{ route('register') }}">Register</a></li>
+                        {{-- <li><a class="btn btn-outline-light" href="{{ route('register') }}">Register</a></li> --}}
                         @else
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle text-white" data-bs-toggle="dropdown" role="button"
@@ -69,6 +69,17 @@
                                     @endcan
                                     @can(permissionConstant()::MANIFESTACAO_CHAT)
                                     <a class="dropdown-item" href="{{ route('mensagens') }}">Mensagens</a>
+                                    @endcan
+                                    @can(permissionConstant()::MODULO_AVALIACOES)
+                                    <a class="dropdown-item" href="
+                                        @can(permissionConstant()::RELATORIO_AVALIACOES_GERAL_VIEW)
+                                            {{ route('resumo-avaliacoes') }}
+                                        @else
+                                            {{ route('resumo-avaliacoes-secretaria-list') }} 
+                                        @endcan
+                                        ">
+                                        Resumos das Avaliações
+                                    </a>
                                     @endcan
                                     <hr>
                                     <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
@@ -120,6 +131,7 @@
                             </span>
                         </a>
                         @endcan
+                        @can(permissionConstant()::MODULO_AVALIACOES)
                         <li
                             class="nav-item dropdown @if (Route::current()->action['namespace'] == 'App\Http\Controllers\Avaliacoes') border-bottom border-3 border-primary @endif">
                             <a class=" nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
@@ -134,13 +146,19 @@
                                     ">Resumos</a>
                                 </li>
                                 @can(permissionConstant()::UNIDADE_SECRETARIA_LIST)
-                                <li><a class="dropdown-item" href="{{ route('unidades-secr-list') }}">Unidades</a></li>
+                                <li>
+                                    <a class="dropdown-item" href="{{ route('unidades-secr-list') }}">
+                                        Unidades da Secretaria
+                                    </a>
+                                </li>
                                 @endcan
                             </ul>
                         </li>
-                        @if (auth()->user()->can(permissionConstant()::GERENCIAR_USUARIOS_LIST) ||
+                        @endcan
+                        @if(auth()->user()->can(permissionConstant()::GERENCIAR_USUARIOS_LIST) ||
                         auth()->user()->can(permissionConstant()::GERENCIAR_SECRETARIAS_LIST))
-                        <li class="nav-item dropdown">
+                        <li
+                            class="nav-item dropdown @if (Route::current()->action['namespace'] == 'App\Http\Controllers\Gerenciar') border-bottom border-3 border-primary @endif">
                             <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
                                 aria-expanded="false">
                                 Gerenciar
@@ -157,8 +175,9 @@
                             </ul>
                         </li>
                         @endif
-                        @if (auth()->user()->can(permissionConstant()::GERENCIAR_TIPOS_USUARIOS_LIST))
-                        <li class="nav-item dropdown">
+                        @if(auth()->user()->can(permissionConstant()::GERENCIAR_TIPOS_USUARIOS_LIST))
+                        <li
+                            class="nav-item dropdown @if (Route::current()->action['namespace'] == 'App\Http\Controllers\Configs') border-bottom border-3 border-primary @endif">
                             <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
                                 aria-expanded="false">
                                 Configurações
@@ -192,7 +211,7 @@
                                     </a>
                                 </li>
                                 @endcan
-                                
+
                                 @can(permissionConstant()::GERENCIAR_SITUACOES_LIST)
                                 <li>
                                     <a class="dropdown-item" href="{{ route('get-situacao-list') }}">
@@ -200,7 +219,7 @@
                                     </a>
                                 </li>
                                 @endcan
-                                
+
                                 @can(permissionConstant()::GERENCIAR_FAQS_LIST)
                                 <li>
                                     <a class="dropdown-item" href="{{ route('get-faq-list') }}">
