@@ -43,6 +43,7 @@ mix
   .scripts(
     [
       "node_modules/jquery/dist/jquery.js",
+      "resources/assets/js/scripts.js",
       "node_modules/bootstrap/dist/js/bootstrap.bundle.js",
       "node_modules/jquery-ui/dist/jquery-ui.js",
       "node_modules/sweetalert2/dist/sweetalert2.js",

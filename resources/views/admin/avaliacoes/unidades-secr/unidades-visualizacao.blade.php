@@ -91,7 +91,7 @@
         <div class="modal-content">
             <div class="modal-header bg-warning">
                 <h5 class="modal-title" id="novaUnidadeTitle">Editar</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <button type="button" class="btn-close btnFecharModal"></button>
             </div>
             <form action="{{ route('atualizar-unidade', $unidade) }}" method="POST">
                 {{ method_field('PUT') }}
@@ -108,7 +108,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <a class="btn btn-danger" href="javascript:fecharModal()">Fechar</a>
+                    <a class="btn btn-danger btnFecharModal">Fechar</a>
                     <button type="submit" class="btn btn-warning">
                         <i class="fa-solid fa-pen-to-square"></i>
                         Editar
@@ -125,8 +125,13 @@
 
 @push('scripts')
 <script nonce="{{ app('csp-nonce') }}">
-    function fecharModal(){
+    let nome = '{{$unidade->nome}}';
+    let descricao  = '{{$unidade->descricao}}';
+
+    $('.btnFecharModal').click(function (){
         $('#novaUnidadeModal').modal('hide');
-    }
+        $('#nome').val(nome);
+        $('#descricao').val(descricao);
+    });
 </script>
 @endpush

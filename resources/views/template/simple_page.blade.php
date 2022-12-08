@@ -279,12 +279,6 @@
     </footer>
     <script src="{{ asset('js/scripts.js') }}" nonce="{{ app('csp-nonce') }}" data-auto-add-css="false">
     </script>
-    <script nonce="{{ app('csp-nonce') }}">
-        $('#logoutBtn').click( function(e) {
-            e.preventDefault();
-            $('#logout-form').submit();
-        });
-    </script>
     @stack('scripts')
 </body>
 

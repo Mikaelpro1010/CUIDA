@@ -152,7 +152,7 @@
                             </select>
                         </div>
                         <div class="col-md-12">
-                            <label class="form-label fw-bold" for="nome">Descrição:</label>
+                            <label class="form-label fw-bold" for="descricao">Descrição:</label>
                             <textarea class="form-control" name="descricao" rows="6" id="descricao"
                                 placeholder="Descrição"></textarea>
                         </div>
