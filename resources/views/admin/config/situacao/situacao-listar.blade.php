@@ -1,5 +1,6 @@
 @extends('template.base')
 
+@section('titulo', 'EscutaSol - Situações')
 @section('content')
     <div class="col-lg-12 d-flex justify-content-between align-items-center">
         <h1 class="m-0 text-primary">Situações</h1>
@@ -44,8 +45,7 @@
             <th class="text-center">Ações</th>
         </thead>
         <tbody>
-            @if (isset($situacoes))
-                @foreach ($situacoes as $situacao)
+                @forelse ($situacoes as $situacao)
                     <tr id="{{ $situacao->id }}">
                         <td>
                             {{ $situacao->id }}
@@ -92,10 +92,13 @@
                             </div>
                         </td>
                     </tr>
-                @endforeach
-            @else
-                <p>não existem registros</p>
-            @endif
+                @empty
+                <tr>
+                    <td colspan="6" class="text-center table-warning">
+                        Nenhum resultado encontrado!
+                    </td>
+                </tr>
+                @endforelse
         </tbody>
     </table>
     <div class='mx-auto'>

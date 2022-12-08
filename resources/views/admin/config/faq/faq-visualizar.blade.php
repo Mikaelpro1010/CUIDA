@@ -1,4 +1,6 @@
 @extends('template.base')
+
+@section('titulo', 'EscutaSol - FAQ')
 @section('content')
         <h1 class="text-primary">
             FAQ
@@ -38,7 +40,7 @@
                 role="button" aria-disabled="true">
                 <i class="fa-solid fa-chevron-left"></i>
                 Voltar
-            </a>
-        </div>
+                </a>
+            </div>
         </div>
 @endsection

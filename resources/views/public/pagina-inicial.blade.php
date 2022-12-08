@@ -42,7 +42,7 @@
                                     </figure>
                                 </div>
                                 <div class="col-10">
-                                    <form action="" method="POST">
+                                    <form action="{{ route("vis-manifestacao") }}" method="POST">
                                         {{ csrf_field() }}
                                         <div class="d-flex justify-content-evenly row align-items-start">
                                             <div class="col p-3">

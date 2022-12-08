@@ -12,6 +12,6 @@ $factory->define(Avaliacao::class, function (Faker $faker) {
         'unidade_secr_id' => $unidadeSec->id,
         'nota' => random_int(1, 5) * 2,
         'comentario' => $comment,
-        'created_at' => $faker->dateTimeInInterval('-2 years', '2years'),
+        'created_at' => $faker->dateTimeThisYear(),
     ];
 });

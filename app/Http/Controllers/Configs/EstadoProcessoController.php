@@ -17,7 +17,7 @@ class EstadoProcessoController extends Controller
         $this->authorize(Permission::GERENCIAR_ESTADOS_PROCESSO_LIST);
         $estados_processo = EstadosProcesso::query()
             ->when(request()->pesquisa, function($query){
-                $query->where('nome', 'like', "%". request()->pesquisa."%");
+                $query->where('nome', 'ilike', "%". request()->pesquisa."%");
             })  
             ->orderBy('ativo', 'desc')
             ->orderBy('updated_at', 'desc')

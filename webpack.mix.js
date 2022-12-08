@@ -10,6 +10,20 @@ let mix = require("laravel-mix");
  | file for the application as well as bundling up all the JS files.
  |
  */
+
+mix.options({
+  cleanCss: {
+    level: {
+      1: {
+        specialComments: "none",
+      },
+    },
+  },
+
+  postCss: [require("postcss-discard-comments")({ removeAll: true })],
+  purgeCss: true,
+});
+
 mix
   .setPublicPath("/")
   .sass("resources/scss/style.scss", "resources/assets/css/css1.css")
@@ -18,7 +32,12 @@ mix
     "resources/assets/css/css2.css"
   )
   .styles(
-    ["resources/assets/css/css1.css", "resources/assets/css/css2.css"],
+    [
+      "resources/assets/css/main.css",
+      "resources/assets/css/css1.css",
+      "resources/assets/css/css2.css",
+      "node_modules/@fortawesome/fontawesome-free/css/svg-with-js.css",
+    ],
     "public/css/styles.css"
   )
   .scripts(
@@ -29,10 +48,7 @@ mix
       "node_modules/sweetalert2/dist/sweetalert2.js",
       "node_modules/jquery-mask-plugin/src/jquery.mask.js",
       "node_modules/chart.js/dist/chart.js",
-      "node_modules/@fortawesome/fontawesome-free/js/fontawesome.js",
-      "node_modules/@fortawesome/fontawesome-free/js/solid.js",
-      "node_modules/@fortawesome/fontawesome-free/js/regular.js",
-      "node_modules/@fortawesome/fontawesome-free/js/brands.js",
+      "node_modules/@fortawesome/fontawesome-free/js/all.js",
     ],
     "public/js/scripts.js"
   );

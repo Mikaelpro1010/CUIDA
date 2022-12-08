@@ -59,12 +59,12 @@
 </form>
 
 <div class="table-responsive mt-3">
-    <table class="table table-sm table-striped table align-middle">
+    <table class="table table-sm table-striped align-middle">
         <thead>
             <tr>
-                @can(permissionConstant()::UNIDADE_SECRETARIA_TOGGLE_ATIVO)
+                {{-- @can(permissionConstant()::UNIDADE_SECRETARIA_TOGGLE_ATIVO) --}}
                 <th class="text-center">Ativo</th>
-                @endcan
+                {{-- @endcan --}}
                 <th>Nome</th>
                 <th>Secretaria</th>
                 <th>Última Atualização</th>
@@ -77,24 +77,34 @@
             @if (isset($unidades) && count($unidades) > 0)
             @foreach ( $unidades as $unidade )
             <tr class="">
-                @can(permissionConstant()::UNIDADE_SECRETARIA_TOGGLE_ATIVO)
-                <td>
+                <td class="text-center">
+                    @if (auth()->user()->can(permissionConstant()::UNIDADE_SECRETARIA_TOGGLE_ATIVO))
                     <a class="btn" href="{{ route('ativar-unidade', $unidade) }}">
                         @if ($unidade->ativo)
                         <i class="text-success fa-solid fa-circle-check"></i>
                         @else
                         <i class="text-danger fa-solid fa-circle-xmark"></i>
+                        @endif
                     </a>
+                    @else
+                    @if ($unidade->ativo)
+                    <i class="text-success fa-solid fa-circle-check"></i>
+                    @else
+                    <i class="text-danger fa-solid fa-circle-xmark"></i>
+                    @endif
                     @endif
                 </td>
-                @endcan
                 <td>{{$unidade->nome}}</td>
                 <td>{{ $unidade->secretaria->sigla . " - " . $unidade->secretaria->nome }}</td>
                 <td>{{ formatarDataHora($unidade->updated_at) }}</td>
                 @can(permissionConstant()::UNIDADE_SECRETARIA_VIEW)
                 <td class="align-middle text-center">
-                    <a href="{{ route('visualizar-unidade', $unidade) }}">
+                    <a class="btn text-primary" href="{{ route('visualizar-unidade', $unidade) }}">
                         <i class="fa-xl fa-solid fa-magnifying-glass"></i>
+                    </a>
+                    <a class="btn text-warning"
+                        href="{{ route('resumo-avaliacoes-unidade', ['unidade' => $unidade, 'secretaria' => $unidade->secretaria_id]) }}">
+                        <i class=" fa-xl fa-solid fa-chart-area"></i>
                     </a>
                 </td>
                 @endcan

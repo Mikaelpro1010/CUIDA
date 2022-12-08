@@ -1,5 +1,6 @@
 @extends('template.base')
 
+@section('titulo', 'EscutaSol - FAQs')
 @section('content')
     <div id="mensagem">
     </div>
@@ -46,8 +47,7 @@
             <th class="text-center">Ações</th>
         </thead>
         <tbody id="tabela">
-            @if (isset($faqs) && count($faqs) > 0)
-                @foreach ($faqs as $faq)
+                @forelse ($faqs as $faq)
                     <tr id="{{ $faq->id }}">
                         <td>
                             <i class="fa-solid fa-sort"></i>
@@ -94,10 +94,13 @@
                             </div>
                         </td>
                     </tr>
-                @endforeach
-            @else
-                <p>não existem registros</p>
-            @endif
+            @empty
+            <tr>
+                <td colspan="6" class="text-center table-warning">
+                    Nenhum resultado encontrado!
+                </td>
+            </tr>
+            @endforelse
         </tbody>
     </table>
     <div class='mx-auto'>

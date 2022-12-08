@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Manifest\Recurso;
 use Illuminate\Database\Eloquent\Model;
 
 class Manifestacoes extends Model
@@ -42,11 +43,18 @@ class Manifestacoes extends Model
     }
 
     public function recursos(){
-        return $this->hasMany(Recurso::class, 'manifestacao_id', 'id');
+        return $this->hasMany(Recurso::class, 'id_manifestacao', 'id');
     }
     
     public function motivacao(){
         return $this->hasOne(Motivacao::class, 'id', 'motivacao_id');
     }
 
+    public function historico(){
+        return $this->hasMany(Historico::class, 'manifestacao_id', 'id');
+    }
+    
+    // public function historico(){
+    //     return $this->hasOne(Historico::class, 'id', 'historico_id');
+    // }
 }

@@ -15,10 +15,10 @@ class FaqController extends Controller
         $this->authorize(Permission::GERENCIAR_FAQS_LIST);
         $faqs = FAQ::query()
             ->when(request()->pesquisa, function($query){
-                $query->where('pergunta', 'like', "%". request()->pesquisa."%");
+                $query->where('pergunta', 'ilike', "%". request()->pesquisa."%");
             })
             ->orderBy('ordem', 'asc')
-            ->paginate(10)
+            ->paginate(40)
             ->appends(
                 ['pesquisa'=>request()->pesquisa]
             );
@@ -105,7 +105,7 @@ class FaqController extends Controller
     public function orderFAQ(Request $request){
         foreach($request->ordem as $key=>$ordem){
             $faq = Faq::find($ordem);
-            $faq->ordem = $key+1;
+            $faq->ordem = ++$key;
             $faq->save();
         }
         return json_encode(['success'=> 'true', 'success'=> 'Ordem alterada com sucesso!']);

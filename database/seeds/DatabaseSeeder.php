@@ -21,6 +21,12 @@ class DatabaseSeeder extends Seeder
         $this->call(UsersTableSeeder::class);
         $this->call(SecretariaUserTableSeeder::class);
 
+        //Configs de manifestaçao
+        $this->call(TiposManifestacaoTableSeeder::class);
+        $this->call(EstadosProcessoTableSeeder::class);
+        $this->call(MotivacaoTableSeeder::class);
+        $this->call(SituacaoTableSeeder::class);
+
         //Users from App
         $this->call(AppUsersTableSeeder::class);
 
@@ -37,10 +43,10 @@ class DatabaseSeeder extends Seeder
         $this->call(UnidadesSecrTableSeeder::class);
         $this->call(AvaliacoesTableSeeder::class);
 
-        $this->call(TiposManifestacaoTableSeeder::class);
-        $this->call(EstadosProcessoTableSeeder::class);
-        $this->call(MotivacaoTableSeeder::class);
-        $this->call(SituacaoTableSeeder::class);
+        //FAQ
         $this->call(FaqTableSeeder::class);
+
+        $this->call(ManifestacoesTableSeeder::class);
+        $this->call(HistoricoTableSeeder::class);
     }
 }

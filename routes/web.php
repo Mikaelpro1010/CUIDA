@@ -76,10 +76,11 @@ Route::view('/', 'public.home')->name('home');
 Route::view('/politicas-de-privacidade', 'public.politicas')->name('politicas');
 Route::view('/termos-de-uso', 'public.termos')->name('termos');
 
-Route::get('pagina-manifestacao/visualizar', 'Publico\PaginaManifestController@visualizarPagina')->name("vis-pagina_manifestacao");
-Route::post('manifestacao/cadastrar/novo', 'Publico\PaginaManifestController@cadastrar')->name("cadastrar-manifestacao");
-// Route::get('/pagina-inicial', 'Publico\FaqController@paginaInicial')->name("pagina-inicial");
+// Route::get('pagina-manifestacao/visualizar', 'Publico\PaginaManifestController@visualizarPagina')->name("vis-pagina_manifestacao");
+// Route::post('manifestacao/cadastrar/novo', 'Publico\PaginaManifestController@cadastrar')->name("cadastrar-manifestacao");
+// Route::post('pagina-manifestacao/visualizar-manifestacao', 'Publico\PaginaManifestController@visualizarManifestacao')->name("vis-manifestacao");
 
+// Route::get('/pagina-inicial', 'Publico\FaqController@paginaInicial')->name("pagina-inicial");
 
 //não logado
 Route::prefix('avaliacoes')->namespace('Publico')->group(function () {
@@ -88,6 +89,7 @@ Route::prefix('avaliacoes')->namespace('Publico')->group(function () {
     // ->middleware('throttle:1,1440');
     Route::view('/agradecer', 'public.unidade_secr.agradecimento')->name('agradecimento-avaliacao');
 });
+
 
 Route::middleware(['auth:web'])->group(
     function () {
@@ -178,12 +180,13 @@ Route::middleware(['auth:web'])->group(
         );
 
         // Route::get('/manifestacoes2', "Manifests2Controller@list")->name('manifestacoes2');
-        // Route::post('manifestacao2', 'Manifests2Controller@storeManifest')->name("post-store-manifest2");
-        // Route::get('manifestacao2/view', 'Manifests2Controller@create')->name("get-create-manifest2");
+        // Route::post('/manifestacao2', 'Manifests2Controller@storeManifest')->name("post-store-manifest2");
+        // Route::get('/manifestacao2/view', 'Manifests2Controller@create')->name("get-create-manifest2");
+        // Route::get('/manifestacoes2/{id}', "Manifests2Controller@viewManifest")->name('visualizarManifests');
+
         // manifestacoes
         // Route::get('/manifestacoes', "ManifestsController@list")->name('manifestacoes');
         // Route::get('/manifestacoes/{id}', "ManifestsController@viewManifest")->name('visualizarManifests');
-
         // //mensagens
         // Route::get('/messages', "MessagesController@index")->name('mensagens');
         // Route::get('/messages/{id}', "MessagesController@visualizarMsg")->name('visualizarMsg');
@@ -195,6 +198,7 @@ Route::middleware(['auth:web'])->group(
 
         //modulo Avaliacoes
         Route::prefix('avaliacoes')->namespace('Avaliacoes')->group(function () {
+            //Relatorios
             Route::get('/', 'RelatoriosAvaliacoesController@resumo')->name('resumo-avaliacoes');
 
             Route::get('/secretaria', 'RelatoriosAvaliacoesController@resumoSecretariasList')->name('resumo-avaliacoes-secretaria-list');
@@ -212,7 +216,7 @@ Route::middleware(['auth:web'])->group(
                 ->middleware('throttle:60,60')
                 ->name('resumo-avaliacoes-unidade-avaliacoes-mes');
 
-
+            //Gerenciar Unidade
             Route::get('/unidade/lista', 'UnidadeSecrController@listagem')->name('unidades-secr-list');
             Route::post('/unidade/criar', 'UnidadeSecrController@novaUnidade')->name('nova-unidade');
             Route::get('/unidade/{unidade}', 'UnidadeSecrController@visualizar')->name('visualizar-unidade');

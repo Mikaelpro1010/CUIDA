@@ -1,5 +1,6 @@
 @extends('template.base')
 
+@section('titulo', 'EscutaSol - Tipo de Manifestação')
 @section('content')
     <div class="text-primary">
         <h2>
@@ -19,9 +20,13 @@
                 <label for="descricao" class="form-label mb-1 mt-3">Descreva:</label>
                 <textarea class="form-control" name="descricao" id="descricao" rows="5"></textarea>
             </div>
-
-            <div>
-                <button class="btn btn-info mt-4" type="submit">Salvar cadastro</button>
+            
+            <div class="text-center">
+                <a href="{{ route('get-tipo-manifestacao-list') }}" class="mt-3 btn btn-warning" tabindex="-1"
+                    role="button" aria-disabled="true">
+                    <i class="fa-solid fa-chevron-left"></i>
+                    Voltar
+                </a>
             </div>
         </form>
     </div>
