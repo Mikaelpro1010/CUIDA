@@ -7,7 +7,7 @@
 <form method="POST" action="{{ route('post-store-role') }}">
     {{ csrf_field() }}
     <div class="row g-2">
-        <div class="col-md-6">
+        <div class="col-md-12">
             <label class="fw-bold" for="">Nome:</label>
             <input class="form-control" type="text" name="name" required>
         </div>
