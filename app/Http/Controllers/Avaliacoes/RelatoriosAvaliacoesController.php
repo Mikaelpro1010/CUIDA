@@ -25,7 +25,7 @@ class RelatoriosAvaliacoesController extends Controller
             10 => ['qtd' => $resumoSecretarias['notas5'], "percent" => $qtdAvaliacoes > 0 ? number_format($resumoSecretarias['notas5'] / $qtdAvaliacoes * 100, 1, '.', '') : 0],
         ];
 
-        $secretarias = Secretaria::query()->orderBy('nota', 'desc')->get();
+        $secretarias = Secretaria::query()->orderBy('nota', 'desc')->where('nota', '!=', 0)->where('ativo', true)->get();
 
         //media Geral
         $avaliacoesAverage = $secretarias->avg('nota');
@@ -68,7 +68,14 @@ class RelatoriosAvaliacoesController extends Controller
         //melhores Unidades
         $bestUnidades = [];
 
-        $unidades = Unidade::query()->with('secretaria')->orderBy('nota', 'desc')->limit(20)->get();
+        $unidades = Unidade::query()
+            ->with('secretaria')
+            ->where(function ($query) use ($secretarias) {
+                $query->whereIn('secretaria_id', $secretarias->pluck('id'));
+            })
+            ->orderBy('nota', 'desc')
+            ->limit(20)
+            ->get();
 
         foreach ($unidades as $unidade) {
             $dataSetbestUnidades = [];
@@ -122,10 +129,12 @@ class RelatoriosAvaliacoesController extends Controller
     public function resumoSecretariasList()
     {
         if (auth()->user()->can(Permission::UNIDADE_SECRETARIA_ACCESS_ANY_SECRETARIA)) {
-            $secretarias = Secretaria::query()->with('unidades')->orderBy('nome', 'asc')->paginate(15);
+            $secretarias = Secretaria::query();
         } else {
-            $secretarias = auth()->user()->secretarias()->with('unidades')->orderBy('nome', 'asc')->paginate(15);
+            $secretarias = auth()->user()->secretarias();
         };
+
+        $secretarias = $secretarias->with('unidades')->orderBy('nome', 'asc')->paginate(15);
 
         if ($secretarias->count() == 1) {
             return redirect()->route('resumo-avaliacoes-secretaria', $secretarias[0]);
@@ -166,7 +175,13 @@ class RelatoriosAvaliacoesController extends Controller
         //melhores Unidades
         $bestUnidades = [];
 
-        $unidades = $secretaria->unidades()->orderBy('nota', 'desc')->limit(20)->get();
+        $unidades = $secretaria
+            ->unidades()
+            ->where('ativo', true)
+            ->where('nota', '>', 0)
+            ->orderBy('nota', 'desc')
+            ->limit(20)
+            ->get();
 
         foreach ($unidades as $unidade) {
             $nota = $unidade->nota;
@@ -222,13 +237,25 @@ class RelatoriosAvaliacoesController extends Controller
     //retorna json com os dados para o grafico de avaliaçoes por mes
     public function avaliacoesPorMesSecretaria(Secretaria $secretaria)
     {
+        $this->authorize(Permission::RELATORIO_AVALIACOES_SECRETARIA_VIEW);
+
+        $unidades = $secretaria->unidades()->where('ativo', true)->get();
+
         $status = false;
         $resposta = null;
         if (preg_match("/^20[0-9]{2}$/", request()->ano)) {
             // Avaliacoes por mes (qtd)
             $resposta = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
 
-            $avaliacoesAno = $secretaria->avaliacoes()->whereYear('avaliacoes.created_at', request()->ano)->get();
+            $avaliacoesAno = $secretaria
+                ->avaliacoes()
+                ->where(
+                    function ($query) use ($unidades) {
+                        $query->whereIn('unidade_secr_id', $unidades->pluck('id'));
+                    }
+                )
+                ->whereYear('avaliacoes.created_at', request()->ano)
+                ->get();
 
             foreach ($avaliacoesAno as $avaliacao) {
                 $resposta[formatarDataHora($avaliacao->created_at, 'n') - 1] += 1;
@@ -266,6 +293,7 @@ class RelatoriosAvaliacoesController extends Controller
                 }
             )
             ->with('secretaria')
+            ->orderBy('ativo', 'desc')
             ->orderBy('nota', 'desc')
             ->paginate(15)
             ->appends([

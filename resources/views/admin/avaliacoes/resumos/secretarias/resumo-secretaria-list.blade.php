@@ -10,6 +10,7 @@
     <table class="table table-sm table-striped align-middle">
         <thead>
             <tr>
+                <th>Ativo</th>
                 <th>Sigla</th>
                 <th>Secretaria</th>
                 <th>Unidades(qtd.)</th>
@@ -21,6 +22,13 @@
         <tbody class="table-group-divider">
             @forelse ($secretarias as $secretaria)
             <tr>
+                <td class="text-center">
+                    @if ($secretaria->ativo)
+                    <i class="text-success fa-solid fa-circle-check"></i>
+                    @else
+                    <i class="text-danger fa-solid fa-circle-xmark"></i>
+                    @endif
+                </td>
                 <td>{{ $secretaria->sigla }}</td>
                 <td>{{ $secretaria->nome }}</td>
                 <td>{{ $secretaria->unidades->count() }}</td>
