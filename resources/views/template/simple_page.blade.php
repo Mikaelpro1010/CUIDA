@@ -30,19 +30,19 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav me-auto pb-2 pb-lg-0">
                         {{-- <li class="nav-item">
-                            <a class="nav-link text-white @if (Route::is('pagina-inicial')) border-bottom border-3 border-info @endif"
+                            <a class="nav-link text-white @if (Route::is('pagina-inicial')) border-bottom border-3 border-light @endif"
                                 href="{{ route('pagina-inicial') }}">
                                 Pagina Inicial
                             </a>
                         </li> --}}
                         <li class="nav-item">
-                            <a class="nav-link text-white @if (Route::is('politicas')) border-bottom border-3 border-info @endif"
+                            <a class="nav-link text-white @if (Route::is('politicas')) border-bottom border-3 border-light @endif"
                                 href="{{ route('politicas') }}">
                                 Políticas de Privacidade
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-white @if (Route::is('termos')) border-bottom border-3 border-info @endif"
+                            <a class="nav-link text-white @if (Route::is('termos')) border-bottom border-3 border-light @endif"
                                 href="{{ route('termos') }}">
                                 Termos de Uso
                             </a>
@@ -71,7 +71,8 @@
                                     <a class="dropdown-item" href="{{ route('mensagens') }}">Mensagens</a>
                                     @endcan --}}
 
-                                    @can(permissionConstant()::MODULO_AVALIACOES)
+                                    @if (auth()->user()->can(permissionConstant()::RELATORIO_AVALIACOES_GERAL_VIEW) ||
+                                    auth()->user()->can(permissionConstant()::UNIDADE_SECRETARIA_LIST) )
                                     <a class="dropdown-item" href="
                                         @can(permissionConstant()::RELATORIO_AVALIACOES_GERAL_VIEW)
                                             {{ route('resumo-avaliacoes') }}
@@ -81,9 +82,8 @@
                                         ">
                                         Resumos das Avaliações
                                     </a>
-
                                     <hr>
-                                    @endcan
+                                    @endif
                                     <a id="logoutBtn" class="dropdown-item" href="{{ route('logout') }}">
                                         Sair
                                     </a>
@@ -134,7 +134,8 @@
                         </a>
                         @endcan --}}
 
-                        @can(permissionConstant()::MODULO_AVALIACOES)
+                        @if (auth()->user()->can(permissionConstant()::RELATORIO_AVALIACOES_GERAL_VIEW) ||
+                        auth()->user()->can(permissionConstant()::UNIDADE_SECRETARIA_LIST) )
                         <li
                             class="nav-item dropdown @if (Route::current()->action['namespace'] == 'App\Http\Controllers\Avaliacoes') border-bottom border-3 border-primary @endif">
                             <a class=" nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
@@ -160,7 +161,7 @@
                                 @endcan
                             </ul>
                         </li>
-                        @endcan
+                        @endif
 
                         @if(auth()->user()->can(permissionConstant()::GERENCIAR_USUARIOS_LIST) ||
                         auth()->user()->can(permissionConstant()::GERENCIAR_SECRETARIAS_LIST))

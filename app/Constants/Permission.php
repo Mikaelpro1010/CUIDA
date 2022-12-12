@@ -167,13 +167,11 @@ class Permission
     ];
 
     //Relatorio das avaliaçoes
-    public const MODULO_AVALIACOES = 'Acesso ao módulo de avaliações';
     public const RELATORIO_AVALIACOES_GERAL_VIEW = 'Visualizar Relatório Geral';
     public const RELATORIO_AVALIACOES_SECRETARIA_VIEW = 'Visualizar Relatório por Secretaria';
     public const RELATORIO_AVALIACOES_UNIDADE_VIEW = 'Visualizar Relatório por Unidade da Secretaria';
 
     public const RELATORIO_AVALIACOES = [
-        self::MODULO_AVALIACOES,
         self::RELATORIO_AVALIACOES_GERAL_VIEW,
         self::RELATORIO_AVALIACOES_SECRETARIA_VIEW,
         self::RELATORIO_AVALIACOES_UNIDADE_VIEW,
