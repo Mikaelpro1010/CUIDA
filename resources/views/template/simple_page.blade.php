@@ -71,7 +71,8 @@
                                     <a class="dropdown-item" href="{{ route('mensagens') }}">Mensagens</a>
                                     @endcan --}}
 
-                                    @can(permissionConstant()::MODULO_AVALIACOES)
+                                    @if (auth()->user()->can(permissionConstant()::RELATORIO_AVALIACOES_GERAL_VIEW) ||
+                                    auth()->user()->can(permissionConstant()::UNIDADE_SECRETARIA_LIST) )
                                     <a class="dropdown-item" href="
                                         @can(permissionConstant()::RELATORIO_AVALIACOES_GERAL_VIEW)
                                             {{ route('resumo-avaliacoes') }}
@@ -81,9 +82,8 @@
                                         ">
                                         Resumos das Avaliações
                                     </a>
-
                                     <hr>
-                                    @endcan
+                                    @endif
                                     <a id="logoutBtn" class="dropdown-item" href="{{ route('logout') }}">
                                         Sair
                                     </a>
@@ -134,7 +134,8 @@
                         </a>
                         @endcan --}}
 
-                        @can(permissionConstant()::MODULO_AVALIACOES)
+                        @if (auth()->user()->can(permissionConstant()::RELATORIO_AVALIACOES_GERAL_VIEW) ||
+                        auth()->user()->can(permissionConstant()::UNIDADE_SECRETARIA_LIST) )
                         <li
                             class="nav-item dropdown @if (Route::current()->action['namespace'] == 'App\Http\Controllers\Avaliacoes') border-bottom border-3 border-primary @endif">
                             <a class=" nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
@@ -160,7 +161,7 @@
                                 @endcan
                             </ul>
                         </li>
-                        @endcan
+                        @endif
 
                         @if(auth()->user()->can(permissionConstant()::GERENCIAR_USUARIOS_LIST) ||
                         auth()->user()->can(permissionConstant()::GERENCIAR_SECRETARIAS_LIST))
