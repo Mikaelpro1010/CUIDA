@@ -6,6 +6,7 @@ use App\Models\EstadosProcesso;
 use App\Models\Historico;
 use App\Models\Manifestacoes;
 use App\Models\Motivacao;
+use App\Models\Secretaria;
 use App\Models\Situacao;
 use App\Models\TiposManifestacao;
 use Illuminate\Http\Request;
@@ -117,9 +118,11 @@ class Manifests2Controller extends Controller
     {
         $manifestacao = Manifestacoes::with('recursos')->find($id);
 
+        $secretarias = Secretaria::get();
+
         $situacaoAguardandoProrrogacao = Situacao::where('nome', 'Aguardando Porrogação')->first()->id;
 
         // dd($manifestacao);
-        return view('admin.manifestacoes.visualizarManifest', compact('manifestacao', 'situacaoAguardandoProrrogacao'));
+        return view('admin.manifestacoes.visualizarManifest', compact('manifestacao', 'situacaoAguardandoProrrogacao', 'secretarias'));
     }
 }

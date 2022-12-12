@@ -133,6 +133,9 @@ return [
         'comentario' => 'comentario',
         'pergunta' => 'pergunta',
         'resposta' => 'resposta',
+        'motivo_solicitacao' => 'motivo_solicitacao',
+        'secretaria_id' => 'secretaria_id',
+        'texto_compartilhamento' => 'texto_compartilhamento',
     ],
 
 ];

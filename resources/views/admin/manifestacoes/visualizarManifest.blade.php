@@ -147,7 +147,41 @@
 
         <div class="tab-pane" id="compartilhamentos" role="tabpanel" aria-labelledby="compartilhamentos-tab"
             tabindex="0">
-            compartilhamento
+            <button type="submit" class="mt-3 btn btn-primary" onclick="compartilhar()">
+                Compartilhar manifestação
+            </button>
+            <div id="myModal2" name="id" class="modal" tabindex="-1">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Compartilhamento</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <form class="" action="{{ route('compartilhar-manifestacao', $manifestacao->id) }}"
+                                method="POST">
+                                <p class="mb-1 text-center">Compartilhe a manifestação com a secretaria desejada</p>
+                                <label for="">Secretaria:</label>
+                                <select class="form-select form-select-sm" aria-label=".form-select-sm example" name="secretaria_id">
+                                    <option value="">Selecione</option>
+                                    @foreach ($secretarias as $secretaria)
+                                        <option value="{{ $secretaria->id }}">
+                                            {{ $secretaria->sigla . ' - ' . $secretaria->nome }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                                <label class="mt-3 mb-1">Justificativa:</label>
+                                <textarea class="mb-3 form-control" name="texto_compartilhamento" placeholder="Mensagem*" rows="5"></textarea>
+                                {{ csrf_field() }}
+                                <div class="modal-footer">
+                                    <button type="submit" class="btn btn-success"
+                                        onclick="close_modal()">Compartilhar</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
 
         <div class="tab-pane" id="prorrogacao" role="tabpanel" aria-labelledby="prorrogacao-tab" tabindex="0">
@@ -494,9 +528,12 @@
             $('#myModal1').modal('hide');
         }
 
+        function compartilhar() {
+            $('#myModal2').modal('show');
+        }
 
         function close_modal() {
-            $('#myModal2').modal('hide');
+            $('myModal2').modal('hide');
         }
     </script>
 @endpush

@@ -169,6 +169,7 @@ Route::middleware(['auth:web'])->group(
         Route::get('manifestacao2/view', 'Manifests2Controller@create')->name("get-create-manifest2");
         Route::post('manifestacao2/{manifestacao}/prorrogacao/create', 'ProrrogacaoController@create')->name("criar-prorrogacao");
         Route::post('manifestacao2/{manifestacao}/prorrogacao/{prorrogacao}/response', 'ProrrogacaoController@responseProrrogacao')->name("criar-resposta");
+        Route::post('manifestacao/compartilhamento/{manifestacao_id}', 'CompartilhamentoController@compartilharManifestacao')->name("compartilhar-manifestacao");
         //manifestacoes
         Route::get('/manifestacoes', "ManifestsController@list")->name('manifestacoes');
         Route::get('/manifestacoes2/{id}', "Manifests2Controller@viewManifest")->name('visualizarManifest');
