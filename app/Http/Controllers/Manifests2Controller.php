@@ -117,6 +117,9 @@ class Manifests2Controller extends Controller
     {
         $manifestacao = Manifestacoes::with('recursos')->find($id);
 
-        return view('admin.manifestacoes.visualizarManifest', ['manifestacao' => $manifestacao]);
+        $situacaoAguardandoProrrogacao = Situacao::where('nome', 'Aguardando Porrogação')->first()->id;
+
+        // dd($manifestacao);
+        return view('admin.manifestacoes.visualizarManifest', compact('manifestacao', 'situacaoAguardandoProrrogacao'));
     }
 }

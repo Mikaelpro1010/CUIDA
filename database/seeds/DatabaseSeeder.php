@@ -48,5 +48,6 @@ class DatabaseSeeder extends Seeder
 
         $this->call(ManifestacoesTableSeeder::class);
         $this->call(HistoricoTableSeeder::class);
+        $this->call(ProrrogacaoTableSeeder::class);
     }
 }
