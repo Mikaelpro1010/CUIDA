@@ -166,22 +166,107 @@
                         @foreach ($manifestacao->prorrogacao as $prorrogacao)
                             <tr>
                                 <td>{{ $prorrogacao->id }}</td>
-                                <td>{{ $prorrogacao->created_at }}</td>
+                                <td>{{ formatarDataHora($prorrogacao->created_at) }}</td>
                                 <td>{{ $prorrogacao->motivo_solicitacao }}</td>
                                 <td>{{ $prorrogacao->user->name }}</td>
                                 <td>{{ $prorrogacao->resposta }}</td>
-                                <td>{{ $prorrogacao->situacao }}</td>
-                                <td>{{ $prorrogacao->data_resposta }}</td>
+                                @if ($prorrogacao->situacao == App\Models\Prorrogacao::SITUACAO_APROVADO )
+                                    <td>{{ App\Models\Prorrogacao::SITUACAO_NOME[$prorrogacao->situacao] }} <i
+                                            class="text-success fa-solid fa-circle-check"></i></td>
+                                @elseif($prorrogacao->situacao == App\Models\Prorrogacao::SITUACAO_REPROVADO )
+                                    <td>{{ App\Models\Prorrogacao::SITUACAO_NOME[$prorrogacao->situacao] }} <i
+                                            class="text-danger fa-solid fa-circle-xmark"></i></td>
+                                @else
+                                    <td>{{ App\Models\Prorrogacao::SITUACAO_NOME[$prorrogacao->situacao] }}</td>
+                                @endif
+                                <td>{{ formatarDataHora($prorrogacao->updated_at) }}</td>
+                                {{-- @if ($manifestacao->situacao_id != $situacaoAguardandoProrrogacao) --}}
+                                @if ($prorrogacao->situacao == App\Models\Prorrogacao::SITUACAO_ESPERA )
+                                    {
+                                    <td> <button id="modal" class="btn btn-primary"
+                                            onclick="$('#prorrogacao_{{ $prorrogacao->id }}').modal('show');"
+                                            type="submit">Responder</button></td>
+                                    }
+                                    <div id="prorrogacao_{{ $prorrogacao->id }}" name="id" class="modal" tabindex="-1">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title">Resposta</h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                        aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <form class=""
+                                                        action="{{ route('criar-resposta', ['manifestacao' => $manifestacao, 'prorrogacao' => $prorrogacao]) }}"
+                                                        method="POST">
+                                                        <p>Deseja aceitar esta prorrogação?</p>
+                                                        <div class="form-check">
+                                                            <input class="form-check-input" type="radio" name="situacao"
+                                                                value="{{ App\Models\Prorrogacao::SITUACAO_APROVADO }}">
+                                                            <label class="form-check-label" for="flexRadioDefault1">
+                                                                {{ App\Models\Prorrogacao::SITUACAO_NOME[App\Models\Prorrogacao::SITUACAO_APROVADO] }}
+                                                            </label>
+                                                        </div>
+                                                        <div class="form-check">
+                                                            <input class="form-check-input" type="radio" name="situacao"
+                                                                value="{{ App\Models\Prorrogacao::SITUACAO_REPROVADO }}" checked>
+                                                            <label class="form-check-label" for="flexRadioDefault2">
+                                                                {{ App\Models\Prorrogacao::SITUACAO_NOME[App\Models\Prorrogacao::SITUACAO_REPROVADO] }}
+                                                            </label>
+                                                        </div>
+        
+                                                        <label class="mt-3" for="">Justifique o motivo da sua
+                                                            escolha:</label>
+                                                        <textarea class="mt-3 mb-3 form-control" name="resposta" placeholder="Mensagem*" id="descricao" rows="5"></textarea>
+                                                        {{ csrf_field() }}
+                                                        <div class="modal-footer">
+                                                            <button type="submit" class="btn btn-success"
+                                                                onclick="close_modal()">Solicitar</button>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                @endif
+                                {{-- @endif --}}
                             </tr>
                         @endforeach
                     </tbody>
                 </table>
+            @endif
+            @if ($manifestacao->situacao_id != $situacaoAguardandoProrrogacao)
                 <div>
                     <button id="modal" class="btn btn-primary mt-4" onclick="solicitacao_1()"
                         type="submit">Solicitar
                         Prorrogação</button>
                 </div>
+                <div id="myModal1" name="id" class="modal" tabindex="-1">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title">Prorrogação</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                    aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <form class="" action="{{ route('criar-prorrogacao', $manifestacao->id) }}"
+                                    method="POST">
+                                    <p>Justifique a prorrogação dessa manifestação:</p>
+                                    <textarea name="motivo_solicitacao" class="mb-3 form-control" name="mensagem" placeholder="Mensagem*"
+                                        id="descricao" rows="5"></textarea>
+                                    {{ csrf_field() }}
+                                    <div class="modal-footer">
+                                        <button type="submit" class="btn btn-success"
+                                            onclick="close_modal()">Solicitar</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             @endif
+
         </div>
 
         <div class="tab-pane" id="historico" role="tabpanel" aria-labelledby="historico-tab" tabindex="0">
@@ -280,27 +365,29 @@
     </div>
 
     {{-- Modal --}}
-    <div id="myModal1" name="id" class="modal" tabindex="-1">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Prorrogação</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    {{-- @if ($prorrogacao->situacao != 3)
+        <div id="myModal1" name="id" class="modal" tabindex="-1">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Prorrogação</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form class="" action="{{ route('criar-prorrogacao', $manifestacao->id) }}" method="POST">
+                            <p>Justifique a prorrogação dessa manifestação:</p>
+                            <textarea name="motivo_solicitacao" class="mb-3 form-control" name="mensagem" placeholder="Mensagem*"
+                                id="descricao" rows="5"></textarea>
+                            {{ csrf_field() }}
+                            <div class="modal-footer">
+                                <button type="submit" class="btn btn-success" onclick="close_modal()">Solicitar</button>
+                            </div>
+                        </form>
+                    </div>
                 </div>
-                <div class="modal-body">
-                    <form class="" action="{{ route('criar-prorrogacao', $manifestacao->id) }}" method="POST">
-                        <p>Justifique a prorrogação dessa manifestação:</p>
-                        <textarea name="motivo_solicitacao" class="mb-3 form-control" name="mensagem" placeholder="Mensagem*"
-                            id="descricao" rows="5"></textarea>
-                        {{ csrf_field() }}
-                        <div class="modal-footer">
-                            <button type="submit" class="btn btn-success" onclick="close_modal()">Solicitar</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
+            </div>   
         </div>
-    </div>
+    @endif --}}
 
     <div class="modal fade" id="responderRecursoModal" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-lg">
@@ -329,6 +416,8 @@
             </div>
         </div>
     </div>
+
+
 
 @endsection
 
@@ -403,6 +492,11 @@
 
         function close_modal() {
             $('#myModal1').modal('hide');
+        }
+
+
+        function close_modal() {
+            $('#myModal2').modal('hide');
         }
     </script>
 @endpush

@@ -15,11 +15,12 @@ class CreateProrrogacaoTable extends Migration
     {
         Schema::create('prorrogacao', function (Blueprint $table) {
             $table->increments('id');
+            $table->boolean('aceito')->nullable();
             $table->integer('manifestacao_id')->unsigned();
             $table->foreign('manifestacao_id')->references('id')->on('manifestacoes');
             $table->integer('user_id')->unsigned();
             $table->foreign('user_id')->references('id')->on('users');
-            $table->text('motivo_solicitacao');
+            $table->text('motivo_solicitacao')->nullable();
             $table->text('resposta')->nullable();
             $table->integer('situacao');
             $table->timestamp('data_resposta')->nullable();
