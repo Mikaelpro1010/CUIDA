@@ -22,6 +22,9 @@ mix.options({
 
   postCss: [require("postcss-discard-comments")({ removeAll: true })],
   purgeCss: true,
+  uglify: {
+    comments: false,
+  },
 });
 
 mix
@@ -53,13 +56,3 @@ mix
     ],
     "public/js/scripts.js"
   );
-mix.options({
-  postCss: [
-    require("postcss-discard-comments")({
-      removeAll: true,
-    }),
-  ],
-  uglify: {
-    comments: false,
-  },
-});
