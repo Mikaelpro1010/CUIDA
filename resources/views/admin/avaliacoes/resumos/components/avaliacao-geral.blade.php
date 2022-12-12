@@ -56,8 +56,7 @@
                                         @endif    
                                     @endif
                                     " role="progressbar" aria-label="Animated striped example"
-                    aria-valuenow="{{$percentAverage}}" aria-valuemin="0" aria-valuemax="100"
-                    style="width: {{$percentAverage}}%">
+                    aria-valuenow="{{$percentAverage}}" aria-valuemin="0" aria-valuemax="100">
                     {{number_format($percentAverage, 2,',', '')}} %
                 </div>
             </div>
@@ -94,3 +93,9 @@
         @endif
     </div>
 </div>
+
+<style nonce="{{ app('csp-nonce') }}">
+    #avaliacaoGeral {
+        width: <?=$percentAverage . "%"?>
+    }
+</style>

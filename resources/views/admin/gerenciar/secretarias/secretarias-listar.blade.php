@@ -29,7 +29,7 @@
         </div>
 
         <div class="col-md-2 d-flex align-items-end">
-            <a class="btn btn-warning form-control mt-3" onclick="$('#pesquisa').val('')">
+            <a id="btnLimpaForm" class="btn btn-warning form-control mt-3">
                 Limpar
                 <i class="fa-solid fa-eraser"></i>
             </a>
@@ -38,7 +38,7 @@
 </form>
 
 <div class="table-responsive">
-    <table class="table table-striped ">
+    <table class="table table-sm table-striped align-middle ">
         <thead>
             <th class="text-center">Id</th>
             <th class="text-center">Status</th>
@@ -50,9 +50,9 @@
         <tbody class="table-group-divider">
             @forelse ($secretarias as $secretaria)
             <tr>
-                <td class="text-end">
+                <th class="text-end">
                     {{ $secretaria->id }}
-                </td>
+                </th>
                 <td class="text-center">
                     <a href="{{ route('get-toggle-secretaria-status', $secretaria) }}">
                         @if ($secretaria->ativo)
@@ -74,12 +74,12 @@
                 <td class="col-md-1">
                     <div class="d-flex justify-content-evenly">
                         @can(permissionConstant()::GERENCIAR_SECRETARIAS_VIEW)
-                        <a href="{{ route('get-secretaria-view', $secretaria) }}">
+                        <a class="btn" href="{{ route('get-secretaria-view', $secretaria) }}">
                             <i class="fa-xl fa-solid fa-magnifying-glass text-primary"></i>
                         </a>
                         @endcan
                         @can(permissionConstant()::GERENCIAR_SECRETARIAS_EDIT)
-                        <a href="{{ route('get-edit-secretaria', $secretaria->id) }}">
+                        <a class="btn" href="{{ route('get-edit-secretaria', $secretaria->id) }}">
                             <i class="fa-xl fa-solid fa-pen-to-square text-warning"></i>
                         </a>
                         @endcan
@@ -100,3 +100,11 @@
     </div>
 </div>
 @endsection
+
+@push('scripts')
+<script nonce="{{ app('csp-nonce') }}">
+    $('#btnLimpaForm').click(function(){
+        $('#pesquisa').val('');
+    });
+</script>
+@endpush

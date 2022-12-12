@@ -42,7 +42,7 @@
             </button>
         </div>
         <div class="col-md-2 d-flex align-items-end">
-            <a class="btn btn-warning form-control mt-3" onclick="limparForm()">
+            <a id="btnLimpaForm" class="btn btn-warning form-control mt-3">
                 Limpar
                 <i class="fa-solid fa-eraser"></i>
             </a>
@@ -52,7 +52,7 @@
 </form>
 
 <div class="table-responsive">
-    <table class="table table-striped text-middle">
+    <table class="table table-sm table-striped align-middle">
         <thead>
             <tr>
                 <th>Id</th>
@@ -66,7 +66,7 @@
         <tbody class="table-group-divider">
             @forelse ($users as $user)
             <tr id="{{ $user->id }}">
-                <td>{{ $user->id }}</td>
+                <th>{{ $user->id }}</th>
                 <td class="name">{{ $user->name }}</td>
                 <td class="email">{{ $user->email }}</td>
                 <td class="role">{{ $user->role->name }}</td>
@@ -74,12 +74,12 @@
                 <td class="col-md-1">
                     <div class="d-flex justify-content-around">
                         @can(permissionConstant()::GERENCIAR_USUARIOS_VIEW)
-                        <a href="{{ route('get-user-view', $user) }}">
+                        <a class="btn btn-link" href="{{ route('get-user-view', $user) }}">
                             <i class="fa-xl fa-solid fa-magnifying-glass"></i>
                         </a>
                         @endcan
                         @can(permissionConstant()::GERENCIAR_USUARIOS_EDIT)
-                        <a href="{{ route('get-edit-user-view', $user) }}">
+                        <a class="btn btn-link" href="{{ route('get-edit-user-view', $user) }}">
                             <i class="fa-xl text-warning fa-solid fa-pen-to-square"></i>
                         </a>
                         @endcan
@@ -89,9 +89,9 @@
                             {{ csrf_field() }}
                             {{ method_field('DELETE') }}
                         </form>
-                        <a href="javascript:deleteUser({{ $user->id }})">
+                        <button class="btnDelete btn btn-link" data-id="{{ $user->id }}">
                             <i class="fa-xl text-danger fa-solid fa-trash"></i>
-                        </a>
+                        </button>
                         @endcan
                     </div>
                 </td>
@@ -137,7 +137,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-warning" data-bs-dismiss="modal">cancelar</button>
-                <button type="button" class="btn btn-danger" onclick="javascript:deleteConfirm()">deletar</button>
+                <button id="btnDeleteConfirm" type="button" class="btn btn-danger">deletar</button>
             </div>
         </div>
     </div>
@@ -146,28 +146,32 @@
 @endsection
 
 @push('scripts')
-<script>
-    function limparForm() {
+<script nonce="{{ app('csp-nonce') }}">
+    $('#btnLimpaForm').click(function () {
         $('#pesquisa').val('');
         $('#tipo_usuario').val('');
-    }
-    
+    });
+
     @can(permissionConstant()::GERENCIAR_USUARIOS_DELETE)
-    var user;
-    function deleteUser(id) {
-        $("#deleteUserName").text($("#" + id + " .name").text());
-        $("#deleteUserEmail").text($("#" + id + " .email").text());
-        $("#deleteUserRole").text($("#" + id + " .role").text());
+        var user;
+        $('.btnDelete').click(function() {
+            deleteUser($(this).data('id'));
+        });
+
+        function deleteUser(id) {
+            $("#deleteUserName").text($("#" + id + " .name").text());
+            $("#deleteUserEmail").text($("#" + id + " .email").text());
+            $("#deleteUserRole").text($("#" + id + " .role").text());
+            
+            $('#deleteModal').modal('show');
+            user = id;
+        }
         
-        $('#deleteModal').modal('show');
-        user = id;
-    }
-    
-    function deleteConfirm() {
-        $('#deleteModal').modal('hide');
-        $('#deleteUser_' + user).submit();
-        user = 0;
-    }
+        $("#btnDeleteConfirm").click(function(){
+            $('#deleteModal').modal('hide');
+            $('#deleteUser_' + user).submit();
+            user = 0;
+        });
     @endcan
 </script>
 @endpush

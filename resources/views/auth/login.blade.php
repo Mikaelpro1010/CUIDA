@@ -1,4 +1,4 @@
-@extends('template.simple_page')
+@extends('template.initial')
 
 @section('main')
 <div class="container col-md-5 mt-5">
@@ -41,9 +41,9 @@
                 <button type="submit" class="btn btn-primary py-2 px-4">
                     Login
                 </button>
-                <a class="btn btn-link" href="{{ route('password.request') }}">
+                {{-- <a class="btn btn-link" href="{{ route('password.request') }}">
                     Esqueceu a Senha?
-                </a>
+                </a> --}}
             </div>
         </form>
     </div>

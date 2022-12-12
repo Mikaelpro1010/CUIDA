@@ -8,7 +8,7 @@
 
     <title>@yield('titulo', 'EscutaSol')</title>
 
-    <link rel="stylesheet" href="{{ asset('css/styles.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/styles.css') }}" nonce="{{ csp_nonce()}}">
 </head>
 
 <body class="bg-light">
@@ -29,20 +29,20 @@
                 </button>
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav me-auto pb-2 pb-lg-0">
-                        <li class="nav-item">
-                            <a class="nav-link text-white @if (Route::is('pagina-inicial')) border-bottom border-3 border-info @endif"
+                        {{-- <li class="nav-item">
+                            <a class="nav-link text-white @if (Route::is('pagina-inicial')) border-bottom border-3 border-light @endif"
                                 href="{{ route('pagina-inicial') }}">
                                 Pagina Inicial
                             </a>
-                        </li>
+                        </li> --}}
                         <li class="nav-item">
-                            <a class="nav-link text-white @if (Route::is('politicas')) border-bottom border-3 border-info @endif"
+                            <a class="nav-link text-white @if (Route::is('politicas')) border-bottom border-3 border-light @endif"
                                 href="{{ route('politicas') }}">
                                 Políticas de Privacidade
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-white @if (Route::is('termos')) border-bottom border-3 border-info @endif"
+                            <a class="nav-link text-white @if (Route::is('termos')) border-bottom border-3 border-light @endif"
                                 href="{{ route('termos') }}">
                                 Termos de Uso
                             </a>
@@ -50,7 +50,6 @@
                     </ul>
 
                     <ul class="nav navbar-nav navbar-right text-white gap-2">
-                        <!-- Authentication Links -->
                         @guest
                         <li><a class="btn btn-outline-light" href="{{ route('login') }}">Login</a></li>
                         {{-- <li><a class="btn btn-outline-light" href="{{ route('register') }}">Register</a></li> --}}
@@ -64,13 +63,16 @@
                             <ul class="dropdown-menu">
                                 <li>
                                     <a class="dropdown-item" href="{{ route('inicio') }}">Inicio</a>
-                                    @can(permissionConstant()::MANIFESTACAO_LIST)
+
+                                    {{-- @can(permissionConstant()::MANIFESTACAO_LIST)
                                     <a class="dropdown-item" href="{{ route('inicio') }}">Manifestações</a>
                                     @endcan
                                     @can(permissionConstant()::MANIFESTACAO_CHAT)
                                     <a class="dropdown-item" href="{{ route('mensagens') }}">Mensagens</a>
-                                    @endcan
-                                    @can(permissionConstant()::MODULO_AVALIACOES)
+                                    @endcan --}}
+
+                                    @if (auth()->user()->can(permissionConstant()::RELATORIO_AVALIACOES_GERAL_VIEW) ||
+                                    auth()->user()->can(permissionConstant()::UNIDADE_SECRETARIA_LIST) )
                                     <a class="dropdown-item" href="
                                         @can(permissionConstant()::RELATORIO_AVALIACOES_GERAL_VIEW)
                                             {{ route('resumo-avaliacoes') }}
@@ -80,15 +82,13 @@
                                         ">
                                         Resumos das Avaliações
                                     </a>
-                                    @endcan
                                     <hr>
-                                    <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
-                                            document.getElementById('logout-form').submit();">
-                                        Logout
+                                    @endif
+                                    <a id="logoutBtn" class="dropdown-item" href="{{ route('logout') }}">
+                                        Sair
                                     </a>
 
-                                    <form id="logout-form" action="{{ route('logout') }}" method="POST"
-                                        style="display: none;">
+                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
                                         {{ csrf_field() }}
                                     </form>
                                 </li>
@@ -113,7 +113,8 @@
                             href="{{ route('inicio') }}">
                             Inicio
                         </a>
-                        @can(permissionConstant()::MANIFESTACAO_LIST)
+
+                        {{-- @can(permissionConstant()::MANIFESTACAO_LIST)
                         <a class="nav-link @if (Route::is('manifestacoes')) border-bottom border-3 border-primary @endif"
                             href="{{ route('manifestacoes') }}">
                             Manifestações
@@ -122,6 +123,7 @@
                             </span>
                         </a>
                         @endcan
+
                         @can(permissionConstant()::MANIFESTACAO_CHAT)
                         <a class="nav-link @if (Route::is('mensagens')) border-bottom border-3 border-primary @endif"
                             href="{{ route('mensagens') }}">
@@ -130,8 +132,10 @@
                                 {{ canaisAguardandoRespostaNotification() }}
                             </span>
                         </a>
-                        @endcan
-                        @can(permissionConstant()::MODULO_AVALIACOES)
+                        @endcan --}}
+
+                        @if (auth()->user()->can(permissionConstant()::RELATORIO_AVALIACOES_GERAL_VIEW) ||
+                        auth()->user()->can(permissionConstant()::UNIDADE_SECRETARIA_LIST) )
                         <li
                             class="nav-item dropdown @if (Route::current()->action['namespace'] == 'App\Http\Controllers\Avaliacoes') border-bottom border-3 border-primary @endif">
                             <a class=" nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
@@ -139,10 +143,13 @@
                                 Avaliações
                             </a>
                             <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="
-                                    @if (auth()->user()->can(permissionConstant()::RELATORIO_AVALIACOES_GERAL_VIEW)) {{ route('resumo-avaliacoes') }}
+                                <li>
+                                    <a class="dropdown-item" href="
+                                    @if (auth()->user()->can(permissionConstant()::RELATORIO_AVALIACOES_GERAL_VIEW)) 
+                                    {{ route('resumo-avaliacoes') }}
                                     @else
-                                    {{ route('resumo-avaliacoes-secretaria-list') }} @endif
+                                    {{ route('resumo-avaliacoes-secretaria-list') }} 
+                                    @endif
                                     ">Resumos</a>
                                 </li>
                                 @can(permissionConstant()::UNIDADE_SECRETARIA_LIST)
@@ -154,7 +161,8 @@
                                 @endcan
                             </ul>
                         </li>
-                        @endcan
+                        @endif
+
                         @if(auth()->user()->can(permissionConstant()::GERENCIAR_USUARIOS_LIST) ||
                         auth()->user()->can(permissionConstant()::GERENCIAR_SECRETARIAS_LIST))
                         <li
@@ -165,16 +173,20 @@
                             </a>
                             <ul class="dropdown-menu">
                                 @can(permissionConstant()::GERENCIAR_USUARIOS_LIST)
-                                <li><a class="dropdown-item" href="{{ route('get-users-list') }}">Usuários</a>
+                                <li>
+                                    <a class="dropdown-item" href="{{ route('get-users-list') }}">Usuários</a>
                                 </li>
                                 @endcan
+
                                 @can(permissionConstant()::GERENCIAR_SECRETARIAS_LIST)
-                                <li><a class="dropdown-item" href="{{ route('get-secretarias-list') }}">Secretarias</a>
+                                <li>
+                                    <a class="dropdown-item" href="{{ route('get-secretarias-list') }}">Secretarias</a>
                                 </li>
                                 @endcan
                             </ul>
                         </li>
                         @endif
+
                         @if(auth()->user()->can(permissionConstant()::GERENCIAR_TIPOS_USUARIOS_LIST))
                         <li
                             class="nav-item dropdown @if (Route::current()->action['namespace'] == 'App\Http\Controllers\Configs') border-bottom border-3 border-primary @endif">
@@ -190,7 +202,7 @@
                                     </a>
                                 </li>
                                 @endcan
-                                @can(permissionConstant()::GERENCIAR_TIPOS_MANIFESTACAO_LIST)
+                                {{-- @can(permissionConstant()::GERENCIAR_TIPOS_MANIFESTACAO_LIST)
                                 <li>
                                     <a class="dropdown-item" href="{{ route('get-tipo-manifestacao-list') }}">
                                         Tipos de Manifestacao
@@ -226,14 +238,15 @@
                                         FAQs
                                     </a>
                                 </li>
-                                @endcan
+                                @endcan --}}
                             </ul>
                         </li>
                         @endif
                     </div>
                 </div>
             </div>
-            @endauth
+        </div>
+        @endauth
     </header>
 
     <div class="container mt-3">
@@ -265,11 +278,7 @@
             EscutaSol - Controladoria e Ouvidoria Geral do Municipio de Sobral - CGM - 2022
         </div>
     </footer>
-    <script src="{{ asset('js/scripts.js') }}" nonce="{{ csp_nonce() }}"></script>
-    <script>
-        $(document).ready(function() {
-            $("#liveToast").toast("show");
-        });
+    <script src="{{ asset('js/scripts.js') }}" nonce="{{ app('csp-nonce') }}" data-auto-add-css="false">
     </script>
     @stack('scripts')
 </body>

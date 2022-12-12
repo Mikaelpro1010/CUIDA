@@ -170,7 +170,7 @@
 @endsection
 
 @push('scripts')
-<script>
+<script nonce="{{ app('csp-nonce') }}">
     function limparForm(){
         $('#protocolo').val('');
         $('#data-inicio').val('');

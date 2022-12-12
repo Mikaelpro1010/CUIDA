@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\avaliacoes;
+namespace App\Http\Controllers\Avaliacoes;
 
 use App\Constants\Permission;
 use Illuminate\Http\Request;

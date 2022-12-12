@@ -10,10 +10,9 @@
                 </div>
                 <div class="d-inline col-9">
                     <div class="progress">
-                        <div class="progress-bar progress-bar-striped progress-bar-animated bg-success"
+                        <div id="nota_10" class="progress-bar progress-bar-striped progress-bar-animated bg-success"
                             role="progressbar" aria-label="Animated striped example"
-                            aria-valuenow="{{$notas[10]['percent']}}" aria-valuemin="0" aria-valuemax="100"
-                            style="width: {{$notas[10]['percent']}}%">
+                            aria-valuenow="{{$notas[10]['percent']}}" aria-valuemin="0" aria-valuemax="100">
                             {{$notas[10]['percent']}}%
                         </div>
                     </div>
@@ -29,10 +28,9 @@
                 </div>
                 <div class="d-inline col-9">
                     <div class="progress">
-                        <div class="progress-bar progress-bar-striped progress-bar-animated bg-primary"
+                        <div id="nota_8" class="progress-bar progress-bar-striped progress-bar-animated bg-primary"
                             role="progressbar" aria-label="Animated striped example"
-                            aria-valuenow="{{$notas[8]['percent']}}" aria-valuemin="0" aria-valuemax="100"
-                            style="width: {{$notas[8]['percent']}}%">
+                            aria-valuenow="{{$notas[8]['percent']}}" aria-valuemin="0" aria-valuemax="100">
                             {{$notas[8]['percent']}}%
                         </div>
                     </div>
@@ -48,9 +46,9 @@
                 </div>
                 <div class="d-inline col-9">
                     <div class="progress">
-                        <div class="progress-bar progress-bar-striped progress-bar-animated bg-info" role="progressbar"
-                            aria-label="Animated striped example" aria-valuenow="{{$notas[6]['percent']}}"
-                            aria-valuemin="0" aria-valuemax="100" style="width: {{$notas[6]['percent']}}%">
+                        <div id="nota_6" class="progress-bar progress-bar-striped progress-bar-animated bg-info"
+                            role="progressbar" aria-label="Animated striped example"
+                            aria-valuenow="{{$notas[6]['percent']}}" aria-valuemin="0" aria-valuemax="100">
                             {{$notas[6]['percent']}}%
                         </div>
                     </div>
@@ -66,10 +64,9 @@
                 </div>
                 <div class="d-inline col-9">
                     <div class="progress">
-                        <div class="progress-bar progress-bar-striped progress-bar-animated bg-warning"
+                        <div id="nota_4" class="progress-bar progress-bar-striped progress-bar-animated bg-warning"
                             role="progressbar" aria-label="Animated striped example"
-                            aria-valuenow="{{$notas[4]['percent']}}" aria-valuemin="0" aria-valuemax="100"
-                            style="width: {{$notas[4]['percent']}}%">
+                            aria-valuenow="{{$notas[4]['percent']}}" aria-valuemin="0" aria-valuemax="100">
                             {{$notas[4]['percent']}}%
                         </div>
                     </div>
@@ -85,10 +82,9 @@
                 </div>
                 <div class="d-inline col-9">
                     <div class="progress">
-                        <div class="progress-bar progress-bar-striped progress-bar-animated bg-danger"
+                        <div id="nota_2" class="progress-bar progress-bar-striped progress-bar-animated bg-danger"
                             role="progressbar" aria-label="Animated striped example"
-                            aria-valuenow="{{$notas[2]['percent']}}" aria-valuemin="0" aria-valuemax="100"
-                            style="width: {{$notas[2]['percent']}}%">
+                            aria-valuenow="{{$notas[2]['percent']}}" aria-valuemin="0" aria-valuemax="100">
                             {{$notas[2]['percent']}}%
                         </div>
                     </div>
@@ -100,3 +96,25 @@
         </div>
     </div>
 </div>
+
+<style nonce="{{ app('csp-nonce') }}">
+    #nota_10 {
+        width: <?=$notas[10]['percent'] ."%"?>;
+    }
+
+    #nota_8 {
+        width: <?=$notas[8]['percent'] ."%"?>;
+    }
+
+    #nota_6 {
+        width: <?=$notas[6]['percent'] ."%"?>;
+    }
+
+    #nota_4 {
+        width: <?=$notas[4]['percent'] ."%"?>;
+    }
+
+    #nota_2 {
+        width: <?=$notas[2]['percent'] ."%"?>;
+    }
+</style>

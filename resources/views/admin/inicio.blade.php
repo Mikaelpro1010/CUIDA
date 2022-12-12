@@ -8,7 +8,8 @@
     </div>
     <hr>
 
-    @can(permissionConstant()::MODULO_AVALIACOES)
+    @if (auth()->user()->can(permissionConstant()::RELATORIO_AVALIACOES_GERAL_VIEW) ||
+    auth()->user()->can(permissionConstant()::UNIDADE_SECRETARIA_LIST) )
     <h3>Relatórios:</h3>
     <div class="row gap-2">
         @can(permissionConstant()::RELATORIO_AVALIACOES_GERAL_VIEW)
@@ -36,7 +37,7 @@
         </div>
         @endcan
     </div>
-    @endcan
+    @endif
 
     @if(auth()->user()->can(permissionConstant()::GERENCIAR_USUARIOS_LIST) ||
     auth()->user()->can(permissionConstant()::GERENCIAR_SECRETARIAS_LIST) ||

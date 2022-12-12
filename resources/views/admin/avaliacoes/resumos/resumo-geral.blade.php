@@ -22,9 +22,17 @@
             <div class="card-header">
                 <h4>Média das Avaliações</h4>
             </div>
-            <div class="p-2" style="height: 35vh">
+            @if (count($mediaAvaliacoes) > 0)
+            <div id="graphDiv" class="p-2">
                 <canvas id="mediaAvaliacoes" height="100px"></canvas>
             </div>
+            @else
+            <div class="m-3 alert alert-info">
+                <ul>
+                    <li>Não existem avaliações</li>
+                </ul>
+            </div>
+            @endif
         </div>
     </div>
     <div class="col-md-4 mt-3">
@@ -35,7 +43,7 @@
             <div class="px-2">
                 <table class="table">
                     <tbody>
-                        @foreach ($bestSecretarias as $item)
+                        @forelse ($bestSecretarias as $item)
                         <tr>
                             <td>
                                 <a href="{{ route('resumo-avaliacoes-secretaria', $item['id']) }}" target="_blank">
@@ -51,7 +59,13 @@
                         </tr>
                         @break
                         @endif
-                        @endforeach
+                        @empty
+                        <div class="m-3 alert alert-info">
+                            <ul>
+                                <li>As Secretarias ainda não possuem nota</li>
+                            </ul>
+                        </div>
+                        @endforelse
                     </tbody>
                 </table>
             </div>
@@ -66,6 +80,7 @@
                 <h4>Top 5 melhores Unidades</h4>
             </div>
             <div class="px-2">
+                @if (count($top5BestUnidades) > 0)
                 <table class="table">
                     <thead>
                         <tr>
@@ -97,6 +112,13 @@
                         @endforeach
                     </tbody>
                 </table>
+                @else
+                <div class="m-3 alert alert-info">
+                    <ul>
+                        <li>As Unidades ainda não possuem nota</li>
+                    </ul>
+                </div>
+                @endif
             </div>
         </div>
     </div>
@@ -105,18 +127,25 @@
             <div class="card-header">
                 <h4>Melhores Unidades ({{ $qtdBestUnidades }})</h4>
             </div>
-            <div class="" style="height: 35vh">
+            @if (count($bestUnidades) > 0)
+            <div id="graphDiv" class="p-2">
                 <canvas id="melhoresUnidades" height="100px"></canvas>
             </div>
+            @else
+            <div class="m-3 alert alert-info">
+                <ul>
+                    <li>Não existem avaliações</li>
+                </ul>
+            </div>
+            @endif
         </div>
     </div>
 </div>
-
 @endsection
 
 @push('scripts_resumo')
 
-<script>
+<script nonce="{{ app('csp-nonce') }}">
     const mediaAvaliacoesCtx = $('#mediaAvaliacoes')[0].getContext('2d');
     const mediaAvaliacoes = new Chart(mediaAvaliacoesCtx, {
         type: 'bar',

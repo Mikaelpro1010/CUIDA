@@ -13,8 +13,9 @@ class RelatoriosAvaliacoesController extends Controller
     //resumo Geral
     public function resumo()
     {
-        $resumoSecretarias = Secretaria::getResumoSecretariaAll();
+        $this->authorize(Permission::RELATORIO_AVALIACOES_GERAL_VIEW);
 
+        $resumoSecretarias = Secretaria::getResumoSecretariaAll();
         $qtdAvaliacoes = $resumoSecretarias['qtd'];
 
         $notas = [
@@ -128,6 +129,8 @@ class RelatoriosAvaliacoesController extends Controller
     // Listagem das Secretarias para resumo
     public function resumoSecretariasList()
     {
+        $this->authorize(Permission::RELATORIO_AVALIACOES_SECRETARIA_VIEW);
+
         if (auth()->user()->can(Permission::UNIDADE_SECRETARIA_ACCESS_ANY_SECRETARIA)) {
             $secretarias = Secretaria::query();
         } else {
@@ -146,6 +149,8 @@ class RelatoriosAvaliacoesController extends Controller
     //Resumo por secretaria
     public function resumoSecretaria(Secretaria $secretaria)
     {
+        $this->authorize(Permission::RELATORIO_AVALIACOES_SECRETARIA_VIEW);
+
         abort_unless(
             auth()->user()->can(Permission::UNIDADE_SECRETARIA_ACCESS_ANY_SECRETARIA) ||
                 (auth()->user()->secretarias->contains($secretaria) && auth()->user()->can(Permission::RELATORIO_AVALIACOES_SECRETARIA_VIEW)),
@@ -273,6 +278,8 @@ class RelatoriosAvaliacoesController extends Controller
     //Lista de resumos por Unidade
     public function resumoUnidadeSecrList()
     {
+        $this->authorize(Permission::RELATORIO_AVALIACOES_UNIDADE_VIEW);
+
         if (auth()->user()->can(Permission::UNIDADE_SECRETARIA_ACCESS_ANY_SECRETARIA)) {
             $secretariasSearchSelect = Secretaria::query()->orderBy('nome', 'asc')->get();
         } else {
@@ -360,6 +367,8 @@ class RelatoriosAvaliacoesController extends Controller
     //Rota de api que retorna o array com as quantidades de avaliaçoes por mes
     public function avaliacoesPorMesUnidade(Unidade $unidade)
     {
+        $this->authorize(Permission::RELATORIO_AVALIACOES_UNIDADE_VIEW);
+
         $status = false;
         $resposta = null;
         if (preg_match("/^20[0-9]{2}$/", request()->ano)) {
@@ -385,6 +394,8 @@ class RelatoriosAvaliacoesController extends Controller
     //Rota de Api que retorna os arrays com notas por mes
     public function notasPorMesUnidade(Unidade $unidade)
     {
+        $this->authorize(Permission::RELATORIO_AVALIACOES_UNIDADE_VIEW);
+
         $status = false;
         $resposta = null;
         if (preg_match("/^20[0-9]{2}$/", request()->ano)) {

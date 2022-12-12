@@ -26,7 +26,7 @@
                 <h4>Melhores Unidades ({{ $qtdBestUnidades }})</h4>
             </div>
             @if ($qtdAvaliacoes > 0)
-            <div class="" style="height: 35vh">
+            <div id="graphDiv" class="">
                 <canvas id="melhoresUnidades" height="100px"></canvas>
             </div>
             @else
@@ -113,7 +113,7 @@
                 </div>
             </div>
             @if ($qtdAvaliacoes > 0)
-            <div class="m-3" style="height: 35vh">
+            <div id="graphDiv" class="m-3">
                 <canvas id="avaliacoesMesChart" height="100px"></canvas>
             </div>
             @else
@@ -131,11 +131,7 @@
 
 @push('scripts_resumo')
 
-<script>
-    $("#secretaria").change(function(){
-        $('#secretariaChange').submit();
-    });
-
+<script nonce="{{ app('csp-nonce') }}">
     const melhoresUnidadesCtx = $('#melhoresUnidades')[0].getContext('2d');
     const melhoresUnidades = new Chart(melhoresUnidadesCtx, {
         type: 'bar',
@@ -157,7 +153,7 @@
 </script>
 
 @if ($qtdAvaliacoes > 0)
-<script>
+<script nonce="{{ app('csp-nonce') }}">
     $(document).ready(function(){updateAvaliacoesMes({{ formatarDataHora(today(), 'Y') }})});
 
     $("#avaliacoesMes").change(function(){updateAvaliacoesMes($("#avaliacoesMes").val())});

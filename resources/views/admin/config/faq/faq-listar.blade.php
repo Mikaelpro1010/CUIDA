@@ -128,11 +128,10 @@
 @endsection
 
 @push('scripts')
-    <script>
-        var FaqID = 0;
+<script nonce="{{ app('csp-nonce') }}">
+    var FaqID = 0;
 
         function deletar(id) {
-            console.log($("#" + id + " .name").text());
             $("#deleteName").text($("#" + id + " .name").text());
             $('#deleteModal_3').modal('show');
             FaqID = id;
@@ -179,5 +178,5 @@
                 }, 1700);
             }
         });
-    </script>
+</script>
 @endpush

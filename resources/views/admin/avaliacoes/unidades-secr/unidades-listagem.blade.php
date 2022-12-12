@@ -50,7 +50,7 @@
             </button>
         </div>
         <div class="col-md-2 d-flex align-items-end">
-            <a class="btn btn-warning form-control mt-3" onclick="limparForm()">
+            <a id="btnLimpaForm" class="btn btn-warning form-control mt-3">
                 Limpar
                 <i class="fa-solid fa-eraser"></i>
             </a>
@@ -129,7 +129,7 @@
         <div class="modal-content">
             <div class="modal-header bg-primary">
                 <h5 class="modal-title text-light" id="novaUnidadeTitle">Nova Unidade</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <button type="button" class="btn-close btnfecharModal"></button>
             </div>
             <form action="{{ route('nova-unidade') }}" method="POST">
                 {{ csrf_field() }}
@@ -152,14 +152,14 @@
                             </select>
                         </div>
                         <div class="col-md-12">
-                            <label class="form-label fw-bold" for="nome">Descrição:</label>
+                            <label class="form-label fw-bold" for="descricao">Descrição:</label>
                             <textarea class="form-control" name="descricao" rows="6" id="descricao"
                                 placeholder="Descrição"></textarea>
                         </div>
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <a class="btn btn-danger" href="javascript:fecharModal()">Fechar</a>
+                    <a class="btn btn-danger btnfecharModal">Fechar</a>
                     <button type="submit" class="btn btn-primary">
                         <i class="fa-solid fa-plus"></i>
                         Criar
@@ -174,17 +174,18 @@
 @endsection
 
 @push('scripts')
-<script>
-    function limparForm(){
+<script nonce="{{ app('csp-nonce') }}">
+    $('#btnLimpaForm').click(function(){
         $('#pesquisa').val('');
         $('#secretaria_pesq').val('');
         $('#situacao').val('');
-    }
-    function fecharModal(){
+    });
+
+    $('.btnfecharModal').click(function(){
         $('#novaUnidadeModal').modal('hide');
         $('#nome').val('');
         $('#secretaria').val('');
         $('#descricao').val('');
-    }
+    });
 </script>
 @endpush
