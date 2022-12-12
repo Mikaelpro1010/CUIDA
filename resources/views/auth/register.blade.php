@@ -1,4 +1,4 @@
-@extends('template.simple_page')
+@extends('template.initial')
 
 @section('main')
 <div class="container col-md-5 mt-5">

@@ -1,4 +1,4 @@
-@extends('template.simple_page')
+@extends('template.initial')
 
 @section('titulo', 'Avaliar - Unidade da Secretaria')
 
