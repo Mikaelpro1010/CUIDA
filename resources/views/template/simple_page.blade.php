@@ -6,13 +6,9 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <!-- CSRF Token -->
-    <meta name="csrf-token" content="{{ csrf_token() }}">
-
     <title>@yield('titulo', 'EscutaSol')</title>
 
-    <link rel="stylesheet" href="{{ asset('css/style.css') }}">
-    <script src="{{ asset('js/fontawesome.js') }}"></script>
+    <link rel="stylesheet" href="{{ asset('css/styles.css') }}">
 </head>
 
 <body class="bg-light">
@@ -57,7 +53,7 @@
                         <!-- Authentication Links -->
                         @guest
                         <li><a class="btn btn-outline-light" href="{{ route('login') }}">Login</a></li>
-                        <li><a class="btn btn-outline-light" href="{{ route('register') }}">Register</a></li>
+                        {{-- <li><a class="btn btn-outline-light" href="{{ route('register') }}">Register</a></li> --}}
                         @else
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle text-white" data-bs-toggle="dropdown" role="button"
@@ -73,6 +69,17 @@
                                     @endcan
                                     @can(permissionConstant()::MANIFESTACAO_CHAT)
                                     <a class="dropdown-item" href="{{ route('mensagens') }}">Mensagens</a>
+                                    @endcan
+                                    @can(permissionConstant()::MODULO_AVALIACOES)
+                                    <a class="dropdown-item" href="
+                                        @can(permissionConstant()::RELATORIO_AVALIACOES_GERAL_VIEW)
+                                            {{ route('resumo-avaliacoes') }}
+                                        @else
+                                            {{ route('resumo-avaliacoes-secretaria-list') }} 
+                                        @endcan
+                                        ">
+                                        Resumos das Avaliações
+                                    </a>
                                     @endcan
                                     <hr>
                                     <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
@@ -124,6 +131,7 @@
                             </span>
                         </a>
                         @endcan
+                        @can(permissionConstant()::MODULO_AVALIACOES)
                         <li
                             class="nav-item dropdown @if (Route::current()->action['namespace'] == 'App\Http\Controllers\Avaliacoes') border-bottom border-3 border-primary @endif">
                             <a class=" nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
@@ -138,13 +146,19 @@
                                     ">Resumos</a>
                                 </li>
                                 @can(permissionConstant()::UNIDADE_SECRETARIA_LIST)
-                                <li><a class="dropdown-item" href="{{ route('unidades-secr-list') }}">Unidades</a></li>
+                                <li>
+                                    <a class="dropdown-item" href="{{ route('unidades-secr-list') }}">
+                                        Unidades da Secretaria
+                                    </a>
+                                </li>
                                 @endcan
                             </ul>
                         </li>
-                        @if (auth()->user()->can(permissionConstant()::GERENCIAR_USUARIOS_LIST) ||
+                        @endcan
+                        @if(auth()->user()->can(permissionConstant()::GERENCIAR_USUARIOS_LIST) ||
                         auth()->user()->can(permissionConstant()::GERENCIAR_SECRETARIAS_LIST))
-                        <li class="nav-item dropdown">
+                        <li
+                            class="nav-item dropdown @if (Route::current()->action['namespace'] == 'App\Http\Controllers\Gerenciar') border-bottom border-3 border-primary @endif">
                             <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
                                 aria-expanded="false">
                                 Gerenciar
@@ -161,8 +175,9 @@
                             </ul>
                         </li>
                         @endif
-                        @if (auth()->user()->can(permissionConstant()::GERENCIAR_TIPOS_USUARIOS_LIST))
-                        <li class="nav-item dropdown">
+                        @if(auth()->user()->can(permissionConstant()::GERENCIAR_TIPOS_USUARIOS_LIST))
+                        <li
+                            class="nav-item dropdown @if (Route::current()->action['namespace'] == 'App\Http\Controllers\Configs') border-bottom border-3 border-primary @endif">
                             <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
                                 aria-expanded="false">
                                 Configurações
@@ -196,7 +211,7 @@
                                     </a>
                                 </li>
                                 @endcan
-                                
+
                                 @can(permissionConstant()::GERENCIAR_SITUACOES_LIST)
                                 <li>
                                     <a class="dropdown-item" href="{{ route('get-situacao-list') }}">
@@ -204,7 +219,7 @@
                                     </a>
                                 </li>
                                 @endcan
-                                
+
                                 @can(permissionConstant()::GERENCIAR_FAQS_LIST)
                                 <li>
                                     <a class="dropdown-item" href="{{ route('get-faq-list') }}">
@@ -250,11 +265,7 @@
             EscutaSol - Controladoria e Ouvidoria Geral do Municipio de Sobral - CGM - 2022
         </div>
     </footer>
-    <script src="{{ asset('js/jquery.js') }}"></script>
-    <script src="{{ asset('js/bootstrap.js') }}"></script>
-    <script src="{{ asset('js/jquery-ui.min.js') }}"></script>
-    <script src="{{ asset('js/sweetalert2.all.min.js') }}"></script>
-    <script src="{{ asset('js/jquery.mask.min.js') }}"></script>
+    <script src="{{ asset('js/scripts.js') }}" nonce="{{ csp_nonce() }}"></script>
     <script>
         $(document).ready(function() {
             $("#liveToast").toast("show");

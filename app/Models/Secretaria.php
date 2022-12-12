@@ -55,6 +55,9 @@ class Secretaria extends Model
         ];
 
         foreach ($secretarias as $secretaria) {
+            if (!$secretaria->ativo) {
+                continue;
+            }
             $resumoSecretaria = $secretaria->getResumo();
             $resumoSecretarias['qtd'] += $resumoSecretaria['qtd'];
             $resumoSecretarias['notas1'] += $resumoSecretaria['notas1'];
@@ -79,6 +82,9 @@ class Secretaria extends Model
         ];
 
         foreach ($this->unidades as $unidade) {
+            if (!$unidade->ativo) {
+                continue;
+            }
             $resumoUnidade = $unidade->getResumoFromCache();
             $resumoSecretaria['qtd'] += $resumoUnidade['qtd'];
             $resumoSecretaria['notas1'] += $resumoUnidade['notas1'];
@@ -88,7 +94,7 @@ class Secretaria extends Model
             $resumoSecretaria['notas5'] += $resumoUnidade['notas5'];
         }
 
-        $notaSecretaria = $this->unidades->avg('nota');
+        $notaSecretaria = $this->unidades->where('nota', '!=', 0)->where('ativo', true)->avg('nota');
 
         if (!is_null($notaSecretaria) && $notaSecretaria != $this->nota) {
             $this->update([

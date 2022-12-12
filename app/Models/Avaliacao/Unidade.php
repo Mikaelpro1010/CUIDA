@@ -36,10 +36,12 @@ class Unidade extends Model
     {
         return Cache::rememberForever('Unidade_' . $this->id, function () {
             $notaUnidade = $this->avaliacoes->avg('nota');
-            if (!is_null($notaUnidade) && $notaUnidade != $this->nota) {
-                $this->update([
-                    'nota' => $notaUnidade
-                ]);
+            if (!is_null($notaUnidade)) {
+                if ($notaUnidade != $this->nota) {
+                    $this->update([
+                        'nota' => $notaUnidade
+                    ]);
+                }
 
                 $notas1 = $this->avaliacoes->where('nota', 2)->count();
                 $notas2 = $this->avaliacoes->where('nota', 4)->count();

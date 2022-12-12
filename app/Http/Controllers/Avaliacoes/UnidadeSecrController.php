@@ -5,10 +5,8 @@ namespace App\Http\Controllers\avaliacoes;
 use App\Constants\Permission;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Models\Avaliacao\Avaliacao;
 use App\Models\Avaliacao\Unidade;
 use App\Models\Secretaria;
-use Illuminate\Support\Facades\Validator;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
 class UnidadeSecrController extends Controller
@@ -101,7 +99,6 @@ class UnidadeSecrController extends Controller
         $this->authorize(Permission::UNIDADE_SECRETARIA_VIEW);
         // $qrcode = QrCode::size(200)->generate('http://10.0.49.0:9000/avaliacoes/' . $unidade->token . '/avaliar');
         $qrcode = QrCode::size(200)->generate(route('get-view-avaliacao', $unidade->token));
-        // dd(route('get-view-avaliacao', $unidade->token));
         return view('admin.avaliacoes.unidades-secr.unidades-visualizacao', compact('unidade', 'qrcode'));
     }
 
