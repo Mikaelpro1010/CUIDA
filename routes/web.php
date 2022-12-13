@@ -179,36 +179,28 @@ Route::middleware(['auth:web'])->group(
             }
         );
 
+        // manifestacoes
+        Route::get('/manifestacoes', "ManifestsController@list")->name('get-list-manifestacoes');
+        Route::get('/manifestacao/{id}', "ManifestsController@viewManifest")->name('visualizarManifest');
+
+        //manifestacoes 2
+
         Route::get('/manifestacoes2', "Manifests2Controller@list")->name('manifestacoes2');
+        Route::get('/manifestacao2/create', 'Manifests2Controller@create')->name("get-create-manifest2");
         Route::post('/manifestacao2', 'Manifests2Controller@storeManifest')->name("post-store-manifest2");
-        Route::get('/manifestacao2/view', 'Manifests2Controller@create')->name("get-create-manifest2");
         Route::get('/manifestacoes2/{id}', "Manifests2Controller@viewManifest")->name('visualizarManifests');
 
-        // manifestacoes
-        Route::get('/manifestacoes', "ManifestsController@list")->name('manifestacoes');
-        Route::get('/manifestacoes/{id}', "ManifestsController@viewManifest")->name('visualizarManifests');
-        //mensagens
-        Route::get('/messages', "MessagesController@index")->name('mensagens');
-        Route::get('/messages/{id}', "MessagesController@visualizarMsg")->name('visualizarMsg');
-        Route::post('/messages/{id}/new-msg', "MessagesController@enviarMsg")->name('enviarMsg');
-        Route::post('/messages/encerrar/{id}', "MessagesController@encerrarCanal")->name('encerrarCanal');
+        Route::post('/manifestacao2/{manifestacao}/prorrogacao/create', 'ProrrogacaoController@create')->name("criar-prorrogacao");
+        Route::post('/manifestacao2/{manifestacao}/prorrogacao/{prorrogacao}/response', 'ProrrogacaoController@responseProrrogacao')->name("criar-resposta");
+        Route::post('/manifestacao2/compartilhamento/{manifestacao_id}', 'CompartilhamentoController@compartilharManifestacao')->name("compartilhar-manifestacao");
 
-        Route::get('/manifestacoes2', "Manifests2Controller@list")->name('manifestacoes2');
-        Route::post('manifestacao2', 'Manifests2Controller@storeManifest')->name("post-store-manifest2");
-        Route::get('manifestacao2/view', 'Manifests2Controller@create')->name("get-create-manifest2");
-        Route::post('manifestacao2/{manifestacao}/prorrogacao/create', 'ProrrogacaoController@create')->name("criar-prorrogacao");
-        Route::post('manifestacao2/{manifestacao}/prorrogacao/{prorrogacao}/response', 'ProrrogacaoController@responseProrrogacao')->name("criar-resposta");
-        Route::post('manifestacao/compartilhamento/{manifestacao_id}', 'CompartilhamentoController@compartilharManifestacao')->name("compartilhar-manifestacao");
-        //manifestacoes
-        Route::get('/manifestacoes', "ManifestsController@list")->name('manifestacoes');
-        Route::get('/manifestacoes2/{id}', "Manifests2Controller@viewManifest")->name('visualizarManifest');
 
         //mensagens
         Route::get('/messages', "MessagesController@index")->name('mensagens');
         Route::get('/messages/{id}', "MessagesController@visualizarMsg")->name('visualizarMsg');
         Route::post('/messages/{id}/new-msg', "MessagesController@enviarMsg")->name('enviarMsg');
         Route::post('/messages/encerrar/{id}', "MessagesController@encerrarCanal")->name('encerrarCanal');
-
+        // AnexosMensagem
         Route::get('/messages/download/{anexo}', 'AnexoMensagemController@downloadAnexo')->name('download-anexo');
         Route::get('/messages/view/{anexo}', 'AnexoMensagemController@viewAnexo')->name('view-anexo');
 

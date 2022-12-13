@@ -29,12 +29,12 @@
                 </button>
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav me-auto pb-2 pb-lg-0">
-                        {{-- <li class="nav-item">
+                        <li class="nav-item">
                             <a class="nav-link text-white @if (Route::is('pagina-inicial')) border-bottom border-3 border-light @endif"
                                 href="{{ route('pagina-inicial') }}">
                                 Pagina Inicial
                             </a>
-                        </li> --}}
+                        </li>
                         <li class="nav-item">
                             <a class="nav-link text-white @if (Route::is('politicas')) border-bottom border-3 border-light @endif"
                                 href="{{ route('politicas') }}">
@@ -52,7 +52,6 @@
                     <ul class="nav navbar-nav navbar-right text-white gap-2">
                         @guest
                         <li><a class="btn btn-outline-light" href="{{ route('login') }}">Login</a></li>
-                        {{-- <li><a class="btn btn-outline-light" href="{{ route('register') }}">Register</a></li> --}}
                         @else
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle text-white" data-bs-toggle="dropdown" role="button"
@@ -114,13 +113,17 @@
                             Inicio
                         </a>
 
-                        {{-- @can(permissionConstant()::MANIFESTACAO_LIST)
-                        <a class="nav-link @if (Route::is('manifestacoes')) border-bottom border-3 border-primary @endif"
-                            href="{{ route('manifestacoes') }}">
+                        @can(permissionConstant()::MANIFESTACAO_LIST)
+                        <a class="nav-link @if (Route::is('get-list-manifestacoes')) border-bottom border-3 border-primary @endif"
+                            href="{{ route('get-list-manifestacoes') }}">
                             Manifestações
                             <span class="badge rounded-pill bg-danger">
                                 {{ manifestacoesNaoEncerradasNotification() }}
                             </span>
+                        </a>
+                        <a class="nav-link @if (Route::is('manifestacoes2')) border-bottom border-3 border-primary @endif"
+                            href="{{ route('manifestacoes2') }}">
+                            Manifestações 2
                         </a>
                         @endcan
 
@@ -132,7 +135,7 @@
                                 {{ canaisAguardandoRespostaNotification() }}
                             </span>
                         </a>
-                        @endcan --}}
+                        @endcan
 
                         @if (auth()->user()->can(permissionConstant()::RELATORIO_AVALIACOES_GERAL_VIEW) ||
                         auth()->user()->can(permissionConstant()::UNIDADE_SECRETARIA_LIST) )
@@ -202,7 +205,7 @@
                                     </a>
                                 </li>
                                 @endcan
-                                {{-- @can(permissionConstant()::GERENCIAR_TIPOS_MANIFESTACAO_LIST)
+                                @can(permissionConstant()::GERENCIAR_TIPOS_MANIFESTACAO_LIST)
                                 <li>
                                     <a class="dropdown-item" href="{{ route('get-tipo-manifestacao-list') }}">
                                         Tipos de Manifestacao
@@ -238,7 +241,7 @@
                                         FAQs
                                     </a>
                                 </li>
-                                @endcan --}}
+                                @endcan
                             </ul>
                         </li>
                         @endif
