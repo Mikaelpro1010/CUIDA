@@ -26,8 +26,8 @@
 
             <div class="d-flex justify-content-end mt-2">
                 <button class="btn btn-primary " type="submit">
-                <i class="fa-solid fa-pen-to-square"></i>
-                Editar
+                    <i class="fa-solid fa-pen-to-square"></i>
+                    Editar
                 </button>
             </div>
 
