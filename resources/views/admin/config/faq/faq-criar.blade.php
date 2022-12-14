@@ -22,6 +22,13 @@
                 <textarea class="form-control" name="resposta" id="resposta" rows="5"></textarea>
             </div>
 
+            <div class="d-flex justify-content-end mt-2">
+                <button class="btn btn-primary " type="submit">
+                    <i class="fa-solid fa-plus me-1"></i>
+                    Criar
+                </button>
+            </div>
+
             <div class="text-center">
                 <a href="{{ route('get-faq-list') }}" class="mt-3 btn btn-warning" tabindex="-1"
                 role="button" aria-disabled="true">
