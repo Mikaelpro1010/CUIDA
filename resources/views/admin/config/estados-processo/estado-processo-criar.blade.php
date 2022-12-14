@@ -23,8 +23,8 @@
 
             <div class="d-flex justify-content-end mt-2">
                 <button class="btn btn-primary " type="submit">
-                <i class="fa-solid fa-plus me-1"></i>
-                Criar
+                    <i class="fa-solid fa-plus me-1"></i>
+                    Criar
                 </button>
             </div>
 
