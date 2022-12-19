@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateCompartilhamentoTable extends Migration
+class CreateCompartilhamentosTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class CreateCompartilhamentoTable extends Migration
      */
     public function up()
     {
-        Schema::create('compartilhamento', function (Blueprint $table) {
+        Schema::create('compartilhamentos', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('manifestacao_id')->unsigned();
             $table->foreign('manifestacao_id')->references('id')->on('manifestacoes');
@@ -34,6 +34,6 @@ class CreateCompartilhamentoTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('compartilhamento');
+        Schema::dropIfExists('compartilhamentos');
     }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Compartilhamento;
 use App\Models\EstadosProcesso;
 use App\Models\Historico;
 use App\Models\Manifestacoes;
@@ -116,13 +117,20 @@ class Manifests2Controller extends Controller
 
     public function viewManifest($id)
     {
-        $manifestacao = Manifestacoes::with('recursos')->find($id);
+        $manifestacao = Manifestacoes::with('recursos', 'compartilhamento')->find($id);
 
-        $secretarias = Secretaria::get();
+        
+        $podeCriarCompartilhamento = false;
+        
+        if($manifestacao->compartilhamento->count() == 0 || $manifestacao->compartilhamento->where('resposta', null)->isEmpty()){
+            $podeCriarCompartilhamento = true;
+        }
+
+        $secretarias = Secretaria::query()->orderBy('updated_at', 'desc')->get();
 
         $situacaoAguardandoProrrogacao = Situacao::where('nome', 'Aguardando Porrogação')->first()->id;
+     
 
-        // dd($manifestacao);
-        return view('admin.manifestacoes.visualizarManifest', compact('manifestacao', 'situacaoAguardandoProrrogacao', 'secretarias'));
+        return view('admin.manifestacoes.visualizarManifest', compact('manifestacao', 'situacaoAguardandoProrrogacao', 'secretarias', 'podeCriarCompartilhamento'));
     }
 }

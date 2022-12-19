@@ -4,6 +4,8 @@ namespace App\Models;
 
 use App\Models\Manifest\Recurso;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Manifestacoes extends Model
 {
@@ -19,41 +21,49 @@ class Manifestacoes extends Model
         self::CELULAR => 'celular',
         self::FIXO => 'fixo',
         self::WHATSAPP => 'whatsapp',
-    ]; 
+    ];
 
-    public function estadoProcesso()
+    public function estadoProcesso(): HasOne
     {
-        return $this->hasOne(EstadosProcesso::class, 'id','estado_processo_id');
+        return $this->hasOne(EstadosProcesso::class, 'id', 'estado_processo_id');
     }
 
-    public function tipoManifestacao()
+    public function tipoManifestacao(): HasOne
     {
         return $this->hasOne(TiposManifestacao::class, 'id', 'tipo_manifestacao_id');
     }
 
-    public function situacao()
+    public function situacao(): HasOne
     {
         return $this->hasOne(Situacao::class, 'id', 'situacao_id');
     }
 
 
-    public function prorrogacao()
+    public function prorrogacao(): HasMany
     {
-        return $this->hasMany(Prorrogacao::class,'manifestacao_id', 'id');
+        return $this->hasMany(Prorrogacao::class, 'manifestacao_id', 'id');
     }
 
-    public function recursos(){
+    public function recursos(): HasMany
+    {
         return $this->hasMany(Recurso::class, 'id_manifestacao', 'id');
     }
-    
-    public function motivacao(){
+
+    public function motivacao(): HasOne
+    {
         return $this->hasOne(Motivacao::class, 'id', 'motivacao_id');
     }
 
-    public function historico(){
+    public function historico(): HasMany
+    {
         return $this->hasMany(Historico::class, 'manifestacao_id', 'id');
     }
-    
+
+    public function compartilhamento(): HasMany
+    {
+        return $this->hasMany(Compartilhamento::class, 'manifestacao_id', 'id')->orderBy('created_at');
+    }
+
     // public function historico(){
     //     return $this->hasOne(Historico::class, 'id', 'historico_id');
     // }

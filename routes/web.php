@@ -181,7 +181,7 @@ Route::middleware(['auth:web'])->group(
 
         // manifestacoes
         Route::get('/manifestacoes', "ManifestsController@list")->name('get-list-manifestacoes');
-        Route::get('/manifestacao/{id}', "ManifestsController@viewManifest")->name('visualizarManifest');
+        Route::get('/manifestacao/{id}', "Manifests2Controller@viewManifest")->name('visualizarManifest');
 
         //manifestacoes 2
 
@@ -193,6 +193,8 @@ Route::middleware(['auth:web'])->group(
         Route::post('/manifestacao2/{manifestacao}/prorrogacao/create', 'ProrrogacaoController@create')->name("criar-prorrogacao");
         Route::post('/manifestacao2/{manifestacao}/prorrogacao/{prorrogacao}/response', 'ProrrogacaoController@responseProrrogacao')->name("criar-resposta");
         Route::post('/manifestacao2/compartilhamento/{manifestacao_id}', 'CompartilhamentoController@compartilharManifestacao')->name("compartilhar-manifestacao");
+        Route::post('/manifestacao2/compartilhamento/{compartilhamento}/resposta', 'CompartilhamentoController@responderCompartilhamento')->name("responder-compartilhamento");
+        Route::post('/manifestacao2/compartilhamento', 'Manifests2Controller@viewCompartilhamento')->name("view-compartilhamento");
 
 
         //mensagens
