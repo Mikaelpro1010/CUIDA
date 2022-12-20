@@ -293,7 +293,11 @@
                                 <td>{{ formatarDataHora($prorrogacao->created_at) }}</td>
                                 <td>{{ $prorrogacao->motivo_solicitacao }}</td>
                                 <td>{{ $prorrogacao->user->name }}</td>
-                                <td>{{ $prorrogacao->resposta }}</td>
+                                @if(is_null($prorrogacao->resposta))
+                                    <td><p>Resposta Vazia</p></td>
+                                @else
+                                    <td>{{ $prorrogacao->resposta }}</td>
+                                @endif
                                 @if ($prorrogacao->situacao == App\Models\Prorrogacao::SITUACAO_APROVADO)
                                     <td>{{ App\Models\Prorrogacao::SITUACAO_NOME[$prorrogacao->situacao] }} <i
                                             class="text-success fa-solid fa-circle-check"></i></td>
@@ -306,12 +310,8 @@
                                 <td>{{ formatarDataHora($prorrogacao->updated_at) }}</td>
                                 {{-- @if ($manifestacao->situacao_id != $situacaoAguardandoProrrogacao) --}}
                                 @if ($prorrogacao->situacao == App\Models\Prorrogacao::SITUACAO_ESPERA)
-                                    {
-                                    <td> <button id="modal" class="btn btn-primary"
-                                            onclick="$('#prorrogacao_{{ $prorrogacao->id }}').modal('show');"
-                                            type="submit">Responder</button></td>
-                                    }
-                                    <div id="prorrogacao_{{ $prorrogacao->id }}" name="id" class="modal"
+                                    <td> <button class="btn btn-primary button_open_resposta_prorrogacao" data-id="{{ $prorrogacao->id }}">Responder</button></td>
+                                    <div id="Modal_resposta_prorrogacao_{{ $prorrogacao->id }}" name="id" class="modal"
                                         tabindex="-1">
                                         <div class="modal-dialog">
                                             <div class="modal-content">
@@ -321,7 +321,7 @@
                                                         aria-label="Close"></button>
                                                 </div>
                                                 <div class="modal-body">
-                                                    <form class=""
+                                                    <form id="form_enviar_resposta_prorrogacao_{{ $prorrogacao->id }}" class=""
                                                         action="{{ route('criar-resposta', ['manifestacao' => $manifestacao, 'prorrogacao' => $prorrogacao]) }}"
                                                         method="POST">
                                                         <p>Deseja aceitar esta prorrogação?</p>
@@ -348,8 +348,8 @@
                                                         <textarea class="mt-3 mb-3 form-control" name="resposta" placeholder="Mensagem*" id="descricao" rows="5"></textarea>
                                                         {{ csrf_field() }}
                                                         <div class="modal-footer">
-                                                            <button type="submit" class="btn btn-success"
-                                                                onclick="close_modal()">Solicitar</button>
+                                                            <button type="submit" class="btn btn-success button_enviar_resposta_prorrogacao"
+                                                            data-id="{{ $prorrogacao->id }}">Solicitar</button>
                                                         </div>
                                                     </form>
                                                 </div>
@@ -600,6 +600,16 @@
             $('#Modal_prorrogacao').modal('hide');
         });
 
+        $('.button_open_resposta_prorrogacao').click(function() {
+            id = $(this).data('id');
+            $('#Modal_resposta_prorrogacao_' + id).modal('show');
+        });
+
+        $('.button_enviar_resposta_prorrogacao').click(function() {
+            id = $(this).data('id');
+            $('#form_enviar_resposta_prorrogacao_' + id).submit();
+            $('#Modal_resposta_prorrogacao_' + id).modal('hide');
+        });
 
         @if ($podeCriarCompartilhamento)
             $('#button_open_compartilhamento').click(function() {
