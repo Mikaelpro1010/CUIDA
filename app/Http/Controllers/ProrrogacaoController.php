@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Historico;
 use App\Models\Manifestacoes;
 use App\Models\Prorrogacao;
 use App\Models\Situacao;
@@ -31,6 +32,13 @@ class ProrrogacaoController extends Controller
         $manifestacao->situacao_id = Situacao::where('nome', 'Aguardando Porrogação')->first()->id;
         $manifestacao->update();
 
+        Historico::create([
+            'manifestacao_id' => $prorrogacao->manifestacao_id,
+            'etapas' => 'Houve uma prorrogação relacionada a manifestação!',
+            'alternativo' => "A manifestação foi criada por ". auth()->user()->name ."!",
+            'created_at' => now()
+        ]);
+
         return redirect()->route('visualizarManifest', $manifestacao->id)->with('success', 'Pedido de prorrogação realizado com sucesso!');
     }
 
@@ -48,6 +56,13 @@ class ProrrogacaoController extends Controller
         }
         
         $prorrogacao->update();
+
+        Historico::create([
+            'manifestacao_id' => $prorrogacao->manifestacao_id,
+            'etapas' => 'A prorrogação relacionada a manifestação foi respondido!',
+            'alternativo' => "A manifestação foi criada por ". auth()->user()->name ."!",
+            'created_at' => now()
+        ]);
 
         return redirect()->route('visualizarManifest', $manifestacao->id)->with('success', 'Resposta referente a prorrogação realizada com sucesso!');
     }

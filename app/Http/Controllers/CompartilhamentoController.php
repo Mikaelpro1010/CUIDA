@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Compartilhamento;
+use App\Models\Historico;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
@@ -23,6 +24,13 @@ class CompartilhamentoController extends Controller
 
         $compartilhamento->save();
 
+        Historico::create([
+            'manifestacao_id' => $compartilhamento->manifestacao_id,
+            'etapas' => 'A manifestação foi compartilhada!',
+            'alternativo' => "A manifestação foi criada por ". auth()->user()->name ."!",
+            'created_at' => now()
+        ]);
+
         return redirect()->back()->with('success', 'Manifestacao compartilhada com sucesso!');
     }
 
@@ -34,6 +42,13 @@ class CompartilhamentoController extends Controller
         $compartilhamento->resposta = $request->resposta;
 
         $compartilhamento->save();
+
+        Historico::create([
+            'manifestacao_id' => $compartilhamento->manifestacao_id,
+            'etapas' => 'O compartilhamento da manifestação foi respondido!',
+            'alternativo' => "A manifestação foi criada por ". auth()->user()->name ."!",
+            'created_at' => now()
+        ]);
 
         return redirect()->back()->with('success', 'Compartilhamento da manifestação respondido com sucesso!');
     }
