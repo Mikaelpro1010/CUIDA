@@ -136,7 +136,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title">
-                    <a href="{{ route('visualizarManifests', $canalManifestacao->id_manifestacao) }}"
+                    <a href="{{ route('get-view-manifestacao', $canalManifestacao->id_manifestacao) }}"
                         class="text-decoration-none text-dark">
                         Manifestação:
                         {{ $canalManifestacao->manifestacao->protocolo }}
@@ -145,7 +145,7 @@
                         -
                         {{ manifest()::SITUACAO[$canalManifestacao->manifestacao->id_situacao]}}
                     </a>
-                    <a href="{{ route('visualizarManifests', $canalManifestacao->id_manifestacao) }}" target="_blank">
+                    <a href="{{ route('get-view-manifestacao', $canalManifestacao->id_manifestacao) }}" target="_blank">
                         <i class="fa-solid fa-arrow-up-right-from-square text-primary"></i>
                     </a>
                 </h5>
