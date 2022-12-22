@@ -58,7 +58,7 @@ class ManifestsController extends Controller
         return view('admin.manifests.manifests-listar', $resposta);
     }
 
-    public function visualizarManifest($id)
+    public function viewManifest($id)
     {
         $manifestacao = Manifest::with('recursos', 'autor', 'location')->find($id);
 

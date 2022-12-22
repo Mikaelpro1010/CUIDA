@@ -181,14 +181,14 @@ Route::middleware(['auth:web'])->group(
 
         // manifestacoes
         Route::get('/manifestacoes', "ManifestsController@list")->name('get-list-manifestacoes');
-        Route::get('/manifestacao/{id}', "ManifestsController@viewManifest")->name('visualizarManifest');
+        Route::get('/manifestacao/{id}', "ManifestsController@viewManifest")->name('get-view-manifestacao');
 
         //manifestacoes 2
 
         Route::get('/manifestacoes2', "Manifests2Controller@list")->name('manifestacoes2');
         Route::get('/manifestacao2/create', 'Manifests2Controller@create')->name("get-create-manifest2");
         Route::post('/manifestacao2', 'Manifests2Controller@storeManifest')->name("post-store-manifest2");
-        Route::get('/manifestacoes2/{id}', "Manifests2Controller@viewManifest")->name('visualizarManifests');
+        Route::get('/manifestacoes2/{id}', "Manifests2Controller@viewManifest")->name('get-view-manifestacao2');
 
         Route::post('/manifestacao2/{manifestacao}/prorrogacao/create', 'ProrrogacaoController@create')->name("criar-prorrogacao");
         Route::post('/manifestacao2/{manifestacao}/prorrogacao/{prorrogacao}/response', 'ProrrogacaoController@responseProrrogacao')->name("criar-resposta");

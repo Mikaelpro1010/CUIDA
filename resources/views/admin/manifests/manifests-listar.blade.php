@@ -150,7 +150,7 @@
                         minutos(s)
                     </td>
                     <td class=" text-center">
-                        <a href="{{ route('visualizarManifests', $manifestacao->id) }}" class="btn btn-primary">
+                        <a href="{{ route('get-view-manifestacao', $manifestacao->id) }}" class="btn btn-primary">
                             <i class="fa-solid fa-arrow-up-right-from-square"></i>
                         </a>
                     </td>

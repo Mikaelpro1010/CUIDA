@@ -17,7 +17,7 @@ class ProrrogacaoController extends Controller
 
         foreach ($manifestacao->prorrogacao as $prorrogacao) {
             if ($prorrogacao->situacao == Prorrogacao::SITUACAO_ESPERA) {
-                return redirect()->route('visualizarManifest', $manifestacao->id)->with('warning', 'Existe uma prorrogação pendente!');
+                return redirect()->route('get-view-manifestacao2', $manifestacao->id)->with('warning', 'Existe uma prorrogação pendente!');
             }
         }
 
@@ -31,24 +31,24 @@ class ProrrogacaoController extends Controller
         $manifestacao->situacao_id = Situacao::where('nome', 'Aguardando Porrogação')->first()->id;
         $manifestacao->update();
 
-        return redirect()->route('visualizarManifest', $manifestacao->id)->with('success', 'Pedido de prorrogação realizado com sucesso!');
+        return redirect()->route('get-view-manifestacao2', $manifestacao->id)->with('success', 'Pedido de prorrogação realizado com sucesso!');
     }
 
-    public function responseProrrogacao(Request $request, Manifestacoes $manifestacao,  Prorrogacao $prorrogacao){
+    public function responseProrrogacao(Request $request, Manifestacoes $manifestacao,  Prorrogacao $prorrogacao)
+    {
 
         // dd($request->all(), $prorrogacao);
 
         $prorrogacao->resposta = $request->resposta;
 
-        if($request->situacao == Prorrogacao::SITUACAO_APROVADO){
+        if ($request->situacao == Prorrogacao::SITUACAO_APROVADO) {
             $prorrogacao->situacao = Prorrogacao::SITUACAO_APROVADO;
-        }
-        elseif($request->situacao == Prorrogacao::SITUACAO_REPROVADO){
+        } elseif ($request->situacao == Prorrogacao::SITUACAO_REPROVADO) {
             $prorrogacao->situacao = Prorrogacao::SITUACAO_REPROVADO;
         }
-        
+
         $prorrogacao->update();
 
-        return redirect()->route('visualizarManifest', $manifestacao->id)->with('success', 'Resposta referente a prorrogação realizada com sucesso!');
+        return redirect()->route('get-view-manifestacao2', $manifestacao->id)->with('success', 'Resposta referente a prorrogação realizada com sucesso!');
     }
 }
