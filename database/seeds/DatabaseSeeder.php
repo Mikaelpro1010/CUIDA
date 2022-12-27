@@ -22,31 +22,31 @@ class DatabaseSeeder extends Seeder
         $this->call(SecretariaUserTableSeeder::class);
 
         //Configs de manifestaçao
-        $this->call(TiposManifestacaoTableSeeder::class);
-        $this->call(EstadosProcessoTableSeeder::class);
-        $this->call(MotivacaoTableSeeder::class);
-        $this->call(SituacaoTableSeeder::class);
+        // $this->call(TiposManifestacaoTableSeeder::class);
+        // $this->call(EstadosProcessoTableSeeder::class);
+        // $this->call(MotivacaoTableSeeder::class);
+        // $this->call(SituacaoTableSeeder::class);
 
         //Users from App
-        $this->call(AppUsersTableSeeder::class);
+        // $this->call(AppUsersTableSeeder::class);
 
         //manifestaçoes
-        $this->call(ManifestsTableSeeder::class);
-        $this->call(RecursosTableSeeder::class);
-        $this->call(LocationTableSeeder::class);
+        // $this->call(ManifestsTableSeeder::class);
+        // $this->call(RecursosTableSeeder::class);
+        // $this->call(LocationTableSeeder::class);
 
         //Modulo Chat 
-        $this->call(CanaisMensagemTableSeeder::class);
-        $this->call(MensagensTableSeeder::class);
+        // $this->call(CanaisMensagemTableSeeder::class);
+        // $this->call(MensagensTableSeeder::class);
 
         //Modulo de Avaliaçoes 
-        $this->call(UnidadesSecrTableSeeder::class);
-        $this->call(AvaliacoesTableSeeder::class);
+        // $this->call(UnidadesSecrTableSeeder::class);
+        // $this->call(AvaliacoesTableSeeder::class);
 
         //FAQ
-        $this->call(FaqTableSeeder::class);
+        // $this->call(FaqTableSeeder::class);
 
-        $this->call(ManifestacoesTableSeeder::class);
-        $this->call(HistoricoTableSeeder::class);
+        // $this->call(ManifestacoesTableSeeder::class);
+        // $this->call(HistoricoTableSeeder::class);
     }
 }
