@@ -61,8 +61,8 @@
             EscutaSol - Controladoria e Ouvidoria Geral do Municipio de Sobral - CGM - 2022
         </div>
     </footer>
-    <script src="{{ asset('js/scripts.js') }}" nonce="{{ app('csp-nonce') }}" data-auto-add-css="false">
-    </script>
+    <script src="{{ asset('js/scripts.js') }}" nonce="{{ app('csp-nonce') }}" data-auto-add-css="false"></script>
+    @stack('scripts')
 </body>
 
 </html>
