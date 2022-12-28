@@ -41,12 +41,12 @@ class Manifestacoes extends Model
 
     public function prorrogacao(): HasMany
     {
-        return $this->hasMany(Prorrogacao::class, 'manifestacao_id', 'id');
+        return $this->hasMany(Prorrogacao::class, 'manifestacao_id');
     }
 
     public function recursos(): HasMany
     {
-        return $this->hasMany(Recurso::class, 'id_manifestacao', 'id');
+        return $this->hasMany(Recurso::class);
     }
 
     public function motivacao(): HasOne
@@ -56,12 +56,12 @@ class Manifestacoes extends Model
 
     public function historico(): HasMany
     {
-        return $this->hasMany(Historico::class, 'manifestacao_id', 'id');
+        return $this->hasMany(Historico::class, 'manifestacao_id');
     }
 
     public function compartilhamento(): HasMany
     {
-        return $this->hasMany(Compartilhamento::class, 'manifestacao_id', 'id')->orderBy('created_at');
+        return $this->hasMany(Compartilhamento::class, 'manifestacao_id')->orderBy('created_at');
     }
 
     // public function historico(){

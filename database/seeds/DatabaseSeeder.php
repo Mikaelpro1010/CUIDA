@@ -32,23 +32,23 @@ class DatabaseSeeder extends Seeder
 
         //manifestaçoes
         $this->call(ManifestsTableSeeder::class);
-        $this->call(RecursosTableSeeder::class);
         $this->call(LocationTableSeeder::class);
-
+        
         //Modulo Chat 
         $this->call(CanaisMensagemTableSeeder::class);
         $this->call(MensagensTableSeeder::class);
-
+        
         //Modulo de Avaliaçoes 
         $this->call(UnidadesSecrTableSeeder::class);
         $this->call(AvaliacoesTableSeeder::class);
-
+        
         //FAQ
         $this->call(FaqTableSeeder::class);
-
+        
         $this->call(ManifestacoesTableSeeder::class);
         $this->call(HistoricoTableSeeder::class);
         $this->call(ProrrogacaoTableSeeder::class);
         $this->call(CompartilhamentoTableSeeder::class);
+        $this->call(RecursosTableSeeder::class);
     }
 }

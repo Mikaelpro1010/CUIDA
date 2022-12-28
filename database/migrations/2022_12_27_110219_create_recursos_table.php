@@ -15,12 +15,12 @@ class CreateRecursosTable extends Migration
     {
         Schema::create('recursos', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('id_manifestacao')->unsigned();
-            $table->foreign('id_manifestacao')->references('id')->on('manifests');
+            $table->integer('manifestacoes_id')->unsigned();
+            $table->foreign('manifestacoes_id')->references('id')->on('manifestacoes');
             $table->text('recurso');
             $table->text('resposta')->nullable();
-            $table->integer('id_respondido_por')->unsigned()->nullable();
-            $table->foreign('id_respondido_por')->references('id')->on('manifests');
+            $table->integer('autor_resposta')->unsigned()->nullable();
+            $table->foreign('autor_resposta')->references('id')->on('users');
             $table->dateTime('data_resposta')->nullable();
             $table->timestamps();
         });

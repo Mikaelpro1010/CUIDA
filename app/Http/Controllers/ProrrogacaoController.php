@@ -18,7 +18,7 @@ class ProrrogacaoController extends Controller
 
         foreach ($manifestacao->prorrogacao as $prorrogacao) {
             if ($prorrogacao->situacao == Prorrogacao::SITUACAO_ESPERA) {
-                return redirect()->route('visualizarManifest', $manifestacao->id)->with('warning', 'Existe uma prorrogação pendente!');
+                return redirect()->route('visualizarManifestacoes', $manifestacao->id)->with('warning', 'Existe uma prorrogação pendente!');
             }
         }
 
@@ -39,7 +39,7 @@ class ProrrogacaoController extends Controller
             'created_at' => now()
         ]);
 
-        return redirect()->route('visualizarManifest', $manifestacao->id)->with('success', 'Pedido de prorrogação realizado com sucesso!');
+        return redirect()->route('visualizarManifestacoes', $manifestacao->id)->with('success', 'Pedido de prorrogação realizado com sucesso!');
     }
 
     public function responseProrrogacao(Request $request, Manifestacoes $manifestacao,  Prorrogacao $prorrogacao){
@@ -64,6 +64,6 @@ class ProrrogacaoController extends Controller
             'created_at' => now()
         ]);
 
-        return redirect()->route('visualizarManifest', $manifestacao->id)->with('success', 'Resposta referente a prorrogação realizada com sucesso!');
+        return redirect()->route('visualizarManifestacoes', $manifestacao->id)->with('success', 'Resposta referente a prorrogação realizada com sucesso!');
     }
 }
