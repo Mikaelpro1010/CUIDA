@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Compartilhamento;
 use App\Models\Historico;
+use App\Models\Secretaria;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
@@ -11,42 +12,51 @@ class CompartilhamentoController extends Controller
 {
     public function compartilharManifestacao(Request $request, $id)
     {
-        $compartilhamento = new Compartilhamento();
         $request->validate([
-                'secretaria_id' => 'required|integer',
-                'texto_compartilhamento' => 'required|string|max:255',
-            ]);
+            'secretaria_id' => 'required|integer',
+            'texto_compartilhamento' => 'required|string|max:255',
+        ]);
 
-        $compartilhamento->secretaria_id = $request->secretaria_id;
-        $compartilhamento->manifestacao_id = $id;
-        $compartilhamento->texto_compartilhamento = $request->texto_compartilhamento;
-        $compartilhamento->data_inicial = Carbon::now();
 
-        $compartilhamento->save();
+        $secretaria = Secretaria::find($request->secretaria_id);
+
+        if (is_null($secretaria)) {
+            return redirect()
+                ->route('get-view-manifestacao2', $id)
+                ->withErrors(['secretaria' => 'Não Foi possivel encontrar a secretaria selecionada para o compartilhamento!']);
+        }
+
+        $compartilhamento = Compartilhamento::create([
+            'secretaria_id' => $request->secretaria_id,
+            'manifestacao_id' => $id,
+            'texto_compartilhamento' => $request->texto_compartilhamento,
+            'data_inicial' => Carbon::now(),
+        ]);
 
         Historico::create([
             'manifestacao_id' => $compartilhamento->manifestacao_id,
-            'etapas' => 'A manifestação foi compartilhada!',
-            'alternativo' => "A manifestação foi criada por ". auth()->user()->name ."!",
+            'etapas' => 'A manifestação foi compartilhada com a secretaria responsável!',
+            'alternativo' => auth()->user()->name . ", Compartilhou a Manifestação com a " . $secretaria->nome . " - " . $secretaria->sigla . "!",
             'created_at' => now()
         ]);
 
         return redirect()->back()->with('success', 'Manifestacao compartilhada com sucesso!');
     }
 
-    public function responderCompartilhamento(Request $request, Compartilhamento $compartilhamento){
+    public function responderCompartilhamento(Request $request, Compartilhamento $compartilhamento)
+    {
         $request->validate([
             'resposta' => 'required|string|max:255',
         ]);
 
-        $compartilhamento->resposta = $request->resposta;
-
-        $compartilhamento->save();
+        $compartilhamento->update([
+            'resposta' => $request->resposta,
+        ]);
 
         Historico::create([
             'manifestacao_id' => $compartilhamento->manifestacao_id,
             'etapas' => 'O compartilhamento da manifestação foi respondido!',
-            'alternativo' => "A manifestação foi criada por ". auth()->user()->name ."!",
+            'alternativo' => "O compartilhamento foi respondido por " . auth()->user()->name . "!",
             'created_at' => now()
         ]);
 
