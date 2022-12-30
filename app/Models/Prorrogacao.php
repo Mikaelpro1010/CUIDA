@@ -15,17 +15,19 @@ class Prorrogacao extends Model
     const SITUACAO_ESPERA = 3;
 
     const SITUACAO_NOME = [
-        self::SITUACAO_APROVADO => 'aprovado',
-        self::SITUACAO_REPROVADO => 'reprovado',
-        self::SITUACAO_ESPERA => 'espera',
-    ]; 
+        self::SITUACAO_APROVADO => 'Aprovado',
+        self::SITUACAO_REPROVADO => 'Reprovado',
+        self::SITUACAO_ESPERA => 'Espera',
+    ];
 
-    function manifestacao(){
+    function manifestacao()
+    {
 
         return $this->belongsTo(Manifestacao::class, 'manifestacao_id', 'id');
     }
 
-    function user(){
+    function user()
+    {
 
         return $this->belongsTo(User::class, 'user_id', 'id');
     }

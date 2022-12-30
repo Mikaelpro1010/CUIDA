@@ -34,8 +34,8 @@ class ProrrogacaoController extends Controller
 
         Historico::create([
             'manifestacao_id' => $prorrogacao->manifestacao_id,
-            'etapas' => 'Houve uma prorrogação relacionada a manifestação!',
-            'alternativo' => "A manifestação foi criada por " . auth()->user()->name . "!",
+            'etapas' => 'Solicitação de prorrogação de prazo de resposta!',
+            'alternativo' => auth()->user()->name . ", Solicitou prorrogação de prazo de resposta para a Manifestação!",
             'created_at' => now()
         ]);
 
@@ -44,8 +44,9 @@ class ProrrogacaoController extends Controller
 
     public function responseProrrogacao(Request $request, Manifestacoes $manifestacao,  Prorrogacao $prorrogacao)
     {
-
-        // dd($request->all(), $prorrogacao);
+        $request->validate([
+            'resposta' => 'required|string|max:255',
+        ]);
 
         $prorrogacao->resposta = $request->resposta;
 
@@ -57,10 +58,27 @@ class ProrrogacaoController extends Controller
 
         $prorrogacao->update();
 
+        $manifestacao = Manifestacoes::find($prorrogacao->manifestacao_id);
+
+        $manifestacao->update([
+            'situacao_id' => Situacao::where('nome', 'Respondida da Porrogação')->first()->id //respondido da prorrogaçao
+        ]);
+
+        $etapa = $prorrogacao->situacao == Prorrogacao::SITUACAO_APROVADO ?
+            'A solicitação de prorrogação de prazo foi Aprovada!'
+            :
+            'A solicitação de prorrogação de prazo foi Reprovada!';
+
+        $alternativo = $prorrogacao->situacao == Prorrogacao::SITUACAO_APROVADO
+            ?
+            auth()->user()->name . ', aprovou a solicitação de prorrogação de prazo!'
+            :
+            auth()->user()->name . ', negou a solicitação de prorrogação de prazo!';
+
         Historico::create([
             'manifestacao_id' => $prorrogacao->manifestacao_id,
-            'etapas' => 'A prorrogação relacionada a manifestação foi respondido!',
-            'alternativo' => "A manifestação foi criada por " . auth()->user()->name . "!",
+            'etapas' => $etapa,
+            'alternativo' => $alternativo,
             'created_at' => now()
         ]);
 
