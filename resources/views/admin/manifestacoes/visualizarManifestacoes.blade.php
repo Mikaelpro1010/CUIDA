@@ -147,40 +147,130 @@
 
         <div class="tab-pane" id="compartilhamentos" role="tabpanel" aria-labelledby="compartilhamentos-tab"
             tabindex="0">
-            <button type="submit" class="mt-3 btn btn-primary" onclick="compartilhar()">
-                Compartilhar manifestação
-            </button>
-            <div id="myModal2" name="id" class="modal" tabindex="-1">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title">Compartilhamento</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body">
-                            <form class="" action="{{ route('compartilhar-manifestacao', $manifestacao->id) }}"
-                                method="POST">
-                                <p class="mb-1 text-center">Compartilhe a manifestação com a secretaria desejada</p>
-                                <label for="">Secretaria:</label>
-                                <select class="form-select form-select-sm" aria-label=".form-select-sm example" name="secretaria_id">
-                                    <option value="">Selecione</option>
-                                    @foreach ($secretarias as $secretaria)
-                                        <option value="{{ $secretaria->id }}">
-                                            {{ $secretaria->sigla . ' - ' . $secretaria->nome }}
-                                        </option>
-                                    @endforeach
-                                </select>
-                                <label class="mt-3 mb-1">Justificativa:</label>
-                                <textarea class="mb-3 form-control" name="texto_compartilhamento" placeholder="Mensagem*" rows="5"></textarea>
-                                {{ csrf_field() }}
-                                <div class="modal-footer">
-                                    <button type="submit" class="btn btn-success"
-                                        onclick="close_modal()">Compartilhar</button>
+
+            <div class="accordion accordion-flush" id="compartilhamento">
+                @foreach ($manifestacao->compartilhamento as $key => $compartilhamento)
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="flush-headingOne">
+                            <div>
+                                <button class="border accordion-button collapsed" type="button"
+                                    data-bs-toggle="collapse"
+                                    data-bs-target="#compartilhamento_{{ $compartilhamento->id }}" aria-expanded="false"
+                                    aria-controls="compartilhamento_{{ $compartilhamento->id }}">
+                                    {{ $key + 1 }} -
+                                    {{ $compartilhamento->secretaria->nome }} -
+                                    {{ $compartilhamento->secretaria->sigla }}
+                                </button>
+                            </div>
+                        </h2>
+
+                        <div id="compartilhamento_{{ $compartilhamento->id }}" class="accordion-collapse collapse"
+                            aria-labelledby="flush-headingOne" data-bs-parent="#compartilhamento">
+                            <div class="m-2">
+                                <div class="accordion-body">
+                                    <div align="left" class="border-1 border border-secondary p-2 accordion-body">
+                                        <p class="fw-bold border-2 border-bottom border-warning">
+                                            Texto do compartilhamento-
+                                            {{ formatarDataHora($compartilhamento->data_inicial) }}
+                                        </p>
+                                        <p>
+                                            {{ $compartilhamento->texto_compartilhamento }}
+                                        </p>
+                                    </div>
+                                    @if (is_null($compartilhamento->resposta))
+                                        <div class="d-flex justify-content-end mt-3">
+                                            <button class="btn btn-primary button_open_resposta_compartilhamento"
+                                                data-id="{{ $compartilhamento->id }}">Responder</button>
+                                        </div>
+                                    @else
+                                        <div class="mt-2 border-1 border border-secondary p-2 accordion-body">
+                                            <p class="fw-bold border-2 border-bottom border-warning">
+                                                Resposta - {{ formatarDataHora($compartilhamento->data_resposta) }}
+                                            </p>
+                                            <p>
+                                                {{ $compartilhamento->resposta }}
+                                            </p>
+                                        </div>
+                                    @endif
                                 </div>
-                            </form>
+                            </div>
                         </div>
                     </div>
-                </div>
+
+                    {{-- Responder compartilhamento --}}
+                    <div class="modal" id="Modal_resposta_{{ $compartilhamento->id }}" tabindex="-1">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title">Resposta</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <form
+                                        id="form_enviar_resposta_compartilhamento_{{ $compartilhamento->id }}"action="{{ route('responder-compartilhamento', $compartilhamento) }}"
+                                        method="POST">
+                                        {{ csrf_field() }}
+                                        <p>Responda o compartilhamento desta manifestação:</p>
+                                        <textarea class="mb-3 form-control" name="resposta" placeholder="Mensagem*" rows="5"></textarea>
+                                        <div class="modal-footer">
+                                            <button type="button"
+                                                class="btn btn-primary button_enviar_resposta_compartilhamento"
+                                                data-id="{{ $compartilhamento->id }}" type="submit">Responder</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                @endforeach
+
+
+                {{-- compartilhar --}}
+                @if ($podeCriarCompartilhamento)
+                    <div>
+                        <button class="mt-3 btn btn-primary" id="button_open_compartilhamento">
+                            Compartilhar manifestação
+                        </button>
+                    </div>
+                    <div id="Modal_compartilhamento" class="modal" tabindex="-1">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title">Compartilhamento</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <form class=""
+                                        action="{{ route('compartilhar-manifestacao', $manifestacao->id) }}"
+                                        method="POST">
+                                        <p class="mb-1 text-center">Compartilhe a manifestação com a secretaria desejada
+                                        </p>
+                                        <label for="">Secretaria:</label>
+                                        <select class="form-select form-select-sm" aria-label=".form-select-sm example"
+                                            name="secretaria_id">
+                                            <option value="">Selecione</option>
+                                            @foreach ($secretarias as $secretaria)
+                                                <option value="{{ $secretaria->id }}">
+                                                    {{ $secretaria->sigla . ' - ' . $secretaria->nome }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                        <label class="mt-3 mb-1">Justificativa:</label>
+                                        <textarea class="mb-3 form-control" name="texto_compartilhamento" placeholder="Mensagem*" rows="5"></textarea>
+                                        {{ csrf_field() }}
+                                        <div class="modal-footer">
+                                            <button type="submit" class="btn btn-success"
+                                                id="button_close_compartilhamento">Compartilhar</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                @endif
+
             </div>
         </div>
 
@@ -203,11 +293,15 @@
                                 <td>{{ formatarDataHora($prorrogacao->created_at) }}</td>
                                 <td>{{ $prorrogacao->motivo_solicitacao }}</td>
                                 <td>{{ $prorrogacao->user->name }}</td>
-                                <td>{{ $prorrogacao->resposta }}</td>
-                                @if ($prorrogacao->situacao == App\Models\Prorrogacao::SITUACAO_APROVADO )
+                                @if(is_null($prorrogacao->resposta))
+                                    <td><p>Resposta Vazia</p></td>
+                                @else
+                                    <td>{{ $prorrogacao->resposta }}</td>
+                                @endif
+                                @if ($prorrogacao->situacao == App\Models\Prorrogacao::SITUACAO_APROVADO)
                                     <td>{{ App\Models\Prorrogacao::SITUACAO_NOME[$prorrogacao->situacao] }} <i
                                             class="text-success fa-solid fa-circle-check"></i></td>
-                                @elseif($prorrogacao->situacao == App\Models\Prorrogacao::SITUACAO_REPROVADO )
+                                @elseif($prorrogacao->situacao == App\Models\Prorrogacao::SITUACAO_REPROVADO)
                                     <td>{{ App\Models\Prorrogacao::SITUACAO_NOME[$prorrogacao->situacao] }} <i
                                             class="text-danger fa-solid fa-circle-xmark"></i></td>
                                 @else
@@ -215,13 +309,10 @@
                                 @endif
                                 <td>{{ formatarDataHora($prorrogacao->updated_at) }}</td>
                                 {{-- @if ($manifestacao->situacao_id != $situacaoAguardandoProrrogacao) --}}
-                                @if ($prorrogacao->situacao == App\Models\Prorrogacao::SITUACAO_ESPERA )
-                                    {
-                                    <td> <button id="modal" class="btn btn-primary"
-                                            onclick="$('#prorrogacao_{{ $prorrogacao->id }}').modal('show');"
-                                            type="submit">Responder</button></td>
-                                    }
-                                    <div id="prorrogacao_{{ $prorrogacao->id }}" name="id" class="modal" tabindex="-1">
+                                @if ($prorrogacao->situacao == App\Models\Prorrogacao::SITUACAO_ESPERA)
+                                    <td> <button class="btn btn-primary button_open_resposta_prorrogacao" data-id="{{ $prorrogacao->id }}">Responder</button></td>
+                                    <div id="Modal_resposta_prorrogacao_{{ $prorrogacao->id }}" name="id" class="modal"
+                                        tabindex="-1">
                                         <div class="modal-dialog">
                                             <div class="modal-content">
                                                 <div class="modal-header">
@@ -230,32 +321,35 @@
                                                         aria-label="Close"></button>
                                                 </div>
                                                 <div class="modal-body">
-                                                    <form class=""
+                                                    <form id="form_enviar_resposta_prorrogacao_{{ $prorrogacao->id }}" class=""
                                                         action="{{ route('criar-resposta', ['manifestacao' => $manifestacao, 'prorrogacao' => $prorrogacao]) }}"
                                                         method="POST">
                                                         <p>Deseja aceitar esta prorrogação?</p>
                                                         <div class="form-check">
-                                                            <input class="form-check-input" type="radio" name="situacao"
+                                                            <input class="form-check-input" type="radio"
+                                                                name="situacao"
                                                                 value="{{ App\Models\Prorrogacao::SITUACAO_APROVADO }}">
                                                             <label class="form-check-label" for="flexRadioDefault1">
                                                                 {{ App\Models\Prorrogacao::SITUACAO_NOME[App\Models\Prorrogacao::SITUACAO_APROVADO] }}
                                                             </label>
                                                         </div>
                                                         <div class="form-check">
-                                                            <input class="form-check-input" type="radio" name="situacao"
-                                                                value="{{ App\Models\Prorrogacao::SITUACAO_REPROVADO }}" checked>
+                                                            <input class="form-check-input" type="radio"
+                                                                name="situacao"
+                                                                value="{{ App\Models\Prorrogacao::SITUACAO_REPROVADO }}"
+                                                                checked>
                                                             <label class="form-check-label" for="flexRadioDefault2">
                                                                 {{ App\Models\Prorrogacao::SITUACAO_NOME[App\Models\Prorrogacao::SITUACAO_REPROVADO] }}
                                                             </label>
                                                         </div>
-        
+
                                                         <label class="mt-3" for="">Justifique o motivo da sua
                                                             escolha:</label>
                                                         <textarea class="mt-3 mb-3 form-control" name="resposta" placeholder="Mensagem*" id="descricao" rows="5"></textarea>
                                                         {{ csrf_field() }}
                                                         <div class="modal-footer">
-                                                            <button type="submit" class="btn btn-success"
-                                                                onclick="close_modal()">Solicitar</button>
+                                                            <button type="submit" class="btn btn-success button_enviar_resposta_prorrogacao"
+                                                            data-id="{{ $prorrogacao->id }}">Solicitar</button>
                                                         </div>
                                                     </form>
                                                 </div>
@@ -270,12 +364,10 @@
                 </table>
             @endif
             @if ($manifestacao->situacao_id != $situacaoAguardandoProrrogacao)
-                <div>
-                    <button id="modal" class="btn btn-primary mt-4" onclick="solicitacao_1()"
-                        type="submit">Solicitar
-                        Prorrogação</button>
-                </div>
-                <div id="myModal1" name="id" class="modal" tabindex="-1">
+                <button class="btn btn-primary mt-4" id="button_open_prorrogacao">
+                    Solicitar Prorrogação
+                </button>
+                <div id="Modal_prorrogacao" name="id" class="modal" tabindex="-1">
                     <div class="modal-dialog">
                         <div class="modal-content">
                             <div class="modal-header">
@@ -292,7 +384,7 @@
                                     {{ csrf_field() }}
                                     <div class="modal-footer">
                                         <button type="submit" class="btn btn-success"
-                                            onclick="close_modal()">Solicitar</button>
+                                            id="button_close_prorrogacao">Solicitar</button>
                                     </div>
                                 </form>
                             </div>
@@ -383,7 +475,7 @@
                                         </div>
                                     @else
                                         <div class="d-flex justify-content-end">
-                                            <a class="btn btn-warning" onclick="responderRecurso({{ $recurso->id }})">
+                                            <a class="btn btn-warning" id="responderRecurso">
                                                 <i class="fa-solid fa-reply"></i>
                                                 Responder
                                             </a>
@@ -398,31 +490,6 @@
         @endif
     </div>
 
-    {{-- Modal --}}
-    {{-- @if ($prorrogacao->situacao != 3)
-        <div id="myModal1" name="id" class="modal" tabindex="-1">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title">Prorrogação</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <form class="" action="{{ route('criar-prorrogacao', $manifestacao->id) }}" method="POST">
-                            <p>Justifique a prorrogação dessa manifestação:</p>
-                            <textarea name="motivo_solicitacao" class="mb-3 form-control" name="mensagem" placeholder="Mensagem*"
-                                id="descricao" rows="5"></textarea>
-                            {{ csrf_field() }}
-                            <div class="modal-footer">
-                                <button type="submit" class="btn btn-success" onclick="close_modal()">Solicitar</button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>   
-        </div>
-    @endif --}}
-
     <div class="modal fade" id="responderRecursoModal" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
@@ -434,13 +501,12 @@
                     <form action="" method="POST">
                         {{ csrf_field() }}
                         <div class="form-floating">
-                            <textarea class="form-control" name="respostaRecurso" id="respostaRecurso" style="height:20vh; resize: none"
-                                placeholder="respostaRecurso"></textarea>
+                            <textarea class="form-control" name="respostaRecurso" id="respostaRecurso" placeholder="respostaRecurso"></textarea>
                             <label for="respostaRecurso">Resposta</label>
                         </div>
                         <div class="d-flex justify-content-end mt-2">
                             <a class="btn btn-danger" onclick="$('#responderRecursoModal').modal('hide')">Cancelar</a>
-                            <button class="ms-2 btn btn-primary" type="submit">
+                            <button class="ms-2 btn btn-primary">
                                 <i class="fa-solid fa-reply"></i>
                                 Responder
                             </button>
@@ -456,7 +522,7 @@
 @endsection
 
 @push('scripts')
-    <script>
+    <script nonce="{{ app('csp-nonce') }}">
         function limpar() {
             $('#mensagem').val('');
             $('#status').val(1);
@@ -465,9 +531,10 @@
             $("#uploaded").addClass('d-none');
         }
 
-        function responderRecurso(id) {
+
+        $('#responderRecurso').click(function() {
             $('#responderRecursoModal').modal('show');
-        }
+        });
 
         function enviarMsg() {
             Swal.fire({
@@ -520,20 +587,44 @@
             $("#uploaded-files").html(text);
         }
 
-        function solicitacao_1() {
-            $('#myModal1').modal('show');
-        }
+        $('.button_open_resposta_compartilhamento').click(function() {
+            id = $(this).data('id');
+            $('#Modal_resposta_' + id).modal('show');
+        });
 
-        function close_modal() {
-            $('#myModal1').modal('hide');
-        }
+        $('#button_open_prorrogacao').click(function() {
+            $('#Modal_prorrogacao').modal('show');
+        });
 
-        function compartilhar() {
-            $('#myModal2').modal('show');
-        }
+        $('#button_close_prorrogacao').click(function() {
+            $('#Modal_prorrogacao').modal('hide');
+        });
 
-        function close_modal() {
-            $('myModal2').modal('hide');
-        }
+        $('.button_open_resposta_prorrogacao').click(function() {
+            id = $(this).data('id');
+            $('#Modal_resposta_prorrogacao_' + id).modal('show');
+        });
+
+        $('.button_enviar_resposta_prorrogacao').click(function() {
+            id = $(this).data('id');
+            $('#form_enviar_resposta_prorrogacao_' + id).submit();
+            $('#Modal_resposta_prorrogacao_' + id).modal('hide');
+        });
+
+        @if ($podeCriarCompartilhamento)
+            $('#button_open_compartilhamento').click(function() {
+                $('#Modal_compartilhamento').modal('show');
+            });
+
+            $('#button_close_compartilhamento').click(function() {
+                $('#Modal_compartilhamento').modal('hide');
+            });
+        @endif
+
+        $('.button_enviar_resposta_compartilhamento').click(function() {
+            id = $(this).data('id');
+            $('#form_enviar_resposta_compartilhamento_' + id).submit();
+            $('#Modal_resposta_' + id).modal('hide');
+        });
     </script>
 @endpush

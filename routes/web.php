@@ -79,6 +79,7 @@ Route::view('/termos-de-uso', 'public.termos')->name('termos');
 Route::get('pagina-manifestacao/visualizar', 'Publico\PaginaManifestController@visualizarPagina')->name("vis-pagina_manifestacao");
 Route::post('manifestacao/cadastrar/novo', 'Publico\PaginaManifestController@cadastrar')->name("cadastrar-manifestacao");
 Route::post('pagina-manifestacao/visualizar-manifestacao', 'Publico\PaginaManifestController@visualizarManifestacao')->name("vis-manifestacao");
+Route::post('pagina-manifestacao/visualizar-manifestacao/recurso/criar', 'Publico\PaginaManifestController@criarRecurso')->name("criar-recurso");
 
 Route::get('/pagina-inicial', 'Publico\FaqController@paginaInicial')->name("pagina-inicial");
 
@@ -138,7 +139,7 @@ Route::middleware(['auth:web'])->group(
                 Route::get('tipo-manifestacao/{tipoManifestacao}/edit', 'TipoManifestacaoController@editTipoManifestacao')->name('get-edit-tipo-manifestacao-view');
                 Route::patch('tipo-manifestacao/{tipoManifestacao}', 'TipoManifestacaoController@updateTipoManifestacao')->name('patch-update-tipo-manifestacao');
                 Route::delete('tipo-manifestacao/{tipoManifestacao}', 'TipoManifestacaoController@deleteTipoManifestacao')->name('delete-delete-tipo-manifestacao');
-                Route::get('tipo-mnifestacao/{tipoManifestacao}/toggle', 'TipoManifestacaoController@toggleTipoManifestacaoStatus')->name("get-toggle-tipo-manifestacao-status");
+                Route::get('tipo-manifestacao/{tipoManifestacao}/toggle', 'TipoManifestacaoController@toggleTipoManifestacaoStatus')->name("get-toggle-tipo-manifestacao-status");
 
                 Route::get('estado-processo', 'EstadoProcessoController@listEstadoProcesso')->name('get-estado-processo-list');
                 Route::get('estado-processo/create', 'EstadoProcessoController@createEstadoProcesso')->name('get-create-estado-processo');
@@ -193,6 +194,8 @@ Route::middleware(['auth:web'])->group(
         Route::post('/manifestacao2/{manifestacao}/prorrogacao/create', 'ProrrogacaoController@create')->name("criar-prorrogacao");
         Route::post('/manifestacao2/{manifestacao}/prorrogacao/{prorrogacao}/response', 'ProrrogacaoController@responseProrrogacao')->name("criar-resposta");
         Route::post('/manifestacao2/compartilhamento/{manifestacao_id}', 'CompartilhamentoController@compartilharManifestacao')->name("compartilhar-manifestacao");
+        Route::post('/manifestacao2/compartilhamento/{compartilhamento}/resposta', 'CompartilhamentoController@responderCompartilhamento')->name("responder-compartilhamento");
+        Route::post('/manifestacao2/compartilhamento', 'Manifests2Controller@viewCompartilhamento')->name("view-compartilhamento");
 
 
         //mensagens

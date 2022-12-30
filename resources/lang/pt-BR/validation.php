@@ -133,9 +133,11 @@ return [
         'comentario' => 'comentario',
         'pergunta' => 'pergunta',
         'resposta' => 'resposta',
-        'motivo_solicitacao' => 'motivo_solicitacao',
-        'secretaria_id' => 'secretaria_id',
-        'texto_compartilhamento' => 'texto_compartilhamento',
+        'motivo_solicitacao' => 'motivo da solicitação',
+        'secretaria_id' => 'selecionar secretarias',
+        'texto_compartilhamento' => 'justificativa do compartilhamento',
+        'resposta' => 'resposta ao compartilhamento',
+        'recurso' => 'recurso referente a manifestação',
     ],
 
 ];

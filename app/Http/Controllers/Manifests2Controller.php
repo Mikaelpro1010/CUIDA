@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Compartilhamento;
 use App\Models\EstadosProcesso;
 use App\Models\Historico;
+use App\Models\Manifest\Recurso;
 use App\Models\Manifestacoes;
 use App\Models\Motivacao;
 use App\Models\Secretaria;
@@ -116,13 +118,38 @@ class Manifests2Controller extends Controller
 
     public function viewManifest($id)
     {
-        $manifestacao = Manifestacoes::with('recursos')->find($id);
+        $manifestacao = Manifestacoes::with('recursos', 'compartilhamento')->find($id);
 
-        $secretarias = Secretaria::get();
+        
+        $podeCriarCompartilhamento = false;
+        
+        if($manifestacao->compartilhamento->count() == 0 || $manifestacao->compartilhamento->where('resposta', null)->isEmpty()){
+            $podeCriarCompartilhamento = true;
+        }
+
+        $secretarias = Secretaria::query()->orderBy('updated_at', 'desc')->get();
 
         $situacaoAguardandoProrrogacao = Situacao::where('nome', 'Aguardando Porrogação')->first()->id;
+     
 
-        // dd($manifestacao);
-        return view('admin.manifestacoes.visualizarManifest', compact('manifestacao', 'situacaoAguardandoProrrogacao', 'secretarias'));
+        return view('admin.manifestacoes.visualizarManifestacoes', compact('manifestacao', 'situacaoAguardandoProrrogacao', 'secretarias', 'podeCriarCompartilhamento'));
+    }
+
+    public function responderRecurso(Request $request,Manifestacoes $manifestacao, Recurso $recurso)
+    {
+        $recurso->resposta = $request->resposta;
+        $recurso->id_respondido_por = $request->id_respondido_por;
+
+        $recurso->update();
+
+        Historico::create([
+            'manifestacao_id' => $recurso->manifestacao_id,
+            'etapas' => 'O recurso relacionado a manifestação foi respondido!',
+            'alternativo' => "A manifestação foi criada por ". auth()->user()->name ."!",
+            'created_at' => now()
+        ]);
+
+        return redirect()->route('admin.manifestacoes.visualizarManifestacoes', $manifestacao->id)->with('success', 'Resposta referente a prorrogação realizada com sucesso!');
+
     }
 }

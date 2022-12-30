@@ -24,6 +24,13 @@
                 <textarea class="form-control" name="descricao" id="descricao" rows="5">{{ $tipoManifestacao->descricao }}</textarea>
             </div>
 
+            <div class="d-flex justify-content-end mt-2">
+                <button class="btn btn-primary " type="submit">
+                    <i class="fa-solid fa-pen-to-square"></i>
+                    Editar
+                </button>
+            </div>
+
             <div class="text-center">
                 <a href="{{ route('get-tipo-manifestacao-list') }}" class="mt-3 btn btn-warning" tabindex="-1"
                     role="button" aria-disabled="true">
