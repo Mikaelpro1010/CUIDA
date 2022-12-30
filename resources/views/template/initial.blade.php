@@ -69,6 +69,7 @@
     </footer>
     <script src="{{ asset('js/scripts.js') }}" nonce="{{ app('csp-nonce') }}" data-auto-add-css="false">
     </script>
+    @stack('scripts')
 </body>
 
 </html>
