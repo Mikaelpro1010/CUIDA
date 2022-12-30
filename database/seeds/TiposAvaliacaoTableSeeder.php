@@ -24,8 +24,8 @@ class TiposAvaliacaoTableSeeder extends Seeder
             ],
             [
                 'nome' => "Estrutura",
-                'pergunta' => 'Gostaria de avaliar nossa estrutura (Local, móveis) ?',
-                'obrigatorio' => false,
+                'pergunta' => 'Gostaria de avaliar nossa estrutura (de pessoal, física)?',
+                'obrigatorio' => true,
                 'ativo' => true,
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
