@@ -72,7 +72,7 @@ class PaginaManifestController extends Controller
 
         $msg = 'Manifestação cadastrada com sucesso, para poder consulta-la com as informações de  Protocolo: ' . $manifestacao->protocolo . ' e Senha: ' . $manifestacao->senha . ' preencha as mesmas no campo de acompanhar manifestação.';
 
-        $historico = Historico::create([
+        Historico::create([
             'manifestacao_id' => $manifestacao->id,
             'etapas' => 'A manifestação foi criada!',
             'created_at' => now()
@@ -102,7 +102,6 @@ class PaginaManifestController extends Controller
             $podeCriarRecurso = true;
         }
 
-        // dd($manifestacao);
         if (is_null($manifestacao)) {
             return redirect()->back()->withErrors(['error' => 'não foi possível encontrar essa manifestação!']);
         } else {

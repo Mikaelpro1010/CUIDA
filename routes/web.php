@@ -196,6 +196,7 @@ Route::middleware(['auth:web'])->group(
         Route::post('/manifestacao2/compartilhamento/{manifestacao_id}', 'CompartilhamentoController@compartilharManifestacao')->name("compartilhar-manifestacao");
         Route::post('/manifestacao2/compartilhamento/{compartilhamento}/resposta', 'CompartilhamentoController@responderCompartilhamento')->name("responder-compartilhamento");
         Route::post('/manifestacao2/compartilhamento', 'Manifests2Controller@viewCompartilhamento')->name("view-compartilhamento");
+        Route::post('/manifestacao2/{manifestacao}/{recurso}/responder', "Manifests2Controller@responderRecurso")->name('responder-recurso');
 
 
         //mensagens

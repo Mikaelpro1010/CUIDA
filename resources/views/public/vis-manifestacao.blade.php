@@ -114,7 +114,7 @@
                                             data-bs-toggle="collapse"
                                             data-bs-target="#recurso_{{ $recurso->id }}" aria-expanded="false"
                                             aria-controls="recurso_{{ $recurso->id }}">
-                                            Recurso - {{ $key + 1 }}
+                                            {{ $key + 1 }} - Recurso
                                         </button>
                                     </div>
                                 </h2>

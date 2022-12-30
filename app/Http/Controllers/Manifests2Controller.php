@@ -12,6 +12,7 @@ use App\Models\Secretaria;
 use App\Models\Situacao;
 use App\Models\TiposManifestacao;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 
 class Manifests2Controller extends Controller
@@ -19,6 +20,7 @@ class Manifests2Controller extends Controller
     public function list(Request $request)
     {
         $manifestacoes = Manifestacoes::query()
+            ->whereHas('recursos')
             ->orderBy('created_at', 'desc')
             ->paginate(10);
 
@@ -106,7 +108,7 @@ class Manifests2Controller extends Controller
 
         $manifestacao->save();
 
-        $historico = Historico::create([
+        Historico::create([
             'manifestacao_id' => $manifestacao->id,
             'etapas' => 'A manifestação foi criada!',
             'alternativo' => "A manifestação foi criada por " . auth()->user()->name . "!",
@@ -137,18 +139,26 @@ class Manifests2Controller extends Controller
 
     public function responderRecurso(Request $request, Manifestacoes $manifestacao, Recurso $recurso)
     {
-        $recurso->resposta = $request->resposta;
-        $recurso->id_respondido_por = $request->id_respondido_por;
 
-        $recurso->update();
-
-        Historico::create([
-            'manifestacao_id' => $recurso->manifestacao_id,
-            'etapas' => 'O recurso relacionado a manifestação foi respondido!',
-            'alternativo' => "A manifestação foi criada por " . auth()->user()->name . "!",
-            'created_at' => now()
+        $request->validate([
+            'respostaRecurso' => 'required|string|max:255',
         ]);
 
-        return redirect()->route('admin.manifestacoes.visualizarManifestacoes', $manifestacao->id)->with('success', 'Resposta referente a prorrogação realizada com sucesso!');
+        $recurso->update([  
+            'resposta' => $request->respostaRecurso,
+            'autor_resposta' => auth()->user()->id,
+            'data_resposta' => now(),
+        ]);
+
+        Historico::create([
+            'manifestacao_id' => $manifestacao->id,
+            'etapas' => 'O recurso relacionado a manifestação foi respondido!',
+            'alternativo' => "O recurso relacionado a manifestação foi respondido por ". auth()->user()->name ."!",
+            'created_at' => now(),
+        ]);
+
+        return redirect()
+            ->route('get-view-manifestacao2', $manifestacao->id)
+            ->with('success', 'Resposta referente ao recurso realizada com sucesso!');
     }
 }

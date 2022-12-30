@@ -136,8 +136,9 @@ return [
         'motivo_solicitacao' => 'motivo da solicitação',
         'secretaria_id' => 'selecionar secretarias',
         'texto_compartilhamento' => 'justificativa do compartilhamento',
-        'resposta' => 'resposta ao compartilhamento',
+        'resposta' => 'resposta referente ao compartilhamento',
         'recurso' => 'recurso referente a manifestação',
+        'respostaRecurso' => 'resposta referente ao recurso',
     ],
 
 ];
