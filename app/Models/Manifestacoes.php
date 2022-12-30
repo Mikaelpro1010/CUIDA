@@ -59,7 +59,7 @@ class Manifestacoes extends Model
         return $this->hasMany(Historico::class, 'manifestacao_id');
     }
 
-    public function compartilhamento(): HasMany
+    public function compartilhamentos(): HasMany
     {
         return $this->hasMany(Compartilhamento::class, 'manifestacao_id')->orderBy('created_at');
     }

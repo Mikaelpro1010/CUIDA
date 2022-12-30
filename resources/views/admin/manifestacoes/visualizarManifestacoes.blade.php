@@ -148,7 +148,7 @@
     <div class="tab-pane" id="compartilhamentos" role="tabpanel" aria-labelledby="compartilhamentos-tab" tabindex="0">
 
         <div class="accordion accordion-flush" id="compartilhamento">
-            @foreach ($manifestacao->compartilhamento as $key => $compartilhamento)
+            @foreach ($manifestacao->compartilhamentos as $key => $compartilhamento)
             <div class="accordion-item">
                 <h2 class="accordion-header" id="flush-headingOne">
                     <div>
