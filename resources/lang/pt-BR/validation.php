@@ -139,6 +139,7 @@ return [
         'resposta' => 'resposta referente ao compartilhamento',
         'recurso' => 'recurso referente a manifestação',
         'respostaRecurso' => 'resposta referente ao recurso',
+        'tipos_avaliacao' => 'tipos de avaliação referente a Unidade',
     ],
 
 ];

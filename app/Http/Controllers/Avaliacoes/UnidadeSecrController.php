@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Avaliacoes;
 use App\Constants\Permission;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\Avaliacao\TipoAvaliacao;
 use App\Models\Avaliacao\Unidade;
 use App\Models\Secretaria;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
@@ -64,15 +65,29 @@ class UnidadeSecrController extends Controller
         return view('admin.avaliacoes.unidades-secr.unidades-listagem', compact('unidades', 'secretariasSearchSelect', 'secretariasCreateSelect'));
     }
 
-    public function novaUnidade(Request $request)
+    public function createUnidade()
     {
+        $secretarias = Secretaria::query()->orderBy('updated_at', 'desc')->get();
+
+        $tipos_avaliacao = TipoAvaliacao::get();
+
+        return view('admin.avaliacoes.unidades-secr.unidades-cadastro', compact('tipos_avaliacao', 'secretarias'));
+    }
+
+    public function storeUnidade(Request $request)
+    {
+
         $this->authorize(Permission::UNIDADE_SECRETARIA_CREATE);
+
+        $unidade = TipoAvaliacao::where('ativo', true);
 
         $request->validate([
             'nome' => 'required|string|max:255',
             'descricao' => 'nullable|string',
-            'secretaria' => 'required|int'
+            'secretaria' => 'required|int',
+            'tipos_avaliacao' => 'required|array',
         ]);
+
 
         if (
             (auth()->user()->cant(Permission::UNIDADE_SECRETARIA_CREATE_ANY) &&
@@ -89,6 +104,11 @@ class UnidadeSecrController extends Controller
             'nota' => 0,
             'ativo' => true,
             'token' => substr(bin2hex(random_bytes(50)), 1),
+        ]);
+
+        $unidade->tiposAvaliacao()->sync([
+            1 => ['nota' => 0],
+            2 => ['nota' => 0],
         ]);
 
         return redirect()->route('unidades-secr-list')->with(['success' => 'Unidade Cadastrada com Sucesso!']);

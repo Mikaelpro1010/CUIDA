@@ -6,10 +6,10 @@
 <div class="d-flex justify-content-between">
     <h3 class="text-primary">Unidades da Secretaria - ({{ $unidades->total() }})</h3>
     @can(permissionConstant()::UNIDADE_SECRETARIA_CREATE)
-    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#novaUnidadeModal">
-        <i class="fa-solid fa-plus"></i>
+    <a class="btn btn-primary" href="{{ route('get-create-unidade') }}">
+        <i class="fa-solid fa-plus me-1"></i>
         Nova Unidade
-    </button>
+    </a>
     @endcan
 </div>
 <hr>
@@ -124,7 +124,7 @@
 
 @can(permissionConstant()::UNIDADE_SECRETARIA_CREATE)
 <!-- Modal -->
-<div class="modal fade" id="novaUnidadeModal" tabindex="-1" aria-labelledby="novaUnidadeTitle" aria-hidden="true">
+{{-- <div class="modal fade" id="novaUnidadeModal" tabindex="-1" aria-labelledby="novaUnidadeTitle" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header bg-primary">
@@ -168,7 +168,7 @@
             </form>
         </div>
     </div>
-</div>
+</div> --}}
 @endcan
 
 @endsection

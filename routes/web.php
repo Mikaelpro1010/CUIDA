@@ -213,6 +213,7 @@ Route::middleware(['auth:web'])->group(
         Route::prefix('avaliacoes')->namespace('Avaliacoes')->group(function () {
             //Relatorios
             Route::get('/', 'RelatoriosAvaliacoesController@resumo')->name('resumo-avaliacoes');
+            Route::get('/unidade/criar','UnidadeSecrController@createUnidade')->name('get-create-unidade');
 
             Route::get('/secretaria', 'RelatoriosAvaliacoesController@resumoSecretariasList')->name('resumo-avaliacoes-secretaria-list');
             Route::get('/secretaria/{secretaria}', 'RelatoriosAvaliacoesController@resumoSecretaria')->name('resumo-avaliacoes-secretaria');
@@ -231,7 +232,7 @@ Route::middleware(['auth:web'])->group(
 
             //Gerenciar Unidade
             Route::get('/unidade/lista', 'UnidadeSecrController@listagem')->name('unidades-secr-list');
-            Route::post('/unidade/criar', 'UnidadeSecrController@novaUnidade')->name('nova-unidade');
+            Route::post('/unidade/criar', 'UnidadeSecrController@storeUnidade')->name('post-store-unidade');
             Route::get('/unidade/{unidade}', 'UnidadeSecrController@visualizar')->name('visualizar-unidade');
             Route::put('/unidade/{unidade}/atualizar', 'UnidadeSecrController@atualizarUnidade')->name('atualizar-unidade');
             Route::get('/unidade/{unidade}/ativar', 'UnidadeSecrController@ativarDesativar')->name('ativar-unidade');

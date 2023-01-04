@@ -492,24 +492,28 @@
                                                         <div class="modal-header">
                                                             <h5 class="modal-title">Resposta ao recurso:</h5>
                                                             <button type="button" class="btn-close"
-                                                            data-bs-dismiss="modal" aria-label="Close">
+                                                                data-bs-dismiss="modal" aria-label="Close">
                                                             </button>
                                                         </div>
                                                         <div class="modal-body">
                                                             <form id="form_enviar_resposta_prorrogacao_{{ $recurso->id }}"
-                                                                action="{{ route('responder-recurso', ['manifestacao' => $manifestacao, 'recurso' => $recurso]) }}" method="POST">
+                                                                action="{{ route('responder-recurso', 
+                                                                ['manifestacao' => $manifestacao, 'recurso' => $recurso]) }}" 
+                                                                method="POST">
                                                                 {{ csrf_field() }}
                                                                 <div class="form-floating">
-                                                                    <textarea class="form-control" name="respostaRecurso" id="respostaRecurso" placeholder="respostaRecurso"></textarea>
+                                                                    <textarea class="form-control" name="respostaRecurso" 
+                                                                        id="respostaRecurso" placeholder="respostaRecurso">
+                                                                    </textarea>
                                                                     <label for="respostaRecurso">Resposta</label>
                                                                 </div>
                                                                 <div class="d-flex justify-content-end mt-2">
                                                                     <a class="btn btn-danger">Cancelar</a>
                                                                     <button type="submit" data-id="{{ $recurso->id }}"
-                                                                    class="ms-2 btn btn-primary button_enviar_resposta_recurso"
-                                                                    id="button_close_resposta_recurso">
-                                                                    <i class="fa-solid fa-reply"></i>
-                                                                    Responder
+                                                                        class="ms-2 btn btn-primary button_enviar_resposta_recurso"
+                                                                        id="button_close_resposta_recurso">
+                                                                        <i class="fa-solid fa-reply"></i>
+                                                                        Responder
                                                                     </button>
                                                                 </div>
                                                             </form>
