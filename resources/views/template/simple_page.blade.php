@@ -242,6 +242,14 @@
                                     </a>
                                 </li>
                                 @endcan
+
+                                @can(permissionConstant()::GERENCIAR_FAQS_LIST)
+                                <li>
+                                    <a class="dropdown-item" href="{{ route('get-tipo-avaliacao-list') }}">
+                                        Tipos de Avaliação
+                                    </a>
+                                </li>
+                                @endcan
                             </ul>
                         </li>
                         @endif

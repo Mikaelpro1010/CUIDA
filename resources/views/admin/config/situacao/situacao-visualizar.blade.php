@@ -16,10 +16,10 @@
             <div class="col-1">
                 <label class="fw-bold" for="">Ativo:</label>
                 <div class="border-2 border-bottom border-warning">
-                    @if (true)
+                    @if ($situacao->ativo == true)
                     <i class="text-success fa-solid fa-circle-check"></i>
                     @else
-                    <i class="fa-solid fa-circle-xmark"></i>
+                    <i class="text-danger fa-solid fa-circle-xmark"></i>
                     @endif
                 </div>
             </div>

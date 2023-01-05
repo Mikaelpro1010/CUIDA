@@ -16,8 +16,8 @@ class CreateTiposAvaliacaoTable extends Migration
         Schema::create('tipos_avaliacao', function (Blueprint $table) {
             $table->increments('id');
             $table->string('nome');
-            $table->text('pergunta');
-            $table->boolean('obrigatorio');
+            $table->text('pergunta')->nullable();
+            $table->boolean('obrigatorio')->nullable();
             $table->boolean('ativo');
             $table->timestamps();
         });
