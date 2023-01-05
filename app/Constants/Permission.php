@@ -165,6 +165,7 @@ class Permission
     public const UNIDADE_SECRETARIA_CREATE = 'Criar Unidades da Secretaria';
     public const UNIDADE_SECRETARIA_CREATE_ANY = 'Criar Unidade de qualquer Secretaria';
     public const UNIDADE_SECRETARIA_VIEW = 'Visualizar Unidades da Secretaria';
+    public const UNIDADE_SECRETARIA_EDIT = 'Editar Unidades da Secretaria';
     public const UNIDADE_SECRETARIA_UPDATE = 'Atualizar Unidades da Secretaria';
     public const UNIDADE_SECRETARIA_TOGGLE_ATIVO = 'Ativar ou Desativar Unidades da Secretaria';
     public const UNIDADE_SECRETARIA_DELETE = 'Deletar Unidades da Secretaria';
@@ -175,6 +176,7 @@ class Permission
         self::UNIDADE_SECRETARIA_CREATE,
         self::UNIDADE_SECRETARIA_CREATE_ANY,
         self::UNIDADE_SECRETARIA_VIEW,
+        self::UNIDADE_SECRETARIA_EDIT,
         self::UNIDADE_SECRETARIA_UPDATE,
         self::UNIDADE_SECRETARIA_TOGGLE_ATIVO,
         self::UNIDADE_SECRETARIA_DELETE,

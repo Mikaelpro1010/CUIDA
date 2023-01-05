@@ -122,6 +122,11 @@ class UnidadeSecrController extends Controller
         return view('admin.avaliacoes.unidades-secr.unidades-visualizacao', compact('unidade', 'qrcode'));
     }
 
+    public function editUnidade(Unidade $unidade){
+        $this->authorize(Permission::UNIDADE_SECRETARIA_EDIT);
+        return view('admin.avaliacoes.unidades-secr.unidades-editar', compact('unidade'));
+    }
+
     public function atualizarUnidade(Unidade $unidade, Request $request)
     {
         $this->authorize(Permission::UNIDADE_SECRETARIA_UPDATE);
