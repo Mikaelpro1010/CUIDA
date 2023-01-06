@@ -6,6 +6,30 @@
 <h3 class="text-primary">Resumo por Secretaria</h3>
 <hr>
 
+<form action="{{ route('resumo-avaliacoes-secretaria-list') }}" method="GET">
+    <div class="m-0 p-0 row">
+        <div class="col-md-5">
+            <label for="pesquisa">Secretaria:</label>
+            <input id="pesquisa" class="form-control" type="text" name="pesquisa" placeholder="Pesquisar"
+                value="{{ request()->pesquisa }}">
+        </div>
+
+        <div class="col-md-2 d-flex align-items-end">
+            <button class="btn btn-primary form-control mt-3" type="submit">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                Buscar
+            </button>
+        </div>
+
+        <div class="col-md-2 d-flex align-items-end">
+            <a id="btnLimpaForm" class="btn btn-warning form-control mt-3">
+                Limpar
+                <i class="fa-solid fa-eraser"></i>
+            </a>
+        </div>
+    </div>
+</form>
+
 <div class="table-responsive">
     <table class="table table-sm table-striped align-middle">
         <thead>
@@ -55,3 +79,11 @@
 </div>
 
 @endsection
+
+@push('scripts')
+<script nonce="{{ app('csp-nonce') }}">
+    $('#btnLimpaForm').click(function(){
+        $('#pesquisa').val('');
+    });
+</script>
+@endpush

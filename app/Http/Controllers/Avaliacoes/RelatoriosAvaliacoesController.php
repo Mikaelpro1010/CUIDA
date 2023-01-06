@@ -132,7 +132,12 @@ class RelatoriosAvaliacoesController extends Controller
         $this->authorize(Permission::RELATORIO_AVALIACOES_SECRETARIA_VIEW);
 
         if (auth()->user()->can(Permission::UNIDADE_SECRETARIA_ACCESS_ANY_SECRETARIA)) {
-            $secretarias = Secretaria::query();
+            $secretarias = Secretaria::query()
+            ->when(request()->pesquisa, function ($query) {
+                $query->where('nome', 'ilike', "%" . request()->pesquisa . "%")
+                    ->orWhere('sigla', 'ilike', "%" . request()->pesquisa . "%");
+            });
+           
         } else {
             $secretarias = auth()->user()->secretarias();
         };
