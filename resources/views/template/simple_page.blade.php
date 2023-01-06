@@ -121,8 +121,8 @@
                                 {{ manifestacoesNaoEncerradasNotification() }}
                             </span>
                         </a>
-                        <a class="nav-link @if (Route::is('manifestacoes2')) border-bottom border-3 border-primary @endif"
-                            href="{{ route('manifestacoes2') }}">
+                        <a class="nav-link @if (Route::is('get-list-manifestacoes2')) border-bottom border-3 border-primary @endif"
+                            href="{{ route('get-list-manifestacoes2') }}">
                             Manifestações 2
                         </a>
                         @endcan

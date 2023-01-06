@@ -23,6 +23,11 @@ class Manifestacoes extends Model
         self::WHATSAPP => 'whatsapp',
     ];
 
+    public function autor()
+    {
+        return $this->belongsTo(AppUser::class, 'id_app_user', 'id');
+    }
+
     public function estadoProcesso(): HasOne
     {
         return $this->hasOne(EstadosProcesso::class, 'id', 'estado_processo_id');

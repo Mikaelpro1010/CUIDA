@@ -11,6 +11,7 @@ use App\Models\Motivacao;
 use App\Models\Secretaria;
 use App\Models\Situacao;
 use App\Models\TiposManifestacao;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
@@ -19,12 +20,52 @@ class Manifests2Controller extends Controller
 {
     public function list(Request $request)
     {
-        $manifestacoes = Manifestacoes::query()
-            ->whereHas('recursos')
-            ->orderBy('created_at', 'desc')
-            ->paginate(10);
+        $manifestacoes = Manifestacoes::with('autor')
+            ->when(is_numeric(request()->protocolo), function ($query) {
+                $query->where('protocolo', request()->protocolo);
+            })
+            ->when(request()->data_inicio, function ($query) {
+                $query->where('created_at', '>=', request()->data_inicio);
+            })
+            ->when(request()->data_fim, function ($query) {
+                $query->where('updated_at', '<=', Carbon::parse(request()->data_fim)->addDay());
+            })
+            ->when(request()->motivacao, function ($query) {
+                $query->where('motivacao_id', request()->motivacao);
+            })
+            ->when(request()->tipo, function ($query) {
+                $query->where('tipo_manifestacao_id', request()->tipo);
+            })
+            ->when(request()->situacao, function ($query) {
+                $query->where('situacao_id', request()->situacao);
+            })
+            ->when(request()->estado_processo, function ($query) {
+                $query->where('estado_processo_id', request()->estado_processo);
+            });
 
-        return view('admin.manifestacoes.listagem', compact('manifestacoes'));
+        $manifestacoes =
+            $manifestacoes
+            ->orderBy('updated_at', 'desc')
+            ->paginate(15)
+            ->appends([
+                "protocolo" => request()->protocolo,
+                "data_inicio" => request()->data_inicio,
+                "data_fim" => request()->data_fim,
+                "motivacao" => request()->motivacao,
+                "tipo" => request()->tipo,
+                "situacao" => request()->situacao,
+                "estado_processo" => request()->estado_processo,
+            ]);
+
+        $resposta = [
+            "manifestacoes" => $manifestacoes,
+            // "aguardandoResposta" => $aguardandoResposta,
+            // "respondido" => $respondido,
+            // "encerrado" => $encerrado,
+            // "totalCanaisMsg" => $totalCanaisMsg,
+        ];
+        
+        return view('admin.manifestacoes.manifestacoes-listar', $resposta);
     }
 
     public function create()

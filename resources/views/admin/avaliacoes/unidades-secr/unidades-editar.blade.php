@@ -6,11 +6,11 @@
         {{ method_field('PUT') }}
         {{ csrf_field() }}
         <div>
-            <label class="form-label" for="nome">Nome:</label>
+            <label class="form-label" for="nome">Campo para editar o nome:</label>
             <input class="form-control" type="text" name="nome" id="nome" value="{{ $unidade->nome }}">
         </div>
         <div class="mt-3">
-            <label class="form-label" for="nome">Descrição</label>
+            <label class="form-label" for="nome">Campo para editar a descrição:</label>
             <textarea class="form-control" name="descricao" rows="6" id="descricao">{{ $unidade->descricao }}</textarea>
         </div>
         <div class="d-flex justify-content-end mt-2">
