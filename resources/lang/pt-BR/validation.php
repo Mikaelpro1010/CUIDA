@@ -140,6 +140,9 @@ return [
         'recurso' => 'recurso referente a manifestação',
         'respostaRecurso' => 'resposta referente ao recurso',
         'tipos_avaliacao' => 'tipos de avaliação referente a Unidade',
+        'current_password' => 'senha atual',
+        'password' => 'nova senha',
+        'confirm_password' => 'confirmar senha',
     ],
 
 ];

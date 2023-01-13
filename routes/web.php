@@ -95,6 +95,10 @@ Route::prefix('avaliacoes')->namespace('Publico')->group(function () {
 Route::middleware(['auth:web'])->group(
     function () {
         Route::get('/inicio', 'HomeController@index')->name('inicio');
+        Route::get('/perfil-usuario', 'PerfilUsuarioController@paginaUsuario')->name('perfil');
+        Route::post('/perfil-usuario/update-user', 'PerfilUsuarioController@updateUser')->name('update-user');
+        Route::get('/perfil-usuario/pagina-password', 'PerfilUsuarioController@paginaPassword')->name('pagina-password');
+        Route::post('/perfil-usuario/update-password', 'PerfilUsuarioController@updatePassword')->name('update-password');
 
         //Gerenciamento
         Route::namespace('Gerenciar')->prefix('admin')->group(
