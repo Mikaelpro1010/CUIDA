@@ -26,7 +26,7 @@
                 </button>
             </div>
             <div class="col-md-2 d-flex align-items-end">
-                <a class="btn btn-warning form-control mt-3" onclick="$('#pesquisa').val('')">
+                <a id="btnLimpaForm" class="btn btn-warning form-control mt-3">
                     Limpar
                     <i class="fa-solid fa-eraser"></i>
                 </a>
@@ -80,9 +80,12 @@
                                 <a href="{{ route('get-edit-motivacao-view', ['id' => $motivacao->id]) }}">
                                     <i class="fa-xl fa-solid fa-pen-to-square text-warning"></i>
                                 </a>
-                                <a href="javascript:deletar({{ $motivacao->id }})">
-                                    <i class="fa-xl fa-solid fa-trash text-danger"></i>
+                                <a class="btnDelete" data-id="{{ $motivacao->id }}">
+                                    <i class="fa-xl text-danger fa-solid fa-trash"></i>
                                 </a>
+                                {{-- <button class="btnDelete btn" data-id="{{ $motivacao->id }}">
+                                    <i class="fa-xl text-danger fa-solid fa-trash"></i>
+                                </button> --}}
                                 <form class="d-none" id="deleteMotivacao{{ $motivacao->id }}"
                                     action="{{ route('delete-delete-motivacao', $motivacao) }}"
                                     method="POST">
@@ -117,7 +120,7 @@
                     </p>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-warning" data-bs-dismiss="modal">Cancelar</button>
-                        <button type="submit" class="btn btn-danger" onclick="close_modal()">Deletar</button>
+                        <button id="btnDeleteConfirm" type="button" class="btn btn-danger">Deletar</button>
                     </div>
                 </div>
             </div>
@@ -129,15 +132,25 @@
 <script nonce="{{ app('csp-nonce') }}">
     var MotivacaoID = 0;
 
-        function deletar(id) {
+        $('#btnLimpaForm').click(function(){
+            $('#pesquisa').val('');
+        });
+
+        $('.btnDelete').click(function() {
+        deleteMotivacao($(this).data('id'));
+        });
+
+        function deleteMotivacao(id) {
             $("#deleteName").text($("#" + id + " .name").text());
             $('#deleteModal_2').modal('show');
             MotivacaoID = id;
         }
 
-        function close_modal() {
+        $("#btnDeleteConfirm").click(function() {
             $('#deleteModal_2').modal('hide');
             $('#deleteMotivacao' + MotivacaoID).submit();
-        }
+            MotivacaoID = 0;
+        });
+
 </script>
 @endpush

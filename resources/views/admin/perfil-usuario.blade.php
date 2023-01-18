@@ -4,14 +4,12 @@
 @section('content')
     <div class="d-flex justify-content-between">
         <h2 class="text-primary">Perfil de Usuário</h2>
-        {{-- @can(permissionConstant()::GERENCIAR_USUARIOS_EDIT_PASSWORD) --}}
-            <div>
-                <a class="btn btn-warning" href="{{ route('pagina-password')}}">
-                    <i class="fa-solid fa-pen-to-square"></i>
-                    Editar Senha
-                </a>
-            </div>
-        {{-- @endcan --}}
+        <div>
+            <a class="btn btn-warning" href="{{ route('pagina-password')}}">
+                <i class="fa-solid fa-pen-to-square"></i>
+                Editar Senha
+            </a>
+        </div>
     </div>
     <hr>
     <form id="editForm" method="POST" action="{{ route('update-user') }}">

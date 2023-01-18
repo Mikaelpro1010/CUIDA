@@ -20,6 +20,7 @@ class CreateTiposAvaliacaoTable extends Migration
             $table->boolean('obrigatorio')->nullable();
             $table->boolean('ativo');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

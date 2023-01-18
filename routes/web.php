@@ -95,9 +95,9 @@ Route::prefix('avaliacoes')->namespace('Publico')->group(function () {
 Route::middleware(['auth:web'])->group(
     function () {
         Route::get('/inicio', 'HomeController@index')->name('inicio');
-        Route::get('/perfil-usuario', 'PerfilUsuarioController@paginaUsuario')->name('perfil');
+        Route::get('/perfil-usuario', 'PerfilUsuarioController@viewUser')->name('perfil');
         Route::post('/perfil-usuario/update-user', 'PerfilUsuarioController@updateUser')->name('update-user');
-        Route::get('/perfil-usuario/pagina-password', 'PerfilUsuarioController@paginaPassword')->name('pagina-password');
+        Route::get('/perfil-usuario/pagina-password', 'PerfilUsuarioController@viewPassword')->name('pagina-password');
         Route::post('/perfil-usuario/update-password', 'PerfilUsuarioController@updatePassword')->name('update-password');
 
         //Gerenciamento
@@ -203,7 +203,6 @@ Route::middleware(['auth:web'])->group(
         Route::get('/manifestacao2/create', 'Manifests2Controller@create')->name("get-create-manifest2");
         Route::post('/manifestacao2', 'Manifests2Controller@storeManifest')->name("post-store-manifest2");
         Route::get('/manifestacoes2/{id}', "Manifests2Controller@viewManifest")->name('get-view-manifestacao2');
-
         Route::post('/manifestacao2/{manifestacao}/prorrogacao/create', 'ProrrogacaoController@create')->name("criar-prorrogacao");
         Route::post('/manifestacao2/{manifestacao}/prorrogacao/{prorrogacao}/response', 'ProrrogacaoController@responseProrrogacao')->name("criar-resposta");
         Route::post('/manifestacao2/compartilhamento/{manifestacao_id}', 'CompartilhamentoController@compartilharManifestacao')->name("compartilhar-manifestacao");

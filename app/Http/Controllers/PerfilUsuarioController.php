@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Hash;
 
 class PerfilUsuarioController extends Controller
 {
-    public function paginaUsuario(User $user)
+    public function viewUser(User $user)
     {
         $this->authorize(Permission::GERENCIAR_PERFIL_USUARIO_VIEW);
         return view('admin.perfil-usuario', compact('user'));
@@ -34,7 +34,7 @@ class PerfilUsuarioController extends Controller
         return redirect()->back()->with('success', 'O nome/email de usuário foi alterado com sucesso!');
     }
 
-    public function paginaPassword(User $user)
+    public function viewPassword(User $user)
     {
         $this->authorize(Permission::GERENCIAR_PERFIL_SENHA_VIEW);
         return view('admin.editar-senha', compact('user'));
@@ -59,6 +59,7 @@ class PerfilUsuarioController extends Controller
                 ->where('id', $user->id)
                 ->update(['password' => bcrypt($newPass)]);
             Auth::loginUsingId($user->id);
+
             return redirect()->back()->with('success', 'A senha foi alterada com sucesso!');
         }else{
             return redirect()->back()->with(['error' => 'As senhas informadas não coinciden']);

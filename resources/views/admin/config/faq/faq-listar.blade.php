@@ -20,7 +20,7 @@
                 <input id="pesquisa" class="form-control" type="text" name="pesquisa" placeholder="Pesquisar"
                     value="{{ request()->pesquisa }}">
             </div>
-    
+
             <div class="col-md-2 d-flex align-items-end">
                 <button class="btn btn-primary form-control mt-3" type="submit">
                     <i class="fa-solid fa-magnifying-glass"></i>
@@ -28,13 +28,13 @@
                 </button>
             </div>
             <div class="col-md-2 d-flex align-items-end">
-                <a class="btn btn-warning form-control mt-3" onclick="$('#pesquisa').val('')">
+                <a id="btnLimpaForm" class="btn btn-warning form-control mt-3">
                     Limpar
                     <i class="fa-solid fa-eraser"></i>
                 </a>
             </div>
         </div>
-    
+
     </form>
 
     <table class="table table-striped">
@@ -47,59 +47,60 @@
             <th class="text-center">Ações</th>
         </thead>
         <tbody id="tabela">
-                @forelse ($faqs as $faq)
-                    <tr id="{{ $faq->id }}">
-                        <td>
-                            <i class="fa-solid fa-sort"></i>
-                        </td>
-                        <td>
-                            {{ $faq->id }}
-                        </td>
-                        <td>
-                            @if ($faq->ativo)
-                                <a class="btn"
-                                    href="{{ route('get-toggle-faq-status', ['id' => $faq->id]) }}">
-                                    <i class="text-success fa-solid fa-circle-check"></i>
-                                </a>
-                            @else
-                                <a class="btn"
-                                    href="{{ route('get-toggle-faq-status', ['id' => $faq->id]) }}">
-                                    <i class="text-danger fa-solid fa-circle-xmark"></i>
-                                </a>
-                            @endif
-                        </td>
-                        <td class="name">
-                            {{ substr($faq->pergunta, 0, 100) . '...' }}
-                        </td>
-                        <td>
-                            {{ Carbon\Carbon::parse($faq->updated_at)->format('d/m/Y \à\s H:i\h') }}
-                        </td>
-                        <td class="col-md-1">
-                            <div class="d-flex justify-content-evenly">
-                                <a href="{{ route('get-faq-view', ['id' => $faq->id]) }}">
-                                    <i class="fa-xl fa-solid fa-magnifying-glass text-primary"></i>
-                                </a>
-                                <a href="{{ route('get-edit-faq-view', ['id' => $faq->id]) }}">
-                                    <i class="fa-xl fa-solid fa-pen-to-square text-warning"></i>
-                                </a>
-                                <a href="javascript:deletar({{ $faq->id }})">
-                                    <i class="fa-xl fa-solid fa-trash text-danger"></i>
-                                </a>
-                                <form class="d-none" id="deleteFaq{{ $faq->id }}"
-                                    action="{{ route('delete-delete-faq', $faq) }}"
-                                    method="POST">
-                                    {{ csrf_field() }}
-                                    {{ method_field('DELETE') }}
-                                </form>
-                            </div>
-                        </td>
-                    </tr>
+            @forelse ($faqs as $faq)
+                <tr id="{{ $faq->id }}">
+                    <td>
+                        <i class="fa-solid fa-sort"></i>
+                    </td>
+                    <td>
+                        {{ $faq->id }}
+                    </td>
+                    <td>
+                        @if ($faq->ativo)
+                            <a class="btn" href="{{ route('get-toggle-faq-status', ['id' => $faq->id]) }}">
+                                <i class="text-success fa-solid fa-circle-check"></i>
+                            </a>
+                        @else
+                            <a class="btn" href="{{ route('get-toggle-faq-status', ['id' => $faq->id]) }}">
+                                <i class="text-danger fa-solid fa-circle-xmark"></i>
+                            </a>
+                        @endif
+                    </td>
+                    <td class="name">
+                        {{ substr($faq->pergunta, 0, 100) . '...' }}
+                    </td>
+                    <td>
+                        {{ Carbon\Carbon::parse($faq->updated_at)->format('d/m/Y \à\s H:i\h') }}
+                    </td>
+                    <td class="col-md-1">
+                        <div class="d-flex justify-content-evenly">
+                            <a href="{{ route('get-faq-view', ['id' => $faq->id]) }}">
+                                <i class="fa-xl fa-solid fa-magnifying-glass text-primary"></i>
+                            </a>
+
+                            <a href="{{ route('get-edit-faq-view', ['id' => $faq->id]) }}">
+                                <i class="fa-xl fa-solid fa-pen-to-square text-warning"></i>
+                            </a>
+                            <a class="btnDelete" data-id="{{ $faq->id }}">
+                                <i class="fa-xl text-danger fa-solid fa-trash"></i>
+                            </a>
+                            {{-- <button class="btnDelete btn" data-id="{{ $faq->id }}">
+                                <i class="fa-xl text-danger fa-solid fa-trash"></i>
+                            </button> --}}
+                            <form class="d-none" id="deleteFaq{{ $faq->id }}"
+                                action="{{ route('delete-delete-faq', $faq) }}" method="POST">
+                                {{ csrf_field() }}
+                                {{ method_field('DELETE') }}
+                            </form>
+                        </div>
+                    </td>
+                </tr>
             @empty
-            <tr>
-                <td colspan="6" class="text-center table-warning">
-                    Nenhum resultado encontrado!
-                </td>
-            </tr>
+                <tr>
+                    <td colspan="6" class="text-center table-warning">
+                        Nenhum resultado encontrado!
+                    </td>
+                </tr>
             @endforelse
         </tbody>
     </table>
@@ -119,7 +120,7 @@
                     </p>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-warning" data-bs-dismiss="modal">Cancelar</button>
-                        <button type="submit" class="btn btn-danger" onclick="close_modal()">Deletar</button>
+                        <button id="btnDeleteConfirm" type="button" class="btn btn-danger">Deletar</button>
                     </div>
                 </div>
             </div>
@@ -128,19 +129,28 @@
 @endsection
 
 @push('scripts')
-<script nonce="{{ app('csp-nonce') }}">
-    var FaqID = 0;
+    <script nonce="{{ app('csp-nonce') }}">
+        var FaqID = 0;
 
-        function deletar(id) {
+        $('#btnLimpaForm').click(function() {
+            $('#pesquisa').val('');
+        });
+
+        $('.btnDelete').click(function() {
+            deleteFaq($(this).data('id'));
+        });
+
+        function deleteFaq(id) {
             $("#deleteName").text($("#" + id + " .name").text());
             $('#deleteModal_3').modal('show');
             FaqID = id;
         }
 
-        function close_modal() {
+        $("#btnDeleteConfirm").click(function() {
             $('#deleteModal_3').modal('hide');
             $('#deleteFaq' + FaqID).submit();
-        }
+            FaqID = 0;
+        });
 
         $(document).ready(function() {
             $(function() {
@@ -178,5 +188,5 @@
                 }, 1700);
             }
         });
-</script>
+    </script>
 @endpush
