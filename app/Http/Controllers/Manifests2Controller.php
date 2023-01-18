@@ -22,7 +22,7 @@ class Manifests2Controller extends Controller
             ->orderBy('created_at', 'desc')
             ->paginate(10);
 
-            return view('admin.manifestacoes.listagem', compact('manifestacoes'));
+            return view('admin.manifestacoes.manifestacoes-listar', compact('manifestacoes'));
     }
 
     public function create()
