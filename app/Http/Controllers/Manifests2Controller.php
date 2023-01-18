@@ -183,6 +183,7 @@ class Manifests2Controller extends Controller
 
         $request->validate([
             'respostaRecurso' => 'required|string|max:255',
+<<<<<<< Updated upstream
         ]);
 
         $recurso->update([  
@@ -201,5 +202,27 @@ class Manifests2Controller extends Controller
         return redirect()
             ->route('get-view-manifestacao2', $manifestacao->id)
             ->with('success', 'Resposta referente ao recurso realizada com sucesso!');
+=======
+        ]);
+
+
+        $recurso->resposta = $request->respostaRecurso;
+        $recurso->autor_resposta = auth()->user()->name;
+        $recurso->data_resposta = now();
+
+      
+
+        $recurso->update();
+
+        // Historico::create([
+        //     'manifestacao_id' => $manifestacao_id->id,
+        //     'etapas' => 'O recurso relacionado a manifestação foi respondido!',
+        //     'alternativo' => "O recurso relacionado a manifestação foi respondido por ". auth()->user()->name ."!",
+        //     'created_at' => now(),
+        // ]);
+
+        return redirect()->route('manifestacoes2', $manifestacao->id)->with('success', 'Resposta referente ao recurso realizada com sucesso!');
+        // return redirect()->back()->with('success', 'Resposta referente ao recurso realizada com sucesso!');
+>>>>>>> Stashed changes
     }
 }

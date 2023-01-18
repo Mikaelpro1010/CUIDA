@@ -464,7 +464,7 @@
                                             </p>
                                         </div>
                                     </div>
-                                    @if (!is_null($recurso->resposta))
+                                    {{-- @if (!is_null($recurso->resposta)) --}}
                                         <div class="mb-3 d-flex justify-content-end ms-5">
                                             <div class="bg-success bg-opacity-25 p-3 rounded">
                                                 <p class="m-0 text-end">
@@ -480,10 +480,15 @@
                                                 </p>
                                             </div>
                                         </div>
-                                    @else
+                                    {{-- @else --}}
                                         <div class="d-flex justify-content-end">
                                             <a class="btn btn-warning button_open_resposta_recurso" data-id="{{ $recurso->id }}">
+<<<<<<< Updated upstream
                                                 Responder Recurso
+=======
+                                                <i class="fa-solid fa-reply"></i>
+                                                Responder
+>>>>>>> Stashed changes
                                             </a>
                                             <div class="modal fade" id="Modal_resposta_recurso_{{ $recurso->id }}"
                                                 tabindex="-1" aria-hidden="true">
@@ -522,7 +527,33 @@
                                                 </div>
                                             </div>
                                         </div>
-                                    @endif
+                                    {{-- @endif --}}
+                                </div>
+                            </div>
+                            <div class="modal fade" id="Modal_resposta_recurso_{{ $recurso->id }}" tabindex="-1" aria-hidden="true">
+                                <div class="modal-dialog modal-lg">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title">Resposta ao recurso:</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <form id="form_enviar_resposta_prorrogacao_{{ $recurso->id }}" action="{{ route('responder-recurso', $manifestacao->id) }}" method="POST">
+                                                {{ csrf_field() }}
+                                                <div class="form-floating">
+                                                    <textarea class="form-control" name="respostaRecurso" id="respostaRecurso" placeholder="respostaRecurso"></textarea>
+                                                    <label for="respostaRecurso">Resposta</label>
+                                                </div>
+                                                <div class="d-flex justify-content-end mt-2">
+                                                    <a class="btn btn-danger">Cancelar</a>
+                                                    <button type="submit" data-id="{{ $recurso->id }}" class="ms-2 btn btn-primary button_enviar_resposta_recurso" id="button_close_resposta_recurso">
+                                                        <i class="fa-solid fa-reply"></i>
+                                                        Responder
+                                                    </button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -532,6 +563,38 @@
         @endif
     </div>
 
+<<<<<<< Updated upstream
+=======
+    {{-- <div class="modal fade" id="Modal_resposta_recurso_{{ $recurso->id }}" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Resposta ao recurso:</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="form_enviar_resposta_prorrogacao_{{ $recurso->id }}" action="{{ route('responder-recurso') }}" method="POST">
+                        {{ csrf_field() }}
+                        <div class="form-floating">
+                            <textarea class="form-control" name="respostaRecurso" id="respostaRecurso" placeholder="respostaRecurso"></textarea>
+                            <label for="respostaRecurso">Resposta</label>
+                        </div>
+                        <div class="d-flex justify-content-end mt-2">
+                            <a class="btn btn-danger">Cancelar</a>
+                            <button type="submit" data-id="{{ $recurso->id }}" class="ms-2 btn btn-primary button_enviar_resposta_recurso" id="button_close_resposta_recurso">
+                                <i class="fa-solid fa-reply"></i>
+                                Responder
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div> --}}
+
+
+
+>>>>>>> Stashed changes
 @endsection
 
 @push('scripts')
@@ -562,7 +625,11 @@
         // $('#responderRecurso').click(function() {
         //     $('#responderRecursoModal').modal('show');
         // });
+<<<<<<< Updated upstream
 
+=======
+        
+>>>>>>> Stashed changes
         // $('#button_enviar_resposta_recurso').click(function() {
         //     $('#responderRecursoModal').modal('hide');
         // });
