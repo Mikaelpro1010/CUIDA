@@ -26,7 +26,7 @@
                 </button>
             </div>
             <div class="col-md-2 d-flex align-items-end">
-                <a class="btn btn-warning form-control mt-3" onclick="$('#pesquisa').val('')">
+                <a id="btnLimpaForm" class="btn btn-warning form-control mt-3">
                     Limpar
                     <i class="fa-solid fa-eraser"></i>
                 </a>
@@ -76,9 +76,12 @@
                             <a href="{{ route('get-edit-tipo-avaliacao-view', ['id' => $tipo_avaliacao->id]) }}">
                                 <i class="fa-xl fa-solid fa-pen-to-square text-warning"></i>
                             </a>
-                            <a href="javascript:deletar({{ $tipo_avaliacao->id }})">
-                                <i class="fa-xl fa-solid fa-trash text-danger"></i>
+                            <a class="btnDelete" data-id="{{ $tipo_avaliacao->id }}">
+                                <i class="fa-xl text-danger fa-solid fa-trash"></i>
                             </a>
+                            {{-- <button class="btnDelete btn" data-id="{{ $tipo_avaliacao->id }}">
+                                <i class="fa-xl text-danger fa-solid fa-trash"></i>
+                            </button> --}}
                             <form class="d-none" id="deleteTipoAvaliacao{{ $tipo_avaliacao->id }}"
                                 action="{{ route('delete-delete-tipo-avaliacao', $tipo_avaliacao) }}" method="POST">
                                 {{ csrf_field() }}
@@ -112,7 +115,7 @@
                     </p>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-warning" data-bs-dismiss="modal">Cancelar</button>
-                        <button type="submit" class="btn btn-danger" onclick="close_modal()">Deletar</button>
+                        <button id="btnDeleteConfirm" type="button" class="btn btn-danger">Deletar</button>
                     </div>
                 </div>
             </div>
@@ -124,15 +127,25 @@
 <script nonce="{{ app('csp-nonce') }}">
     var tipoAvaliacaoID = 0;
 
-        function deletar(id) {
+        $('#btnLimpaForm').click(function(){
+            $('#pesquisa').val('');
+        });
+
+        $('.btnDelete').click(function() {
+        deleteTipoAvaliacao($(this).data('id'));
+        });
+
+        function deleteTipoAvaliacao(id) {
             $("#deleteName").text($("#" + id + " .name").text());
             $('#deleteModal').modal('show');
-            tipoAvaliacaoID = id;
+            TipoAvaliacaoID = id;
         }
 
-        function close_modal() {
+        $("#btnDeleteConfirm").click(function() {
             $('#deleteModal').modal('hide');
-            $('#deleteTipoAvaliacao' + tipoAvaliacaoID).submit();
-        }
+            $('#deleteTipoAvaliacao' + TipoAvaliacaoID).submit();
+            TipoAvaliacaoID = 0;
+        });
+
 </script>
 @endpush

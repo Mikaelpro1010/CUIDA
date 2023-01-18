@@ -92,7 +92,7 @@
                 </button>
             </div>
             <div class="col-5 col-md-5 d-flex align-items-end">
-                <a class="btn btn-warning form-control mt-3" onclick="limparForm()">
+                <a class="btn btn-warning form-control mt-3" id="btnLimpaForm" >
                     Limpar
                     <i class="fa-solid fa-eraser"></i>
                 </a>
@@ -171,11 +171,12 @@
 
 @push('scripts')
 <script nonce="{{ app('csp-nonce') }}">
-    function limparForm(){
+    $('#btnLimpaForm').click(function(){
         $('#protocolo').val('');
         $('#data-inicio').val('');
         $('#data-fim').val('');
         $('#status').val(0);
-    }
+    });
+
 </script>
 @endpush

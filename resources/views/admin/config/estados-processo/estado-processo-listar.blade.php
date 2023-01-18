@@ -26,7 +26,7 @@
             </button>
         </div>
         <div class="col-md-2 d-flex align-items-end">
-            <a class="btn btn-warning form-control mt-3" onclick="$('#pesquisa').val('')">
+            <a id="btnLimpaForm" class="btn btn-warning form-control mt-3">
                 Limpar
                 <i class="fa-solid fa-eraser"></i>
             </a>
@@ -79,8 +79,8 @@
                     <a href="{{ route('get-edit-estado-processo-view', ['id' => $estado_processo->id]) }}">
                         <i class="fa-xl fa-solid fa-pen-to-square text-warning"></i>
                     </a>
-                    <a href="javascript:deletar({{ $estado_processo->id }})">
-                        <i class="fa-xl fa-solid fa-trash text-danger"></i>
+                    <a class="btnDelete" data-id="{{ $estado_processo->id }}">
+                        <i class="fa-xl text-danger fa-solid fa-trash"></i>
                     </a>
                     <form class="d-none" id="deleteEstadoProcesso{{ $estado_processo->id }}"
                         action="{{ route('delete-delete-estado-processo', $estado_processo) }}" method="POST">
@@ -115,7 +115,7 @@
                 </p>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-warning" data-bs-dismiss="modal">Cancelar</button>
-                    <button type="submit" class="btn btn-danger" onclick="close_modal()">Deletar</button>
+                    <button id="btnDeleteConfirm" type="button" class="btn btn-danger">Deletar</button>
                 </div>
             </div>
         </div>
@@ -127,15 +127,25 @@
 <script nonce="{{ app('csp-nonce') }}">
     var estadoProcessoID = 0;
 
-    function deletar(id) {
+    $('#btnLimpaForm').click(function(){
+        $('#pesquisa').val('');
+    });
+
+    $('.btnDelete').click(function() {
+        deleteEstadoProcesso($(this).data('id'));
+    });
+
+    function deleteEstadoProcesso(id) {
         $("#deleteName").text($("#" + id + " .name").text());
         $('#deleteModal_1').modal('show');
-        estadoProcessoID = id;
+        EstadoProcessoID = id;
     }
 
-    function close_modal() {
-        $('#deleteModal_1').modal('hide');
-        $('#deleteEstadoProcesso' + estadoProcessoID).submit();
-    }
+    $("#btnDeleteConfirm").click(function() {
+        $('#deleteModal_3').modal('hide');
+        $('#deleteEstadoProcesso' + EstadoProcessoID).submit();
+        EstadoProcessoID = 0;
+    });
+
 </script>
 @endpush

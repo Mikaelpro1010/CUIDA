@@ -12,7 +12,7 @@
             </a>
         </h3>
         @if ($canalManifestacao->id_status != canalMensagem()::STATUS_ENCERRADO)
-        <a class="btn btn-danger" onclick="encerrar()"><i class="fa-solid fa-flag-checkered"></i> Encerrar Canal</a>
+        <a class="btn btn-danger" id="encerrar"><i class="fa-solid fa-flag-checkered"></i> Encerrar Canal</a>
         @endif
     </div>
 
@@ -101,13 +101,15 @@
                 <span id="uploaded-files" class="text-danger"></span>
             </div>
             <div class="d-flex flex-wrap justify-content-between">
-                <a class='btn btn-primary mt-3' onclick="uploadFile()">
-                    <i class="fa-solid fa-upload"></i>
-                    Enviar Arquivo
-                    <input id='upload-file' type='file' value='' name="anexo[]" multiple=true hidden />
-                </a>
+                <div>
+                    <a class='btn btn-primary mt-3' id="uploadFile">
+                        <i class="fa-solid fa-upload"></i>
+                        Enviar Arquivo
+                        <input id='upload-file' type='file' value='' name="anexo[]" multiple=true hidden />
+                    </a>
+                </div>
                 <div class="d-flex flex-grow mt-3">
-                    <label class="my-auto mx-2">Status Mensagem:</label>
+                    <label class="my-2 mx-2">Status Mensagem:</label>
                     <div>
                         <select class="form-select" name="status" id="status">
                             <option value="{{ canalMensagem()::STATUS_RESPONDIDO }}">Resposta</option>
@@ -116,14 +118,16 @@
                     </div>
                 </div>
                 <div class="flex-wrap mt-3">
-                    <a class="btn btn-warning mx-2" onclick="limpar()">
+                    <a id="btnLimpaForm" class="btn btn-warning form-control">
                         Limpar
                         <i class="fa-solid fa-eraser"></i>
                     </a>
-                    <a class="btn btn-primary" onclick="enviarMsg()">
-                        Enviar
-                        <i class="fa-solid fa-paper-plane"></i>
-                    </a>
+                    <div class="d-flex align-items-end">
+                        <a class="btn btn-primary mt-2" id="btnEnviarMsg">
+                            Enviar
+                            <i class="fa-solid fa-paper-plane"></i>
+                        </a>
+                    </div>
                 </div>
             </div>
         </form>
@@ -215,15 +219,16 @@
     });
 
 @if ($canalManifestacao->id_status != canalMensagem()::STATUS_ENCERRADO)
-    function limpar(){
+
+    $('#btnLimpaForm').click(function(){
         $('#mensagem').val('');
         $('#status').val(1);
         $('#upload-file').val('');
         $("#uploaded-files").empty();
         $("#uploaded").addClass('d-none');
-    }
+    });
 
-    function enviarMsg(){
+    $('#btnEnviarMsg').click(function(){
         Swal.fire({
         title: 'Deseja Enviar essa Mensagem?',
         text: "Não será possivel editar essa mensagem após enviada!",
@@ -252,9 +257,9 @@
                 }
             }
         });
-    }
+    });
 
-    function encerrar(){
+    $('#encerrar').click(function(){
         Swal.fire({
         title: 'Deseja Encerrar o Chat desta Manifestação?',
         text: "Uma vez encerrado não será possivel enviar ou receber mensagens por este!",
@@ -275,11 +280,11 @@
                 });
             }
         });
-    }
+    });
 
-    function uploadFile(){
+    $('#uploadFile').click(function(){
         $('#upload-file')[0].click();
-    }
+    })
 
     $("#upload-file").change(function() {
         var names = [];

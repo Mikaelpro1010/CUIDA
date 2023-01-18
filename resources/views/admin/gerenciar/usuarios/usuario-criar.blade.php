@@ -57,7 +57,7 @@
 </div>
 
 <div class="d-flex justify-content-end mt-2">
-    <a href="javascript:$('#cadastrar').submit()" class="btn btn-primary">
+    <a id="btnCadastrar" class="btn btn-primary">
         <i class="fa-solid fa-user-plus me-1"></i>
         Criar
     </a>
@@ -89,6 +89,10 @@
         }
         $("#secretariaSelect").val(''); 
     });
+
+    $('#btnCadastrar').click(function(){
+        $('#cadastrar').submit();
+    })
 
     function removerItem(id){
         $('#secretaria_'+id).remove();
