@@ -95,10 +95,13 @@ Route::prefix('avaliacoes')->namespace('Publico')->group(function () {
 Route::middleware(['auth:web'])->group(
     function () {
         Route::get('/inicio', 'HomeController@index')->name('inicio');
-        Route::get('/perfil-usuario', 'PerfilUsuarioController@viewUser')->name('perfil');
-        Route::post('/perfil-usuario/update-user', 'PerfilUsuarioController@updateUser')->name('update-user');
-        Route::get('/perfil-usuario/pagina-password', 'PerfilUsuarioController@viewPassword')->name('pagina-password');
-        Route::post('/perfil-usuario/update-password', 'PerfilUsuarioController@updatePassword')->name('update-password');
+
+        //Perfil do Usuário
+        Route::get('/perfil-usuario', 'PerfilUsuarioController@viewPerfil')->name('get-user-perfil');
+        Route::get('/perfil-usuario/edit', 'PerfilUsuarioController@editPerfil')->name('get-edit-user-perfil-view');
+        Route::patch('/perfil-usuario/update-user', 'PerfilUsuarioController@updatePerfil')->name('patch-update-user-perfil');
+        Route::get('/perfil-usuario/edit-password', 'PerfilUsuarioController@viewEditPassword')->name('get-user-perfil-password');
+        Route::patch('/perfil-usuario/update-password', 'PerfilUsuarioController@updatePassword')->name('patch-update-user-perfil-password');
 
         //Gerenciamento
         Route::namespace('Gerenciar')->prefix('admin')->group(

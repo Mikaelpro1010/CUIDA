@@ -62,7 +62,7 @@
                             <ul class="dropdown-menu">
                                 <li>
                                     <a class="dropdown-item" href="{{ route('inicio') }}">Inicio</a>
-                                    <a class="dropdown-item" href="{{ route('perfil') }}">Perfil de Usuário</a>
+                                    <a class="dropdown-item" href="{{ route('get-user-perfil') }}">Perfil de Usuário</a>
                                     {{-- @can(permissionConstant()::MANIFESTACAO_LIST)
                                     <a class="dropdown-item" href="{{ route('inicio') }}">Manifestações</a>
                                     @endcan
