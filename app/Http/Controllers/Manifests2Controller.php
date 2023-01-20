@@ -187,10 +187,8 @@ class Manifests2Controller extends Controller
 
 
         $recurso->resposta = $request->respostaRecurso;
-        $recurso->autor_resposta = auth()->user()->name;
+        $recurso->autor_resposta = auth()->user()->id;
         $recurso->data_resposta = now();
-
-      
 
         $recurso->update();
 
@@ -201,7 +199,7 @@ class Manifests2Controller extends Controller
         //     'created_at' => now(),
         // ]);
 
-        return redirect()->route('manifestacoes2', $manifestacao->id)->with('success', 'Resposta referente ao recurso realizada com sucesso!');
+        return redirect()->route('get-list-manifestacoes2', $manifestacao->id)->with('success', 'Resposta referente ao recurso realizada com sucesso!');
         // return redirect()->back()->with('success', 'Resposta referente ao recurso realizada com sucesso!');
     }
 }
