@@ -67,19 +67,22 @@ class UnidadeSecrController extends Controller
 
     public function createUnidade()
     {
-        $secretarias = Secretaria::query()->orderBy('updated_at', 'desc')->get();
+        if (auth()->user()->can(Permission::UNIDADE_SECRETARIA_CREATE_ANY)) {
+            $secretarias = Secretaria::query();
+        } else {
+            $secretarias = auth()->user()->secretarias();
+        };
 
-        $tipos_avaliacao = TipoAvaliacao::get();
+        $secretarias = $secretarias->with('unidades')->orderBy('nome', 'asc')->get();
 
-        return view('admin.avaliacoes.unidades-secr.unidades-cadastro', compact('tipos_avaliacao', 'secretarias'));
+        $tipos_avaliacao = TipoAvaliacao::where('ativo', 1)->get();
+
+        return view('admin.avaliacoes.unidades-secr.unidades-criar', compact('tipos_avaliacao', 'secretarias'));
     }
 
     public function storeUnidade(Request $request)
     {
-
         $this->authorize(Permission::UNIDADE_SECRETARIA_CREATE);
-
-        $unidade = TipoAvaliacao::where('ativo', true);
 
         $request->validate([
             'nome' => 'required|string|max:255',
@@ -96,22 +99,31 @@ class UnidadeSecrController extends Controller
         ) {
             return redirect()->back()->withErrors(['secretaria' => 'Não foi possível identificar a Secretaria!'])->withInput();
         }
+        $tipos_avaliacao = TipoAvaliacao::where('ativo', true);
 
-        Unidade::query()->create([
-            'nome' => $request->nome,
-            'descricao' => $request->descricao,
-            'secretaria_id' => $request->secretaria,
-            'nota' => 0,
-            'ativo' => true,
-            'token' => substr(bin2hex(random_bytes(50)), 1),
-        ]);
+        $tiposAvaliacao = [];
+        foreach ($request->tipos_avaliacao as $tipo) {
+            if (in_array($tipo, $tipos_avaliacao->pluck('id')->toArray())) {
+                $tiposAvaliacao[$tipo] = ['nota' => 0];
+            }
+        }
+        if (count($tiposAvaliacao) > 0) {
 
-        $unidade->tiposAvaliacao()->sync([
-            1 => ['nota' => 0],
-            2 => ['nota' => 0],
-        ]);
+            $unidade = Unidade::query()->create([
+                'nome' => $request->nome,
+                'descricao' => $request->descricao,
+                'secretaria_id' => $request->secretaria,
+                'nota' => 0,
+                'ativo' => true,
+                'token' => substr(bin2hex(random_bytes(50)), 1),
+            ]);
 
-        return redirect()->route('unidades-secr-list')->with(['success' => 'Unidade Cadastrada com Sucesso!']);
+            $unidade->tiposAvaliacao()->sync($tiposAvaliacao);
+
+            return redirect()->route('get-unidades-secr-list')->with(['success' => 'Unidade Cadastrada com Sucesso!']);
+        } else {
+            return redirect()->back()->withError(['tipos_avaliacao' => 'É preciso definir os tipos de avaliação!'])->withInput();
+        }
     }
 
     public function visualizar(Unidade $unidade)
