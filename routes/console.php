@@ -3,6 +3,7 @@
 use App\Constants\Permission as ConstantsPermission;
 use App\Models\Permission;
 use App\Models\Role;
+use App\Models\User;
 use Illuminate\Foundation\Inspiring;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Cache;
@@ -39,4 +40,12 @@ use Illuminate\Support\Facades\Cache;
 
 // Artisan::command('cacheFlush', function () {
 //     Cache::flush();
+// });
+
+
+// Artisan::command('setPassword {password}', function ($password) {
+//     User::where('id', 1)->update([
+//         'password' => bcrypt($password)
+//     ]);
+//     $this->info("Senha Alterada!");
 // });
