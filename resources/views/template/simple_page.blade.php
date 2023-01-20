@@ -157,7 +157,7 @@
                                 </li>
                                 @can(permissionConstant()::UNIDADE_SECRETARIA_LIST)
                                 <li>
-                                    <a class="dropdown-item" href="{{ route('unidades-secr-list') }}">
+                                    <a class="dropdown-item" href="{{ route('get-unidades-secr-list') }}">
                                         Unidades da Secretaria
                                     </a>
                                 </li>

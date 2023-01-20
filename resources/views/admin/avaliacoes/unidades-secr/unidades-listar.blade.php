@@ -13,7 +13,7 @@
     @endcan
 </div>
 <hr>
-<form class="" action="{{ route('unidades-secr-list') }}" method="GET">
+<form class="" action="{{ route('get-unidades-secr-list') }}" method="GET">
     <div class="m-0 p-0 row">
         <div class="col-md-3">
             <label for="pesquisa">Nome:</label>
@@ -79,7 +79,7 @@
             <tr class="">
                 <td class="text-center">
                     @if (auth()->user()->can(permissionConstant()::UNIDADE_SECRETARIA_TOGGLE_ATIVO))
-                    <a class="btn" href="{{ route('ativar-unidade', $unidade) }}">
+                    <a class="btn" href="{{ route('get-ativar-unidade-secr', $unidade) }}">
                         @if ($unidade->ativo)
                         <i class="text-success fa-solid fa-circle-check"></i>
                         @else
@@ -99,7 +99,7 @@
                 <td>{{ formatarDataHora($unidade->updated_at) }}</td>
                 @can(permissionConstant()::UNIDADE_SECRETARIA_VIEW)
                 <td class="align-middle text-center">
-                    <a class="btn text-primary" href="{{ route('visualizar-unidade', $unidade) }}">
+                    <a class="btn text-primary" href="{{ route('get-unidades-secr-view', $unidade) }}">
                         <i class="fa-xl fa-solid fa-magnifying-glass"></i>
                     </a>
                     <a class="btn text-warning"

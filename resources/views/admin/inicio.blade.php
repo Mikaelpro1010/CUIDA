@@ -46,7 +46,7 @@
     <div class="row gap-2">
         @can(permissionConstant()::UNIDADE_SECRETARIA_LIST)
         <div class="col-md-3">
-            <a href="{{ route('unidades-secr-list') }}" class="btn btn-success w-100">
+            <a href="{{ route('get-unidades-secr-list') }}" class="btn btn-success w-100">
                 <i class="fa-5x fa-solid fa-users"></i> <br>
                 <b>Unidades da Secretaria</b>
             </a>

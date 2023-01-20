@@ -62,7 +62,7 @@ class UnidadeSecrController extends Controller
         } else {
             $secretariasCreateSelect = auth()->user()->secretarias()->orderBy('nome', 'asc')->get();
         }
-        return view('admin.avaliacoes.unidades-secr.unidades-listagem', compact('unidades', 'secretariasSearchSelect', 'secretariasCreateSelect'));
+        return view('admin.avaliacoes.unidades-secr.unidades-listar', compact('unidades', 'secretariasSearchSelect', 'secretariasCreateSelect'));
     }
 
     public function createUnidade()
@@ -187,7 +187,7 @@ class UnidadeSecrController extends Controller
         $unidade->ativo = !$unidade->ativo;
         $unidade->save();
 
-        return redirect()->route('unidades-secr-list');
+        return redirect()->route('get-unidades-secr-list');
     }
 
     public function gerarQrcode(Unidade $unidade)
