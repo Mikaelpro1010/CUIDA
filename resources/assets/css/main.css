@@ -1,3 +1,7 @@
 #graphDiv {
   height: 35vh;
 }
+
+.resize-none {
+  resize: none;
+}
