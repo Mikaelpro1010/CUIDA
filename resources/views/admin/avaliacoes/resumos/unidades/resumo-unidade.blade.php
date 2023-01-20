@@ -112,7 +112,7 @@
     
     function atualizarAvaliacoesMes(ano){
         $.ajax({
-            url: "{{ route('resumo-avaliacoes-unidade-avaliacoes-mes', $unidade) }}",
+            url: "{{ route('get-resumo-avaliacoes-unidade-avaliacoes-mes', $unidade) }}",
             dataType:'json',
             data:{
                     ano: ano
@@ -126,7 +126,7 @@
 
     function atualizarNotasMes(ano){
         $.ajax({
-            url: "{{ route('resumo-avaliacoes-unidade-notas-mes', $unidade) }}",
+            url: "{{ route('get-resumo-avaliacoes-unidade-notas-mes', $unidade) }}",
             dataType:'json',
             data:{
                     ano: ano

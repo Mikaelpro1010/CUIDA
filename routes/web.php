@@ -227,23 +227,24 @@ Route::middleware(['auth:web'])->group(
         //modulo Avaliacoes
         Route::prefix('avaliacoes')->namespace('Avaliacoes')->group(function () {
             //Relatorios
-            Route::get('/', 'RelatoriosAvaliacoesController@resumo')->name('resumo-avaliacoes');
-            Route::get('/unidade/criar','UnidadeSecrController@createUnidade')->name('get-create-unidade');
+            Route::get('/relatorios', 'RelatoriosAvaliacoesController@resumo')->name('get-avaliacao-geral');
 
-            Route::get('/secretaria', 'RelatoriosAvaliacoesController@resumoSecretariasList')->name('resumo-avaliacoes-secretaria-list');
-            Route::get('/secretaria/{secretaria}', 'RelatoriosAvaliacoesController@resumoSecretaria')->name('resumo-avaliacoes-secretaria');
-            Route::get('/secretaria/{secretaria}/avaliacoes/mes', 'RelatoriosAvaliacoesController@avaliacoesPorMesSecretaria')
-                ->middleware('throttle:60,60')
-                ->name('resumo-avaliacoes-secretaria-avaliacoes-mes');
+            Route::get('/relatorios/secretaria', 'RelatoriosAvaliacoesController@resumoSecretariasList')->name('get-list-resumo-avaliacoes-secretaria');
+            Route::get('/relatorios/secretaria/{secretaria}', 'RelatoriosAvaliacoesController@resumoSecretaria')->name('get-resumo-avaliacoes-secretaria');
 
-            Route::get('/unidade', 'RelatoriosAvaliacoesController@resumoUnidadeSecrList')->name('resumo-avaliacoes-unidade-list');
-            Route::get('/secretaria/{secretaria}/unidade/{unidade}', 'RelatoriosAvaliacoesController@resumoUnidadeSecr')->name('resumo-avaliacoes-unidade');
-            Route::get('/unidade/{unidade}/notas-mes', 'RelatoriosAvaliacoesController@notasPorMesUnidade')
+            Route::get('/relatorios/secretaria/{secretaria}/avaliacoes/mes', 'RelatoriosAvaliacoesController@avaliacoesPorMesSecretaria')
                 ->middleware('throttle:60,60')
-                ->name('resumo-avaliacoes-unidade-notas-mes');
-            Route::get('/unidade/{unidade}/avaliacoes-mes', 'RelatoriosAvaliacoesController@avaliacoesPorMesUnidade')
+                ->name('get-resumo-avaliacoes-secretaria-avaliacoes-mes');
+
+            Route::get('/relatorios/unidade', 'RelatoriosAvaliacoesController@resumoUnidadeSecrList')->name('get-list-resumo-avaliacoes-unidade');
+            Route::get('/relatorios/secretaria/{secretaria}/unidade/{unidade}', 'RelatoriosAvaliacoesController@resumoUnidadeSecr')->name('get-resumo-avaliacoes-unidade');
+
+            Route::get('/relatorios/unidade/{unidade}/notas-mes', 'RelatoriosAvaliacoesController@notasPorMesUnidade')
                 ->middleware('throttle:60,60')
-                ->name('resumo-avaliacoes-unidade-avaliacoes-mes');
+                ->name('get-resumo-avaliacoes-unidade-notas-mes');
+            Route::get('/relatorios/unidade/{unidade}/avaliacoes-mes', 'RelatoriosAvaliacoesController@avaliacoesPorMesUnidade')
+                ->middleware('throttle:60,60')
+                ->name('get-resumo-avaliacoes-unidade-avaliacoes-mes');
 
             //Gerenciar Unidade
             Route::get('/unidade', 'UnidadeSecrController@listagem')->name('get-unidades-secr-list');

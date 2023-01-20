@@ -133,11 +133,10 @@ class RelatoriosAvaliacoesController extends Controller
 
         if (auth()->user()->can(Permission::UNIDADE_SECRETARIA_ACCESS_ANY_SECRETARIA)) {
             $secretarias = Secretaria::query()
-            ->when(request()->pesquisa, function ($query) {
-                $query->where('nome', 'ilike', "%" . request()->pesquisa . "%")
-                    ->orWhere('sigla', 'ilike', "%" . request()->pesquisa . "%");
-            });
-           
+                ->when(request()->pesquisa, function ($query) {
+                    $query->where('nome', 'ilike', "%" . request()->pesquisa . "%")
+                        ->orWhere('sigla', 'ilike', "%" . request()->pesquisa . "%");
+                });
         } else {
             $secretarias = auth()->user()->secretarias();
         };
@@ -145,7 +144,7 @@ class RelatoriosAvaliacoesController extends Controller
         $secretarias = $secretarias->with('unidades')->orderBy('nome', 'asc')->paginate(15);
 
         if ($secretarias->count() == 1) {
-            return redirect()->route('resumo-avaliacoes-secretaria', $secretarias[0]);
+            return redirect()->route('get-resumo-avaliacoes-secretaria', $secretarias[0]);
         }
 
         return view('admin.avaliacoes.resumos.secretarias.resumo-secretaria-list', compact('secretarias'));

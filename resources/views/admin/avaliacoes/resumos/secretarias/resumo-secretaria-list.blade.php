@@ -6,7 +6,7 @@
 <h3 class="text-primary">Resumo por Secretaria</h3>
 <hr>
 
-<form action="{{ route('resumo-avaliacoes-secretaria-list') }}" method="GET">
+<form action="{{ route('get-list-resumo-avaliacoes-secretaria') }}" method="GET">
     <div class="m-0 p-0 row">
         <div class="col-md-5">
             <label for="pesquisa">Secretaria:</label>
@@ -59,7 +59,7 @@
                 <td>{{ number_format($secretaria->nota, 2, ',', '') }}</td>
                 <td class="text-end">{{ $secretaria->getResumo()['qtd'] }}</td>
                 <td class="text-center">
-                    <a href="{{route('resumo-avaliacoes-secretaria', $secretaria)}}">
+                    <a href="{{route('get-resumo-avaliacoes-secretaria', $secretaria)}}">
                         <i class="fa-solid fa-magnifying-glass"></i>
                     </a>
                 </td>

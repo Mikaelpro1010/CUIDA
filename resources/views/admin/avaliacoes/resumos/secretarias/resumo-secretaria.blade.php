@@ -58,7 +58,7 @@
                         @foreach ($top5BestUnidades as $item)
                         <tr>
                             <td>
-                                <a href="{{ route('resumo-avaliacoes-unidade', ['secretaria' => $secretaria, 'unidade' => $item['id']]) }}"
+                                <a href="{{ route('get-resumo-avaliacoes-unidade', ['secretaria' => $secretaria, 'unidade' => $item['id']]) }}"
                                     target="_blank">
                                     {{ $item['nome'] }}
                                 </a>
@@ -160,7 +160,7 @@
 
     function updateAvaliacoesMes(ano){
         $.ajax({
-            url: "{{ route('resumo-avaliacoes-secretaria-avaliacoes-mes', $secretaria) }}",
+            url: "{{ route('get-resumo-avaliacoes-secretaria-avaliacoes-mes', $secretaria) }}",
             dataType:'json',
             data:{
                     ano: ano

@@ -74,9 +74,9 @@
                                     auth()->user()->can(permissionConstant()::UNIDADE_SECRETARIA_LIST) )
                                     <a class="dropdown-item" href="
                                         @can(permissionConstant()::RELATORIO_AVALIACOES_GERAL_VIEW)
-                                            {{ route('resumo-avaliacoes') }}
+                                            {{ route('get-avaliacao-geral') }}
                                         @else
-                                            {{ route('resumo-avaliacoes-secretaria-list') }} 
+                                            {{ route('get-list-resumo-avaliacoes-secretaria') }} 
                                         @endcan
                                         ">
                                         Resumos das Avaliações
@@ -149,9 +149,9 @@
                                 <li>
                                     <a class="dropdown-item" href="
                                     @if (auth()->user()->can(permissionConstant()::RELATORIO_AVALIACOES_GERAL_VIEW)) 
-                                    {{ route('resumo-avaliacoes') }}
+                                    {{ route('get-avaliacao-geral') }}
                                     @else
-                                    {{ route('resumo-avaliacoes-secretaria-list') }} 
+                                    {{ route('get-list-resumo-avaliacoes-secretaria') }} 
                                     @endif
                                     ">Resumos</a>
                                 </li>

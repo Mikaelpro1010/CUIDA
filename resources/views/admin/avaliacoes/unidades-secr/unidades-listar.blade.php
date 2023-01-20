@@ -103,7 +103,7 @@
                         <i class="fa-xl fa-solid fa-magnifying-glass"></i>
                     </a>
                     <a class="btn text-warning"
-                        href="{{ route('resumo-avaliacoes-unidade', ['unidade' => $unidade, 'secretaria' => $unidade->secretaria_id]) }}">
+                        href="{{ route('get-resumo-avaliacoes-unidade', ['unidade' => $unidade, 'secretaria' => $unidade->secretaria_id]) }}">
                         <i class=" fa-xl fa-solid fa-chart-area"></i>
                     </a>
                 </td>

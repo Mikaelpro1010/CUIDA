@@ -6,7 +6,7 @@
 <h3 class="text-primary">Unidades da Secretaria - ({{ $unidades->total() }})</h3>
 <hr>
 
-<form class="" action="{{ route('resumo-avaliacoes-unidade-list') }}" method="GET">
+<form class="" action="{{ route('get-list-resumo-avaliacoes-unidade') }}" method="GET">
     <div class="m-0 p-0 row">
         <div class="col-md-3">
             <label for="pesquisa">Nome:</label>
@@ -69,7 +69,7 @@
                 <td class="text-end">{{number_format($unidade->nota, 2,",",'')}}</td>
                 <td class="text-end">{{ $unidade->getResumoFromCache()['qtd'] }}</td>
                 <td class="align-middle text-center">
-                    <a href="{{ route('resumo-avaliacoes-unidade', [$unidade->secretaria_id, $unidade]) }}">
+                    <a href="{{ route('get-resumo-avaliacoes-unidade', [$unidade->secretaria_id, $unidade]) }}">
                         <i class="fa-solid fa-magnifying-glass"></i>
                     </a>
                 </td>

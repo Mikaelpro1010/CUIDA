@@ -13,6 +13,22 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+// Route::prefix('avaliacoes')->namespace('Api\Avaliacoes')->group(
+//     function () {
+//         Route::get('/relatorios/secretaria/{secretaria}/avaliacoes/mes', 'RelatoriosAvaliacoesController@avaliacoesPorMesSecretaria')
+//             ->middleware('throttle:60,60')
+//             ->name('get-resumo-avaliacoes-secretaria-avaliacoes-mes');
+
+//         Route::get('/relatorios/unidade/{unidade}/notas-mes', 'RelatoriosAvaliacoesController@notasPorMesUnidade')
+//             ->middleware('throttle:60,60')
+//             ->name('get-resumo-avaliacoes-unidade-notas-mes');
+
+//         Route::get('/relatorios/unidade/{unidade}/avaliacoes-mes', 'RelatoriosAvaliacoesController@avaliacoesPorMesUnidade')
+//             ->middleware('throttle:60,60')
+//             ->name('get-resumo-avaliacoes-unidade-avaliacoes-mes');
+//     }
+// );
+
 // Route::middleware('api')->namespace('Api')->group(
 //     function () {
 //         //Api Ouvidoria
