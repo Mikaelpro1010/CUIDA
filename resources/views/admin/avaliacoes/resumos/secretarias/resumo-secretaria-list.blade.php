@@ -66,7 +66,7 @@
             </tr>
             @empty
             <tr>
-                <td class="text-center table-danger" colspan="4">
+                <td class="text-center table-danger" colspan="7">
                     Não existem Secretarias!
                 </td>
             </tr>
