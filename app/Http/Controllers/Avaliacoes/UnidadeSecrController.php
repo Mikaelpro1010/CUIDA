@@ -134,28 +134,49 @@ class UnidadeSecrController extends Controller
         return view('admin.avaliacoes.unidades-secr.unidades-visualizacao', compact('unidade', 'qrcode'));
     }
 
-    public function editUnidade(Unidade $unidade){
+    public function editUnidade(Unidade $unidade)
+    {
         $this->authorize(Permission::UNIDADE_SECRETARIA_EDIT);
-        return view('admin.avaliacoes.unidades-secr.unidades-editar', compact('unidade'));
+        $tipos_avaliacao = TipoAvaliacao::where('ativo', 1)->get();
+
+        return view('admin.avaliacoes.unidades-secr.unidades-editar', compact('unidade', 'tipos_avaliacao'));
     }
 
-    public function atualizarUnidade(Unidade $unidade, Request $request)
+    public function updateUnidade(Unidade $unidade, Request $request)
     {
         $this->authorize(Permission::UNIDADE_SECRETARIA_UPDATE);
 
         $request->validate([
             'nome' => 'required|string|max:255',
             'descricao' => 'nullable|string',
+            'tipos_avaliacao' => 'required|array',
         ]);
 
-        $unidade->nome = $request->nome;
-        $unidade->descricao = $request->descricao;
-        $unidade->ativo = true;
-        $unidade->save();
+        $tipos_avaliacao = TipoAvaliacao::where('ativo', true);
 
-        return redirect()
-            ->route('visualizar-unidade', compact('unidade'))
-            ->with(['success' => 'Unidade editada com Sucesso!']);
+        $tiposAvaliacao = [];
+        foreach ($request->tipos_avaliacao as $tipo) {
+            if (in_array($tipo, $tipos_avaliacao->pluck('id')->toArray())) {
+                $tiposAvaliacao[$tipo] = ['nota' => 0];
+            }
+        }
+        if (count($tiposAvaliacao) > 0) {
+            $unidade->nome = $request->nome;
+            $unidade->descricao = $request->descricao;
+            $unidade->ativo = true;
+            $unidade->save();
+
+            $unidade->tiposAvaliacao()->sync($tiposAvaliacao);
+
+            return redirect()
+                ->route('get-unidades-secr-view', compact('unidade'))
+                ->with(['success' => 'Unidade editada com Sucesso!']);
+        } else {
+            return redirect()
+                ->back()
+                ->withError(['tipos_avaliacao' => 'É preciso definir os tipos de avaliação!'])
+                ->withInput();
+        }
     }
 
     public function ativarDesativar(Unidade $unidade)
