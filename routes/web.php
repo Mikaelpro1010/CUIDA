@@ -250,7 +250,7 @@ Route::middleware(['auth:web'])->group(
             Route::get('/unidade/create', 'UnidadeSecrController@createUnidade')->name('get-create-unidade');
             Route::post('/unidade', 'UnidadeSecrController@storeUnidade')->name('post-store-unidade');
             Route::get('/unidade/{unidade}', 'UnidadeSecrController@visualizar')->name('get-unidades-secr-view');
-            Route::get('unidade/{unidade}/edit', 'UnidadeSecrController@editUnidade')->name('get-edit-unidade-view');
+            Route::get('/unidade/{unidade}/edit', 'UnidadeSecrController@editUnidade')->name('get-edit-unidade-view');
             Route::patch('/unidade/{unidade}/update', 'UnidadeSecrController@updateUnidade')->name('patch-update-unidade-secr');
             Route::get('/unidade/{unidade}/ativar', 'UnidadeSecrController@ativarDesativar')->name('get-ativar-unidade-secr');
             Route::get('/unidade/{unidade}/qr-code', 'UnidadeSecrController@gerarQrcode')->name('get-qrcode-unidade-secr');
