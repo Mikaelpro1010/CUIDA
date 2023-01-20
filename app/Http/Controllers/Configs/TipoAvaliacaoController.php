@@ -14,17 +14,17 @@ class TipoAvaliacaoController extends Controller
     {
         $this->authorize(Permission::GERENCIAR_ESTADOS_PROCESSO_LIST);
         $tipo_avaliacoes = TipoAvaliacao::query()
-            ->when(request()->pesquisa, function($query){
-                $query->where('nome', 'ilike', "%". request()->pesquisa."%");
-            })  
+            ->when(request()->pesquisa, function ($query) {
+                $query->where('nome', 'ilike', "%" . request()->pesquisa . "%");
+            })
             ->orderBy('ativo', 'desc')
             ->orderBy('updated_at', 'desc')
             ->paginate(10)
             ->appends(
-                ['pesquisa'=>request()->pesquisa]
+                ['pesquisa' => request()->pesquisa]
             );
 
-            return view('admin.config.tipos-avaliacao.tipo-avaliacoes-listar', compact('tipo_avaliacoes'));
+        return view('admin.config.tipos-avaliacao.tipo-avaliacoes-listar', compact('tipo_avaliacoes'));
     }
 
     public function createTipoAvaliacao()
@@ -36,31 +36,18 @@ class TipoAvaliacaoController extends Controller
     public function storeTipoAvaliacao(Request $request)
     {
         $this->authorize(Permission::GERENCIAR_TIPOS_AVALIACAO_CREATE);
-        $validator = Validator::make(
-            $request->only(['nome']),
-            [
-                'nome' => 'required|string|max:255',
-            ],
-            [
-                'nome.required' => 'É necessário inserir um nome!',
-                'max' => 'Quantidade de caracteres ultrapassada, o nome deve ter menos que 254 caracteres!',
-            ]
-        );
+        $request->validate([
+            'nome' => 'required|string|max:255',
+            'pergunta' => 'required|string'
+        ]);
 
-        if ($validator->fails()) {
-            return redirect()
-                ->back()
-                ->withErrors($validator)
-                ->withInput();
-        }
+        TipoAvaliacao::create([
+            'ativo' => true,
+            'nome' => $request->nome,
+            'pergunta' => $request->pergunta,
+        ]);
 
-        $tipo_avaliacao = new TipoAvaliacao();
-
-        $tipo_avaliacao->ativo = true;
-        $tipo_avaliacao->nome = $request->nome;
-        $tipo_avaliacao->save();
-
-        return redirect()->route('get-tipo-avaliacao-list')->with('success', 'Tipo de Avaliação cadastrada com sucesso!');
+        return redirect()->route('get-tipo-avaliacao-list')->with('success', 'Tipo de Avaliação cadastrado com sucesso!');
     }
 
     public function viewTipoAvaliacao($id)
@@ -81,12 +68,14 @@ class TipoAvaliacaoController extends Controller
         $this->authorize(Permission::GERENCIAR_TIPOS_AVALIACAO_EDIT);
         $request->validate([
             'nome' => 'required|string|max:255',
+            'pergunta' => 'required|string'
         ]);
 
         $tipoAvaliacao->nome = $request->nome;
+        $tipoAvaliacao->pergunta = $request->pergunta;
         $tipoAvaliacao->save();
 
-        return redirect()->route('get-tipo-avaliacao-list', $tipoAvaliacao->id)->with('success', 'Atualizado com sucesso!');
+        return redirect()->route('get-tipo-avaliacao-view', $tipoAvaliacao)->with('success', 'Atualizado com sucesso!');
     }
 
     public function deleteTipoAvaliacao(TipoAvaliacao  $tipoAvaliacao)
@@ -102,9 +91,9 @@ class TipoAvaliacaoController extends Controller
         $tipo_avaliacao->ativo = !$tipo_avaliacao->ativo;
         $tipo_avaliacao->save();
 
-        if($tipo_avaliacao->ativo){
+        if ($tipo_avaliacao->ativo) {
             return redirect()->route('get-tipo-avaliacao-list')->with('success', 'Tipo de avaliação ativada com sucesso!');
-        } else{
+        } else {
             return redirect()->route('get-tipo-avaliacao-list')->with('success', 'Tipo de avaliação desativada com sucesso!');
         }
     }

@@ -30,7 +30,7 @@ class Unidade extends Model
 
     public function tiposAvaliacao(): BelongsToMany
     {
-        return $this->belongsToMany(TipoAvaliacao::class);
+        return $this->belongsToMany(TipoAvaliacao::class)->withTrashed();
     }
 
     public function tiposAvaliacaoUnidade(): HasMany
