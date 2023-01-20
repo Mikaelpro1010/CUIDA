@@ -126,12 +126,14 @@ class UnidadeSecrController extends Controller
         }
     }
 
-    public function visualizar(Unidade $unidade)
+    public function visualizar($unidade)
     {
         $this->authorize(Permission::UNIDADE_SECRETARIA_VIEW);
-        // $qrcode = QrCode::size(200)->generate('http://10.0.49.0:9000/avaliacoes/' . $unidade->token . '/avaliar');
-        $qrcode = QrCode::size(200)->generate(route('get-view-avaliacao', $unidade->token));
-        return view('admin.avaliacoes.unidades-secr.unidades-visualizacao', compact('unidade', 'qrcode'));
+        $unidadeObj = Unidade::with('tiposAvaliacao')->find($unidade);
+        // $qrcode = QrCode::size(200)->generate('http://10.0.49.0:9000/avaliacoes/' . $unidadeObj->token . '/avaliar');
+        $qrcode = QrCode::size(200)->generate(route('get-view-avaliacao', $unidadeObj->token));
+        // dd($unidade, $unidadeObj);
+        return view('admin.avaliacoes.unidades-secr.unidades-visualizar', compact('unidadeObj', 'qrcode'));
     }
 
     public function editUnidade(Unidade $unidade)
