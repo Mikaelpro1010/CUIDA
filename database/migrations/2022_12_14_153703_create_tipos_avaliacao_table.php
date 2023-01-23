@@ -15,6 +15,8 @@ class CreateTiposAvaliacaoTable extends Migration
     {
         Schema::create('tipos_avaliacao', function (Blueprint $table) {
             $table->increments('id');
+            $table->integer('secretaria_id')->unsigned();
+            $table->foreign('secretaria_id')->references('id')->on('secretarias');
             $table->string('nome');
             $table->text('pergunta')->nullable();
             $table->boolean('obrigatorio')->nullable();
