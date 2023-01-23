@@ -39,14 +39,20 @@
                 <th>Secretaria</th>
                 <th>
                     @if (request()->unidades == 'desc')
-                    <a class="btn btn-outline-primary"
-                        href="{{route('get-list-resumo-avaliacoes-secretaria', ['unidades' => 'asc'])}}">
+                    <a class="btn btn-outline-primary" href="{{route('get-list-resumo-avaliacoes-secretaria', 
+                        [
+                            'unidades' => 'asc',
+                            'pesquisa' => request()->pesquisa,
+                            ])}}">
                         <i class="fa-solid fa-arrow-up-1-9"></i>
                         Unidades(qtd.)
                     </a>
                     @else
-                    <a class="btn btn-outline-primary"
-                        href="{{route('get-list-resumo-avaliacoes-secretaria', ['unidades' => 'desc'])}}">
+                    <a class="btn btn-outline-primary" href="{{route('get-list-resumo-avaliacoes-secretaria', 
+                        [
+                            'unidades' => 'desc',
+                            'pesquisa' => request()->pesquisa,
+                            ])}}">
                         <i class="fa-solid fa-arrow-down-9-1"></i>
                         Unidades(qtd.)
                     </a>
@@ -54,14 +60,20 @@
                 </th>
                 <th>
                     @if (request()->notas == 'desc')
-                    <a class="btn btn-outline-primary"
-                        href="{{route('get-list-resumo-avaliacoes-secretaria', ['notas' => 'asc'])}}">
+                    <a class="btn btn-outline-primary" href="{{route('get-list-resumo-avaliacoes-secretaria', 
+                        [
+                            'notas' => 'asc',
+                            'pesquisa' => request()->pesquisa,
+                            ])}}">
                         <i class="fa-solid fa-arrow-up-1-9"></i>
                         Nota
                     </a>
                     @else
-                    <a class="btn btn-outline-primary"
-                        href="{{route('get-list-resumo-avaliacoes-secretaria', ['notas' => 'desc'])}}">
+                    <a class="btn btn-outline-primary" href="{{route('get-list-resumo-avaliacoes-secretaria', 
+                        [
+                            'notas' => 'desc',
+                            'pesquisa' => request()->pesquisa,
+                            ])}}">
                         <i class="fa-solid fa-arrow-down-9-1"></i>
                         Nota
                     </a>
@@ -69,14 +81,20 @@
                 </th>
                 <th class="text-end">
                     @if (request()->avaliacoes == 'desc')
-                    <a class="btn btn-outline-primary"
-                        href="{{route('get-list-resumo-avaliacoes-secretaria', ['avaliacoes' => 'asc'])}}">
+                    <a class="btn btn-outline-primary" href="{{route('get-list-resumo-avaliacoes-secretaria', 
+                        [
+                            'avaliacoes' => 'asc',
+                            'pesquisa' => request()->pesquisa,
+                            ])}}">
                         <i class="fa-solid fa-arrow-up-1-9"></i>
                         Avaliações(qtd.)
                     </a>
                     @else
-                    <a class="btn btn-outline-primary"
-                        href="{{route('get-list-resumo-avaliacoes-secretaria', ['avaliacoes' => 'desc'])}}">
+                    <a class="btn btn-outline-primary" href="{{route('get-list-resumo-avaliacoes-secretaria', 
+                        [
+                            'avaliacoes' => 'desc',
+                            'pesquisa' => request()->pesquisa,
+                            ])}}">
                         <i class="fa-solid fa-arrow-down-9-1"></i>
                         Avaliações(qtd.)
                     </a>
