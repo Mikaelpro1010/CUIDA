@@ -32,14 +32,56 @@
 
 <div class="table-responsive">
     <table class="table table-sm table-striped align-middle">
-        <thead>
+        <thead class="align-middle">
             <tr>
                 <th>Ativo</th>
                 <th>Sigla</th>
                 <th>Secretaria</th>
-                <th>Unidades(qtd.)</th>
-                <th>Nota</th>
-                <th class="text-end">Avaliações(qtd.)</th>
+                <th>
+                    @if (request()->unidades == 'desc')
+                    <a class="btn btn-outline-primary"
+                        href="{{route('get-list-resumo-avaliacoes-secretaria', ['unidades' => 'asc'])}}">
+                        <i class="fa-solid fa-arrow-up-1-9"></i>
+                        Unidades(qtd.)
+                    </a>
+                    @else
+                    <a class="btn btn-outline-primary"
+                        href="{{route('get-list-resumo-avaliacoes-secretaria', ['unidades' => 'desc'])}}">
+                        <i class="fa-solid fa-arrow-down-9-1"></i>
+                        Unidades(qtd.)
+                    </a>
+                    @endif
+                </th>
+                <th>
+                    @if (request()->notas == 'desc')
+                    <a class="btn btn-outline-primary"
+                        href="{{route('get-list-resumo-avaliacoes-secretaria', ['notas' => 'asc'])}}">
+                        <i class="fa-solid fa-arrow-up-1-9"></i>
+                        Nota
+                    </a>
+                    @else
+                    <a class="btn btn-outline-primary"
+                        href="{{route('get-list-resumo-avaliacoes-secretaria', ['notas' => 'desc'])}}">
+                        <i class="fa-solid fa-arrow-down-9-1"></i>
+                        Nota
+                    </a>
+                    @endif
+                </th>
+                <th class="text-end">
+                    @if (request()->avaliacoes == 'desc')
+                    <a class="btn btn-outline-primary"
+                        href="{{route('get-list-resumo-avaliacoes-secretaria', ['avaliacoes' => 'asc'])}}">
+                        <i class="fa-solid fa-arrow-up-1-9"></i>
+                        Avaliações(qtd.)
+                    </a>
+                    @else
+                    <a class="btn btn-outline-primary"
+                        href="{{route('get-list-resumo-avaliacoes-secretaria', ['avaliacoes' => 'desc'])}}">
+                        <i class="fa-solid fa-arrow-down-9-1"></i>
+                        Avaliações(qtd.)
+                    </a>
+                    @endif
+                </th>
                 <th class="col-1">Visualizar</th>
             </tr>
         </thead>
@@ -55,9 +97,9 @@
                 </td>
                 <td>{{ $secretaria->sigla }}</td>
                 <td>{{ $secretaria->nome }}</td>
-                <td>{{ $secretaria->unidades->count() }}</td>
-                <td>{{ number_format($secretaria->nota, 2, ',', '') }}</td>
-                <td class="text-end">{{ $secretaria->getResumo()['qtd'] }}</td>
+                <td class="text-center">{{ $secretaria->unidades_count }}</td>
+                <td class="text-center">{{ number_format($secretaria->nota, 2, ',', '') }}</td>
+                <td class="text-center">{{ $secretaria->avaliacoes_count }}</td>
                 <td class="text-center">
                     <a href="{{route('get-resumo-avaliacoes-secretaria', $secretaria)}}">
                         <i class="fa-solid fa-magnifying-glass"></i>

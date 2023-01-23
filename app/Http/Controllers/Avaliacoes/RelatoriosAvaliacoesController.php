@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Avaliacoes;
 
 use App\Constants\Permission;
 use App\Http\Controllers\Controller;
+use App\Models\Avaliacao\Avaliacao;
 use App\Models\Avaliacao\Unidade;
 use App\Models\Secretaria;
 use Illuminate\Http\Response;
@@ -141,7 +142,38 @@ class RelatoriosAvaliacoesController extends Controller
             $secretarias = auth()->user()->secretarias();
         };
 
-        $secretarias = $secretarias->with('unidades')->orderBy('nome', 'asc')->paginate(15);
+        $secretarias = $secretarias->orderBy('ativo', 'desc')
+            ->withCount('unidades', 'avaliacoes')
+            ->when(
+                request()->unidades,
+                function ($query) {
+                    $query->orderBy('unidades_count', request()->unidades);
+                }
+            )
+            ->when(
+                request()->notas,
+                function ($query) {
+                    $query->orderBy('nota', request()->notas);
+                }
+            )
+            ->when(
+                request()->avaliacoes,
+                function ($query) {
+                    $query->orderBy('avaliacoes_count', request()->avaliacoes);
+                }
+            )
+            ->when(
+                !(request()->unidades || request()->notas || request()->avaliacoes),
+                function ($query) {
+                    $query->orderBy('nome', 'asc');
+                }
+            )
+            ->paginate(15)
+            ->appends([
+                'unidades' => request()->unidades,
+                'notas' => request()->notas,
+                'avaliacoes' => request()->avaliacoes,
+            ]);
 
         if ($secretarias->count() == 1) {
             return redirect()->route('get-resumo-avaliacoes-secretaria', $secretarias[0]);
@@ -305,7 +337,11 @@ class RelatoriosAvaliacoesController extends Controller
             )
             ->with('secretaria')
             ->orderBy('ativo', 'desc')
+
+
+
             ->orderBy('nota', 'desc')
+
             ->paginate(15)
             ->appends([
                 'pesquisa' => request()->pesquisa,
