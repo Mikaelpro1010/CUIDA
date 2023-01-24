@@ -337,7 +337,7 @@ class RelatoriosAvaliacoesController extends Controller
             )
             ->with('secretaria');
 
-            $unidades = $unidades->orderBy('ativo', 'desc')
+        $unidades = $unidades->orderBy('ativo', 'desc')
             ->withCount('avaliacoes')
             ->when(
                 request()->notas,
@@ -357,25 +357,18 @@ class RelatoriosAvaliacoesController extends Controller
                     $query->orderBy('nome', 'asc');
                 }
             )
-            ->orderBy('ativo', 'desc')
-            ->orderBy('nota', 'desc')
-            
-            // ->orderBy('ativo', 'desc')
-            // ->orderBy('nota', 'desc')
             ->paginate(15)
             ->appends([
                 'notas' => request()->notas,
                 'avaliacoes' => request()->avaliacoes,
-                // 'situacao' => request()->situacao,
+                'pesquisa' => request()->pesquisa,
+                'secretaria' => request()->secretaria_pesq,
             ]);
-            // ->appends([
-                //     'pesquisa' => request()->pesquisa,
-                //     'secretaria' => request()->secretaria_pesq,
-                // ]);
+
         if ($unidades->count() == 1) {
-            return redirect()->route('get-resumo-avaliacoes-unidade', $unidades[0]);
+            return redirect()->route('get-resumo-avaliacoes-unidade', [$unidades[0]->secretaria_id, $unidades[0]]);
         }
-                
+
         $dataToView = compact(
             'secretariasSearchSelect',
             'unidades'
