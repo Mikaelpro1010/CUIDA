@@ -20,6 +20,7 @@ class CreateTiposAvaliacaoTable extends Migration
             $table->string('nome');
             $table->text('pergunta')->nullable();
             $table->boolean('obrigatorio')->nullable();
+            $table->boolean('default')->nullable();
             $table->boolean('ativo');
             $table->timestamps();
             $table->softDeletes();
