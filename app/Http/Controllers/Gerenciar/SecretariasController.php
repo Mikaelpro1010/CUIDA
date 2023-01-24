@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Gerenciar;
 
+use App\Constants\Permission;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Secretaria;
@@ -10,6 +11,7 @@ class SecretariasController extends Controller
 {
     public function listSecretarias()
     {
+        $this->authorize(Permission::GERENCIAR_SECRETARIAS_LIST);
         $secretarias = Secretaria::query()
             ->when(request()->pesquisa, function ($query) {
                 $query->where('nome', 'ilike', "%" . request()->pesquisa . "%")
@@ -27,16 +29,20 @@ class SecretariasController extends Controller
 
     public function viewSecretaria(Secretaria $secretaria)
     {
+        $this->authorize(Permission::GERENCIAR_SECRETARIAS_VIEW);
+
         return view('admin.gerenciar.secretarias.secretaria-visualizar', compact('secretaria'));
     }
 
     public function createSecretaria()
     {
+        $this->authorize(Permission::GERENCIAR_SECRETARIAS_CREATE);
         return view('admin.gerenciar.secretarias.secretaria-criar');
     }
 
     public function storeSecretaria(Request $request)
     {
+        $this->authorize(Permission::GERENCIAR_SECRETARIAS_CREATE);
         $request->validate([
             'sigla' => 'required|string|max:255',
             'nome' => 'required|string|max:255',
@@ -53,11 +59,13 @@ class SecretariasController extends Controller
 
     public function editSecretaria(Secretaria $secretaria)
     {
+        $this->authorize(Permission::GERENCIAR_SECRETARIAS_EDIT);
         return view('admin.gerenciar.secretarias.secretaria-editar', compact('secretaria'));
     }
 
     public function updateSecretaria(Request $request, Secretaria $secretaria)
     {
+        $this->authorize(Permission::GERENCIAR_SECRETARIAS_EDIT);
         $request->validate([
             'sigla' => 'required|string|max:255',
             'nome' => 'required|string|max:255',
@@ -73,6 +81,7 @@ class SecretariasController extends Controller
 
     public function toggleSecretariaStatus(Secretaria $secretaria)
     {
+        $this->authorize(Permission::GERENCIAR_SECRETARIAS_ACTIVE_TOGGLE);
         $secretaria->ativo = !$secretaria->ativo;
         $secretaria->save();
 
