@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\Avaliacao\Avaliacao;
+use App\Models\Avaliacao\TipoAvaliacao;
 use App\Models\Avaliacao\Unidade;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -34,6 +35,12 @@ class Secretaria extends Model
     {
         return $this->hasManyThrough(Avaliacao::class, Unidade::class, 'secretaria_id', 'unidade_secr_id');
     }
+
+    public function tiposAvaliacao(): HasMany
+    {
+        return $this->hasMany(TipoAvaliacao::class);
+    }
+
 
     public static function getResumoSecretariaId($id): array
     {

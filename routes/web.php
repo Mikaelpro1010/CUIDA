@@ -193,6 +193,7 @@ Route::middleware(['auth:web'])->group(
                 Route::patch('tipo-avaliacao/{tipoAvaliacao}', 'TipoAvaliacaoController@updateTipoavaliacao')->name('patch-update-tipo-avaliacao');
                 Route::delete('tipo-avaliacao/{tipoAvaliacao}', 'TipoAvaliacaoController@deleteTipoavaliacao')->name('delete-delete-tipo-avaliacao');
                 Route::get('tipo-avaliacao/{tipoAvaliacao}/toggle', 'TipoAvaliacaoController@toggleTipoavaliacaoStatus')->name("get-toggle-tipo-avaliacao-status");
+                Route::get('tipo-avaliacao/{secretariaId}/secretaria', 'TipoAvaliacaoController@getTiposAvaliacaoSecretaria')->name("get-tipo-avaliacao-secretaria");
             }
         );
 

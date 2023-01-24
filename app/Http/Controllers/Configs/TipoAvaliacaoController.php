@@ -6,6 +6,7 @@ use App\Constants\Permission;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Avaliacao\TipoAvaliacao;
+use App\Models\Secretaria;
 use Illuminate\Support\Facades\Validator;
 
 class TipoAvaliacaoController extends Controller
@@ -95,6 +96,33 @@ class TipoAvaliacaoController extends Controller
             return redirect()->route('get-tipo-avaliacao-list')->with('success', 'Tipo de avaliação ativada com sucesso!');
         } else {
             return redirect()->route('get-tipo-avaliacao-list')->with('success', 'Tipo de avaliação desativada com sucesso!');
+        }
+    }
+
+    public function getTiposAvaliacaoSecretaria($secretariaId)
+    {
+        $secretaria = Secretaria::find($secretariaId);
+
+        if (!is_null($secretaria)) {
+            $tiposAvaliacao = $secretaria->tiposAvaliacao()
+                ->select(['id', 'nome', 'default'])
+                ->where('ativo', true)
+                ->get();
+
+            return response()->json(
+                [
+                    'status' => true,
+                    'data' => $tiposAvaliacao,
+                    'message' => 'Sucesso!'
+                ]
+            );
+        } else {
+            return response()->json(
+                [
+                    'status' => false,
+                    'message' => 'não foi possível encontrar a secretaria!'
+                ]
+            );
         }
     }
 }
