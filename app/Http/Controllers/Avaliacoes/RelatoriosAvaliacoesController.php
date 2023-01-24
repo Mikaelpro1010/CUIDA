@@ -335,18 +335,39 @@ class RelatoriosAvaliacoesController extends Controller
                     $query->whereIn('secretaria_id', $secretariasSearchSelect->pluck('id'));
                 }
             )
-            ->with('secretaria')
-            ->orderBy('ativo', 'desc')
+            ->with('secretaria');
 
-
-
-            ->orderBy('nota', 'desc')
-
+        $unidades = $unidades->orderBy('ativo', 'desc')
+            ->withCount('avaliacoes')
+            ->when(
+                request()->notas,
+                function ($query) {
+                    $query->orderBy('nota', request()->notas);
+                }
+            )
+            ->when(
+                request()->avaliacoes,
+                function ($query) {
+                    $query->orderBy('avaliacoes_count', request()->avaliacoes);
+                }
+            )
+            ->when(
+                !(request()->notas || request()->avaliacoes),
+                function ($query) {
+                    $query->orderBy('nome', 'asc');
+                }
+            )
             ->paginate(15)
             ->appends([
+                'notas' => request()->notas,
+                'avaliacoes' => request()->avaliacoes,
                 'pesquisa' => request()->pesquisa,
                 'secretaria' => request()->secretaria_pesq,
             ]);
+
+        if ($unidades->count() == 1) {
+            return redirect()->route('get-resumo-avaliacoes-unidade', [$unidades[0]->secretaria_id, $unidades[0]]);
+        }
 
         $dataToView = compact(
             'secretariasSearchSelect',
