@@ -156,7 +156,7 @@ class Permission
         self::GERENCIAR_PERFIL_SENHA_VIEW,
         self::GERENCIAR_PERFIL_SENHA_EDIT,
     ];
-    
+
     public const GERENCIAR_TIPOS_AVALIACAO_LIST = 'Listar Tipos de Avaliação';
     public const GERENCIAR_TIPOS_AVALIACAO_VIEW = 'Visualizar Tipos de Avaliação';
     public const GERENCIAR_TIPOS_AVALIACAO_CREATE = 'Criar Tipos de Avaliação';
@@ -207,17 +207,22 @@ class Permission
 
     // SuperAdmin
     public const PERMISSIONS = [
+        //Gerenciar
         'Gerenciamento de Usuários' => self::GERENCIAR_USUARIOS,
         'Gerenciamento de Secretarias' => self::GERENCIAR_SECRETARIAS,
+        //Configuraçoes
         'Configuração de Tipos de Usuário' => self::GERENCIAR_TIPOS_USUARIOS,
         'Configuração de Tipos de Manifestação' => self::GERENCIAR_TIPOS_MANIFESTACAO,
         'Configuração de Estados do Processo' => self::GERENCIAR_ESTADOS_PROCESSO,
         'Configuração de Motivações' => self::GERENCIAR_MOTIVACOES,
         'Configuração de Situações' => self::GERENCIAR_SITUACOES,
         'Configuração de FAQs' => self::GERENCIAR_FAQS,
-        'Gerenciar Perfil de Usário' => self::GERENCIAR_PERFIL,
         'Configuração de Tipos de Avaliação' => self::GERENCIAR_TIPOS_AVALIACAO,
+        //perfil
+        'Gerenciar Perfil de Usuário' => self::GERENCIAR_PERFIL,
+        //Manifestaçoes
         'Manifestações' => self::MANIFESTACOES,
+        //avaliacao
         'Modulo Avaliação' => self::UNIDADE_SECRETARIA,
         'Relatórios Modulo Avaliação' => self::RELATORIO_AVALIACOES,
     ];
