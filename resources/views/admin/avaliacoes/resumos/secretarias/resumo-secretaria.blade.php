@@ -5,6 +5,9 @@
 
 <h3 class="text-primary">
     {{ $secretaria->nome }} - {{ $secretaria->sigla }}
+    @if (!$secretaria->ativo)
+        <span class="text-danger"> (Inativo)</span>
+    @endif
 </h3>
 <hr>
 
