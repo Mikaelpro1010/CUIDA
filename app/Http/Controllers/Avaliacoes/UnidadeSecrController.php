@@ -75,8 +75,6 @@ class UnidadeSecrController extends Controller
 
         $secretarias = $secretarias->with('unidades')->orderBy('nome', 'asc')->get();
 
-        $tipos_avaliacao = TipoAvaliacao::where('ativo', 1)->get();
-
         return view('admin.avaliacoes.unidades-secr.unidades-criar', compact('tipos_avaliacao', 'secretarias'));
     }
 
@@ -139,7 +137,7 @@ class UnidadeSecrController extends Controller
     public function editUnidade(Unidade $unidade)
     {
         $this->authorize(Permission::UNIDADE_SECRETARIA_EDIT);
-        $tipos_avaliacao = TipoAvaliacao::where('ativo', 1)->get();
+        $tipos_avaliacao = $unidade->secretaria->tiposAvaliacao()->where('ativo', true)->get();
 
         return view('admin.avaliacoes.unidades-secr.unidades-editar', compact('unidade', 'tipos_avaliacao'));
     }

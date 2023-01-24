@@ -17,7 +17,8 @@
         </div>
         <div class="col-md-6">
             <label for="" class="form-label mb-1 mt-3 fw-bold">Secretaria:</label>
-            <select class="form-select form-select" aria-label=".form-select-sm example" name="secretaria">
+            <select id="secretaria" class="form-select form-select" aria-label=".form-select-sm example"
+                name="secretaria">
                 <option value="">Selecione</option>
                 @foreach ($secretarias as $secretaria)
                 <option value="{{ $secretaria->id }}">
@@ -36,25 +37,18 @@
     </form>
 </div>
 
-<div class="text-primary mt-3">
-    <h3>
+<div id="avaliacoes" class="mt-3 d-none">
+    <h3 class="text-primary">
         Tipos de Avaliação
     </h3>
     <hr>
-</div>
 
-<div class="row">
-    <div class="col-md-8">
-        <label class="fw-bold" for="">Tipos de avaliação:</label>
-        <select id="tipos_avaliacao_select" class="form-select">
-            <option value="">Selecione</option>
-            @foreach ($tipos_avaliacao as $tipo_avaliacao)
-            <option name="tipos_avaliacao" value="{{ $tipo_avaliacao->id }}"
-                @if(old('tipo_avaliacao')==$tipo_avaliacao->id) selected @endif>
-                {{ $tipo_avaliacao->nome }}
-            </option>
-            @endforeach
-        </select>
+    <div class="row">
+        <div class="col-md-8">
+            <label class="fw-bold" for="">Tipos de avaliação:</label>
+            <select id="tipos_avaliacao_select" class="form-select">
+            </select>
+        </div>
     </div>
 </div>
 
@@ -84,24 +78,27 @@
 
 @push('scripts')
 <script nonce="{{ app('csp-nonce') }}">
+    function insertItemList(position, text){
+        $('#tipos_avaliacao').append(`
+        <input class="tipos_avaliacao_` + position + `" type="hidden" name="tipos_avaliacao[]"
+            value="` + position + `">
+        `);
+        $("#tipos_avaliacao_list").append(`
+        <li id="list_` + position + `" class="list-group-item d-flex justify-content-between">
+            <div class="d-flex align-items-center">` +
+                text + `
+            </div>
+            <button class="deleteTipoAvaliacao btn" data-id="` + position + `">
+                <i class="fa-lg text-danger fa-solid fa-trash"></i>
+            </button>
+        </li>
+        `);
+        $("#tipos_avaliacao_list").removeClass('d-none');
+    }
+
     $("#tipos_avaliacao_select").change(function() {
         if ($('.tipos_avaliacao_' + $("#tipos_avaliacao_select").val()).length == 0) {
-            $('#tipos_avaliacao').append(`
-            <input class="tipos_avaliacao_` + $("#tipos_avaliacao_select").val() +
-                `" type="hidden" name="tipos_avaliacao[]" value="` + $("#tipos_avaliacao_select").val() + `">
-        `);
-            $("#tipos_avaliacao_list").append(`
-            <li id="list_` + $("#tipos_avaliacao_select").val() +
-                `" class="list-group-item d-flex justify-content-between">
-                <div class="d-flex align-items-center">` + 
-                    $("#tipos_avaliacao_select option:selected").text() + `
-                </div>
-                <button class="deleteTipoAvaliacao btn" data-id="` + $("#tipos_avaliacao_select").val() + `">
-                    <i class="fa-lg text-danger fa-solid fa-trash"></i>
-                </button>
-            </li>
-        `);
-            $("#tipos_avaliacao_list").removeClass('d-none');
+            insertItemList($("#tipos_avaliacao_select").val(), $("#tipos_avaliacao_select option:selected").text());
         }
         $("#tipos_avaliacao_select").val('');
     });
@@ -113,6 +110,29 @@
 
     $('#btnCriar').click(function(){
         $('#cadastrar_unidade').submit();
+    });
+
+    $('#secretaria').change(function(){
+        let url = "{{ route('get-tipo-avaliacao-secretaria', 'secretariaId') }}";
+        url = url.replace('secretariaId', $('#secretaria').val());
+        $.ajax({
+            url: url,
+            success: function(response) {
+                $("#tipos_avaliacao_select").empty();
+                $("#tipos_avaliacao_list").empty();
+                $("#tipos_avaliacao").empty();
+                $("#tipos_avaliacao_select").append(`<option value="">Selecione</option>`);
+                response.data.forEach(function(tipo){
+                    $("#tipos_avaliacao_select").append(`
+                        <option value="` + tipo.id + `">` + tipo.nome + `</option>
+                    `);
+                    if(tipo.default){
+                        insertItemList(tipo.id, tipo.nome);
+                    }
+                });
+                $('#avaliacoes').removeClass('d-none');
+            }
+        });
     });
 
 </script>
