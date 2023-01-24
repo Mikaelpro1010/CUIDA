@@ -1,4 +1,4 @@
-@extends('admin.avaliacoes.template.avaliacao')
+@extends('admin.avaliacoes.resumos.template.avaliacao')
 
 @section('titulo', 'Resumo por Secretaria')
 @section('content')
