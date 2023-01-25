@@ -8,7 +8,7 @@
 
     <title>@yield('titulo', 'EscutaSol')</title>
 
-    <link rel="stylesheet" href="{{ asset('css/styles.css') }}" nonce="{{ csp_nonce()}}">
+    <link rel="stylesheet" href="{{ asset('css/styles.css') }}" nonce="{{ csp_nonce() }}">
 </head>
 
 <body class="bg-light">
@@ -29,6 +29,12 @@
                 </button>
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav me-auto pb-2 pb-lg-0">
+                        <li class="nav-item">
+                            <a class="nav-link text-white @if (Route::is('pagina-inicial')) border-bottom border-3 border-light @endif"
+                                href="{{ route('pagina-inicial') }}">
+                                Pagina Inicial
+                            </a>
+                        </li>
                         <li class="nav-item">
                             <a class="nav-link text-white @if (Route::is('politicas')) border-bottom border-3 border-light @endif"
                                 href="{{ route('politicas') }}">

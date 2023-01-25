@@ -4,13 +4,28 @@
 
 @section('content')
 <div class="d-flex justify-content-between">
-    <h3 class="text-primary">{{$unidade->nome}} - {{ $unidade->secretaria->sigla }}</h3>
-
-    @can(permissionConstant()::UNIDADE_SECRETARIA_UPDATE)
-    <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#novaUnidadeModal">
-        <i class="fa-solid fa-pen-to-square"></i>
-        Editar Unidade
-    </button>
+    <div>
+        <h1 class="text-primary">
+            {{ $unidadeObj->nome }}
+            @if(!$unidadeObj->ativo)
+                <span class="text-danger"> (Inativo)</span>
+            @endif
+        </h1>
+        <h5 class="text-secondary">
+            {{$unidadeObj->secretaria->nome}} - {{$unidadeObj->secretaria->sigla}}
+            @if(!$unidadeObj->secretaria->ativo)
+                <span class="text-danger"> (Inativo)</span>
+            @endif
+        </h5>
+    </div>
+    <hr>
+    @can(permissionConstant()::UNIDADE_SECRETARIA_EDIT)
+    <div class="d-flex align-items-center">
+        <a href="{{ route('get-edit-unidade-view', ['id' => $unidadeObj->id]) }}" class="btn btn-warning">
+            <i class="fa-solid fa-pen-to-square"></i>
+            Editar Unidade
+        </a>
+    </div>
     @endcan
 </div>
 <hr>
@@ -19,32 +34,36 @@
     <div class="col-md-8">
         <b>Nome:</b>
         <p class="border-2 border-bottom border-warning">
-            {{$unidade->nome }}
+            {{ $unidadeObj->nome }}
         </p>
     </div>
 
     <div class="col-md-4">
         <b>Emitir QRcode:</b>
         <p class="border-2 border-bottom border-warning">
-            <a href="{{ route('gerar-qrcode-unidade', $unidade) }}" target="_blank">
-                Abrir
-                <i class="fa-solid fa-arrow-up-right-from-square"></i>
-            </a>
+            @if(!$unidadeObj->secretaria->ativo || !$unidadeObj->ativo)
+                <span class="text-danger"> (Inativo)</span>
+            @else
+                <a href="{{ route('get-qrcode-unidade-secr', $unidadeObj) }}" target="_blank">
+                    Abrir
+                    <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                </a>
+            @endif
         </p>
     </div>
 
     <div class="col-md-8">
         <b>Secretaria:</b>
         <p class="border-2 border-bottom border-warning">
-            {{$unidade->secretaria->sigla }} -
-            {{$unidade->secretaria->nome }}
+            {{ $unidadeObj->secretaria->sigla }} -
+            {{ $unidadeObj->secretaria->nome }}
         </p>
     </div>
     <div class="col-md-4">
         <b>Situação:</b>
         <p class="border-2 border-bottom border-warning">
-            {{ $unidade->ativo ? 'Ativo' : 'Inativo' }}
-            @if ($unidade->ativo)
+            {{ $unidadeObj->ativo ? 'Ativo' : 'Inativo' }}
+            @if ($unidadeObj->ativo)
             <i class="text-success fa-solid fa-circle-check"></i>
             @else
             <i class="text-danger fa-solid fa-circle-xmark"></i>
@@ -52,11 +71,11 @@
         </p>
     </div>
 </div>
-@if(!is_null($unidade->descricao))
+@if (!is_null($unidadeObj->descricao))
 <div class="col-md-12">
     <b>Descrição:</b>
     <p class="border-2 border border-warning p-2">
-        {{ $unidade->descricao }}
+        {{ $unidadeObj->descricao }}
     </p>
 </div>
 @endif
@@ -65,26 +84,41 @@
     <div class="col-md-4">
         <b>Data de Criação:</b>
         <p class="border-2 border-bottom border-warning">
-            {{ formatarDataHora($unidade->created_at) }}
+            {{ formatarDataHora($unidadeObj->created_at) }}
         </p>
     </div>
     <div class="col-md-4">
         <b>Ultima Atualização:</b>
         <p class="border-2 border-bottom border-warning">
-            {{ formatarDataHora($unidade->updated_at) }}
+            {{ formatarDataHora($unidadeObj->updated_at) }}
         </p>
     </div>
 </div>
 
-<div class="d-flex justify-content-center">
-    <a class="btn btn-warning" href="{{ route('unidades-secr-list') }}">
+<div class="text-primary mt-3">
+    <h4>
+        Tipos de Avaliação
+    </h4>
+    <hr>
+</div>
+
+<ul class="list-group col-md-6">
+    @foreach ($unidadeObj->tiposAvaliacao as $tipo)
+    <li class="list-group-item border border-2 border-warning">
+        {{ $tipo->nome }}
+    </li>
+    @endforeach
+</ul>
+
+<div class="d-flex justify-content-center mt-3">
+    <a class="btn btn-warning" href="{{ route('get-unidades-secr-list') }}">
         <i class="fa-solid fa-chevron-left"></i>
         Voltar
     </a>
 </div>
 
 
-@can(permissionConstant()::UNIDADE_SECRETARIA_UPDATE)
+@can(permissionConstant()::UNIDADE_SECRETARIA_EDIT)
 <!-- Modal -->
 <div class="modal fade" id="novaUnidadeModal" tabindex="-1" aria-labelledby="novaUnidadeTitle" aria-hidden="true">
     <div class="modal-dialog">
@@ -93,18 +127,18 @@
                 <h5 class="modal-title" id="novaUnidadeTitle">Editar</h5>
                 <button type="button" class="btn-close btnFecharModal"></button>
             </div>
-            <form action="{{ route('atualizar-unidade', $unidade) }}" method="POST">
+            <form action="{{ route('patch-update-unidade-secr', $unidadeObj) }}" method="POST">
                 {{ method_field('PUT') }}
                 {{ csrf_field() }}
                 <div class="modal-body">
                     <div>
                         <label class="form-label" for="nome">Nome:</label>
-                        <input class="form-control" type="text" name="nome" id="nome" value="{{ $unidade->nome }}">
+                        <input class="form-control" type="text" name="nome" id="nome" value="{{ $unidadeObj->nome }}">
                     </div>
                     <div>
                         <label class="form-label" for="nome">Descrição</label>
                         <textarea class="form-control" name="descricao" rows="6"
-                            id="descricao">{{$unidade->descricao}}</textarea>
+                            id="descricao">{{ $unidadeObj->descricao }}</textarea>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -125,13 +159,13 @@
 
 @push('scripts')
 <script nonce="{{ app('csp-nonce') }}">
-    let nome = '{{$unidade->nome}}';
-    let descricao  = '{{$unidade->descricao}}';
+    let nome = '{{ $unidadeObj->nome }}';
+        let descricao = '{{ $unidadeObj->descricao }}';
 
-    $('.btnFecharModal').click(function (){
-        $('#novaUnidadeModal').modal('hide');
-        $('#nome').val(nome);
-        $('#descricao').val(descricao);
-    });
+        $('.btnFecharModal').click(function() {
+            $('#novaUnidadeModal').modal('hide');
+            $('#nome').val(nome);
+            $('#descricao').val(descricao);
+        });
 </script>
 @endpush

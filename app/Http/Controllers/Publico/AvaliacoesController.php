@@ -12,7 +12,7 @@ class AvaliacoesController extends Controller
 
     public function viewAvaliacao($token)
     {
-        $unidade = Unidade::where('token', $token)->first();
+        $unidade = Unidade::where('token', $token)->with('tiposAvaliacao')->first();
 
         if (is_null($unidade)) {
             return redirect()->route('home');
@@ -26,20 +26,26 @@ class AvaliacoesController extends Controller
         $request->validate([
             'avaliacao' => 'required|integer|max:10|min:1',
             'comentario' => 'nullable|string',
+            'tipo' => 'required|integer'
         ]);
 
         $unidade = Unidade::where('token', $token)->first();
 
-        if (is_null($unidade)) {
-            return redirect()->back()->withErrors(['unidade' => 'Unidade não encontrada!']);
+        if (is_null($unidade) || $unidade->tiposAvaliacao->search($request->tipo)) {
+            return response()->json([
+                'status' => false,
+            ]);
         }
 
         $avaliacao = Avaliacao::create([
             'nota'  => $request->avaliacao,
             'comentario'  => $request->comentario,
             'unidade_secr_id'  => $unidade->id,
+            'tipos_avaliacao_id'  => $request->tipo,
         ]);
 
-        return redirect()->route('agradecimento-avaliacao')->with(["success" => 'Avaliação cadastrada com sucesso!']);
+        return response()->json([
+            'status' => true,
+        ]);
     }
 }

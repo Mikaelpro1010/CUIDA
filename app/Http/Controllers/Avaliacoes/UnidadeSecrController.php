@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Avaliacoes;
 use App\Constants\Permission;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\Avaliacao\TipoAvaliacao;
 use App\Models\Avaliacao\Unidade;
 use App\Models\Secretaria;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
@@ -56,22 +57,31 @@ class UnidadeSecrController extends Controller
             $secretariasSearchSelect = auth()->user()->secretarias()->orderBy('nome', 'asc')->get();
         }
 
-        if (auth()->user()->can(Permission::UNIDADE_SECRETARIA_CREATE_ANY)) {
-            $secretariasCreateSelect = Secretaria::query()->orderBy('nome', 'asc')->get();
-        } else {
-            $secretariasCreateSelect = auth()->user()->secretarias()->orderBy('nome', 'asc')->get();
-        }
-        return view('admin.avaliacoes.unidades-secr.unidades-listagem', compact('unidades', 'secretariasSearchSelect', 'secretariasCreateSelect'));
+        return view('admin.avaliacoes.unidades-secr.unidades-listar', compact('unidades', 'secretariasSearchSelect'));
     }
 
-    public function novaUnidade(Request $request)
+    public function createUnidade()
+    {
+        if (auth()->user()->can(Permission::UNIDADE_SECRETARIA_CREATE_ANY)) {
+            $secretarias = Secretaria::query();
+        } else {
+            $secretarias = auth()->user()->secretarias();
+        };
+
+        $secretarias = $secretarias->with('unidades')->orderBy('nome', 'asc')->get();
+
+        return view('admin.avaliacoes.unidades-secr.unidades-criar', compact('tipos_avaliacao', 'secretarias'));
+    }
+
+    public function storeUnidade(Request $request)
     {
         $this->authorize(Permission::UNIDADE_SECRETARIA_CREATE);
 
         $request->validate([
             'nome' => 'required|string|max:255',
             'descricao' => 'nullable|string',
-            'secretaria' => 'required|int'
+            'secretaria' => 'required|int',
+            'tipos_avaliacao' => 'required|array',
         ]);
 
         if (
@@ -81,44 +91,86 @@ class UnidadeSecrController extends Controller
         ) {
             return redirect()->back()->withErrors(['secretaria' => 'Não foi possível identificar a Secretaria!'])->withInput();
         }
+        $tipos_avaliacao = TipoAvaliacao::where('ativo', true);
 
-        Unidade::query()->create([
-            'nome' => $request->nome,
-            'descricao' => $request->descricao,
-            'secretaria_id' => $request->secretaria,
-            'nota' => 0,
-            'ativo' => true,
-            'token' => substr(bin2hex(random_bytes(50)), 1),
-        ]);
+        $tiposAvaliacao = [];
+        foreach ($request->tipos_avaliacao as $tipo) {
+            if (in_array($tipo, $tipos_avaliacao->pluck('id')->toArray())) {
+                $tiposAvaliacao[$tipo] = ['nota' => 0];
+            }
+        }
+        if (count($tiposAvaliacao) > 0) {
 
-        return redirect()->route('unidades-secr-list')->with(['success' => 'Unidade Cadastrada com Sucesso!']);
+            $unidade = Unidade::query()->create([
+                'nome' => $request->nome,
+                'descricao' => $request->descricao,
+                'secretaria_id' => $request->secretaria,
+                'nota' => 0,
+                'ativo' => true,
+                'token' => substr(bin2hex(random_bytes(50)), 1),
+            ]);
+
+            $unidade->tiposAvaliacao()->sync($tiposAvaliacao);
+
+            return redirect()->route('get-unidades-secr-list')->with(['success' => 'Unidade Cadastrada com Sucesso!']);
+        } else {
+            return redirect()->back()->withError(['tipos_avaliacao' => 'É preciso definir os tipos de avaliação!'])->withInput();
+        }
     }
 
-    public function visualizar(Unidade $unidade)
+    public function visualizar($unidade)
     {
         $this->authorize(Permission::UNIDADE_SECRETARIA_VIEW);
-        // $qrcode = QrCode::size(200)->generate('http://10.0.49.0:9000/avaliacoes/' . $unidade->token . '/avaliar');
-        $qrcode = QrCode::size(200)->generate(route('get-view-avaliacao', $unidade->token));
-        return view('admin.avaliacoes.unidades-secr.unidades-visualizacao', compact('unidade', 'qrcode'));
+        $unidadeObj = Unidade::with('tiposAvaliacao')->find($unidade);
+        // $qrcode = QrCode::size(200)->generate('http://10.0.49.0:9000/avaliacoes/' . $unidadeObj->token . '/avaliar');
+        $qrcode = QrCode::size(200)->generate(route('get-view-avaliacao', $unidadeObj->token));
+        // dd($unidade, $unidadeObj);
+        return view('admin.avaliacoes.unidades-secr.unidades-visualizar', compact('unidadeObj', 'qrcode'));
     }
 
-    public function atualizarUnidade(Unidade $unidade, Request $request)
+    public function editUnidade(Unidade $unidade)
+    {
+        $this->authorize(Permission::UNIDADE_SECRETARIA_EDIT);
+        $tipos_avaliacao = $unidade->secretaria->tiposAvaliacao()->where('ativo', true)->get();
+
+        return view('admin.avaliacoes.unidades-secr.unidades-editar', compact('unidade', 'tipos_avaliacao'));
+    }
+
+    public function updateUnidade(Unidade $unidade, Request $request)
     {
         $this->authorize(Permission::UNIDADE_SECRETARIA_UPDATE);
 
         $request->validate([
             'nome' => 'required|string|max:255',
             'descricao' => 'nullable|string',
+            'tipos_avaliacao' => 'required|array',
         ]);
 
-        $unidade->nome = $request->nome;
-        $unidade->descricao = $request->descricao;
-        $unidade->ativo = true;
-        $unidade->save();
+        $tipos_avaliacao = TipoAvaliacao::where('ativo', true);
 
-        return redirect()
-            ->route('visualizar-unidade', compact('unidade'))
-            ->with(['success' => 'Unidade editada com Sucesso!']);
+        $tiposAvaliacao = [];
+        foreach ($request->tipos_avaliacao as $tipo) {
+            if (in_array($tipo, $tipos_avaliacao->pluck('id')->toArray())) {
+                $tiposAvaliacao[$tipo] = ['nota' => 0];
+            }
+        }
+        if (count($tiposAvaliacao) > 0) {
+            $unidade->nome = $request->nome;
+            $unidade->descricao = $request->descricao;
+            $unidade->ativo = true;
+            $unidade->save();
+
+            $unidade->tiposAvaliacao()->sync($tiposAvaliacao);
+
+            return redirect()
+                ->route('get-unidades-secr-view', compact('unidade'))
+                ->with(['success' => 'Unidade editada com Sucesso!']);
+        } else {
+            return redirect()
+                ->back()
+                ->withError(['tipos_avaliacao' => 'É preciso definir os tipos de avaliação!'])
+                ->withInput();
+        }
     }
 
     public function ativarDesativar(Unidade $unidade)
@@ -127,7 +179,7 @@ class UnidadeSecrController extends Controller
         $unidade->ativo = !$unidade->ativo;
         $unidade->save();
 
-        return redirect()->route('unidades-secr-list');
+        return redirect()->route('get-unidades-secr-list');
     }
 
     public function gerarQrcode(Unidade $unidade)

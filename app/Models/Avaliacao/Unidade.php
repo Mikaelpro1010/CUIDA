@@ -5,7 +5,9 @@ namespace App\Models\Avaliacao;
 use App\Models\Secretaria;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Support\Facades\Cache;
 
 /**
@@ -24,6 +26,16 @@ class Unidade extends Model
     public function avaliacoes(): HasMany
     {
         return $this->hasMany(Avaliacao::class, 'unidade_secr_id', 'id');
+    }
+
+    public function tiposAvaliacao(): BelongsToMany
+    {
+        return $this->belongsToMany(TipoAvaliacao::class)->withTrashed();
+    }
+
+    public function tiposAvaliacaoUnidade(): HasMany
+    {
+        return $this->hasMany(TipoAvaliacaoUnidade::class);
     }
 
     public static function getResumoUnidadeId($id): array

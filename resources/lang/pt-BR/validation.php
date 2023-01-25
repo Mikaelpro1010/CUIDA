@@ -103,8 +103,14 @@ return [
         'attribute-name' => [
             'rule-name' => 'custom-message',
         ],
-        'senha' => [
+        'password' => [
             'confirmed' => 'O campo confirmar senha não confere.',
+        ],
+        'new_password' => [
+            'confirmed' => 'O campo confirmar nova senha não confere.',
+        ],
+        'email' => [
+            'unique' => 'O email informado já está sendo usado!',
         ]
     ],
 
@@ -121,6 +127,7 @@ return [
 
     'attributes' => [
         'password' => 'senha',
+        'new_password' => 'nova senha',
         'name' => 'nome',
         'nome' => 'nome',
         'sigla' => 'sigla',
@@ -133,6 +140,13 @@ return [
         'comentario' => 'comentario',
         'pergunta' => 'pergunta',
         'resposta' => 'resposta',
+        'motivo_solicitacao' => 'motivo da solicitação',
+        'secretaria_id' => 'selecionar secretarias',
+        'texto_compartilhamento' => 'justificativa do compartilhamento',
+        'resposta' => 'resposta referente ao compartilhamento',
+        'recurso' => 'recurso referente a manifestação',
+        'respostaRecurso' => 'resposta referente ao recurso',
+        'tipos_avaliacao' => 'tipos de avaliação',
     ],
 
 ];

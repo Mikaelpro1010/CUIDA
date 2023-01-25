@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Avaliacoes;
 
 use App\Constants\Permission;
 use App\Http\Controllers\Controller;
+use App\Models\Avaliacao\Avaliacao;
 use App\Models\Avaliacao\Unidade;
 use App\Models\Secretaria;
 use Illuminate\Http\Response;
@@ -132,15 +133,50 @@ class RelatoriosAvaliacoesController extends Controller
         $this->authorize(Permission::RELATORIO_AVALIACOES_SECRETARIA_VIEW);
 
         if (auth()->user()->can(Permission::UNIDADE_SECRETARIA_ACCESS_ANY_SECRETARIA)) {
-            $secretarias = Secretaria::query();
+            $secretarias = Secretaria::query()
+                ->when(request()->pesquisa, function ($query) {
+                    $query->where('nome', 'ilike', "%" . request()->pesquisa . "%")
+                        ->orWhere('sigla', 'ilike', "%" . request()->pesquisa . "%");
+                });
         } else {
             $secretarias = auth()->user()->secretarias();
         };
 
-        $secretarias = $secretarias->with('unidades')->orderBy('nome', 'asc')->paginate(15);
+        $secretarias = $secretarias->orderBy('ativo', 'desc')
+            ->withCount('unidades', 'avaliacoes')
+            ->when(
+                request()->unidades,
+                function ($query) {
+                    $query->orderBy('unidades_count', request()->unidades);
+                }
+            )
+            ->when(
+                request()->notas,
+                function ($query) {
+                    $query->orderBy('nota', request()->notas);
+                }
+            )
+            ->when(
+                request()->avaliacoes,
+                function ($query) {
+                    $query->orderBy('avaliacoes_count', request()->avaliacoes);
+                }
+            )
+            ->when(
+                !(request()->unidades || request()->notas || request()->avaliacoes),
+                function ($query) {
+                    $query->orderBy('nome', 'asc');
+                }
+            )
+            ->paginate(15)
+            ->appends([
+                'unidades' => request()->unidades,
+                'notas' => request()->notas,
+                'avaliacoes' => request()->avaliacoes,
+            ]);
 
         if ($secretarias->count() == 1) {
-            return redirect()->route('resumo-avaliacoes-secretaria', $secretarias[0]);
+            return redirect()->route('get-resumo-avaliacoes-secretaria', $secretarias[0]);
         }
 
         return view('admin.avaliacoes.resumos.secretarias.resumo-secretaria-list', compact('secretarias'));
@@ -299,14 +335,39 @@ class RelatoriosAvaliacoesController extends Controller
                     $query->whereIn('secretaria_id', $secretariasSearchSelect->pluck('id'));
                 }
             )
-            ->with('secretaria')
-            ->orderBy('ativo', 'desc')
-            ->orderBy('nota', 'desc')
+            ->with('secretaria');
+
+        $unidades = $unidades->orderBy('ativo', 'desc')
+            ->withCount('avaliacoes')
+            ->when(
+                request()->notas,
+                function ($query) {
+                    $query->orderBy('nota', request()->notas);
+                }
+            )
+            ->when(
+                request()->avaliacoes,
+                function ($query) {
+                    $query->orderBy('avaliacoes_count', request()->avaliacoes);
+                }
+            )
+            ->when(
+                !(request()->notas || request()->avaliacoes),
+                function ($query) {
+                    $query->orderBy('nome', 'asc');
+                }
+            )
             ->paginate(15)
             ->appends([
+                'notas' => request()->notas,
+                'avaliacoes' => request()->avaliacoes,
                 'pesquisa' => request()->pesquisa,
                 'secretaria' => request()->secretaria_pesq,
             ]);
+
+        if ($unidades->count() == 1) {
+            return redirect()->route('get-resumo-avaliacoes-unidade', [$unidades[0]->secretaria_id, $unidades[0]]);
+        }
 
         $dataToView = compact(
             'secretariasSearchSelect',

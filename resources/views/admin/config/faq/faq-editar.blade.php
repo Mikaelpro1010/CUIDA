@@ -22,6 +22,14 @@
                 <label for="resposta" class="form-label mb-1 mt-3">Campo para editar a resposta:</label>
                 <textarea class="form-control" name="resposta" id="resposta" rows="5">{{ $FAQ->resposta }}</textarea>
             </div>
+
+            <div class="d-flex justify-content-end mt-2">
+                <button class="btn btn-primary " type="submit">
+                    <i class="fa-solid fa-pen-to-square"></i>
+                    Editar
+                </button>
+            </div>
+
             <div class="text-center">
                 <a href="{{ route('get-faq-list') }}" class="mt-3 btn btn-warning" tabindex="-1"
                 role="button" aria-disabled="true">

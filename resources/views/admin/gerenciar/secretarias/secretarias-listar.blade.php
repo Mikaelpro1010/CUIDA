@@ -54,6 +54,7 @@
                     {{ $secretaria->id }}
                 </th>
                 <td class="text-center">
+                    @can(permissionConstant()::GERENCIAR_SECRETARIAS_ACTIVE_TOGGLE)
                     <a href="{{ route('get-toggle-secretaria-status', $secretaria) }}">
                         @if ($secretaria->ativo)
                         <i class="text-success fa-solid fa-circle-check"></i>
@@ -61,6 +62,13 @@
                         <i class="text-danger fa-solid fa-circle-xmark"></i>
                         @endif
                     </a>
+                    @else
+                    @if ($secretaria->ativo)
+                    <i class="text-success fa-solid fa-circle-check"></i>
+                    @else
+                    <i class="text-danger fa-solid fa-circle-xmark"></i>
+                    @endif
+                    @endcan
                 </td>
                 <td>
                     {{ $secretaria->sigla }}

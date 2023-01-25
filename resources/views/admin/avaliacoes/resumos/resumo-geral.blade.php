@@ -1,4 +1,4 @@
-@extends('admin.avaliacoes.template.avaliacao')
+@extends('admin.avaliacoes.resumos.template.avaliacao')
 
 @section('titulo', 'Resumo Geral')
 @section('content')
@@ -46,7 +46,7 @@
                         @forelse ($bestSecretarias as $item)
                         <tr>
                             <td>
-                                <a href="{{ route('resumo-avaliacoes-secretaria', $item['id']) }}" target="_blank">
+                                <a href="{{ route('get-resumo-avaliacoes-secretaria', $item['id']) }}" target="_blank">
                                     {{ $item['nome'] }}
                                 </a>
                             </td>
@@ -93,7 +93,7 @@
                         @foreach ($top5BestUnidades as $item)
                         <tr>
                             <td>
-                                <a href="{{ route('resumo-avaliacoes-unidade', ['secretaria' => $item['secretaria_id'], 'unidade' => $item['id']]) }}"
+                                <a href="{{ route('get-resumo-avaliacoes-unidade', ['secretaria' => $item['secretaria_id'], 'unidade' => $item['id']]) }}"
                                     target="_blank">
                                     {{ $item['nome'] }}
                                 </a>

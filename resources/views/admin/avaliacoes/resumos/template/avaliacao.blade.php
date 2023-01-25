@@ -8,24 +8,24 @@
     <ul class="nav nav-tabs">
         @can(permissionConstant()::RELATORIO_AVALIACOES_GERAL_VIEW)
         <li class="nav-item">
-            <a class="nav-link @if(Route::is('resumo-avaliacoes')) active @endif"
-                href=" {{ route('resumo-avaliacoes') }}">
+            <a class="nav-link @if(Route::is('get-avaliacao-geral')) active @endif"
+                href=" {{ route('get-avaliacao-geral') }}">
                 Geral
             </a>
         </li>
         @endcan
         @can(permissionConstant()::RELATORIO_AVALIACOES_SECRETARIA_VIEW)
         <li class="nav-item">
-            <a class="nav-link @if(Route::is('resumo-avaliacoes-secretaria-list') || Route::is('resumo-avaliacoes-secretaria')) active @endif"
-                href="{{ route('resumo-avaliacoes-secretaria-list') }}">
+            <a class="nav-link @if(Route::is('get-list-resumo-avaliacoes-secretaria') || Route::is('get-resumo-avaliacoes-secretaria')) active @endif"
+                href="{{ route('get-list-resumo-avaliacoes-secretaria') }}">
                 Avaliações por Secretaria
             </a>
         </li>
         @endcan
         @can(permissionConstant()::RELATORIO_AVALIACOES_UNIDADE_VIEW)
         <li class="nav-item">
-            <a class="nav-link @if(Route::is('resumo-avaliacoes-unidade-list')|| Route::is('resumo-avaliacoes-unidade')) active @endif"
-                href="{{ route('resumo-avaliacoes-unidade-list') }}">
+            <a class="nav-link @if(Route::is('get-list-resumo-avaliacoes-unidade')|| Route::is('get-resumo-avaliacoes-unidade')) active @endif"
+                href="{{ route('get-list-resumo-avaliacoes-unidade') }}">
                 Avaliações por Unidade
             </a>
         </li>

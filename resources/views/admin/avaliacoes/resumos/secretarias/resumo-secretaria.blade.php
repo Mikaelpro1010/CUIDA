@@ -1,10 +1,13 @@
-@extends('admin.avaliacoes.template.avaliacao')
+@extends('admin.avaliacoes.resumos.template.avaliacao')
 
 @section('titulo', 'Resumo por Secretaria')
 @section('content')
 
 <h3 class="text-primary">
     {{ $secretaria->nome }} - {{ $secretaria->sigla }}
+    @if (!$secretaria->ativo)
+        <span class="text-danger"> (Inativo)</span>
+    @endif
 </h3>
 <hr>
 
@@ -58,7 +61,7 @@
                         @foreach ($top5BestUnidades as $item)
                         <tr>
                             <td>
-                                <a href="{{ route('resumo-avaliacoes-unidade', ['secretaria' => $secretaria, 'unidade' => $item['id']]) }}"
+                                <a href="{{ route('get-resumo-avaliacoes-unidade', ['secretaria' => $secretaria, 'unidade' => $item['id']]) }}"
                                     target="_blank">
                                     {{ $item['nome'] }}
                                 </a>
@@ -160,7 +163,7 @@
 
     function updateAvaliacoesMes(ano){
         $.ajax({
-            url: "{{ route('resumo-avaliacoes-secretaria-avaliacoes-mes', $secretaria) }}",
+            url: "{{ route('get-resumo-avaliacoes-secretaria-avaliacoes-mes', $secretaria) }}",
             dataType:'json',
             data:{
                     ano: ano

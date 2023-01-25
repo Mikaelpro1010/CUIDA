@@ -1,7 +1,7 @@
 @extends('template.base')
 
 @section('content')
-    <div class="accordion mb-3">
+    <div class="accordion accordion-flush mb-3">
         <div class="accordion-item mb-3">
             <h3 class="accordion-header">
                 <button class="accordion-button fw-bold" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne"
@@ -36,6 +36,7 @@
                 </div>
             </div>
         </div>
+
         <div class="accordion-item mb-3">
             <h3 class="accordion-header">
                 <button class="accordion-button fw-bold" type="button" data-bs-toggle="collapse"
@@ -55,17 +56,18 @@
                 </div>
             </div>
         </div>
-        <div class="accordion mb-3">
-            <div class="accordion-item mb-3">
-                <h3 class="accordion-header">
-                    <button class="accordion-button fw-bold" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree"
-                        aria-expanded="true" aria-controls="collapseOne">
-                        Histórico:
-                    </button>
-                </h3>
-                <div id="collapseThree" class="accordion-collapse collapse show" aria-labelledby="headingThree"
+
+        <div class="border accordion-item mb-3">
+            <h3 class="accordion-header">
+                <button class="accordion-button fw-bold" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#collapseThree" aria-expanded="true" aria-controls="collapseOne">
+                    Histórico:
+                </button>
+            </h3>
+            <div id="collapseThree" class="accordion-collapse collapse show" aria-labelledby="headingThree"
                 data-bs-parent="#accordionExample">
-                    <table class="table table-striped">
+                <div class="accordion-body">
+                    <table class="border table table-striped">
                         <thead>
                             <th>Etapas</th>
                             <th>Data de criação</th>
@@ -91,60 +93,112 @@
                     </table>
                 </div>
             </div>
+        </div>
 
-                <div class="accordion-item mb-3">
-                    <h3 class="accordion-header">
-                        <button class="accordion-button fw-bold" type="button" data-bs-toggle="collapse"
-                            data-bs-target="#collapseFour" aria-expanded="true" aria-controls="collapseFour">
-                            Recurso:
-                        </button>
-                    </h3>
-                    <div id="collapseFour" class="accordion-collapse collapse show" aria-labelledby="headingFour"
-                        data-bs-parent="#accordionExample">
-                        <div class="accordion-body">
-                            <div class='p-3 text-center'>
-                                <button class="btn btn-primary mt-4" onclick="deletar()" type="submit">Entrar com
-                                    recurso</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div id="myModal1" name="id" class="modal" tabindex="-1">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title">Informar recurso</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body">
-                            <form class="" name="recurso" id="recurso" action="" method="POST">
-                                <p>Digite um texto relacioando ao seu recurso:</p>
-                                {{ csrf_field() }}
-                                <input type="hidden" name="manifestacao_id" value="{{ $manifestacao->id }}">
-                                <textarea class="form-control" name="recurso" id="recurso" rows="5"></textarea>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-danger"
-                                        data-bs-dismiss="modal">Cancelar</button>
-                                    <button type="submit" class="btn btn-success"
-                                        onclick="close_modal()">Enviar</button>
+        {{-- @if ($manifestacao->situacao->nome == 'Pré-Concluída' || $manifestacao->situacao->nome == 'Recurso') --}}
+            <div class="border accordion-item mb-3">
+                <h3 class="accordion-header">
+                    <button class="accordion-button fw-bold" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#collapseFour" aria-expanded="true" aria-controls="collapseFour">
+                        Recurso:
+                    </button>
+                </h3>
+                <div id="collapseFour" class="accordion-collapse collapse show" aria-labelledby="headingFour"
+                    data-bs-parent="#accordionExample">
+                    <div class="accordion-body">
+                        @foreach ($manifestacao->recursos as $key=>$recurso)
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="flush-headingOne">
+                                    <div>
+                                        <button class="border accordion-button collapsed" type="button"
+                                            data-bs-toggle="collapse"
+                                            data-bs-target="#recurso_{{ $recurso->id }}" aria-expanded="false"
+                                            aria-controls="recurso_{{ $recurso->id }}">
+                                            {{ $key + 1 }} - Recurso
+                                        </button>
+                                    </div>
+                                </h2>
+
+                                <div id="recurso_{{ $recurso->id }}" class="accordion-collapse collapse"
+                                    aria-labelledby="flush-headingOne" data-bs-parent="#recurso">
+                                    <div class="m-2">
+                                        <div class="accordion-body">
+                                            <div align="left" class="mt-3 border-1 border border-secondary p-2 accordion-body">
+                                                <p class="fw-bold border-2 border-bottom border-warning">
+                                                    Recurso-
+                                                    {{formatarDataHora($recurso->created_at)}}
+                                                </p>
+                                                <p>
+                                                    {{$recurso->recurso}}
+                                                </p>
+                                            </div>
+                                            @if (!is_null($recurso->resposta))
+                                                <div align="left" class="mt-2 border-1 border border-secondary p-2 accordion-body">
+                                                    <p class="fw-bold border-2 border-bottom border-warning">
+                                                        Resposta ao recurso-
+                                                        {{formatarDataHora($recurso->data_resposta)}}
+                                                    </p>
+                                                    <p>
+                                                        {{$recurso->resposta}}
+                                                    </p>
+                                                </div>
+                                            @endif
+                                        </div>
+                                    </div>
                                 </div>
-                            </form>
-                        </div>
+                            </div>
+                        @endforeach
+                                
+                        {{-- @if ($podeCriarRescurso) --}}
+                            <div class='p-3 text-center'>
+                                <button class="btn btn-primary mt-4" id="button_open_recurso">
+                                    Entrar com recurso
+                                </button>
+                            </div>
+                            <div name="id" id="Modal_recurso" class="modal" tabindex="-1">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title">Informar recurso</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                            aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <form class="" action="{{ route('criar-recurso') }}" method="POST">
+                                                <p>Digite um texto relacionado ao seu recurso:</p>
+                                                <textarea class="form-control" name="recurso" id="recurso" rows="5"></textarea>
+                                                <input type="hidden" name="protocolo"
+                                                value="{{ $manifestacao->protocolo }}">
+                                                <input type="hidden" name="senha" value="{{ $manifestacao->senha }}">
+                                                {{ csrf_field() }}
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-danger"
+                                                    data-bs-dismiss="modal">Cancelar</button>
+                                                    <button type="submit" id="button_enviar_recurso" class="btn btn-success">Enviar</button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        {{-- @endif  --}}
                     </div>
                 </div>
             </div>
-        @endsection
+        {{-- @endif --}}
 
-        @section('scripts')
-            <script>
-                function deletar(id) {
-                    // $('#deletar').val(id);
-                    $('#myModal1').modal('show');
-                }
 
-                function close_modal() {
-                    $('#myModal1').modal('hide');
-                }
-            </script>
-        @endsection
+    </div>
+@endsection
+
+@push('scripts')
+    <script nonce="{{ app('csp-nonce') }}">
+        $('#button_open_recurso').click(function() {
+            $('#Modal_recurso').modal('show');
+        });
+
+        $('#button_enivar_recurso').click(function() {
+            $('#Modal_recurso').modal('hide');
+        });
+    </script>
+@endpush

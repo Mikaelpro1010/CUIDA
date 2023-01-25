@@ -14,7 +14,7 @@
     <div class="row gap-2">
         @can(permissionConstant()::RELATORIO_AVALIACOES_GERAL_VIEW)
         <div class="col-md-3">
-            <a href="{{ route('resumo-avaliacoes') }}" class="btn btn-primary w-100">
+            <a href="{{ route('get-avaliacao-geral') }}" class="btn btn-primary w-100">
                 <i class="fa-5x fa-solid fa-chart-line"></i> <br>
                 <b>Avaliações Gerais</b>
             </a>
@@ -22,7 +22,7 @@
         @endcan
         @can(permissionConstant()::RELATORIO_AVALIACOES_SECRETARIA_VIEW)
         <div class="col-md-3">
-            <a href="{{ route('resumo-avaliacoes-secretaria-list') }}" class="btn btn-primary w-100">
+            <a href="{{ route('get-list-resumo-avaliacoes-secretaria') }}" class="btn btn-primary w-100">
                 <i class="fa-5x fa-solid fa-chart-column"></i> <br>
                 <b>Avaliações por Secretaria</b>
             </a>
@@ -30,7 +30,7 @@
         @endcan
         @can(permissionConstant()::RELATORIO_AVALIACOES_UNIDADE_VIEW)
         <div class="col-md-3">
-            <a href="{{ route('resumo-avaliacoes-unidade-list') }}" class="btn btn-primary w-100">
+            <a href="{{ route('get-list-resumo-avaliacoes-unidade') }}" class="btn btn-primary w-100">
                 <i class="fa-5x fa-solid fa-chart-area"></i> <br>
                 <b>Avaliações por Unidade</b>
             </a>
@@ -46,7 +46,7 @@
     <div class="row gap-2">
         @can(permissionConstant()::UNIDADE_SECRETARIA_LIST)
         <div class="col-md-3">
-            <a href="{{ route('unidades-secr-list') }}" class="btn btn-success w-100">
+            <a href="{{ route('get-unidades-secr-list') }}" class="btn btn-success w-100">
                 <i class="fa-5x fa-solid fa-users"></i> <br>
                 <b>Unidades da Secretaria</b>
             </a>
