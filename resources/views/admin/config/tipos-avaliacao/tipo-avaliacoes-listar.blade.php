@@ -4,10 +4,12 @@
 @section('content')
     <div class="col-lg-12 d-flex justify-content-between align-items-center">
         <h1 class="m-0 text-primary">Tipos de Avaliação</h1>
-        <a class="btn btn-primary" href="{{ route('get-create-tipo-avaliacao') }}">
-            <i class="fa-solid fa-plus me-1"></i>
-            Novo Tipo de Avaliação
-        </a>
+        @can(permissionConstant()::GERENCIAR_TIPOS_AVALIACAO_CREATE)
+            <a class="btn btn-primary" href="{{ route('get-create-tipo-avaliacao') }}">
+                <i class="fa-solid fa-plus me-1"></i>
+                Novo Tipo de Avaliação
+            </a>
+        @endcan
     </div>
     <hr>
 
@@ -18,7 +20,6 @@
                 <input id="pesquisa" class="form-control" type="text" name="pesquisa" placeholder="Pesquisar"
                     value="{{ request()->pesquisa }}">
             </div>
-
             <div class="col-md-2 d-flex align-items-end">
                 <button class="btn btn-primary form-control mt-3" type="submit">
                     <i class="fa-solid fa-magnifying-glass"></i>
@@ -32,7 +33,6 @@
                 </a>
             </div>
         </div>
-
     </form>
 
     <table class="table table-striped">
@@ -50,49 +50,57 @@
                         {{ $tipo_avaliacao->id }}
                     </td>
                     <td>
-                        @if ($tipo_avaliacao->ativo)
+                        @can(permissionConstant()::GERENCIAR_TIPOS_AVALIACAO_ACTIVE_TOGGLE)
                             <a class="btn"
                                 href="{{ route('get-toggle-tipo-avaliacao-status', ['id' => $tipo_avaliacao->id]) }}">
-                                <i class="text-success fa-solid fa-circle-check"></i>
+                                @if ($tipo_avaliacao->ativo)
+                                    <i class="text-success fa-solid fa-circle-check"></i>
+                                @else
+                                    <i class="text-danger fa-solid fa-circle-xmark"></i>
+                                @endif
                             </a>
                         @else
-                            <a class="btn"
-                                href="{{ route('get-toggle-tipo-avaliacao-status', ['id' => $tipo_avaliacao->id]) }}">
+                            @if ($tipo_avaliacao->ativo)
+                                <i class="text-success fa-solid fa-circle-check"></i>
+                            @else
                                 <i class="text-danger fa-solid fa-circle-xmark"></i>
-                            </a>
-                        @endif
+                            @endif
+                        @endcan
                     </td>
                     <td class="name">
                         {{ $tipo_avaliacao->nome }}
                     </td>
                     <td>
-                        {{ Carbon\Carbon::parse($tipo_avaliacao->updated_at)->format('d/m/Y \à\s H:i\h') }}
+                        {{ formatarDataHora($tipo_avaliacao->updated_at) }}
                     </td>
                     <td class="col-md-1">
                         <div class="d-flex justify-content-evenly">
-                            <a href="{{ route('get-tipo-avaliacao-view', ['id' => $tipo_avaliacao->id]) }}">
-                                <i class="fa-xl fa-solid fa-magnifying-glass text-primary"></i>
-                            </a>
-                            <a href="{{ route('get-edit-tipo-avaliacao-view', ['id' => $tipo_avaliacao->id]) }}">
-                                <i class="fa-xl fa-solid fa-pen-to-square text-warning"></i>
-                            </a>
-                            <a class="btnDelete" data-id="{{ $tipo_avaliacao->id }}">
-                                <i class="fa-xl text-danger fa-solid fa-trash"></i>
-                            </a>
-                            {{-- <button class="btnDelete btn" data-id="{{ $tipo_avaliacao->id }}">
-                                <i class="fa-xl text-danger fa-solid fa-trash"></i>
-                            </button> --}}
-                            <form class="d-none" id="deleteTipoAvaliacao{{ $tipo_avaliacao->id }}"
-                                action="{{ route('delete-delete-tipo-avaliacao', $tipo_avaliacao) }}" method="POST">
-                                {{ csrf_field() }}
-                                {{ method_field('DELETE') }}
-                            </form>
+                            @can(permissionConstant()::GERENCIAR_TIPOS_AVALIACAO_VIEW)
+                                <a href="{{ route('get-tipo-avaliacao-view', ['id' => $tipo_avaliacao->id]) }}">
+                                    <i class="fa-xl fa-solid fa-magnifying-glass text-primary"></i>
+                                </a>
+                            @endcan
+                            @can(permissionConstant()::GERENCIAR_TIPOS_AVALIACAO_VIEW)
+                                <a href="{{ route('get-edit-tipo-avaliacao-view', ['id' => $tipo_avaliacao->id]) }}">
+                                    <i class="fa-xl fa-solid fa-pen-to-square text-warning"></i>
+                                </a>
+                            @endcan
+                            @can(permissionConstant()::GERENCIAR_TIPOS_AVALIACAO_DELETE)
+                                <a class="btnDelete" data-id="{{ $tipo_avaliacao->id }}">
+                                    <i class="fa-xl text-danger fa-solid fa-trash"></i>
+                                </a>
+                                <form class="d-none" id="deleteTipoAvaliacao{{ $tipo_avaliacao->id }}"
+                                    action="{{ route('delete-delete-tipo-avaliacao', $tipo_avaliacao) }}" method="POST">
+                                    {{ csrf_field() }}
+                                    {{ method_field('DELETE') }}
+                                </form>
+                            @endcan
                         </div>
                     </td>
                 </tr>
             @empty
                 <tr>
-                    <td colspan="6" class="text-center table-warning">
+                    <td colspan="5" class="text-center table-warning">
                         Nenhum resultado encontrado!
                     </td>
                 </tr>
@@ -102,50 +110,52 @@
     <div class='mx-auto'>
         {{ $tipo_avaliacoes->links('pagination::bootstrap-4') }}
     </div>
-    </div>
-    <div id="deleteModal" name="id" class="modal" tabindex="-1">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header bg-danger">
-                    <h5 class="modal-title text-light">Deletar Tipo de Avaliação!</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <p>Deseja realmente deletar o Tipo de Avaliação: <span id="deleteName" class="fw-bold"></span>
-                    </p>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-warning" data-bs-dismiss="modal">Cancelar</button>
-                        <button id="btnDeleteConfirm" type="button" class="btn btn-danger">Deletar</button>
+
+    @can(permissionConstant()::GERENCIAR_TIPOS_AVALIACAO_DELETE)
+        <div id="deleteModal" name="id" class="modal" tabindex="-1">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header bg-danger">
+                        <h5 class="modal-title text-light">Deletar Tipo de Avaliação!</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <p>Deseja realmente deletar o Tipo de Avaliação: <span id="deleteName" class="fw-bold"></span>
+                        </p>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-warning" data-bs-dismiss="modal">Cancelar</button>
+                            <button id="btnDeleteConfirm" type="button" class="btn btn-danger">Deletar</button>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
+    @endcan
 @endsection
 
 @push('scripts')
-<script nonce="{{ app('csp-nonce') }}">
-    var tipoAvaliacaoID = 0;
-
-        $('#btnLimpaForm').click(function(){
+    <script nonce="{{ app('csp-nonce') }}">
+        $('#btnLimpaForm').click(function() {
             $('#pesquisa').val('');
         });
 
-        $('.btnDelete').click(function() {
-        deleteTipoAvaliacao($(this).data('id'));
-        });
+        @can(permissionConstant()::GERENCIAR_TIPOS_AVALIACAO_DELETE)
+            var tipoAvaliacaoID = 0;
+            $('.btnDelete').click(function() {
+                deleteTipoAvaliacao($(this).data('id'));
+            });
 
-        function deleteTipoAvaliacao(id) {
-            $("#deleteName").text($("#" + id + " .name").text());
-            $('#deleteModal').modal('show');
-            TipoAvaliacaoID = id;
-        }
+            function deleteTipoAvaliacao(id) {
+                $("#deleteName").text($("#" + id + " .name").text());
+                $('#deleteModal').modal('show');
+                TipoAvaliacaoID = id;
+            }
 
-        $("#btnDeleteConfirm").click(function() {
-            $('#deleteModal').modal('hide');
-            $('#deleteTipoAvaliacao' + TipoAvaliacaoID).submit();
-            TipoAvaliacaoID = 0;
-        });
-
-</script>
+            $("#btnDeleteConfirm").click(function() {
+                $('#deleteModal').modal('hide');
+                $('#deleteTipoAvaliacao' + TipoAvaliacaoID).submit();
+                TipoAvaliacaoID = 0;
+            });
+        @endcan
+    </script>
 @endpush

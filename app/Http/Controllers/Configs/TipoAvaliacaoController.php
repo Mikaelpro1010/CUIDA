@@ -88,6 +88,7 @@ class TipoAvaliacaoController extends Controller
 
     public function toggleTipoAvaliacaoStatus($id)
     {
+        $this->authorize(Permission::GERENCIAR_TIPOS_AVALIACAO_ACTIVE_TOGGLE);
         $tipo_avaliacao = TipoAvaliacao::find($id);
         $tipo_avaliacao->ativo = !$tipo_avaliacao->ativo;
         $tipo_avaliacao->save();
