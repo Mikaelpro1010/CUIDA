@@ -7,9 +7,15 @@
     <div>
         <h1 class="text-primary">
             {{ $unidadeObj->nome }}
+            @if(!$unidadeObj->ativo)
+                <span class="text-danger"> (Inativo)</span>
+            @endif
         </h1>
         <h5 class="text-secondary">
             {{$unidadeObj->secretaria->nome}} - {{$unidadeObj->secretaria->sigla}}
+            @if(!$unidadeObj->secretaria->ativo)
+                <span class="text-danger"> (Inativo)</span>
+            @endif
         </h5>
     </div>
     <hr>
@@ -35,10 +41,14 @@
     <div class="col-md-4">
         <b>Emitir QRcode:</b>
         <p class="border-2 border-bottom border-warning">
-            <a href="{{ route('get-qrcode-unidade-secr', $unidadeObj) }}" target="_blank">
-                Abrir
-                <i class="fa-solid fa-arrow-up-right-from-square"></i>
-            </a>
+            @if(!$unidadeObj->secretaria->ativo || !$unidadeObj->ativo)
+                <span class="text-danger"> (Inativo)</span>
+            @else
+                <a href="{{ route('get-qrcode-unidade-secr', $unidadeObj) }}" target="_blank">
+                    Abrir
+                    <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                </a>
+            @endif
         </p>
     </div>
 
