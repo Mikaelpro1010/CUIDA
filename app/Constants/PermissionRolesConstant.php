@@ -25,7 +25,7 @@ class PermissionRolesConstants
         Permission::UNIDADE_SECRETARIA_CREATE,
         // Permission::UNIDADE_SECRETARIA_CREATE_ANY,
         Permission::UNIDADE_SECRETARIA_VIEW,
-        Permission::UNIDADE_SECRETARIA_UPDATE,
+        Permission::UNIDADE_SECRETARIA_EDIT,
         Permission::UNIDADE_SECRETARIA_TOGGLE_ATIVO,
         Permission::UNIDADE_SECRETARIA_DELETE,
         // Relatórios Modulo Avaliação,

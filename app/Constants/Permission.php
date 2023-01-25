@@ -4,7 +4,20 @@ namespace App\Constants;
 
 class Permission
 {
-    //Manifestaçoes
+    // Perfil de usuário
+    public const GERENCIAR_PERFIL_USUARIO_VIEW = 'Visualizar Perfil de Usuário';
+    public const GERENCIAR_PERFIL_USUARIO_EDIT = 'Editar Perfil de Usuário';
+    public const GERENCIAR_PERFIL_SENHA_VIEW = 'Visualizar Senha de Usuário';
+    public const GERENCIAR_PERFIL_SENHA_EDIT = 'Editar Senha de Usuário';
+
+    public const GERENCIAR_PERFIL = [
+        self::GERENCIAR_PERFIL_USUARIO_VIEW,
+        self::GERENCIAR_PERFIL_USUARIO_EDIT,
+        self::GERENCIAR_PERFIL_SENHA_VIEW,
+        self::GERENCIAR_PERFIL_SENHA_EDIT,
+    ];
+
+    //Manifestaçoes//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     public const MANIFESTACAO_LIST = 'Listar Manifestações';
     public const MANIFESTACAO_VIEW = 'Visualizar Manifestações';
     public const MANIFESTACAO_CREATE = 'Criar Manifestações';
@@ -25,7 +38,7 @@ class Permission
         self::MANIFESTACAO_CHAT,
     ];
 
-    //Gerenciamento
+    //Gerenciamento//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     //Usuários
     public const GERENCIAR_USUARIOS_LIST = 'Listar Usuários';
     public const GERENCIAR_USUARIOS_VIEW = 'Visualizar Usuários';
@@ -58,7 +71,26 @@ class Permission
         self::GERENCIAR_SECRETARIAS_ACTIVE_TOGGLE,
     ];
 
-    //configurações
+    //configurações//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    // Tipos de avaliacao
+    public const GERENCIAR_TIPOS_AVALIACAO_LIST = 'Listar Tipos de Avaliação';
+    public const GERENCIAR_TIPOS_AVALIACAO_VIEW = 'Visualizar Tipos de Avaliação';
+    public const GERENCIAR_TIPOS_AVALIACAO_CREATE = 'Criar Tipos de Avaliação';
+    public const GERENCIAR_TIPOS_AVALIACAO_EDIT = 'Editar Tipos de Avaliação';
+    public const GERENCIAR_TIPOS_AVALIACAO_DELETE = 'Deletar Tipos de Avaliação';
+    public const GERENCIAR_TIPOS_AVALIACAO_ACTIVE_TOGGLE = 'Ativar ou Desativar Tipos de Avaliação';
+
+
+
+    public const GERENCIAR_TIPOS_AVALIACAO = [
+        self::GERENCIAR_TIPOS_AVALIACAO_LIST,
+        self::GERENCIAR_TIPOS_AVALIACAO_VIEW,
+        self::GERENCIAR_TIPOS_AVALIACAO_CREATE,
+        self::GERENCIAR_TIPOS_AVALIACAO_EDIT,
+        self::GERENCIAR_TIPOS_AVALIACAO_DELETE,
+        self::GERENCIAR_TIPOS_AVALIACAO_ACTIVE_TOGGLE,
+    ];
+
     // Tipos de Usuário
     public const GERENCIAR_TIPOS_USUARIOS_LIST = 'Listar Tipos de Usuário';
     public const GERENCIAR_TIPOS_USUARIOS_VIEW = 'Visualizar Tipos de Usuário';
@@ -74,7 +106,7 @@ class Permission
         self::GERENCIAR_TIPOS_USUARIOS_DELETE,
     ];
 
-    // Tipos de Usuário
+    // Tipos de Manifestaçao
     public const GERENCIAR_TIPOS_MANIFESTACAO_LIST = 'Listar Tipos de Manifestacao';
     public const GERENCIAR_TIPOS_MANIFESTACAO_VIEW = 'Visualizar Tipos de Manifestacao';
     public const GERENCIAR_TIPOS_MANIFESTACAO_CREATE = 'Criar Tipos de Manifestacao';
@@ -89,6 +121,7 @@ class Permission
         self::GERENCIAR_TIPOS_MANIFESTACAO_DELETE,
     ];
 
+    // Estado do processo de manifestaçao
     public const GERENCIAR_ESTADOS_PROCESSO_LIST = 'Listar Estados do Processo';
     public const GERENCIAR_ESTADOS_PROCESSO_VIEW = 'Visualizar Estados do Processo';
     public const GERENCIAR_ESTADOS_PROCESSO_CREATE = 'Criar Estados do Processo';
@@ -103,6 +136,7 @@ class Permission
         self::GERENCIAR_ESTADOS_PROCESSO_DELETE,
     ];
 
+    // Motivaçao da manifestacao
     public const GERENCIAR_MOTIVACOES_LIST = 'Listar Motivações';
     public const GERENCIAR_MOTIVACOES_VIEW = 'Visualizar Motivações';
     public const GERENCIAR_MOTIVACOES_CREATE = 'Criar Motivações';
@@ -117,6 +151,7 @@ class Permission
         self::GERENCIAR_MOTIVACOES_DELETE,
     ];
 
+    // situacoes da manifestacao
     public const GERENCIAR_SITUACOES_LIST = 'Listar Situações';
     public const GERENCIAR_SITUACOES_VIEW = 'Visualizar Situações';
     public const GERENCIAR_SITUACOES_CREATE = 'Criar Situações';
@@ -131,6 +166,7 @@ class Permission
         self::GERENCIAR_SITUACOES_DELETE,
     ];
 
+    // FAQs
     public const GERENCIAR_FAQS_LIST = 'Listar FAQs';
     public const GERENCIAR_FAQS_VIEW = 'Visualizar FAQs';
     public const GERENCIAR_FAQS_CREATE = 'Criar FAQs';
@@ -145,55 +181,7 @@ class Permission
         self::GERENCIAR_FAQS_DELETE,
     ];
 
-    public const GERENCIAR_PERFIL_USUARIO_VIEW = 'Visualizar Perfil de Usuário';
-    public const GERENCIAR_PERFIL_USUARIO_EDIT = 'Editar Perfil de Usuário';
-    public const GERENCIAR_PERFIL_SENHA_VIEW = 'Visualizar Senha de Usuário';
-    public const GERENCIAR_PERFIL_SENHA_EDIT = 'Editar Senha de Usuário';
-
-    public const GERENCIAR_PERFIL = [
-        self::GERENCIAR_PERFIL_USUARIO_VIEW,
-        self::GERENCIAR_PERFIL_USUARIO_EDIT,
-        self::GERENCIAR_PERFIL_SENHA_VIEW,
-        self::GERENCIAR_PERFIL_SENHA_EDIT,
-    ];
-
-    public const GERENCIAR_TIPOS_AVALIACAO_LIST = 'Listar Tipos de Avaliação';
-    public const GERENCIAR_TIPOS_AVALIACAO_VIEW = 'Visualizar Tipos de Avaliação';
-    public const GERENCIAR_TIPOS_AVALIACAO_CREATE = 'Criar Tipos de Avaliação';
-    public const GERENCIAR_TIPOS_AVALIACAO_EDIT = 'Editar Tipos de Avaliação';
-    public const GERENCIAR_TIPOS_AVALIACAO_DELETE = 'Deletar Tipos de Avaliação';
-
-    public const GERENCIAR_TIPOS_AVALIACAO = [
-        self::GERENCIAR_TIPOS_AVALIACAO_LIST,
-        self::GERENCIAR_TIPOS_AVALIACAO_VIEW,
-        self::GERENCIAR_TIPOS_AVALIACAO_CREATE,
-        self::GERENCIAR_TIPOS_AVALIACAO_EDIT,
-        self::GERENCIAR_TIPOS_AVALIACAO_DELETE,
-    ];
-
-    //Avaliacoes
-    public const UNIDADE_SECRETARIA_LIST = 'Listar Unidades da Secretaria';
-    public const UNIDADE_SECRETARIA_ACCESS_ANY_SECRETARIA = 'Unidade Secretaria acessar qualquer secretaria';
-    public const UNIDADE_SECRETARIA_CREATE = 'Criar Unidades da Secretaria';
-    public const UNIDADE_SECRETARIA_CREATE_ANY = 'Criar Unidade de qualquer Secretaria';
-    public const UNIDADE_SECRETARIA_VIEW = 'Visualizar Unidades da Secretaria';
-    public const UNIDADE_SECRETARIA_EDIT = 'Editar Unidades da Secretaria';
-    public const UNIDADE_SECRETARIA_UPDATE = 'Atualizar Unidades da Secretaria';
-    public const UNIDADE_SECRETARIA_TOGGLE_ATIVO = 'Ativar ou Desativar Unidades da Secretaria';
-    public const UNIDADE_SECRETARIA_DELETE = 'Deletar Unidades da Secretaria';
-
-    public const UNIDADE_SECRETARIA = [
-        self::UNIDADE_SECRETARIA_LIST,
-        self::UNIDADE_SECRETARIA_ACCESS_ANY_SECRETARIA,
-        self::UNIDADE_SECRETARIA_CREATE,
-        self::UNIDADE_SECRETARIA_CREATE_ANY,
-        self::UNIDADE_SECRETARIA_VIEW,
-        self::UNIDADE_SECRETARIA_EDIT,
-        self::UNIDADE_SECRETARIA_UPDATE,
-        self::UNIDADE_SECRETARIA_TOGGLE_ATIVO,
-        self::UNIDADE_SECRETARIA_DELETE,
-    ];
-
+    //Avaliacoes //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     //Relatorio das avaliaçoes
     public const RELATORIO_AVALIACOES_GERAL_VIEW = 'Visualizar Relatório Geral';
     public const RELATORIO_AVALIACOES_SECRETARIA_VIEW = 'Visualizar Relatório por Secretaria';
@@ -205,52 +193,45 @@ class Permission
         self::RELATORIO_AVALIACOES_UNIDADE_VIEW,
     ];
 
-    // SuperAdmin
+    // Unidades das Secretarias
+    public const UNIDADE_SECRETARIA_LIST = 'Listar Unidades da Secretaria';
+    public const UNIDADE_SECRETARIA_ACCESS_ANY_SECRETARIA = 'Unidade Secretaria acessar qualquer secretaria';
+    public const UNIDADE_SECRETARIA_CREATE = 'Criar Unidades da Secretaria';
+    public const UNIDADE_SECRETARIA_CREATE_ANY = 'Criar Unidade de qualquer Secretaria';
+    public const UNIDADE_SECRETARIA_VIEW = 'Visualizar Unidades da Secretaria';
+    public const UNIDADE_SECRETARIA_EDIT = 'Editar Unidades da Secretaria';
+    public const UNIDADE_SECRETARIA_TOGGLE_ATIVO = 'Ativar ou Desativar Unidades da Secretaria';
+    public const UNIDADE_SECRETARIA_DELETE = 'Deletar Unidades da Secretaria';
+
+    public const UNIDADE_SECRETARIA = [
+        self::UNIDADE_SECRETARIA_LIST,
+        self::UNIDADE_SECRETARIA_ACCESS_ANY_SECRETARIA,
+        self::UNIDADE_SECRETARIA_CREATE,
+        self::UNIDADE_SECRETARIA_CREATE_ANY,
+        self::UNIDADE_SECRETARIA_VIEW,
+        self::UNIDADE_SECRETARIA_EDIT,
+        self::UNIDADE_SECRETARIA_TOGGLE_ATIVO,
+        self::UNIDADE_SECRETARIA_DELETE,
+    ];
+
     public const PERMISSIONS = [
+        //perfil
+        'Gerenciar Perfil de Usuário' => self::GERENCIAR_PERFIL,
+        //Manifestaçoes
+        'Manifestações' => self::MANIFESTACOES,
         //Gerenciar
         'Gerenciamento de Usuários' => self::GERENCIAR_USUARIOS,
         'Gerenciamento de Secretarias' => self::GERENCIAR_SECRETARIAS,
         //Configuraçoes
         'Configuração de Tipos de Usuário' => self::GERENCIAR_TIPOS_USUARIOS,
-        'Configuração de Tipos de Manifestação' => self::GERENCIAR_TIPOS_MANIFESTACAO,
-        'Configuração de Estados do Processo' => self::GERENCIAR_ESTADOS_PROCESSO,
-        'Configuração de Motivações' => self::GERENCIAR_MOTIVACOES,
-        'Configuração de Situações' => self::GERENCIAR_SITUACOES,
-        'Configuração de FAQs' => self::GERENCIAR_FAQS,
         'Configuração de Tipos de Avaliação' => self::GERENCIAR_TIPOS_AVALIACAO,
-        //perfil
-        'Gerenciar Perfil de Usuário' => self::GERENCIAR_PERFIL,
-        //Manifestaçoes
-        'Manifestações' => self::MANIFESTACOES,
-        //avaliacao
-        'Modulo Avaliação' => self::UNIDADE_SECRETARIA,
-        'Relatórios Modulo Avaliação' => self::RELATORIO_AVALIACOES,
-    ];
-
-    // Ouvidor
-    public const OUVIDOR_PERMISSIONS = [
         'Configuração de Tipos de Manifestação' => self::GERENCIAR_TIPOS_MANIFESTACAO,
         'Configuração de Estados do Processo' => self::GERENCIAR_ESTADOS_PROCESSO,
         'Configuração de Motivações' => self::GERENCIAR_MOTIVACOES,
         'Configuração de Situações' => self::GERENCIAR_SITUACOES,
         'Configuração de FAQs' => self::GERENCIAR_FAQS,
-        'Manifestações' => self::MANIFESTACOES,
-    ];
-
-    // Avaliador
-    public const AVALIADOR_PERMISSIONS = [
-        // Modulo Avaliação
-        self::UNIDADE_SECRETARIA_LIST,
-        // self::UNIDADE_SECRETARIA_ACCESS_ANY_SECRETARIA,
-        self::UNIDADE_SECRETARIA_CREATE,
-        // self::UNIDADE_SECRETARIA_CREATE_ANY,
-        self::UNIDADE_SECRETARIA_VIEW,
-        self::UNIDADE_SECRETARIA_UPDATE,
-        self::UNIDADE_SECRETARIA_TOGGLE_ATIVO,
-        self::UNIDADE_SECRETARIA_DELETE,
-        // Relatórios Modulo Avaliação,
-        self::RELATORIO_AVALIACOES_GERAL_VIEW,
-        self::RELATORIO_AVALIACOES_SECRETARIA_VIEW,
-        self::RELATORIO_AVALIACOES_UNIDADE_VIEW,
+        //avaliacao
+        'Relatórios Modulo Avaliação' => self::RELATORIO_AVALIACOES,
+        'Modulo Avaliação' => self::UNIDADE_SECRETARIA,
     ];
 }
