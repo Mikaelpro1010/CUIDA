@@ -41,7 +41,11 @@
             <th>Ativo</th>
             <th>Nome</th>
             <th>Última alteração</th>
-            <th class="text-center">Ações</th>
+            @if (auth()->user()->can(permissionConstant()::GERENCIAR_TIPOS_AVALIACAO_VIEW) ||
+                    auth()->user()->can(permissionConstant()::GERENCIAR_TIPOS_AVALIACAO_EDIT) ||
+                    auth()->user()->can(permissionConstant()::GERENCIAR_TIPOS_AVALIACAO_DELETE))
+                <th class="text-center">Ações</th>
+            @endif
         </thead>
         <tbody>
             @forelse ($tipo_avaliacoes as $tipo_avaliacao)
@@ -80,7 +84,7 @@
                                     <i class="fa-xl fa-solid fa-magnifying-glass text-primary"></i>
                                 </a>
                             @endcan
-                            @can(permissionConstant()::GERENCIAR_TIPOS_AVALIACAO_VIEW)
+                            @can(permissionConstant()::GERENCIAR_TIPOS_AVALIACAO_EDIT)
                                 <a href="{{ route('get-edit-tipo-avaliacao-view', ['id' => $tipo_avaliacao->id]) }}">
                                     <i class="fa-xl fa-solid fa-pen-to-square text-warning"></i>
                                 </a>
