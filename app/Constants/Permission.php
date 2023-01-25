@@ -21,21 +21,29 @@ class Permission
     public const MANIFESTACAO_LIST = 'Listar Manifestações';
     public const MANIFESTACAO_VIEW = 'Visualizar Manifestações';
     public const MANIFESTACAO_CREATE = 'Criar Manifestações';
-    public const MANIFESTACAO_RESPONDER = 'Invalidar Manifestações';
-    public const MANIFESTACAO_COMPARTILHAR = 'Compartilhar Manifestações';
-    public const MANIFESTACAO_PRORROGACAO = 'Prorrogar Manifestações';
-    public const MANIFESTACAO_INVALIDAR = 'Invalidar Manifestações';
-    public const MANIFESTACAO_CHAT = 'Chat das Manifestações';
+    public const MANIFESTACAO_REPLY = 'Responder Manifestações';
+    public const MANIFESTACAO_RECURSOS_CREATE = 'Criar recursos para Manifestações';
+    public const MANIFESTACAO_RECURSOS_REPLY = 'Responder recursos para Manifestações';
+    public const MANIFESTACAO_COMPARTILHAMENTO_CREATE = 'Compartilhar Manifestações';
+    public const MANIFESTACAO_COMPARTILHAMENTO_REPLY = 'Compartilhar Manifestações';
+    public const MANIFESTACAO_PRORROGACAO_REQUEST = 'Prorrogar Manifestações';
+    public const MANIFESTACAO_PRORROGACAO_ACCEPT = 'Prorrogar Manifestações';
+    public const MANIFESTACAO_INVALIDATE = 'Invalidar Manifestações';
+
 
     public const MANIFESTACOES = [
         self::MANIFESTACAO_LIST,
         self::MANIFESTACAO_VIEW,
         self::MANIFESTACAO_CREATE,
-        self::MANIFESTACAO_RESPONDER,
-        self::MANIFESTACAO_COMPARTILHAR,
-        self::MANIFESTACAO_PRORROGACAO,
-        self::MANIFESTACAO_INVALIDAR,
-        self::MANIFESTACAO_CHAT,
+        self::MANIFESTACAO_REPLY,
+        self::MANIFESTACAO_RECURSOS_CREATE,
+        self::MANIFESTACAO_RECURSOS_REPLY,
+        self::MANIFESTACAO_COMPARTILHAMENTO_CREATE,
+        self::MANIFESTACAO_COMPARTILHAMENTO_REPLY,
+        self::MANIFESTACAO_PRORROGACAO_REQUEST,
+        self::MANIFESTACAO_PRORROGACAO_ACCEPT,
+        self::MANIFESTACAO_INVALIDATE,
+    ];
     ];
 
     //Gerenciamento//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
