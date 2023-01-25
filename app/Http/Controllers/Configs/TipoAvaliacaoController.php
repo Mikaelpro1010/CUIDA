@@ -88,6 +88,7 @@ class TipoAvaliacaoController extends Controller
 
     public function toggleTipoAvaliacaoStatus($id)
     {
+        $this->authorize(Permission::GERENCIAR_TIPOS_AVALIACAO_ACTIVE_TOGGLE);
         $tipo_avaliacao = TipoAvaliacao::find($id);
         $tipo_avaliacao->ativo = !$tipo_avaliacao->ativo;
         $tipo_avaliacao->save();
@@ -101,6 +102,7 @@ class TipoAvaliacaoController extends Controller
 
     public function getTiposAvaliacaoSecretaria($secretariaId)
     {
+        $this->authorize(Permission::UNIDADE_SECRETARIA_CREATE);
         $secretaria = Secretaria::find($secretariaId);
 
         if (!is_null($secretaria)) {

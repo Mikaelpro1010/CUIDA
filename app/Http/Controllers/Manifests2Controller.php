@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Constants\Permission;
 use App\Models\Compartilhamento;
 use App\Models\EstadosProcesso;
 use App\Models\Historico;
@@ -18,7 +19,9 @@ use Illuminate\Support\Facades\Storage;
 
 class Manifests2Controller extends Controller
 {
-    public function list(Request $request){
+    public function list(Request $request)
+    {
+        $this->authorize(Permission::MANIFESTACAO_LIST);
         $manifestacoes = Manifestacoes::with('autor')
             ->when(is_numeric(request()->protocolo), function ($query) {
                 $query->where('protocolo', request()->protocolo);
@@ -64,11 +67,13 @@ class Manifests2Controller extends Controller
             // "totalCanaisMsg" => $totalCanaisMsg,
         ];
 
-            return view('admin.manifestacoes.manifestacoes-listar', $resposta);
+        return view('admin.manifestacoes.manifestacoes-listar', $resposta);
     }
 
     public function create()
     {
+        $this->authorize(Permission::MANIFESTACAO_CREATE);
+
         $tipos_manifestacao = TiposManifestacao::where('ativo', true)->get();
 
         $situacoes = Situacao::where('ativo', true)->get();
@@ -81,6 +86,8 @@ class Manifests2Controller extends Controller
 
     public function storeManifest(Request $request)
     {
+        $this->authorize(Permission::MANIFESTACAO_CREATE);
+
         if ($request->anonimo == 0) {
             $request->validate([
                 'nome' => 'required|string|max:255',
@@ -114,28 +121,28 @@ class Manifests2Controller extends Controller
         $manifestacao->protocolo = $new_protocolo;
         $manifestacao->senha = $new_senha;
 
-        if($request->anonimo == 0){
+        if ($request->anonimo == 0) {
             $manifestacao->nome = $request->nome;
             $manifestacao->email = $request->email;
             $manifestacao->numero_telefone = $request->numero_telefone;
             $manifestacao->tipo_telefone = $request->tipo_telefone;
-        } 
-        
-            $manifestacao->anonimo = $request->anonimo;
-            $manifestacao->endereco = $request->endereco;
-            $manifestacao->bairro = $request->bairro;
-            $manifestacao->manifestacao = $request->manifestacao;
-    
-            $manifestacao->tipo_manifestacao_id = $request->tipo_manifestacao;
-            $manifestacao->situacao_id = $request->situacao;
-            $manifestacao->estado_processo_id = $request->estado_processo;
-            $manifestacao->motivacao_id = $request->motivacao;
-        
+        }
 
-        if($request->has('anexo')){
-            foreach($request->file('anexo') as $file){
+        $manifestacao->anonimo = $request->anonimo;
+        $manifestacao->endereco = $request->endereco;
+        $manifestacao->bairro = $request->bairro;
+        $manifestacao->manifestacao = $request->manifestacao;
+
+        $manifestacao->tipo_manifestacao_id = $request->tipo_manifestacao;
+        $manifestacao->situacao_id = $request->situacao;
+        $manifestacao->estado_processo_id = $request->estado_processo;
+        $manifestacao->motivacao_id = $request->motivacao;
+
+
+        if ($request->has('anexo')) {
+            foreach ($request->file('anexo') as $file) {
                 $uploadedFile = $file;
-                $filename = time(). $uploadedFile->getClientOriginalName();
+                $filename = time() . $uploadedFile->getClientOriginalName();
                 // $caminho = ;
 
                 Storage::disk('local')->putFileAs(
@@ -143,7 +150,6 @@ class Manifests2Controller extends Controller
                     $uploadedFile,
                     $filename
                 );
-
             };
         }
 
@@ -152,7 +158,7 @@ class Manifests2Controller extends Controller
         $historico = Historico::create([
             'manifestacao_id' => $manifestacao->id,
             'etapas' => 'A manifestação foi criada!',
-            'alternativo' => "A manifestação foi criada por ". auth()->user()->name ."!",
+            'alternativo' => "A manifestação foi criada por " . auth()->user()->name . "!",
             'created_at' => now()
         ]);
 
@@ -161,25 +167,27 @@ class Manifests2Controller extends Controller
 
     public function viewManifest($id)
     {
+        $this->authorize(Permission::MANIFESTACAO_VIEW);
+
         $manifestacao = Manifestacoes::with('recursos', 'compartilhamento')->find($id);
 
-        
         $podeCriarCompartilhamento = false;
-        
-        if($manifestacao->compartilhamento->count() == 0 || $manifestacao->compartilhamento->where('resposta', null)->isEmpty()){
+
+        if ($manifestacao->compartilhamento->count() == 0 || $manifestacao->compartilhamento->where('resposta', null)->isEmpty()) {
             $podeCriarCompartilhamento = true;
         }
 
         $secretarias = Secretaria::query()->orderBy('updated_at', 'desc')->get();
 
         $situacaoAguardandoProrrogacao = Situacao::where('nome', 'Aguardando Porrogação')->first()->id;
-     
+
 
         return view('admin.manifestacoes.visualizarManifestacoes', compact('manifestacao', 'situacaoAguardandoProrrogacao', 'secretarias', 'podeCriarCompartilhamento'));
     }
 
-    public function responderRecurso(Request $request,Manifestacoes $manifestacao, Recurso $recurso)
+    public function responderRecurso(Request $request, Manifestacoes $manifestacao, Recurso $recurso)
     {
+        $this->authorize(Permission::MANIFESTACAO_RECURSOS_REPLY);
 
         $request->validate([
             'respostaRecurso' => 'required|string|max:255',

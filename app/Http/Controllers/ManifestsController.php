@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Constants\Permission;
 use App\Models\Manifest\Manifest;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -10,6 +11,7 @@ class ManifestsController extends Controller
 {
     public function list(Request $request)
     {
+        $this->authorize(Permission::MANIFESTACAO_LIST);
         $manifestacoes = Manifest::with('autor')
             ->when(is_numeric(request()->protocolo), function ($query) {
                 $query->where('protocolo', request()->protocolo);
@@ -60,6 +62,7 @@ class ManifestsController extends Controller
 
     public function viewManifest($id)
     {
+        $this->authorize(Permission::MANIFESTACAO_VIEW);
         $manifestacao = Manifest::with('recursos', 'autor', 'location')->find($id);
 
         return view('admin.manifests.manifest-visualizar', ['manifestacao' => $manifestacao]);
