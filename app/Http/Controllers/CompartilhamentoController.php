@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Constants\Permission;
 use App\Models\Compartilhamento;
 use App\Models\Historico;
 use App\Models\Secretaria;
@@ -12,6 +13,8 @@ class CompartilhamentoController extends Controller
 {
     public function compartilharManifestacao(Request $request, $id)
     {
+        $this->authorize(Permission::MANIFESTACAO_COMPARTILHAMENTO_CREATE);
+
         $request->validate([
             'secretaria_id' => 'required|integer',
             'texto_compartilhamento' => 'required|string|max:255',
@@ -45,6 +48,8 @@ class CompartilhamentoController extends Controller
 
     public function responderCompartilhamento(Request $request, Compartilhamento $compartilhamento)
     {
+        $this->authorize(Permission::MANIFESTACAO_COMPARTILHAMENTO_REPLY);
+
         $request->validate([
             'resposta' => 'required|string|max:255',
         ]);

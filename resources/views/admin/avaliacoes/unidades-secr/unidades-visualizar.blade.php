@@ -13,7 +13,7 @@
         </h5>
     </div>
     <hr>
-    @can(permissionConstant()::UNIDADE_SECRETARIA_UPDATE)
+    @can(permissionConstant()::UNIDADE_SECRETARIA_EDIT)
     <div class="d-flex align-items-center">
         <a href="{{ route('get-edit-unidade-view', ['id' => $unidadeObj->id]) }}" class="btn btn-warning">
             <i class="fa-solid fa-pen-to-square"></i>
@@ -108,7 +108,7 @@
 </div>
 
 
-@can(permissionConstant()::UNIDADE_SECRETARIA_UPDATE)
+@can(permissionConstant()::UNIDADE_SECRETARIA_EDIT)
 <!-- Modal -->
 <div class="modal fade" id="novaUnidadeModal" tabindex="-1" aria-labelledby="novaUnidadeTitle" aria-hidden="true">
     <div class="modal-dialog">

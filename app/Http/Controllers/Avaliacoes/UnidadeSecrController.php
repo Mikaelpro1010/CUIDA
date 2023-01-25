@@ -57,12 +57,7 @@ class UnidadeSecrController extends Controller
             $secretariasSearchSelect = auth()->user()->secretarias()->orderBy('nome', 'asc')->get();
         }
 
-        if (auth()->user()->can(Permission::UNIDADE_SECRETARIA_CREATE_ANY)) {
-            $secretariasCreateSelect = Secretaria::query()->orderBy('nome', 'asc')->get();
-        } else {
-            $secretariasCreateSelect = auth()->user()->secretarias()->orderBy('nome', 'asc')->get();
-        }
-        return view('admin.avaliacoes.unidades-secr.unidades-listar', compact('unidades', 'secretariasSearchSelect', 'secretariasCreateSelect'));
+        return view('admin.avaliacoes.unidades-secr.unidades-listar', compact('unidades', 'secretariasSearchSelect'));
     }
 
     public function createUnidade()
@@ -88,7 +83,6 @@ class UnidadeSecrController extends Controller
             'secretaria' => 'required|int',
             'tipos_avaliacao' => 'required|array',
         ]);
-
 
         if (
             (auth()->user()->cant(Permission::UNIDADE_SECRETARIA_CREATE_ANY) &&

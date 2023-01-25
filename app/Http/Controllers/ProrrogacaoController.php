@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Constants\Permission;
 use App\Models\Historico;
 use App\Models\Manifestacoes;
 use App\Models\Prorrogacao;
@@ -12,6 +13,7 @@ class ProrrogacaoController extends Controller
 {
     public function create(Request $request, Manifestacoes $manifestacao)
     {
+        $this->authorize(Permission::MANIFESTACAO_PRORROGACAO_REQUEST);
         $request->validate([
             'motivo_solicitacao' => 'required|string|max:255',
         ]);
@@ -44,6 +46,8 @@ class ProrrogacaoController extends Controller
 
     public function responseProrrogacao(Request $request, Manifestacoes $manifestacao,  Prorrogacao $prorrogacao)
     {
+        $this->authorize(Permission::MANIFESTACAO_PRORROGACAO_ACCEPT);
+
         $request->validate([
             'resposta' => 'required|string|max:255',
         ]);
