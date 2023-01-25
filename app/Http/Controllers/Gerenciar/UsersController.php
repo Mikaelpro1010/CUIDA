@@ -40,6 +40,13 @@ class UsersController extends Controller
                         ->where('role_id', request()->tipo_usuario);
                 }
             )
+            ->when(
+                auth()->user()->can(Permission::GERENCIAR_USUARIOS_VIEW_DELETED),
+                function ($query) {
+                    return $query
+                        ->withTrashed();
+                }
+            )
             ->with('role', 'secretarias')
             ->orderBy('updated_at', 'desc')
             ->paginate(15)
