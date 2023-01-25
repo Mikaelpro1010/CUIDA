@@ -102,6 +102,7 @@ class TipoAvaliacaoController extends Controller
 
     public function getTiposAvaliacaoSecretaria($secretariaId)
     {
+        $this->authorize(Permission::UNIDADE_SECRETARIA_CREATE);
         $secretaria = Secretaria::find($secretariaId);
 
         if (!is_null($secretaria)) {
