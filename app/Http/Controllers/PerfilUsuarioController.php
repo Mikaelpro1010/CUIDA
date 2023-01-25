@@ -15,19 +15,19 @@ class PerfilUsuarioController extends Controller
 {
     public function viewPerfil()
     {
-        $this->authorize(Permission::GERENCIAR_PERFIL_USUARIO_VIEW);
+        $this->authorize(Permission::PERFIL_USUARIO_VIEW);
         return view('admin.perfil-usuario.perfil-usuario-visualizar');
     }
 
     public function editPerfil()
     {
-        $this->authorize(Permission::GERENCIAR_PERFIL_USUARIO_EDIT);
+        $this->authorize(Permission::PERFIL_USUARIO_EDIT);
         return view('admin.perfil-usuario.perfil-usuario-editar');
     }
 
     public function updatePerfil(Request $request)
     {
-        $this->authorize(Permission::GERENCIAR_PERFIL_USUARIO_EDIT);
+        $this->authorize(Permission::PERFIL_USUARIO_EDIT);
         $name = $request->name;
         $email = $request->email;
 
@@ -50,13 +50,13 @@ class PerfilUsuarioController extends Controller
 
     public function viewEditPassword()
     {
-        $this->authorize(Permission::GERENCIAR_PERFIL_SENHA_VIEW);
+        $this->authorize(Permission::PERFIL_USUARIO_EDIT_PASSWORD);
         return view('admin.perfil-usuario.perfil-usuario-editar-senha');
     }
 
     public function updatePassword(Request $request)
     {
-        $this->authorize(Permission::GERENCIAR_PERFIL_SENHA_EDIT);
+        $this->authorize(Permission::PERFIL_USUARIO_EDIT_PASSWORD);
         $user = Auth::user();
         $userPassword = $user->password;
         $newPass = $request->password;

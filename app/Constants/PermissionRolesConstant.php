@@ -9,6 +9,7 @@ class PermissionRolesConstants
 
     // Ouvidor
     public const OUVIDOR = [
+        Permission::PERFIL_USUARIO,
         Permission::GERENCIAR_TIPOS_MANIFESTACAO,
         Permission::GERENCIAR_ESTADOS_PROCESSO,
         Permission::GERENCIAR_MOTIVACOES,
@@ -19,6 +20,7 @@ class PermissionRolesConstants
 
     // Avaliador
     public const AVALIADOR = [
+        Permission::PERFIL_USUARIO,
         // Modulo Avaliação
         Permission::UNIDADE_SECRETARIA_LIST,
         // Permission::UNIDADE_SECRETARIA_ACCESS_ANY_SECRETARIA,

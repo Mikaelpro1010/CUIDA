@@ -5,16 +5,14 @@ namespace App\Constants;
 class Permission
 {
     // Perfil de usuário
-    public const GERENCIAR_PERFIL_USUARIO_VIEW = 'Visualizar Perfil de Usuário';
-    public const GERENCIAR_PERFIL_USUARIO_EDIT = 'Editar Perfil de Usuário';
-    public const GERENCIAR_PERFIL_SENHA_VIEW = 'Visualizar Senha de Usuário';
-    public const GERENCIAR_PERFIL_SENHA_EDIT = 'Editar Senha de Usuário';
+    public const PERFIL_USUARIO_VIEW = 'Visualizar Perfil de Usuário';
+    public const PERFIL_USUARIO_EDIT = 'Editar Perfil de Usuário';
+    public const PERFIL_USUARIO_EDIT_PASSWORD = 'Editar Senha de Usuário';
 
-    public const GERENCIAR_PERFIL = [
-        self::GERENCIAR_PERFIL_USUARIO_VIEW,
-        self::GERENCIAR_PERFIL_USUARIO_EDIT,
-        self::GERENCIAR_PERFIL_SENHA_VIEW,
-        self::GERENCIAR_PERFIL_SENHA_EDIT,
+    public const PERFIL_USUARIO = [
+        self::PERFIL_USUARIO_VIEW,
+        self::PERFIL_USUARIO_EDIT,
+        self::PERFIL_USUARIO_EDIT_PASSWORD,
     ];
 
     //Manifestaçoes//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -238,7 +236,7 @@ class Permission
 
     public const PERMISSIONS = [
         //perfil
-        'Gerenciar Perfil de Usuário' => self::GERENCIAR_PERFIL,
+        'Gerenciar Perfil de Usuário' => self::PERFIL_USUARIO,
         //Manifestaçoes
         'Manifestações' => self::MANIFESTACOES,
         //Gerenciar
