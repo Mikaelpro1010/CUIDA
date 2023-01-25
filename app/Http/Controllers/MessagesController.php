@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Constants\Permission;
 use App\Models\Chat\AnexoMensagem;
 use App\Models\Chat\CanalMensagem;
 use App\Models\Chat\Mensagem;
@@ -13,8 +14,10 @@ use Illuminate\Support\Facades\Storage;
 
 class MessagesController extends Controller
 {
+
     public function index()
     {
+        $this->authorize(Permission::CHAT_MANIFESTACAO_LIST);
         $canaisMensagem = CanalMensagem::with("manifestacao", "autor")
             ->when(is_numeric(request()->protocolo), function ($query) {
                 $query->whereHas('manifestacao', function (Builder $query) {
@@ -66,6 +69,8 @@ class MessagesController extends Controller
 
     public function visualizarMsg($id)
     {
+        $this->authorize(Permission::CHAT_MANIFESTACAO_VIEW);
+
         $canalManifestacao = CanalMensagem::with('manifestacao', 'manifestacao.autor')->find($id);
 
         if (is_null($canalManifestacao)) {
@@ -85,6 +90,8 @@ class MessagesController extends Controller
 
     public function enviarMsg(Request $request, $id)
     {
+        $this->authorize(Permission::CHAT_MANIFESTACAO_RESPONDER);
+
         $canalManifestacao = CanalMensagem::find($id);
         if (is_null($canalManifestacao)) {
             return redirect()->route('visualizarMsg', ['id' => $id])->with(['warning' => 'Não foi possivel enviar a mensagem!']);
@@ -142,6 +149,8 @@ class MessagesController extends Controller
 
     public function encerrarCanal($id)
     {
+        $this->authorize(Permission::CHAT_MANIFESTACAO_ENCERRAR);
+
         $canalManifestacao = CanalMensagem::find($id);
         if (!is_null($canalManifestacao)) {
             if ($canalManifestacao->id_status != CanalMensagem::STATUS_ENCERRADO) {

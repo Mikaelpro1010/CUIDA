@@ -44,6 +44,18 @@ class Permission
         self::MANIFESTACAO_PRORROGACAO_ACCEPT,
         self::MANIFESTACAO_INVALIDATE,
     ];
+
+    // ouvidoria chat
+    public const CHAT_MANIFESTACAO_LIST = 'Listar Chats das Manifestações';
+    public const CHAT_MANIFESTACAO_VIEW = 'Visualizar Chat da Manifestação';
+    public const CHAT_MANIFESTACAO_RESPONDER = 'Responder Chat da Manifestação';
+    public const CHAT_MANIFESTACAO_ENCERRAR = 'Encerrar Chat da Manifestação';
+
+    public const OUVIDORIA_CHAT = [
+        self::CHAT_MANIFESTACAO_LIST,
+        self::CHAT_MANIFESTACAO_VIEW,
+        self::CHAT_MANIFESTACAO_RESPONDER,
+        self::CHAT_MANIFESTACAO_ENCERRAR,
     ];
 
     //Gerenciamento//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
