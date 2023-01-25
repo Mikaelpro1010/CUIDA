@@ -42,6 +42,7 @@ class Permission
     //Usuários
     public const GERENCIAR_USUARIOS_LIST = 'Listar Usuários';
     public const GERENCIAR_USUARIOS_VIEW = 'Visualizar Usuários';
+    public const GERENCIAR_USUARIOS_VIEW_DELETED = 'Visualizar Usuários deletados';
     public const GERENCIAR_USUARIOS_CREATE = 'Criar Usuários';
     public const GERENCIAR_USUARIOS_EDIT = 'Editar Usuários';
     public const GERENCIAR_USUARIOS_EDIT_PASSWORD = 'Alterar Senha de Usuários';
@@ -50,6 +51,7 @@ class Permission
     public const GERENCIAR_USUARIOS = [
         self::GERENCIAR_USUARIOS_LIST,
         self::GERENCIAR_USUARIOS_VIEW,
+        self::GERENCIAR_USUARIOS_VIEW_DELETED,
         self::GERENCIAR_USUARIOS_CREATE,
         self::GERENCIAR_USUARIOS_EDIT,
         self::GERENCIAR_USUARIOS_EDIT_PASSWORD,
