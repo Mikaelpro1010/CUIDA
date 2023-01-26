@@ -119,9 +119,7 @@ class RelatoriosAvaliacoesController extends Controller
             'bestUnidades',
             'qtdBestUnidades',
             'notas',
-            'qtdAvaliacoes',
-            'todasAvaliacoes',
-            'keysTodasAvaliacoes'
+            'qtdAvaliacoes'
         );
 
         return view('admin.avaliacoes.resumos.resumo-geral', $dataToView);
@@ -260,7 +258,6 @@ class RelatoriosAvaliacoesController extends Controller
         $corGrafico = "$r, $g, $b";
 
         $dataToView = compact(
-            'secretariasSearchSelect',
             'secretaria',
             'avaliacoesAverage',
             'percentAverage',
