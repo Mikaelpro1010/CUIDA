@@ -20,6 +20,17 @@
                 <input id="pesquisa" class="form-control" type="text" name="pesquisa" placeholder="Pesquisar"
                     value="{{ request()->pesquisa }}">
             </div>
+            <div class="col-md-3">
+                <label for="secretaria_pesq">Secretaria:</label>
+                <select id="secretaria_pesq" class="form-select" name="secretaria_pesq">
+                    <option value="" @if (is_null(request()->secretaria_pesq)) selected @endif>Selecione</option>
+                    @foreach ($secretariasSearchSelect as $secretaria)
+                        <option value="{{ $secretaria->id }}" @if (request()->secretaria_pesq == $secretaria->id) selected @endif>
+                            {{ $secretaria->sigla . ' - ' . $secretaria->nome }}
+                        </option>
+                    @endforeach
+                </select>
+            </div>
             <div class="col-md-2 d-flex align-items-end">
                 <button class="btn btn-primary form-control mt-3" type="submit">
                     <i class="fa-solid fa-magnifying-glass"></i>
@@ -40,6 +51,7 @@
             <th>Id</th>
             <th>Ativo</th>
             <th>Nome</th>
+            <th>Secretaria</th>
             <th>Última alteração</th>
             @if (auth()->user()->can(permissionConstant()::GERENCIAR_TIPOS_AVALIACAO_VIEW) ||
                     auth()->user()->can(permissionConstant()::GERENCIAR_TIPOS_AVALIACAO_EDIT) ||
@@ -73,6 +85,9 @@
                     </td>
                     <td class="name">
                         {{ $tipo_avaliacao->nome }}
+                    </td>
+                    <td>
+                        {{ $tipo_avaliacao->secretaria->sigla . ' - ' . $tipo_avaliacao->secretaria->nome }}
                     </td>
                     <td>
                         {{ formatarDataHora($tipo_avaliacao->updated_at) }}
@@ -141,6 +156,7 @@
     <script nonce="{{ app('csp-nonce') }}">
         $('#btnLimpaForm').click(function() {
             $('#pesquisa').val('');
+            $('#secretaria_pesq').val('');
         });
 
         @can(permissionConstant()::GERENCIAR_TIPOS_AVALIACAO_DELETE)

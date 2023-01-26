@@ -1,8 +1,6 @@
 <?php
 
-use App\Constants\Permission as ConstantsPermission;
 use App\Constants\PermissionRolesConstants;
-use App\Models\Permission;
 use App\Models\Role;
 use Illuminate\Database\Seeder;
 
