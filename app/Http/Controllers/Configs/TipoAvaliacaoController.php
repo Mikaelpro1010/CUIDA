@@ -13,14 +13,14 @@ class TipoAvaliacaoController extends Controller
 {
     public function listTipoAvaliacao()
     {
-        $this->authorize(Permission::GERENCIAR_ESTADOS_PROCESSO_LIST);
-            if (auth()->user()->can(Permission::TIPO_AVALIACAO_SECRETARIA_ACCESS_ANY_SECRETARIA)) {
-                $secretariasSearchSelect = Secretaria::query()->orderBy('nome', 'asc')->get();
-            } else {
-                $secretariasSearchSelect = auth()->user()->secretarias()->orderBy('nome', 'asc')->get();
-            }
-    
-            $tipo_avaliacoes = TipoAvaliacao::query()
+        $this->authorize(Permission::GERENCIAR_TIPOS_AVALIACAO_LIST);
+        if (auth()->user()->can(Permission::TIPO_AVALIACAO_SECRETARIA_ACCESS_ANY_SECRETARIA)) {
+            $secretariasSearchSelect = Secretaria::query()->orderBy('nome', 'asc')->get();
+        } else {
+            $secretariasSearchSelect = auth()->user()->secretarias()->orderBy('nome', 'asc')->get();
+        }
+
+        $tipo_avaliacoes = TipoAvaliacao::query()
             ->when(request()->pesquisa, function ($query) {
                 $query->where('nome', 'ilike', '%' . request()->pesquisa . '%');
             })
@@ -32,16 +32,16 @@ class TipoAvaliacaoController extends Controller
                 function ($query) use ($secretariasSearchSelect) {
                     $query->whereIn('secretaria_id', $secretariasSearchSelect->pluck('id'));
                 }
-                )
-                ->with('secretaria');
-                
-                $tipo_avaliacoes = $tipo_avaliacoes->orderBy('ativo', 'desc')
-                    ->orderBy('updated_at', 'desc')
-                    ->paginate(10)
-                    ->appends(
-                        ['pesquisa' => request()->pesquisa]
-                    );
-                
+            )
+            ->with('secretaria');
+
+        $tipo_avaliacoes = $tipo_avaliacoes->orderBy('ativo', 'desc')
+            ->orderBy('updated_at', 'desc')
+            ->paginate(10)
+            ->appends(
+                ['pesquisa' => request()->pesquisa]
+            );
+
 
         return view('admin.config.tipos-avaliacao.tipo-avaliacoes-listar', compact('tipo_avaliacoes', 'secretariasSearchSelect'));
     }

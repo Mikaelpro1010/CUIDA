@@ -48,7 +48,6 @@
 
     <table class="table table-striped">
         <thead>
-            <th>Id</th>
             <th>Ativo</th>
             <th>Nome</th>
             <th>Secretaria</th>
@@ -62,9 +61,6 @@
         <tbody>
             @forelse ($tipo_avaliacoes as $tipo_avaliacao)
                 <tr id="{{ $tipo_avaliacao->id }}">
-                    <td>
-                        {{ $tipo_avaliacao->id }}
-                    </td>
                     <td>
                         @can(permissionConstant()::GERENCIAR_TIPOS_AVALIACAO_ACTIVE_TOGGLE)
                             <a class="btn"
@@ -119,7 +115,7 @@
                 </tr>
             @empty
                 <tr>
-                    <td colspan="5" class="text-center table-warning">
+                    <td colspan="6" class="text-center table-warning">
                         Nenhum resultado encontrado!
                     </td>
                 </tr>
