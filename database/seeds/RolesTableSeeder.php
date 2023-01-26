@@ -15,7 +15,17 @@ class RolesTableSeeder extends Seeder
     {
         Role::query()->insert([
             [
+                'name' => "SuperAdmin",
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
+            ],
+            [
                 'name' => "Admin",
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
+            ],
+            [
+                'name' => "Gerente",
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
             ],

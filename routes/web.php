@@ -94,6 +94,14 @@ Route::prefix('avaliacoes')->namespace('Publico')->group(function () {
 
 Route::middleware(['auth:web'])->group(
     function () {
+        //superAdm
+        Route::prefix('super-adm')->group(
+            function () {
+                Route::get('/migrar', 'SuperAdmController@migrarDados');
+            }
+        );
+
+        //inicio
         Route::get('/inicio', 'HomeController@index')->name('inicio');
 
         //Perfil do Usuário
