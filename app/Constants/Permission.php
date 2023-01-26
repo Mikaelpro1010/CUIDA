@@ -254,4 +254,10 @@ class Permission
         'Relatórios Modulo Avaliação' => self::RELATORIO_AVALIACOES,
         'Modulo Avaliação' => self::UNIDADE_SECRETARIA,
     ];
+
+    public const SUPER_MIGRAR_DADOS = 'Super usuário migrar dados';
+
+    public const SUPERPERMISSIONS = [
+        'Gerenciamento de Banco de Dados' => self::SUPER_MIGRAR_DADOS,
+    ];
 }

@@ -7,6 +7,16 @@ class PermissionRolesConstants
     // SuperAdmin
     public const SUPERADM = Permission::PERMISSIONS;
 
+    // Admin
+    public const ADMIN = [
+        Permission::PERFIL_USUARIO,
+    ];
+
+    // Gerente
+    public const GERENTE = [
+        Permission::PERFIL_USUARIO,
+    ];
+
     // Ouvidor
     public const OUVIDOR = [
         Permission::PERFIL_USUARIO,

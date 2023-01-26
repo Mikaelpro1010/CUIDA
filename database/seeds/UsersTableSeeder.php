@@ -15,39 +15,53 @@ class UsersTableSeeder extends Seeder
     {
         User::query()->insert([
             [
-                'name' => "SauloDc",
+                'name' => "SauloDc - Super",
                 'role_id' => 1,
                 'email' => "asd@mail.com",
-                'password' => bcrypt('123'),
+                'password' => bcrypt('8qXY#jnE44Bu'),
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
+            ],
+            [
+                'name' => "Admin",
+                'role_id' => 2,
+                'email' => "ouvidor@mail.com",
+                'password' => bcrypt('8qXY#jnE44Bu'),
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
+            ],
+            [
+                'name' => "Gerente",
+                'role_id' => 3,
+                'email' => "ouvidor@mail.com",
+                'password' => bcrypt('8qXY#jnE44Bu'),
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
             ],
             [
                 'name' => "Ouvidor",
-                'role_id' => 2,
+                'role_id' => 4,
                 'email' => "ouvidor@mail.com",
-                'password' => bcrypt('123'),
+                'password' => bcrypt('8qXY#jnE44Bu'),
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
             ],
             [
                 'name' => "Avaliador",
-                'role_id' => 3,
+                'role_id' => 5,
                 'email' => "avaliador@mail.com",
-                'password' => bcrypt('123'),
+                'password' => bcrypt('8qXY#jnE44Bu'),
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
             ],
             [
                 'name' => "SauloDc",
-                'role_id' => 1,
+                'role_id' => 2,
                 'email' => "saulocastro@sobral.ce.gov.br",
-                'password' => bcrypt('123123'),
+                'password' => bcrypt('8qXY#jnE44Bu'),
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
             ],
         ]);
-
-        factory(User::class, 10)->create();
     }
 }
