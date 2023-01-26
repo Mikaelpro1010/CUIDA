@@ -94,18 +94,16 @@ class Permission
     //configurações//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // Tipos de avaliacao
     public const GERENCIAR_TIPOS_AVALIACAO_LIST = 'Listar Tipos de Avaliação';
-    public const TIPO_AVALIACAO_SECRETARIA_ACCESS_ANY_SECRETARIA = 'Tipos de Avaliação acessar qualquer secretaria';
+    public const GERENCIAR_TIPO_AVALIACAO_SECRETARIA_ACCESS_ANY_SECRETARIA = 'Tipos de Avaliação acessar qualquer secretaria';
     public const GERENCIAR_TIPOS_AVALIACAO_VIEW = 'Visualizar Tipos de Avaliação';
     public const GERENCIAR_TIPOS_AVALIACAO_CREATE = 'Criar Tipos de Avaliação';
     public const GERENCIAR_TIPOS_AVALIACAO_EDIT = 'Editar Tipos de Avaliação';
     public const GERENCIAR_TIPOS_AVALIACAO_DELETE = 'Deletar Tipos de Avaliação';
     public const GERENCIAR_TIPOS_AVALIACAO_ACTIVE_TOGGLE = 'Ativar ou Desativar Tipos de Avaliação';
 
-
-
     public const GERENCIAR_TIPOS_AVALIACAO = [
         self::GERENCIAR_TIPOS_AVALIACAO_LIST,
-        self::TIPO_AVALIACAO_SECRETARIA_ACCESS_ANY_SECRETARIA,
+        self::GERENCIAR_TIPO_AVALIACAO_SECRETARIA_ACCESS_ANY_SECRETARIA,
         self::GERENCIAR_TIPOS_AVALIACAO_VIEW,
         self::GERENCIAR_TIPOS_AVALIACAO_CREATE,
         self::GERENCIAR_TIPOS_AVALIACAO_EDIT,

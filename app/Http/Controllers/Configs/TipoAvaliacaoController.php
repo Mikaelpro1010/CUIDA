@@ -14,7 +14,7 @@ class TipoAvaliacaoController extends Controller
     public function listTipoAvaliacao()
     {
         $this->authorize(Permission::GERENCIAR_TIPOS_AVALIACAO_LIST);
-        if (auth()->user()->can(Permission::TIPO_AVALIACAO_SECRETARIA_ACCESS_ANY_SECRETARIA)) {
+        if (auth()->user()->can(Permission::GERENCIAR_TIPO_AVALIACAO_SECRETARIA_ACCESS_ANY_SECRETARIA)) {
             $secretariasSearchSelect = Secretaria::query()->orderBy('nome', 'asc')->get();
         } else {
             $secretariasSearchSelect = auth()->user()->secretarias()->orderBy('nome', 'asc')->get();
