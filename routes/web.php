@@ -91,13 +91,12 @@ Route::prefix('avaliacoes')->namespace('Publico')->group(function () {
     Route::view('/agradecer', 'public.unidade_secr.agradecimento')->name('agradecimento-avaliacao');
 });
 
-
 Route::middleware(['auth:web'])->group(
     function () {
         //superAdm
         Route::prefix('super-adm')->group(
             function () {
-                Route::get('/migrar', 'SuperAdmController@migrarDados');
+                // Route::get('/migrar', 'SuperAdmController@migrarDados');
             }
         );
 
