@@ -70,7 +70,7 @@ class UnidadeSecrController extends Controller
 
         $secretarias = $secretarias->with('unidades')->orderBy('nome', 'asc')->get();
 
-        return view('admin.avaliacoes.unidades-secr.unidades-criar', compact('tipos_avaliacao', 'secretarias'));
+        return view('admin.avaliacoes.unidades-secr.unidades-criar', compact('secretarias'));
     }
 
     public function storeUnidade(Request $request)
@@ -138,7 +138,7 @@ class UnidadeSecrController extends Controller
 
     public function updateUnidade(Unidade $unidade, Request $request)
     {
-        $this->authorize(Permission::UNIDADE_SECRETARIA_UPDATE);
+        $this->authorize(Permission::UNIDADE_SECRETARIA_EDIT);
 
         $request->validate([
             'nome' => 'required|string|max:255',

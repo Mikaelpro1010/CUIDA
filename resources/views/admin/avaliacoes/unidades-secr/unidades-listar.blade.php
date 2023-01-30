@@ -101,8 +101,13 @@
                                         <i class="fa-xl fa-solid fa-magnifying-glass"></i>
                                     </a>
                                 @endcan
+                                @can(permissionConstant()::UNIDADE_SECRETARIA_EDIT)
+                                    <a class="btn text-warning" href="{{ route('get-edit-unidade-view', $unidade) }}">
+                                        <i class="fa-xl fa-solid fa-pen-to-square"></i>
+                                    </a>
+                                @endcan
                                 @can(permissionConstant()::RELATORIO_AVALIACOES_UNIDADE_VIEW)
-                                    <a class="btn text-warning"
+                                    <a class="btn text-orange"
                                         href="{{ route('get-resumo-avaliacoes-unidade', ['unidade' => $unidade, 'secretaria' => $unidade->secretaria_id]) }}">
                                         <i class=" fa-xl fa-solid fa-chart-area"></i>
                                     </a>
