@@ -16,26 +16,28 @@
         </div>
         <div id="body-{{$key}}" class="@if (!$loop->first) d-none @endif">
             <fieldset class="avaliar-{{$key}} mb-2">
-                <label id="label-muito-feliz-{{$key}}" data-item='{{$key}}' data-nota='5'>
-                    <i class="fa-4x text-success fa-regular fa-face-laugh-beam"></i>
+                <label id="label-muito-triste-{{$key}}" data-item='{{$key}}' data-nota='1'>
+                    <i class="fa-4x text-danger fa-regular fa-face-angry"></i>
+                </label>
+
+                <label id="label-triste-{{$key}}" data-item='{{$key}}' data-nota='2'>
+                    <i class="fa-4x text-warning fa-regular fa-face-frown"></i>
+                </label>
+                
+                <label id="label-neutro-{{$key}}" data-item='{{$key}}' data-nota='3'>
+                    <i class="fa-4x text-info fa-regular fa-face-meh"></i>
                 </label>
 
                 <label id="label-feliz-{{$key}}" data-item='{{$key}}' data-nota='4'>
                     <i class="fa-4x text-primary fa-regular fa-face-smile"></i>
                 </label>
 
-                <label id="label-neutro-{{$key}}" data-item='{{$key}}' data-nota='3'>
-                    <i class="fa-4x text-info fa-regular fa-face-meh"></i>
+                <label id="label-muito-feliz-{{$key}}" data-item='{{$key}}' data-nota='5'>
+                    <i class="fa-4x text-success fa-regular fa-face-laugh-beam"></i>
                 </label>
 
-                <label id="label-triste-{{$key}}" data-item='{{$key}}' data-nota='2'>
-                    <i class="fa-4x text-warning fa-regular fa-face-frown"></i>
-                </label>
-
-                <label id="label-muito-triste-{{$key}}" data-item='{{$key}}' data-nota='1'>
-                    <i class="fa-4x text-danger fa-regular fa-face-angry"></i>
-                </label>
             </fieldset>
+            
             <span id="avaliacao-text-{{$key}}"></span>
             <div id="comentario-{{$key}}" class=" px-3 d-none">
                 <label class="d-flex aling-itens-start my-2" for="textArea-{{$key}}">Comentário (opcional):</label>
