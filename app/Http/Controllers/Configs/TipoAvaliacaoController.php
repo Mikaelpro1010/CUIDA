@@ -49,7 +49,18 @@ class TipoAvaliacaoController extends Controller
     public function createTipoAvaliacao()
     {
         $this->authorize(Permission::GERENCIAR_TIPOS_AVALIACAO_CREATE);
-        return view('admin.config.tipos-avaliacao.tipo-avaliacao-criar');
+        if (auth()->user()->can(Permission::GERENCIAR_TIPOS_AVALIACAO_CREATE_ANY_SECRETARIA)) {
+            $secretarias = Secretaria::query();
+        } else {
+            $secretarias = auth()->user()->secretarias();
+        };
+
+        $secretarias = $secretarias
+            ->where('ativo', true)
+            ->orderBy('nome', 'asc')
+            ->get();
+
+        return view('admin.config.tipos-avaliacao.tipo-avaliacao-criar', compact('secretarias'));
     }
 
     public function storeTipoAvaliacao(Request $request)
@@ -57,13 +68,17 @@ class TipoAvaliacaoController extends Controller
         $this->authorize(Permission::GERENCIAR_TIPOS_AVALIACAO_CREATE);
         $request->validate([
             'nome' => 'required|string|max:255',
-            'pergunta' => 'required|string'
+            'pergunta' => 'required|string',
+            'inserir_automaticamente' => 'required|boolean',
+            'secretaria' => 'required|int',
         ]);
 
         TipoAvaliacao::create([
             'ativo' => true,
             'nome' => $request->nome,
             'pergunta' => $request->pergunta,
+            'default' => $request->inserir_automaticamente,
+            'secretaria_id' => $request->secretaria,
         ]);
 
         return redirect()->route('get-tipo-avaliacao-list')->with('success', 'Tipo de Avaliação cadastrado com sucesso!');
@@ -87,11 +102,14 @@ class TipoAvaliacaoController extends Controller
         $this->authorize(Permission::GERENCIAR_TIPOS_AVALIACAO_EDIT);
         $request->validate([
             'nome' => 'required|string|max:255',
-            'pergunta' => 'required|string'
+            'pergunta' => 'required|string',
+            'inserir_automaticamente' => 'required|boolean',
         ]);
 
         $tipoAvaliacao->nome = $request->nome;
         $tipoAvaliacao->pergunta = $request->pergunta;
+        $tipoAvaliacao->default =  $request->inserir_automaticamente;
+        $tipoAvaliacao->ativo = true;
         $tipoAvaliacao->save();
 
         return redirect()->route('get-tipo-avaliacao-view', $tipoAvaliacao)->with('success', 'Atualizado com sucesso!');

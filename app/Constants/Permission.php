@@ -96,6 +96,7 @@ class Permission
     public const GERENCIAR_TIPOS_AVALIACAO_LIST = 'Listar Tipos de Avaliação';
     public const GERENCIAR_TIPO_AVALIACAO_SECRETARIA_ACCESS_ANY_SECRETARIA = 'Tipos de Avaliação acessar qualquer secretaria';
     public const GERENCIAR_TIPOS_AVALIACAO_VIEW = 'Visualizar Tipos de Avaliação';
+    public const GERENCIAR_TIPOS_AVALIACAO_CREATE_ANY_SECRETARIA = 'Criar Tipos de Avaliação para qualquer secretaria';
     public const GERENCIAR_TIPOS_AVALIACAO_CREATE = 'Criar Tipos de Avaliação';
     public const GERENCIAR_TIPOS_AVALIACAO_EDIT = 'Editar Tipos de Avaliação';
     public const GERENCIAR_TIPOS_AVALIACAO_DELETE = 'Deletar Tipos de Avaliação';
@@ -106,6 +107,7 @@ class Permission
         self::GERENCIAR_TIPO_AVALIACAO_SECRETARIA_ACCESS_ANY_SECRETARIA,
         self::GERENCIAR_TIPOS_AVALIACAO_VIEW,
         self::GERENCIAR_TIPOS_AVALIACAO_CREATE,
+        self::GERENCIAR_TIPOS_AVALIACAO_CREATE_ANY_SECRETARIA,
         self::GERENCIAR_TIPOS_AVALIACAO_EDIT,
         self::GERENCIAR_TIPOS_AVALIACAO_DELETE,
         self::GERENCIAR_TIPOS_AVALIACAO_ACTIVE_TOGGLE,

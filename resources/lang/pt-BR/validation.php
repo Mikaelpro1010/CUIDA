@@ -111,6 +111,9 @@ return [
         ],
         'email' => [
             'unique' => 'O email informado já está sendo usado!',
+        ],
+        'inserir_automaticamente' => [
+            'boolean' => 'É preciso responder a pergunta marcando Sim ou Não',
         ]
     ],
 
