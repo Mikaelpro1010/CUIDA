@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Avaliacoes;
 use App\Constants\Permission;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\Avaliacao\Setor;
 use App\Models\Avaliacao\TipoAvaliacao;
 use App\Models\Avaliacao\Unidade;
 use App\Models\Secretaria;
@@ -68,7 +69,7 @@ class UnidadeSecrController extends Controller
             $secretarias = auth()->user()->secretarias();
         };
 
-        $secretarias = $secretarias->with('unidades')->orderBy('nome', 'asc')->get();
+        $secretarias = $secretarias->orderBy('nome', 'asc')->get();
 
         return view('admin.avaliacoes.unidades-secr.unidades-criar', compact('secretarias'));
     }
@@ -81,7 +82,6 @@ class UnidadeSecrController extends Controller
             'nome' => 'required|string|max:255',
             'descricao' => 'nullable|string',
             'secretaria' => 'required|int',
-            'tipos_avaliacao' => 'required|array',
         ]);
 
         if (
@@ -91,31 +91,23 @@ class UnidadeSecrController extends Controller
         ) {
             return redirect()->back()->withErrors(['secretaria' => 'Não foi possível identificar a Secretaria!'])->withInput();
         }
-        $tipos_avaliacao = TipoAvaliacao::where('ativo', true);
 
-        $tiposAvaliacao = [];
-        foreach ($request->tipos_avaliacao as $tipo) {
-            if (in_array($tipo, $tipos_avaliacao->pluck('id')->toArray())) {
-                $tiposAvaliacao[$tipo] = ['nota' => 0];
-            }
-        }
-        if (count($tiposAvaliacao) > 0) {
+        $unidade = Unidade::create([
+            'nome' => $request->nome,
+            'descricao' => $request->descricao,
+            'secretaria_id' => $request->secretaria,
+            'nota' => 0,
+            'ativo' => true,
+            'token' => substr(bin2hex(random_bytes(50)), 1),
+        ]);
 
-            $unidade = Unidade::query()->create([
-                'nome' => $request->nome,
-                'descricao' => $request->descricao,
-                'secretaria_id' => $request->secretaria,
-                'nota' => 0,
-                'ativo' => true,
-                'token' => substr(bin2hex(random_bytes(50)), 1),
-            ]);
+        $setor = Setor::create([
+            'nome' => 'Geral',
+            'unidade_id' => $unidade->id,
+            'ativo' => true,
+        ]);
 
-            $unidade->tiposAvaliacao()->sync($tiposAvaliacao);
-
-            return redirect()->route('get-unidades-secr-list')->with(['success' => 'Unidade Cadastrada com Sucesso!']);
-        } else {
-            return redirect()->back()->withError(['tipos_avaliacao' => 'É preciso definir os tipos de avaliação!'])->withInput();
-        }
+        return redirect()->route('get-unidades-secr-list')->with(['success' => 'Unidade Cadastrada com Sucesso!']);
     }
 
     public function visualizar($unidade)

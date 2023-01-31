@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Cache;
  */
 class Unidade extends Model
 {
-    protected $table = "unidades_secr";
+    protected $table = "unidades";
     protected $guarded = [];
 
     public function secretaria(): BelongsTo
@@ -26,6 +26,11 @@ class Unidade extends Model
     public function avaliacoes(): HasMany
     {
         return $this->hasMany(Avaliacao::class, 'unidade_secr_id', 'id');
+    }
+
+    public function setores(): HasMany
+    {
+        return $this->hasMany(Setor::class, 'unidade_id');
     }
 
     public function tiposAvaliacao(): BelongsToMany
