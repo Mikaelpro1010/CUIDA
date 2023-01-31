@@ -12,18 +12,17 @@ class TipoAvaliacao extends Model
 {
     use SoftDeletes;
 
-    protected $table = "tipos_avaliacao";
+    protected $table = "tipo_avaliacoes";
 
     protected $guarded = [];
 
-    public function unidade(): BelongsToMany
+    public function setor(): BelongsToMany
     {
-        return $this->belongsToMany(Unidade::class);
+        return $this->belongsToMany(Setor::class);
     }
 
     public function secretaria(): BelongsTo
     {
         return $this->belongsTo(Secretaria::class);
     }
-
 }

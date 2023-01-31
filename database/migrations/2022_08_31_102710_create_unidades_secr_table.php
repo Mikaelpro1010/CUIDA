@@ -13,7 +13,7 @@ class CreateUnidadesSecrTable extends Migration
      */
     public function up()
     {
-        Schema::create('unidades_secr', function (Blueprint $table) {
+        Schema::create('unidades', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('secretaria_id')->unsigned();
             $table->foreign('secretaria_id')->references('id')->on('secretarias');

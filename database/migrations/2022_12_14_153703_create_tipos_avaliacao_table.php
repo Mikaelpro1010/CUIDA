@@ -13,7 +13,7 @@ class CreateTiposAvaliacaoTable extends Migration
      */
     public function up()
     {
-        Schema::create('tipos_avaliacao', function (Blueprint $table) {
+        Schema::create('tipo_avaliacoes', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('secretaria_id')->unsigned();
             $table->foreign('secretaria_id')->references('id')->on('secretarias');

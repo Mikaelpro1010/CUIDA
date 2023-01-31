@@ -15,8 +15,10 @@ class CreateAvaliacoesTable extends Migration
     {
         Schema::create('avaliacoes', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('unidade_secr_id')->unsigned();
-            $table->foreign('unidade_secr_id')->references('id')->on('unidades_secr');
+            $table->integer('setor_id')->unsigned();
+            $table->foreign('setor_id')->references('id')->on('setores');
+            $table->integer('tipos_avaliacao_id')->unsigned();
+            $table->foreign('tipos_avaliacao_id')->references('id')->on('tipo_avaliacoes');
             $table->integer('nota');
             $table->text('comentario')->nullable();
             $table->timestamps();

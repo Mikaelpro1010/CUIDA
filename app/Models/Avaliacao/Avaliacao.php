@@ -11,9 +11,14 @@ class Avaliacao extends Model
     protected $table = "avaliacoes";
     protected $guarded = [];
 
-    public function unidade(): BelongsTo
+    public function setor(): BelongsTo
     {
-        return $this->belongsTo(Unidade::class, 'unidade_secr_id', 'id');
+        return $this->belongsTo(Setor::class);
+    }
+
+    public function tipoAvaliacao(): BelongsTo
+    {
+        return $this->belongsTo(TipoAvaliacao::class);
     }
 
     public function tipo(): BelongsTo

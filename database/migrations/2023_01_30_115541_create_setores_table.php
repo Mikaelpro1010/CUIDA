@@ -19,7 +19,9 @@ class CreateSetoresTable extends Migration
             $table->foreign('unidade_id')->references('id')->on('unidades');
             $table->string('nome');
             $table->boolean('ativo');
+            $table->boolean('principal');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
