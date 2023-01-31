@@ -263,6 +263,11 @@ Route::middleware(['auth:web'])->group(
             Route::patch('/unidade/{unidade}/update', 'UnidadeSecrController@updateUnidade')->name('patch-update-unidade-secr');
             Route::get('/unidade/{unidade}/ativar', 'UnidadeSecrController@ativarDesativar')->name('get-ativar-unidade-secr');
             Route::get('/unidade/{unidade}/qr-code', 'UnidadeSecrController@gerarQrcode')->name('get-qrcode-unidade-secr');
+            
+            Route::post('/setor/{unidade}', 'SetoresController@storeSetor')->name('post-store-setor');
+            Route::patch('/setor/{setor}/update', 'SetoresController@updateSetor')->name('patch-update-setor');
+            Route::delete('/setor/{setor}', 'SetoresController@deleteSetor')->name('delete-delete-setor');
+
         });
     }
 );

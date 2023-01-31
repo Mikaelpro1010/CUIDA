@@ -150,6 +150,8 @@ return [
         'recurso' => 'recurso referente a manifestação',
         'respostaRecurso' => 'resposta referente ao recurso',
         'tipos_avaliacao' => 'tipos de avaliação',
+        'unidade' => 'unidade',
+        'setor' => 'setor',
     ],
 
 ];
