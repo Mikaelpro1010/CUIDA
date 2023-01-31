@@ -5,10 +5,22 @@ namespace App\Http\Controllers\Publico;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Avaliacao\Avaliacao;
+use App\Models\Avaliacao\Setor;
 use App\Models\Avaliacao\Unidade;
 
 class AvaliacoesController extends Controller
 {
+    public function listSetores($token)
+    {
+        $unidade = Unidade::where('token', $token)->with('setores', 'setores.tipoAvaliacao')->first();
+
+
+        if (is_null($unidade)) {
+            return redirect()->route('home');
+        }
+
+        return view('public.unidade_secr.list-setores', compact('unidade'));
+    }
 
     public function viewAvaliacao($token)
     {

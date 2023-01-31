@@ -85,6 +85,7 @@ Route::get('/pagina-inicial', 'Publico\FaqController@paginaInicial')->name("pagi
 
 //não logado
 Route::prefix('avaliacoes')->namespace('Publico')->group(function () {
+    Route::get('/{token}/listar', 'AvaliacoesController@listSetores')->name('get-list-setores');
     Route::get('/{token}/avaliar', 'AvaliacoesController@viewAvaliacao')->name('get-view-avaliacao');
     Route::post('/{token}/avaliar', 'AvaliacoesController@storeAvaliacao')->name('post-store-avaliacao');
     // ->middleware('throttle:1,1440');
