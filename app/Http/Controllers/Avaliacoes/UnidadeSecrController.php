@@ -135,34 +135,16 @@ class UnidadeSecrController extends Controller
         $request->validate([
             'nome' => 'required|string|max:255',
             'descricao' => 'nullable|string',
-            'tipos_avaliacao' => 'required|array',
         ]);
 
-        $tipos_avaliacao = TipoAvaliacao::where('ativo', true);
+        $unidade->nome = $request->nome;
+        $unidade->descricao = $request->descricao;
+        $unidade->ativo = true;
+        $unidade->save();
 
-        $tiposAvaliacao = [];
-        foreach ($request->tipos_avaliacao as $tipo) {
-            if (in_array($tipo, $tipos_avaliacao->pluck('id')->toArray())) {
-                $tiposAvaliacao[$tipo] = ['nota' => 0];
-            }
-        }
-        if (count($tiposAvaliacao) > 0) {
-            $unidade->nome = $request->nome;
-            $unidade->descricao = $request->descricao;
-            $unidade->ativo = true;
-            $unidade->save();
-
-            $unidade->tiposAvaliacao()->sync($tiposAvaliacao);
-
-            return redirect()
-                ->route('get-unidades-secr-view', compact('unidade'))
-                ->with(['success' => 'Unidade editada com Sucesso!']);
-        } else {
-            return redirect()
-                ->back()
-                ->withError(['tipos_avaliacao' => 'É preciso definir os tipos de avaliação!'])
-                ->withInput();
-        }
+        return redirect()
+            ->route('get-unidades-secr-view', compact('unidade'))
+            ->with(['success' => 'Unidade editada com Sucesso!']);
     }
 
     public function ativarDesativar(Unidade $unidade)
@@ -171,7 +153,7 @@ class UnidadeSecrController extends Controller
         $unidade->ativo = !$unidade->ativo;
         $unidade->save();
 
-        return redirect()->route('get-unidades-secr-list');
+        return redirect()->route('get-unidades-secr-list')->with(['success' => "Unidade " . ($unidade->ativo ? "Ativada" : "Desativada") . " com Sucesso!"]);
     }
 
     public function gerarQrcode(Unidade $unidade)

@@ -235,17 +235,19 @@ class Permission
         self::UNIDADE_SECRETARIA_TOGGLE_ATIVO,
         self::UNIDADE_SECRETARIA_DELETE,
     ];
-    
+
     public const SETOR_CREATE = 'Criar Setor da Unidade';
     public const SETOR_EDIT = 'Editar Setor da Unidade';
     public const SETOR_DELETE = 'Deletar Setor da Unidade';
+    public const SETOR_TOGGLE_ATIVO = 'Ativar ou Desativar Setor da Unidade';
 
     public const SETOR = [
         self::SETOR_CREATE,
         self::SETOR_EDIT,
         self::SETOR_DELETE,
+        self::SETOR_TOGGLE_ATIVO,
     ];
-    
+
     public const PERMISSIONS = [
         //perfil
         'Gerenciar Perfil de Usuário' => self::PERFIL_USUARIO,
@@ -265,6 +267,7 @@ class Permission
         //avaliacao
         'Relatórios Modulo Avaliação' => self::RELATORIO_AVALIACOES,
         'Modulo Avaliação' => self::UNIDADE_SECRETARIA,
+        'Setores das Unidades' => self::SETOR,
     ];
 
     public const SUPER_MIGRAR_DADOS = 'Super usuário migrar dados';
