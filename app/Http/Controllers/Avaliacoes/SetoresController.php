@@ -7,6 +7,9 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Avaliacao\Setor;
 use App\Models\Avaliacao\Unidade;
+use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Redirect;
 
 class SetoresController extends Controller
 {
@@ -16,19 +19,32 @@ class SetoresController extends Controller
 
         $request->validate([
             'nome' => 'required|string|max:255',
+            'tipos_avaliacao' => 'required|array',
         ]);
 
-        if ($unidade != null) {
-            Setor::query()->create([
-                'unidade_id' => $unidade->id,
-                'nome' => $request->nome,
-                'ativo' => true,
-                'principal' => false,
-            ]);
+        $tipos_avaliacao = $unidade->secretaria->tiposAvaliacao()->where('ativo', true)->pluck('id')->toArray();
 
-            return redirect()->route('get-unidades-secr-view', $unidade->id)->with(['success' => 'Setor Cadastrado com Sucesso!']);
+        $tiposAvaliacao = [];
+        foreach ($request->tipos_avaliacao as $tipo) {
+            if (in_array($tipo, $tipos_avaliacao)) {
+                $tiposAvaliacao[$tipo] = ['nota' => 0];
+            }
+        }
+        if (count($tiposAvaliacao) > 0) {
+            if ($unidade != null) {
+                $setor = Setor::query()->create([
+                    'unidade_id' => $unidade->id,
+                    'nome' => $request->nome,
+                    'ativo' => true,
+                    'principal' => false,
+                ]);
+                $setor->tiposAvaliacao()->sync($tiposAvaliacao);
+                return redirect()->route('get-unidades-secr-view', $unidade->id)->with(['success' => 'Setor Cadastrado com Sucesso!']);
+            } else {
+                return redirect()->route('get-unidades-secr-list')->withError(['unidade' => 'A unidade não existe!']);
+            }
         } else {
-            return redirect()->route('get-unidades-secr-list')->withError(['unidade' => 'A unidade não existe!']);
+            return redirect()->route('get-unidades-secr-view', $unidade->id)->withError(['tipos_avaliacao' => 'É preciso definir os tipos de avaliação!'])->withInput();
         }
     }
 
@@ -38,21 +54,30 @@ class SetoresController extends Controller
 
         $request->validate([
             'nome' => 'required|string|max:255',
+            'tipos_avaliacao' => 'required|array',
         ]);
 
         if ($setor != null) {
+            $tipos_avaliacao = $setor->unidade->secretaria->tiposAvaliacao()->where('ativo', true)->pluck('id')->toArray();
+
+            $tiposAvaliacao = [];
+            foreach ($request->tipos_avaliacao as $tipo) {
+                if (in_array($tipo, $tipos_avaliacao)) {
+                    $tiposAvaliacao[$tipo] = ['nota' => 0];
+                }
+            }
+
             $setor->nome = $request->nome;
             $setor->ativo = true;
             $setor->save();
 
+            $setor->tiposAvaliacao()->sync($tiposAvaliacao);
+
             return redirect()
-                ->route('get-unidades-secr-view')
-                ->with(['success' => 'Setor editado com Sucesso!']);
-        } else {
-            return redirect()
-                ->back()
-                ->withError(['setor' => 'O setor não existe!']);
+                ->route('get-unidades-secr-view', $setor->unidade_id)
+                ->with(['success' => "Setor $setor->nome editado com Sucesso!"]);
         }
+        return redirect()->back()->withError(['setor' => 'O setor não existe!']);
     }
 
     public function deleteSetor(Setor $setor)
@@ -60,11 +85,11 @@ class SetoresController extends Controller
         $this->authorize(Permission::SETOR_DELETE);
         $setor->delete();
         return redirect()
-            ->route('get-unidades-secr-view')
+            ->route('get-unidades-secr-view', $setor->unidade_id)
             ->with(['success' => 'Setor deletado com Sucesso!']);
     }
 
-    public function ativarDesativar(Setor $setor)
+    public function ativarDesativar(Setor $setor): RedirectResponse
     {
         $this->authorize(Permission::SETOR_TOGGLE_ATIVO);
         if (!$setor->principal) {
@@ -75,5 +100,14 @@ class SetoresController extends Controller
         }
 
         return redirect()->route('get-unidades-secr-view', $setor->unidade_id)->with(['success' => "Setor " . ($setor->ativo ? "Ativada" : "Desativada") . " com Sucesso!"]);
+    }
+
+    public function getTiposAvaliacaoSetor($setor): Setor
+    {
+        return Setor::with(['tiposAvaliacao' => function ($query) {
+            $query->select('tipo_avaliacoes.id', 'tipo_avaliacoes.nome')->where('ativo', true);
+        }])
+            ->select('id', 'nome')
+            ->find($setor);
     }
 }

@@ -237,12 +237,14 @@ class Permission
     ];
 
     public const SETOR_CREATE = 'Criar Setor da Unidade';
+    public const SETOR_VIEW = 'Visualizar Setor da Unidade';
     public const SETOR_EDIT = 'Editar Setor da Unidade';
     public const SETOR_DELETE = 'Deletar Setor da Unidade';
     public const SETOR_TOGGLE_ATIVO = 'Ativar ou Desativar Setor da Unidade';
 
     public const SETOR = [
         self::SETOR_CREATE,
+        self::SETOR_VIEW,
         self::SETOR_EDIT,
         self::SETOR_DELETE,
         self::SETOR_TOGGLE_ATIVO,

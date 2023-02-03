@@ -33,7 +33,7 @@
     </form>
 
     <div class="text-center">
-        <a href="{{ route('get-unidades-secr-view', $unidade) }}" class="mt-3 btn btn-warning" tabindex="-1" role="button"
+        <a href="{{ route('get-unidades-secr-list') }}" class="mt-3 btn btn-warning" tabindex="-1" role="button"
             aria-disabled="true">
             <i class="fa-solid fa-chevron-left"></i>
             Voltar

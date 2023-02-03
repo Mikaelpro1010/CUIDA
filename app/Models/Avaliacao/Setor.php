@@ -15,8 +15,13 @@ class Setor extends Model
 
     protected $guarded = [];
 
-    public function tipoAvaliacao(): BelongsToMany
+    public function tiposAvaliacao(): BelongsToMany
     {
-        return $this->belongsToMany(TipoAvaliacao::class);
+        return $this->belongsToMany(TipoAvaliacao::class)->withTrashed();
+    }
+
+    public function unidade(): BelongsTo
+    {
+        return $this->belongsTo(Unidade::class);
     }
 }

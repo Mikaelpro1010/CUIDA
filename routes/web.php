@@ -269,6 +269,7 @@ Route::middleware(['auth:web'])->group(
             Route::patch('/setor/{setor}/update', 'SetoresController@updateSetor')->name('patch-update-setor');
             Route::delete('/setor/{setor}', 'SetoresController@deleteSetor')->name('delete-delete-setor');
             Route::get('/setor/{setor}/ativar', 'SetoresController@ativarDesativar')->name('get-toggle-setor-status');
+            Route::get('/setor/{setor}/tipos-avaliacao', 'SetoresController@getTiposAvaliacaoSetor')->name('get-tipos-avaliacao-setor');
         });
     }
 );
