@@ -439,7 +439,6 @@
             $('.btnEditarSetor').click(function($this) {
                 id = $(this).data('id');
                 $("#edit_id").val(id);
-                console.log(id);
 
                 $('#tipos_avaliacao_edit_list').empty();
                 $('#tipos_avaliacao_setor_' + id).empty();
@@ -471,8 +470,6 @@
             $("#edit_tipos_avaliacao_select").change(function() {
                 item = $("#edit_tipos_avaliacao_select").val();
                 id = $("#edit_id").val();
-                console.log(item);
-                console.log($('.tipos_avaliacao_edit_' + id).length);
                 $("#emptyTypes_" + id).remove();
                 if ($('.tipos_avaliacao_edit_' + item).length == 0) {
                     insertItemList(item, $("#edit_tipos_avaliacao_select option:selected").text(),

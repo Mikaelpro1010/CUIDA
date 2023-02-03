@@ -120,9 +120,8 @@ class UnidadeSecrController extends Controller
     public function editUnidade(Unidade $unidade)
     {
         $this->authorize(Permission::UNIDADE_SECRETARIA_EDIT);
-        $tipos_avaliacao = $unidade->secretaria->tiposAvaliacao()->where('ativo', true)->get();
 
-        return view('admin.avaliacoes.unidades-secr.unidades-editar', compact('unidade', 'tipos_avaliacao'));
+        return view('admin.avaliacoes.unidades-secr.unidades-editar', compact('unidade'));
     }
 
     public function updateUnidade(Unidade $unidade, Request $request)
@@ -156,7 +155,8 @@ class UnidadeSecrController extends Controller
     public function gerarQrcode(Unidade $unidade)
     {
         $baseUrl = env('APP_URL');
-        $qrcode = QrCode::size(500)->generate($baseUrl . '/avaliacoes/' . $unidade->token . '/avaliar');
+        // $qrcode = QrCode::size(500)->generate($baseUrl . '/avaliacoes/' . $unidade->token . '/avaliar');
+        $qrcode = $baseUrl . '/avaliacoes/' . $unidade->token;
 
         return view('admin.avaliacoes.unidades-secr.qrcode-view', compact('unidade', 'qrcode'));
     }
