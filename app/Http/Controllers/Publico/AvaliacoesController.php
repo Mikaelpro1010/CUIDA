@@ -10,30 +10,33 @@ use App\Models\Avaliacao\Unidade;
 
 class AvaliacoesController extends Controller
 {
-    public function listSetores($token)
+    public function listSetores($unidadeToken)
     {
-        $unidade = Unidade::where('token', $token)->with('setores', 'setores.tipoAvaliacao')->first();
-
-
+        $unidade = Unidade::where('token', $unidadeToken)->with(['setores' => function ($query) {
+            $query->where('ativo', true);
+        }])->first();
         if (is_null($unidade)) {
+            return redirect()->route('home');
+        } else if ($unidade->setores->count() == 1) {
+            dd($unidade->setores);
+            return redirect()->route('get-view-avaliacao', $unidade->setores[0]->token);
+        }
+
+        return view('public.avaliacoes.list-setores', compact('unidade'));
+    }
+
+    public function viewAvaliacao($setorToken)
+    {
+        $setor = Setor::where('token', $setorToken)->with('unidade', 'tiposAvaliacao')->first();
+
+        if (is_null($setor)) {
             return redirect()->route('home');
         }
 
-        return view('public.unidade_secr.list-setores', compact('unidade'));
+        return view('public.avaliacoes.avaliacao', compact('setor'));
     }
 
-    public function viewAvaliacao($token)
-    {
-        $unidade = Unidade::where('token', $token)->with('tiposAvaliacao')->first();
-
-        if (is_null($unidade)) {
-            return redirect()->route('home');
-        }
-
-        return view('public.unidade_secr.avaliacao', compact('unidade'));
-    }
-
-    public function storeAvaliacao($token, Request $request)
+    public function storeAvaliacao($setorToken, Request $request)
     {
         $request->validate([
             'avaliacao' => 'required|integer|max:10|min:1',
@@ -41,9 +44,9 @@ class AvaliacoesController extends Controller
             'tipo' => 'required|integer'
         ]);
 
-        $unidade = Unidade::where('token', $token)->first();
+        $setor = Setor::where('token', $setorToken)->first();
 
-        if (is_null($unidade) || $unidade->tiposAvaliacao->search($request->tipo)) {
+        if (is_null($setor) || $setor->tiposAvaliacao->search($request->tipo)) {
             return response()->json([
                 'status' => false,
             ]);
@@ -52,7 +55,7 @@ class AvaliacoesController extends Controller
         $avaliacao = Avaliacao::create([
             'nota'  => $request->avaliacao,
             'comentario'  => $request->comentario,
-            'unidade_secr_id'  => $unidade->id,
+            'setor_id'  => $setor->id,
             'tipos_avaliacao_id'  => $request->tipo,
         ]);
 

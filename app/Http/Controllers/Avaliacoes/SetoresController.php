@@ -33,6 +33,7 @@ class SetoresController extends Controller
                 $setor = Setor::query()->create([
                     'unidade_id' => $unidade->id,
                     'nome' => $request->nome,
+                    'token' => substr(bin2hex(random_bytes(50)), 1),
                     'ativo' => true,
                     'principal' => false,
                 ]);

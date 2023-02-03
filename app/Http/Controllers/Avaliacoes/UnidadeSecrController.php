@@ -102,9 +102,11 @@ class UnidadeSecrController extends Controller
         ]);
 
         $setor = Setor::create([
-            'nome' => 'Geral',
+            'nome' => 'Avaliação Geral',
             'unidade_id' => $unidade->id,
             'ativo' => true,
+            'token' => substr(bin2hex(random_bytes(50)), 1),
+            'principal' => true
         ]);
 
         return redirect()->route('get-unidades-secr-list')->with(['success' => 'Unidade Cadastrada com Sucesso!']);
@@ -154,9 +156,7 @@ class UnidadeSecrController extends Controller
 
     public function gerarQrcode(Unidade $unidade)
     {
-        $baseUrl = env('APP_URL');
-        // $qrcode = QrCode::size(500)->generate($baseUrl . '/avaliacoes/' . $unidade->token . '/avaliar');
-        $qrcode = $baseUrl . '/avaliacoes/' . $unidade->token;
+        $qrcode = QrCode::size(500)->generate(route('get-avaliacao-setores', $unidade->token));
 
         return view('admin.avaliacoes.unidades-secr.qrcode-view', compact('unidade', 'qrcode'));
     }

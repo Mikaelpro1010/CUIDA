@@ -83,14 +83,6 @@ Route::post('pagina-manifestacao/visualizar-manifestacao/recurso/criar', 'Public
 
 Route::get('/pagina-inicial', 'Publico\FaqController@paginaInicial')->name("pagina-inicial");
 
-//não logado
-Route::prefix('avaliacoes')->namespace('Publico')->group(function () {
-    Route::get('/{token}/listar', 'AvaliacoesController@listSetores')->name('get-list-setores');
-    Route::get('/{token}/avaliar', 'AvaliacoesController@viewAvaliacao')->name('get-view-avaliacao');
-    Route::post('/{token}/avaliar', 'AvaliacoesController@storeAvaliacao')->name('post-store-avaliacao');
-    // ->middleware('throttle:1,1440');
-    Route::view('/agradecer', 'public.unidade_secr.agradecimento')->name('agradecimento-avaliacao');
-});
 
 Route::middleware(['auth:web'])->group(
     function () {
@@ -273,3 +265,16 @@ Route::middleware(['auth:web'])->group(
         });
     }
 );
+
+//não logado
+Route::prefix('avaliacoes')->namespace('Publico')->group(function () {
+    Route::get('/unidade/setores/{unidadeToken}', 'AvaliacoesController@listSetores')->name('get-avaliacao-setores');
+    Route::get('/unidade/{setorToken}/avaliar', 'AvaliacoesController@viewAvaliacao')->name('get-view-avaliacao');
+    Route::post('/unidade/{setorToken}/avaliar', 'AvaliacoesController@storeAvaliacao')->name('post-store-avaliacao');
+    // ->middleware('throttle:1,1440');
+    Route::view('/agradecer', 'public.avaliacoes.agradecimento')->name('agradecimento-avaliacao');
+});
+
+Route::any('{url}', function () {
+    return response()->view('errors.404', ['error' => 'Not Found'], 404);
+})->where('url', '.*');

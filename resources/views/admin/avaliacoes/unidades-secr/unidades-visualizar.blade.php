@@ -62,10 +62,11 @@
         <div class="col-md-4">
             <b>Situação:</b>
             <p class="border-2 border-bottom border-warning">
-                {{ $unidadeObj->ativo ? 'Ativo' : 'Inativo' }}
                 @if ($unidadeObj->ativo)
+                    {{ 'Ativo' }}
                     <i class="text-success fa-solid fa-circle-check"></i>
                 @else
+                    {{ 'Inativo' }}
                     <i class="text-danger fa-solid fa-circle-xmark"></i>
                 @endif
             </p>
@@ -100,11 +101,15 @@
             <h4 class="text-primary">
                 Setores
             </h4>
-            @can(permissionConstant()::SETOR_CREATE)
-                <button id="btnCriarSetor" class="btn btn-primary" data-bs-backdrop="static">
-                    <i class="fa-solid fa-plus"></i>
-                </button>
-            @endcan
+            @if (!$unidadeObj->secretaria->ativo || !$unidadeObj->ativo)
+                <span class="text-danger"> (Inativo)</span>
+            @else
+                @can(permissionConstant()::SETOR_CREATE)
+                    <button id="btnCriarSetor" class="btn btn-primary" data-bs-backdrop="static">
+                        <i class="fa-solid fa-plus"></i>
+                    </button>
+                @endcan
+            @endif
         </div>
         <hr>
     </div>
@@ -122,46 +127,54 @@
                 @foreach ($unidadeObj->setores as $setor)
                     <tr id="setor-{{ $setor->id }}">
                         <td class="text-center">
-                            <a href="{{ route('get-toggle-setor-status', $setor) }}">
-                                @if ($setor->ativo)
-                                    <i class="text-success fa-solid fa-circle-check"></i>
-                                @else
-                                    <i class="text-danger fa-solid fa-circle-xmark"></i>
-                                @endif
-                            </a>
+                            @if (!$unidadeObj->secretaria->ativo || !$unidadeObj->ativo)
+                                <span class="text-danger"> (Inativo)</span>
+                            @else
+                                <a href="{{ route('get-toggle-setor-status', $setor) }}">
+                                    @if ($setor->ativo)
+                                        <i class="text-success fa-solid fa-circle-check"></i>
+                                    @else
+                                        <i class="text-danger fa-solid fa-circle-xmark"></i>
+                                    @endif
+                                </a>
+                            @endif
                         </td>
                         <td id="setor-{{ $setor->id }}-nome">
                             {{ $setor->nome }}
                         </td>
                         <td class="text-end">
-                            @can(permissionConstant()::SETOR_VIEW)
-                                <button class="btnView btn" data-id="{{ $setor->id }}">
-                                    <i class="fa-xl text-primary fa-solid fa-magnifying-glass"></i>
-                                </button>
-                            @endcan
-                            @can(permissionConstant()::SETOR_EDIT)
-                                <form class="d-none" id="updateSetor_{{ $setor->id }}"
-                                    action="{{ route('patch-update-setor', $setor) }}" method="POST">
-                                    {{ csrf_field() }}
-                                    {{ method_field('PATCH') }}
-                                    <input id="edit_name_{{ $setor->id }}" type="hidden" name="nome">
-                                    <div id="tipos_avaliacao_setor_{{ $setor->id }}"></div>
-                                </form>
-                                <button class="btnEditarSetor btn" data-id="{{ $setor->id }}">
-                                    <i class="fa-xl text-warning fa-solid fa-pen-to-square"></i>
-                                </button>
-                            @endcan
-                            @if (!$setor->principal)
-                                @can(permissionConstant()::SETOR_DELETE)
-                                    <form class="d-none" id="deleteSetor_{{ $setor->id }}"
-                                        action="{{ route('delete-delete-setor', $setor) }}" method="POST">
-                                        {{ csrf_field() }}
-                                        {{ method_field('DELETE') }}
-                                    </form>
-                                    <button class="btnDelete btn" data-id="{{ $setor->id }}">
-                                        <i class="fa-xl text-danger fa-solid fa-trash"></i>
+                            @if (!$unidadeObj->secretaria->ativo || !$unidadeObj->ativo)
+                                <span class="text-danger"> (Inativo)</span>
+                            @else
+                                @can(permissionConstant()::SETOR_VIEW)
+                                    <button class="btnView btn" data-id="{{ $setor->id }}">
+                                        <i class="fa-xl text-primary fa-solid fa-magnifying-glass"></i>
                                     </button>
                                 @endcan
+                                @can(permissionConstant()::SETOR_EDIT)
+                                    <form class="d-none" id="updateSetor_{{ $setor->id }}"
+                                        action="{{ route('patch-update-setor', $setor) }}" method="POST">
+                                        {{ csrf_field() }}
+                                        {{ method_field('PATCH') }}
+                                        <input id="edit_name_{{ $setor->id }}" type="hidden" name="nome">
+                                        <div id="tipos_avaliacao_setor_{{ $setor->id }}"></div>
+                                    </form>
+                                    <button class="btnEditarSetor btn" data-id="{{ $setor->id }}">
+                                        <i class="fa-xl text-warning fa-solid fa-pen-to-square"></i>
+                                    </button>
+                                @endcan
+                                @if (!$setor->principal)
+                                    @can(permissionConstant()::SETOR_DELETE)
+                                        <form class="d-none" id="deleteSetor_{{ $setor->id }}"
+                                            action="{{ route('delete-delete-setor', $setor) }}" method="POST">
+                                            {{ csrf_field() }}
+                                            {{ method_field('DELETE') }}
+                                        </form>
+                                        <button class="btnDelete btn" data-id="{{ $setor->id }}">
+                                            <i class="fa-xl text-danger fa-solid fa-trash"></i>
+                                        </button>
+                                    @endcan
+                                @endif
                             @endif
                         </td>
                     </tr>
@@ -191,7 +204,8 @@
                             {{ csrf_field() }}
                             <div class="col-md-12">
                                 <label for="nome" class="form-label fw-bold">Nome:</label>
-                                <input type="text" class="form-control" name="nome" id="nome" placeholder="Nome">
+                                <input type="text" class="form-control" name="nome" id="nome"
+                                    placeholder="Nome">
                             </div>
 
                             <div id="tipos_avaliacao"></div>

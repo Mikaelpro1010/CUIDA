@@ -15,7 +15,10 @@ class AvaliacoesObserver
      */
     public function created(Avaliacao $avaliacao): void
     {
-        $unidade = Unidade::find($avaliacao->unidade_secr_id);
-        $unidade->updateResumoCache($avaliacao);
+        // $setor = Setor::find($avaliacao->setor_id);
+        // $setor->updateResumoCache($avaliacao);
+
+        // $unidade = Unidade::find($setor->unidade_id);
+        // $unidade->updateResumoCache($avaliacao);
     }
 }
