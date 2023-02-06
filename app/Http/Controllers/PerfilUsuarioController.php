@@ -57,19 +57,15 @@ class PerfilUsuarioController extends Controller
     public function updatePassword(Request $request)
     {
         $this->authorize(Permission::PERFIL_USUARIO_EDIT_PASSWORD);
-        $user = Auth::user();
-        $userPassword = $user->password;
-        $newPass = $request->password;
-
         $request->validate([
             'current_password' => 'required',
-            'new_password' => 'required|string|min:6|confirmed',
+            'new_password' => 'required|string|min:8|confirmed',
         ]);
 
-        if (Hash::check($request->current_password, $userPassword)) {
+        if (Hash::check($request->current_password, auth()->user()->password)) {
 
-            User::where('id', $user->id)
-                ->update(['password' => bcrypt($newPass)]);
+            $user = User::where('id', auth()->user()->id)->first();
+            $user->update(['password' => $request->new_password]);
 
             Auth::loginUsingId($user->id);
 
