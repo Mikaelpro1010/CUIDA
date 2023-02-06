@@ -13,7 +13,11 @@
             {{ csrf_field() }}
             <div class="col-md-6">
                 <label for="" class="form-label mb-1 mt-3 fw-bold">Nome:</label>
-                <input type="text" class="form-control" name="nome" id="nome" placeholder="Nome">
+                <input type="text" class="form-control" name="nome" placeholder="Nome">
+            </div>
+            <div class="col-md-6">
+                <label for="" class="form-label mb-1 mt-3 fw-bold">Nome Oficial:</label>
+                <input type="text" class="form-control" name="nome_oficial" placeholder="Nome Oficial">
             </div>
             <div class="col-md-6">
                 <label for="" class="form-label mb-1 mt-3 fw-bold">Secretaria:</label>

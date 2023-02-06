@@ -38,7 +38,7 @@
             </p>
         </div>
 
-        <div class="col-md-4">
+        <div class="col-md-2">
             <b>Emitir QRcode:</b>
             <p class="border-2 border-bottom border-warning">
                 @if (!$unidadeObj->secretaria->ativo || !$unidadeObj->ativo)
@@ -53,13 +53,22 @@
         </div>
 
         <div class="col-md-8">
+            <b>Nome Oficial:</b>
+            <p class="border-2 border-bottom border-warning">
+                {{ $unidadeObj->nome_oficial ? $unidadeObj->nome_oficial : '(Não Informado!)' }}
+            </p>
+        </div>
+
+        <div class="col-md-4">
             <b>Secretaria:</b>
             <p class="border-2 border-bottom border-warning">
                 {{ $unidadeObj->secretaria->sigla }} -
                 {{ $unidadeObj->secretaria->nome }}
             </p>
         </div>
-        <div class="col-md-4">
+    </div>
+    <div class="row">
+        <div class="col-md-2">
             <b>Situação:</b>
             <p class="border-2 border-bottom border-warning">
                 @if ($unidadeObj->ativo)
@@ -71,17 +80,6 @@
                 @endif
             </p>
         </div>
-    </div>
-    @if (!is_null($unidadeObj->descricao))
-        <div class="col-md-12">
-            <b>Descrição:</b>
-            <p class="border-2 border border-warning p-2">
-                {{ $unidadeObj->descricao }}
-            </p>
-        </div>
-    @endif
-
-    <div class="row">
         <div class="col-md-4">
             <b>Data de Criação:</b>
             <p class="border-2 border-bottom border-warning">
@@ -94,7 +92,17 @@
                 {{ formatarDataHora($unidadeObj->updated_at) }}
             </p>
         </div>
+
     </div>
+
+    @if (!is_null($unidadeObj->descricao))
+        <div class="col-md-12">
+            <b>Descrição:</b>
+            <p class="border-2 border border-warning p-2">
+                {{ $unidadeObj->descricao }}
+            </p>
+        </div>
+    @endif
 
     <div class="mt-3">
         <div class="d-flex justify-content-between">
@@ -123,7 +131,6 @@
                 </tr>
             </thead>
             <tbody class="table-group-divider">
-
                 @foreach ($unidadeObj->setores as $setor)
                     <tr id="setor-{{ $setor->id }}">
                         <td class="text-center">

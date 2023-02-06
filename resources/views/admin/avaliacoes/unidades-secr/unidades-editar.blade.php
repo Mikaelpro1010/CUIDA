@@ -17,7 +17,11 @@
                 <label for="" class="form-label fw-bold">Nome:</label>
                 <input type="text" class="form-control" name="nome" placeholder="Nome" value="{{ $unidade->nome }}">
             </div>
-
+            <div class="col-md-6">
+                <label for="" class="form-label fw-bold">Nome Oficial:</label>
+                <input type="text" class="form-control" name="nome_oficial" placeholder="Nome Oficial"
+                    value="{{ $unidade->nome_oficial }}">
+            </div>
             <div class="col-md-12">
                 <label for="" class="form-label fw-bold">Descrição:</label>
                 <textarea class="form-control resize-none" name="descricao" id="descricao" rows="5" placeholder="Descrição">{{ $unidade->descricao }}</textarea>

@@ -10,6 +10,7 @@ $factory->define(Unidade::class, function (Faker $faker) {
     return [
         'secretaria_id' => $secretaria->id,
         'nome' => $faker->company(),
+        'nome_oficial' => $faker->company(),
         'descricao' => $description,
         'nota' => 0,
         'ativo' => true,

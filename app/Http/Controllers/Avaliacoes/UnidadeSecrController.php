@@ -80,8 +80,9 @@ class UnidadeSecrController extends Controller
 
         $request->validate([
             'nome' => 'required|string|max:255',
-            'descricao' => 'nullable|string',
             'secretaria' => 'required|int',
+            'nome_oficial' => 'nullable|string',
+            'descricao' => 'nullable|string',
         ]);
 
         if (
@@ -94,6 +95,7 @@ class UnidadeSecrController extends Controller
 
         $unidade = Unidade::create([
             'nome' => $request->nome,
+            'nome_oficial' => $request->nome_oficial,
             'descricao' => $request->descricao,
             'secretaria_id' => $request->secretaria,
             'nota' => 0,
@@ -132,13 +134,16 @@ class UnidadeSecrController extends Controller
 
         $request->validate([
             'nome' => 'required|string|max:255',
+            'nome_oficial' => 'nullable|string',
             'descricao' => 'nullable|string',
         ]);
 
-        $unidade->nome = $request->nome;
-        $unidade->descricao = $request->descricao;
-        $unidade->ativo = true;
-        $unidade->save();
+        $unidade->update([
+            'nome' => $request->nome,
+            'descricao' => $request->descricao,
+            'nome_oficial' => $request->nome_oficial,
+            'ativo' => true,
+        ]);
 
         return redirect()
             ->route('get-unidades-secr-view', compact('unidade'))
