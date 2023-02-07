@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Avaliacao\Setor;
 use App\Models\Avaliacao\Unidade;
 use Illuminate\Http\RedirectResponse;
+use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
 class SetoresController extends Controller
 {
@@ -98,15 +99,24 @@ class SetoresController extends Controller
             return redirect()->route('get-unidades-secr-view', $setor->unidade_id)->withErrors(['erro' => "Não é Possivel desativar o setor principal de uma Unidade!"]);
         }
 
-        return redirect()->route('get-unidades-secr-view', $setor->unidade_id)->with(['success' => "Setor " . ($setor->ativo ? "Ativada" : "Desativada") . " com Sucesso!"]);
+        return redirect()->route('get-unidades-secr-view', $setor->unidade_id)->with(['success' => "Setor " . ($setor->ativo ? "Ativado" : "Desativado") . " com Sucesso!"]);
     }
 
     public function getTiposAvaliacaoSetor($setor): Setor
     {
         return Setor::with(['tiposAvaliacao' => function ($query) {
-            $query->select('tipo_avaliacoes.id', 'tipo_avaliacoes.nome')->where('ativo', true);
+            $query->select('tipo_avaliacoes.id', 'tipo_avaliacoes.nome')
+                ->where('ativo', true);
         }])
             ->select('id', 'nome')
             ->find($setor);
+    }
+
+    public function gerarQrcode(Setor $setor)
+    {
+        $qrcode = QrCode::size(500)->generate(route('get-view-avaliacao', $setor->token));
+        // $qrcode = `<a href="` . route('get-view-avaliacao', $setor->token) . `">url</a>`;
+        $unidade = $setor->unidade;
+        return view('admin.avaliacoes.qrcode-view', compact('unidade', 'setor', 'qrcode'));
     }
 }

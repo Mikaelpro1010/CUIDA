@@ -19,6 +19,7 @@ class CreateSetoresTable extends Migration
             $table->foreign('unidade_id')->references('id')->on('unidades');
             $table->string('nome');
             $table->string('token');
+            $table->float('nota')->nullable();
             $table->boolean('ativo');
             $table->boolean('principal');
             $table->timestamps();

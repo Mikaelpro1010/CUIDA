@@ -92,27 +92,6 @@ class Permission
     ];
 
     //configurações//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    // Tipos de avaliacao
-    public const GERENCIAR_TIPOS_AVALIACAO_LIST = 'Listar Tipos de Avaliação';
-    public const GERENCIAR_TIPO_AVALIACAO_SECRETARIA_ACCESS_ANY_SECRETARIA = 'Tipos de Avaliação acessar qualquer secretaria';
-    public const GERENCIAR_TIPOS_AVALIACAO_VIEW = 'Visualizar Tipos de Avaliação';
-    public const GERENCIAR_TIPOS_AVALIACAO_CREATE_ANY_SECRETARIA = 'Criar Tipos de Avaliação para qualquer secretaria';
-    public const GERENCIAR_TIPOS_AVALIACAO_CREATE = 'Criar Tipos de Avaliação';
-    public const GERENCIAR_TIPOS_AVALIACAO_EDIT = 'Editar Tipos de Avaliação';
-    public const GERENCIAR_TIPOS_AVALIACAO_DELETE = 'Deletar Tipos de Avaliação';
-    public const GERENCIAR_TIPOS_AVALIACAO_ACTIVE_TOGGLE = 'Ativar ou Desativar Tipos de Avaliação';
-
-    public const GERENCIAR_TIPOS_AVALIACAO = [
-        self::GERENCIAR_TIPOS_AVALIACAO_LIST,
-        self::GERENCIAR_TIPO_AVALIACAO_SECRETARIA_ACCESS_ANY_SECRETARIA,
-        self::GERENCIAR_TIPOS_AVALIACAO_VIEW,
-        self::GERENCIAR_TIPOS_AVALIACAO_CREATE,
-        self::GERENCIAR_TIPOS_AVALIACAO_CREATE_ANY_SECRETARIA,
-        self::GERENCIAR_TIPOS_AVALIACAO_EDIT,
-        self::GERENCIAR_TIPOS_AVALIACAO_DELETE,
-        self::GERENCIAR_TIPOS_AVALIACAO_ACTIVE_TOGGLE,
-    ];
-
     // Tipos de Usuário
     public const GERENCIAR_TIPOS_USUARIOS_LIST = 'Listar Tipos de Usuário';
     public const GERENCIAR_TIPOS_USUARIOS_VIEW = 'Visualizar Tipos de Usuário';
@@ -236,6 +215,28 @@ class Permission
         self::UNIDADE_SECRETARIA_DELETE,
     ];
 
+    // Tipos de avaliacao
+    public const GERENCIAR_TIPOS_AVALIACAO_LIST = 'Listar Tipos de Avaliação';
+    public const GERENCIAR_TIPO_AVALIACAO_SECRETARIA_ACCESS_ANY_SECRETARIA = 'Tipos de Avaliação acessar qualquer secretaria';
+    public const GERENCIAR_TIPOS_AVALIACAO_VIEW = 'Visualizar Tipos de Avaliação';
+    public const GERENCIAR_TIPOS_AVALIACAO_CREATE_ANY_SECRETARIA = 'Criar Tipos de Avaliação para qualquer secretaria';
+    public const GERENCIAR_TIPOS_AVALIACAO_CREATE = 'Criar Tipos de Avaliação';
+    public const GERENCIAR_TIPOS_AVALIACAO_EDIT = 'Editar Tipos de Avaliação';
+    public const GERENCIAR_TIPOS_AVALIACAO_DELETE = 'Deletar Tipos de Avaliação';
+    public const GERENCIAR_TIPOS_AVALIACAO_ACTIVE_TOGGLE = 'Ativar ou Desativar Tipos de Avaliação';
+
+    public const GERENCIAR_TIPOS_AVALIACAO = [
+        self::GERENCIAR_TIPOS_AVALIACAO_LIST,
+        self::GERENCIAR_TIPO_AVALIACAO_SECRETARIA_ACCESS_ANY_SECRETARIA,
+        self::GERENCIAR_TIPOS_AVALIACAO_VIEW,
+        self::GERENCIAR_TIPOS_AVALIACAO_CREATE,
+        self::GERENCIAR_TIPOS_AVALIACAO_CREATE_ANY_SECRETARIA,
+        self::GERENCIAR_TIPOS_AVALIACAO_EDIT,
+        self::GERENCIAR_TIPOS_AVALIACAO_DELETE,
+        self::GERENCIAR_TIPOS_AVALIACAO_ACTIVE_TOGGLE,
+    ];
+
+    //Setores
     public const SETOR_CREATE = 'Criar Setor da Unidade';
     public const SETOR_VIEW = 'Visualizar Setor da Unidade';
     public const SETOR_EDIT = 'Editar Setor da Unidade';

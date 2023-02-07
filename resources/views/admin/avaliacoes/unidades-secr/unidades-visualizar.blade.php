@@ -153,6 +153,11 @@
                             @if (!$unidadeObj->secretaria->ativo || !$unidadeObj->ativo)
                                 <span class="text-danger"> (Inativo)</span>
                             @else
+                                @if ($setor->ativo)
+                                    <a class="btn" href="{{ route('get-qrcode-setor', $setor) }}" target="_blank">
+                                        <i class="fa-xl fa-solid fa-qrcode text-dark"></i>
+                                    </a>
+                                @endif
                                 @can(permissionConstant()::SETOR_VIEW)
                                     <button class="btnView btn" data-id="{{ $setor->id }}">
                                         <i class="fa-xl text-primary fa-solid fa-magnifying-glass"></i>

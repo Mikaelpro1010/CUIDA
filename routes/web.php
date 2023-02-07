@@ -24,6 +24,11 @@
 // use App\Models\User;
 // use Illuminate\Support\Facades\Cache;
 // use Illuminate\Support\Facades\DB;
+
+use App\Models\Avaliacao\TipoAvaliacao;
+use App\Models\Avaliacao\Unidade;
+use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
 // use Illuminate\Support\Facades\Storage;
 // use SimpleSoftwareIO\QrCode\Facades\QrCode;
@@ -48,18 +53,28 @@ $this->post('logout', 'Auth\LoginController@logout')->name('logout');
 //     return "<div><img width='300px' src=" . route('teste') . " alt=''></div>";
 // })->middleware('auth');
 
-// Route::get('/teste', function () {
-//     $file = AnexoMensagem::first();
-//     // $path = storage_path('app/msgs_anexos/') . $file->caminho . $file->nome;
-//     $path = $file->caminho . $file->nome;
-//     if (Storage::disk('msgs_anexos')->exists($path)) {
-//         // return Storage::disk('msgs_anexos')->download($path, $file->nome);
-//         return Storage::disk('msgs_anexos')->response($path);
-//     } else {
-//         abort(404, 'File not found!');
-//     }
-//     return;
-// })->name('teste');
+Route::get('/teste', function () {
+    $tiposAvaliacao = TipoAvaliacao::where('secretaria_id', 7)
+        ->get()
+        ->mapWithKeys(function ($item) {
+            return [$item->id => ['nota' => 0]];
+        })
+        ->toArray();
+
+    dd($tiposAvaliacao);
+    // $nome = ['name' => 'name'];
+    // dd(auth()->user()->$nome['name']);
+    //     $file = AnexoMensagem::first();
+    //     // $path = storage_path('app/msgs_anexos/') . $file->caminho . $file->nome;
+    //     $path = $file->caminho . $file->nome;
+    //     if (Storage::disk('msgs_anexos')->exists($path)) {
+    //         // return Storage::disk('msgs_anexos')->download($path, $file->nome);
+    //         return Storage::disk('msgs_anexos')->response($path);
+    //     } else {
+    //         abort(404, 'File not found!');
+    //     }
+    //     return;
+})->name('teste');
 
 // Route::get('/anexos', function () {
 //     $arquivos = AnexoMensagem::all();
@@ -81,8 +96,10 @@ Route::post('manifestacao/cadastrar/novo', 'Publico\PaginaManifestController@cad
 Route::post('pagina-manifestacao/visualizar-manifestacao', 'Publico\PaginaManifestController@visualizarManifestacao')->name("vis-manifestacao");
 Route::post('pagina-manifestacao/visualizar-manifestacao/recurso/criar', 'Publico\PaginaManifestController@criarRecurso')->name("criar-recurso");
 
-Route::get('/pagina-inicial', 'Publico\FaqController@paginaInicial')->name("pagina-inicial");
-
+// Route::get('/pagina-inicial', 'Publico\FaqController@paginaInicial')->name("pagina-inicial");
+Route::get('/pagina-inicial', function () {
+    return redirect()->route('home');
+})->name("pagina-inicial");
 
 Route::middleware(['auth:web'])->group(
     function () {
@@ -90,6 +107,12 @@ Route::middleware(['auth:web'])->group(
         Route::prefix('super-adm')->group(
             function () {
                 // Route::get('/migrar', 'SuperAdmController@migrarDados');
+                Route::get('/down', function () {
+                    if (auth()->user()->email == 'asd@mail.com') {
+                        Artisan::call('down');
+                    }
+                    return redirect()->route('home');
+                });
             }
         );
 
@@ -262,6 +285,7 @@ Route::middleware(['auth:web'])->group(
             Route::delete('/setor/{setor}', 'SetoresController@deleteSetor')->name('delete-delete-setor');
             Route::get('/setor/{setor}/ativar', 'SetoresController@ativarDesativar')->name('get-toggle-setor-status');
             Route::get('/setor/{setor}/tipos-avaliacao', 'SetoresController@getTiposAvaliacaoSetor')->name('get-tipos-avaliacao-setor');
+            Route::get('/setor/{setor}/qr-code', 'SetoresController@gerarQrcode')->name('get-qrcode-setor');
         });
     }
 );

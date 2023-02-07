@@ -144,7 +144,8 @@
                             @endcan
 
                             @if (auth()->user()->can(permissionConstant()::RELATORIO_AVALIACOES_GERAL_VIEW) ||
-                                    auth()->user()->can(permissionConstant()::UNIDADE_SECRETARIA_LIST))
+                                    auth()->user()->can(permissionConstant()::UNIDADE_SECRETARIA_LIST) ||
+                                    auth()->user()->can(permissionConstant()::GERENCIAR_TIPOS_AVALIACAO_LIST))
                                 <li
                                     class="nav-item dropdown @if (Route::current()->action['namespace'] == 'App\Http\Controllers\Avaliacoes') border-bottom border-3 border-primary @endif">
                                     <a class=" nav-link dropdown-toggle" href="#" role="button"
@@ -155,11 +156,20 @@
                                         <li>
                                             <a class="dropdown-item"
                                                 href="
-                                    @if (auth()->user()->can(permissionConstant()::RELATORIO_AVALIACOES_GERAL_VIEW)) {{ route('get-avaliacao-geral') }}
-                                    @else
-                                    {{ route('get-list-resumo-avaliacoes-secretaria') }} @endif
-                                    ">Resumos</a>
+                                                @if (auth()->user()->can(permissionConstant()::RELATORIO_AVALIACOES_GERAL_VIEW)) {{ route('get-avaliacao-geral') }}
+                                                @else
+                                                {{ route('get-list-resumo-avaliacoes-secretaria') }} @endif">
+                                                Resumos
+                                            </a>
                                         </li>
+                                        <hr>
+                                        @can(permissionConstant()::GERENCIAR_TIPOS_AVALIACAO_LIST)
+                                            <li>
+                                                <a class="dropdown-item" href="{{ route('get-tipo-avaliacao-list') }}">
+                                                    Tipos de Avaliação
+                                                </a>
+                                            </li>
+                                        @endcan
                                         @can(permissionConstant()::UNIDADE_SECRETARIA_LIST)
                                             <li>
                                                 <a class="dropdown-item" href="{{ route('get-unidades-secr-list') }}">
@@ -196,7 +206,12 @@
                                 </li>
                             @endif
 
-                            @if (auth()->user()->can(permissionConstant()::GERENCIAR_TIPOS_USUARIOS_LIST))
+                            @if (auth()->user()->can(permissionConstant()::GERENCIAR_TIPOS_USUARIOS_LIST) ||
+                                    auth()->user()->can(permissionConstant()::GERENCIAR_TIPOS_MANIFESTACAO_LIST) ||
+                                    auth()->user()->can(permissionConstant()::GERENCIAR_ESTADOS_PROCESSO_LIST) ||
+                                    auth()->user()->can(permissionConstant()::GERENCIAR_MOTIVACOES_LIST) ||
+                                    auth()->user()->can(permissionConstant()::GERENCIAR_SITUACOES_LIST) ||
+                                    auth()->user()->can(permissionConstant()::GERENCIAR_FAQS_LIST))
                                 <li
                                     class="nav-item dropdown @if (Route::current()->action['namespace'] == 'App\Http\Controllers\Configs') border-bottom border-3 border-primary @endif">
                                     <a class="nav-link dropdown-toggle" href="#" role="button"
@@ -232,7 +247,6 @@
                                                 </a>
                                             </li>
                                         @endcan
-
                                         @can(permissionConstant()::GERENCIAR_SITUACOES_LIST)
                                             <li>
                                                 <a class="dropdown-item" href="{{ route('get-situacao-list') }}">
@@ -240,19 +254,10 @@
                                                 </a>
                                             </li>
                                         @endcan
-
                                         @can(permissionConstant()::GERENCIAR_FAQS_LIST)
                                             <li>
                                                 <a class="dropdown-item" href="{{ route('get-faq-list') }}">
                                                     FAQs
-                                                </a>
-                                            </li>
-                                        @endcan
-
-                                        @can(permissionConstant()::GERENCIAR_FAQS_LIST)
-                                            <li>
-                                                <a class="dropdown-item" href="{{ route('get-tipo-avaliacao-list') }}">
-                                                    Tipos de Avaliação
                                                 </a>
                                             </li>
                                         @endcan

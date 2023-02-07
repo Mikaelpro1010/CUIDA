@@ -103,6 +103,13 @@ class UnidadeSecrController extends Controller
             'token' => substr(bin2hex(random_bytes(50)), 1),
         ]);
 
+        $tiposAvaliacao = TipoAvaliacao::where('secretaria_id', $request->secretaria)
+            ->get()
+            ->mapWithKeys(function ($item) {
+                return [$item->id => ['nota' => 0]];
+            })
+            ->toArray();
+
         $setor = Setor::create([
             'nome' => 'Avaliação Geral',
             'unidade_id' => $unidade->id,
@@ -110,6 +117,8 @@ class UnidadeSecrController extends Controller
             'token' => substr(bin2hex(random_bytes(50)), 1),
             'principal' => true
         ]);
+
+        $setor->tiposAvaliacao()->sync($tiposAvaliacao);
 
         return redirect()->route('get-unidades-secr-list')->with(['success' => 'Unidade Cadastrada com Sucesso!']);
     }
@@ -162,7 +171,7 @@ class UnidadeSecrController extends Controller
     public function gerarQrcode(Unidade $unidade)
     {
         $qrcode = QrCode::size(500)->generate(route('get-avaliacao-setores', $unidade->token));
-
-        return view('admin.avaliacoes.unidades-secr.qrcode-view', compact('unidade', 'qrcode'));
+        $setor = null;
+        return view('admin.avaliacoes.qrcode-view', compact('unidade', 'setor', 'qrcode'));
     }
 }
