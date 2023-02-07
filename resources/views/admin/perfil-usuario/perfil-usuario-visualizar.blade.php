@@ -13,25 +13,25 @@
 </div>
 <hr>
 <div class="row g-3">
-    <div class="col-6">
+    <div class="col-md-6">
         <label class="fw-bold" for="">Nome:</label>
         <div class="border-2 border-bottom border-warning">
             {{ auth()->user()->name }}
         </div>
     </div>
-    <div class="col-6">
+    <div class="col-md-6">
         <label class="fw-bold" for="">E-mail:</label>
         <div class="border-2 border-bottom border-warning">
             {{ auth()->user()->email }}
         </div>
     </div>
-    <div class="col-4">
+    <div class="col-md-4">
         <label class="fw-bold" for="">Tipo de Usuário:</label>
         <div class="border-2 border-bottom border-warning">
             {{ auth()->user()->role->name }}
         </div>
     </div>
-    <div class="col-4">
+    <div class="col-md-4">
         <label class="fw-bold" for="">Última Atualização:</label>
         <div class="border-2 border-bottom border-warning">
             {{ formatarDataHora(auth()->user()->updated_at)}}
