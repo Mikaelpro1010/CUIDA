@@ -17,8 +17,8 @@ class CreateAvaliacoesTable extends Migration
             $table->increments('id');
             $table->integer('setor_id')->unsigned();
             $table->foreign('setor_id')->references('id')->on('setores');
-            $table->integer('tipos_avaliacao_id')->unsigned();
-            $table->foreign('tipos_avaliacao_id')->references('id')->on('tipo_avaliacoes');
+            $table->integer('tipo_avaliacao_id')->unsigned();
+            $table->foreign('tipo_avaliacao_id')->references('id')->on('tipo_avaliacoes');
             $table->integer('nota');
             $table->text('comentario')->nullable();
             $table->timestamps();

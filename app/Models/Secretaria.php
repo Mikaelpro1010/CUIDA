@@ -50,7 +50,7 @@ class Secretaria extends Model
 
     public static function getResumoSecretariaAll(): array
     {
-        $secretarias = Secretaria::query()->with('unidades')->get();
+        $secretarias = Secretaria::query()->with('unidades')->where('ativo', true)->get();
 
         $resumoSecretarias = [
             'qtd' => 0,
@@ -62,9 +62,6 @@ class Secretaria extends Model
         ];
 
         foreach ($secretarias as $secretaria) {
-            if (!$secretaria->ativo) {
-                continue;
-            }
             $resumoSecretaria = $secretaria->getResumo();
             $resumoSecretarias['qtd'] += $resumoSecretaria['qtd'];
             $resumoSecretarias['notas1'] += $resumoSecretaria['notas1'];

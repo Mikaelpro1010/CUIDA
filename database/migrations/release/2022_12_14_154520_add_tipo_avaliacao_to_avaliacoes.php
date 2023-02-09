@@ -14,8 +14,8 @@ class AddTipoAvaliacaoToAvaliacoes extends Migration
     public function up()
     {
         Schema::table('avaliacoes', function (Blueprint $table) {
-            $table->integer('tipos_avaliacao_id')->unsigned();
-            $table->foreign('tipos_avaliacao_id')->references('id')->on('tipos_avaliacao');
+            $table->integer('tipo_avaliacao_id')->unsigned();
+            $table->foreign('tipo_avaliacao_id')->references('id')->on('tipos_avaliacao');
         });
     }
 

@@ -23,6 +23,6 @@ class Avaliacao extends Model
 
     public function tipo(): BelongsTo
     {
-        return $this->belongsTo(TipoAvaliacao::class, 'tipos_avaliacao_id');
+        return $this->belongsTo(TipoAvaliacao::class, 'tipo_avaliacao_id');
     }
 }

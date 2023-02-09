@@ -19,7 +19,7 @@ class CreateSetorTipoAvaliacaoTable extends Migration
             $table->foreign('setor_id')->references('id')->on('setores');
             $table->integer('tipo_avaliacao_id')->unsigned();
             $table->foreign('tipo_avaliacao_id')->references('id')->on('tipo_avaliacoes');
-            $table->integer('nota');
+            $table->float('nota');
             $table->timestamps();
         });
     }
