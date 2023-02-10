@@ -251,6 +251,14 @@ class Permission
         self::SETOR_TOGGLE_ATIVO,
     ];
 
+    public const GERENCIAR_COMENTARIOS_AVALIACOES_LIST = 'Listar avaliações';
+    public const GERENCIAR_COMENTARIOS_AVALIACOES_VIEW = 'Visualizar comentários das avaliações';
+
+    public const COMENTARIOS_AVALIACOES = [
+        self::GERENCIAR_COMENTARIOS_AVALIACOES_LIST,
+        self::GERENCIAR_COMENTARIOS_AVALIACOES_VIEW,
+    ];
+
     public const PERMISSIONS = [
         //perfil
         'Gerenciar Perfil de Usuário' => self::PERFIL_USUARIO,
@@ -271,6 +279,7 @@ class Permission
         'Relatórios Modulo Avaliação' => self::RELATORIO_AVALIACOES,
         'Modulo Avaliação' => self::UNIDADE_SECRETARIA,
         'Setores das Unidades' => self::SETOR,
+        'Comentários das Avaliações' => self::COMENTARIOS_AVALIACOES,
     ];
 
     public const SUPER_MIGRAR_DADOS = 'Super usuário migrar dados';

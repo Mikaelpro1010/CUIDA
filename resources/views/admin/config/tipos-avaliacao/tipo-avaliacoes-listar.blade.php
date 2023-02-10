@@ -58,7 +58,7 @@
                 <th class="text-center">Ações</th>
             @endif
         </thead>
-        <tbody>
+        <tbody class="table-group-divider">
             @forelse ($tipo_avaliacoes as $tipo_avaliacao)
                 <tr id="{{ $tipo_avaliacao->id }}">
                     <td>

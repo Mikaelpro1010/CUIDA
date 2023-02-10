@@ -44,7 +44,7 @@
             <th>Última alteração</th>
             <th class="text-center">Ações</th>
         </thead>
-        <tbody>
+        <tbody class="table-group-divider">
             @forelse ($tipo_manifestacoes as $tipo_manifestacao)
                 <tr id="{{ $tipo_manifestacao->id }}">
                     <td>

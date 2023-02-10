@@ -165,6 +165,13 @@
                                         <hr>
                                         @can(permissionConstant()::GERENCIAR_TIPOS_AVALIACAO_LIST)
                                             <li>
+                                                <a class="dropdown-item" href="{{ route('get-comentarios-avaliacoes-list') }}">
+                                                    Comentários das Avaliações
+                                                </a>
+                                            </li>
+                                        @endcan
+                                        @can(permissionConstant()::GERENCIAR_TIPOS_AVALIACAO_LIST)
+                                            <li>
                                                 <a class="dropdown-item" href="{{ route('get-tipo-avaliacao-list') }}">
                                                     Tipos de Avaliação
                                                 </a>
