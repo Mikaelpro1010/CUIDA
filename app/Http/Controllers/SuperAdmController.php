@@ -13,7 +13,7 @@ class SuperAdmController extends Controller
         // $this->authorize(permissionConstant()::SUPER_MIGRAR_DADOS);
         Cache::flush();
 
-        Artisan::call('migrate', ['--path' => 'database/migrations/release/']);
+        Artisan::call('migrate:fresh', ['--path' => 'database/migrations/release/']);
         Artisan::call('db:seed', ['--class' => 'PermissionsTableSeeder']);
         Artisan::call('db:seed', ['--class' => 'RolesTableSeeder']);
         Artisan::call('db:seed', ['--class' => 'PermissionRoleTableSeeder']);
@@ -21,6 +21,7 @@ class SuperAdmController extends Controller
         Artisan::call('db:seed', ['--class' => 'UsersTableSeeder']);
         Artisan::call('db:seed', ['--class' => 'SecretariaUserTableSeeder']);
         Artisan::call('db:seed', ['--class' => 'TiposAvaliacaoTableSeeder']);
+        Artisan::call('db:seed', ['--class' => 'UnidadesSecrTableSeeder']);
 
         return 'Migração Completa!';
     }
