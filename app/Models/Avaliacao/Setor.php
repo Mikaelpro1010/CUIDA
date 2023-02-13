@@ -38,44 +38,55 @@ class Setor extends Model
         return $this->hasMany(Avaliacao::class);
     }
 
+    public function getResumoAllTiposAvaliacao(): Collection
+    {
+        $response = [];
+        foreach ($this->setorTipoAvaliacao as $key => $tipo) {
+            $response[$key] = $tipo->getResumoFromCache();
+        }
+
+        return collect($response);
+    }
+
+    public function getResumoSetorTiposAvaliacaoById($tipoAvaliacaoId): Collection
+    {
+        return $this->setorTipoAvaliacao()->where('tipo_avaliacao_id', $tipoAvaliacaoId)->first()->getResumoFromCache();
+    }
+
+    public function getResumo(): Collection
+    {
+        $setorTiposAvaliacao = $this->getResumoAllTiposAvaliacao();
+        $resumoSetor = collect([
+            'qtd' => $setorTiposAvaliacao->sum('qtd'),
+            'notas1' => $setorTiposAvaliacao->sum('notas1'),
+            'notas2' => $setorTiposAvaliacao->sum('notas2'),
+            'notas3' => $setorTiposAvaliacao->sum('notas3'),
+            'notas4' => $setorTiposAvaliacao->sum('notas4'),
+            'notas5' => $setorTiposAvaliacao->sum('notas5'),
+        ]);
+
+        $nota = $resumoSetor['notas1'] * 2 + $resumoSetor['notas2'] * 4 + $resumoSetor['notas3'] * 6 + $resumoSetor['notas4'] * 8 + $resumoSetor['notas5'] * 10 /
+            ($resumoSetor['qtd']);
+
+        $this->update([
+            'nota' => $nota
+        ]);
+
+        return $resumoSetor;
+    }
+
     public function getResumoFromCache(): Collection
     {
-        return Cache::rememberForever('Setor_' . $this->id, function () {
-            $setorNota = $this->avaliacoes()->avg('nota');
-            if (!is_null($setorNota)) {
-                if ($setorNota != $this->nota) {
-                    $this->update([
-                        'nota' => $setorNota
-                    ]);
-                }
-
-                $notas1 = $this->avaliacoes->where('nota', 2)->count();
-                $notas2 = $this->avaliacoes->where('nota', 4)->count();
-                $notas3 = $this->avaliacoes->where('nota', 6)->count();
-                $notas4 = $this->avaliacoes->where('nota', 8)->count();
-                $notas5 = $this->avaliacoes->where('nota', 10)->count();
-
-                $qtdAvaliacoes = $notas1 + $notas2 + $notas3 + $notas4 + $notas5;
-
-                return collect([
-                    'qtd' => $qtdAvaliacoes,
-                    'notas1' => $notas1,
-                    'notas2' => $notas2,
-                    'notas3' => $notas3,
-                    'notas4' => $notas4,
-                    'notas5' => $notas5,
-                ]);
-            } elseif (is_null($setorNota)) {
-                return collect([
-                    'qtd' => 0,
-                    'notas1' => 0,
-                    'notas2' => 0,
-                    'notas3' => 0,
-                    'notas4' => 0,
-                    'notas5' => 0,
-                ]);
-            }
+        $cache = Cache::rememberForever('Setor_' . $this->id, function () {
+            return $this->getResumo();
         });
+
+        if ($cache['qtd'] != $this->getResumoAllTiposAvaliacao()->sum('qtd')) {
+            Cache::forget('Setor_' . $this->id);
+            return Cache::forever('Setor_' . $this->id, $this->getResumo());
+        } else {
+            return $cache;
+        }
     }
 
     public static function getResumoById($id): Collection
