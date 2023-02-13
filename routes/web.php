@@ -25,6 +25,9 @@
 // use Illuminate\Support\Facades\Cache;
 // use Illuminate\Support\Facades\DB;
 
+use App\Models\Avaliacao\Avaliacao;
+use App\Models\Avaliacao\Setor;
+use App\Models\Avaliacao\SetorTipoAvaliacao;
 use App\Models\Avaliacao\TipoAvaliacao;
 use App\Models\Avaliacao\Unidade;
 use Illuminate\Support\Facades\Artisan;
@@ -54,14 +57,11 @@ $this->post('logout', 'Auth\LoginController@logout')->name('logout');
 // })->middleware('auth');
 
 Route::get('/teste', function () {
-    $tiposAvaliacao = TipoAvaliacao::where('secretaria_id', 7)
-        ->get()
-        ->mapWithKeys(function ($item) {
-            return [$item->id => ['nota' => 0]];
-        })
-        ->toArray();
 
-    dd($tiposAvaliacao);
+    $avaliacao = Avaliacao::inRandomOrder()->first();
+
+    SetorTipoAvaliacao::updateResumoCache($avaliacao);
+
     // $nome = ['name' => 'name'];
     // dd(auth()->user()->$nome['name']);
     //     $file = AnexoMensagem::first();

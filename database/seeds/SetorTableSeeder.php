@@ -12,6 +12,6 @@ class SetorTableSeeder extends Seeder
      */
     public function run()
     {
-        factory(Setor::class, 50)->create();
+        // factory(Setor::class, 50)->create();
     }
 }

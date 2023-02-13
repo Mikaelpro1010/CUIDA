@@ -114,8 +114,8 @@ class SetoresController extends Controller
 
     public function gerarQrcode(Setor $setor)
     {
-        $qrcode = QrCode::size(500)->generate(route('get-view-avaliacao', $setor->token));
-        // $qrcode = `<a href="` . route('get-view-avaliacao', $setor->token) . `">url</a>`;
+        // $qrcode = QrCode::size(500)->generate(route('get-view-avaliacao', $setor->token));
+        $qrcode = `<a href="` . route('get-view-avaliacao', $setor->token) . `">url</a>`;
         $unidade = $setor->unidade;
         return view('admin.avaliacoes.qrcode-view', compact('unidade', 'setor', 'qrcode'));
     }

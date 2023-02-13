@@ -56,7 +56,7 @@ class AvaliacoesController extends Controller
             'nota'  => $request->avaliacao,
             'comentario'  => $request->comentario,
             'setor_id'  => $setor->id,
-            'tipos_avaliacao_id'  => $request->tipo,
+            'tipo_avaliacao_id'  => $request->tipo,
         ]);
 
         return response()->json([

@@ -39,10 +39,10 @@ class DatabaseSeeder extends Seeder
                 // $this->call(MensagensTableSeeder::class);
 
                 //Modulo de Avaliaçoes 
-                $this->call(UnidadesSecrTableSeeder::class);
                 $this->call(TiposAvaliacaoTableSeeder::class);
+                $this->call(UnidadesSecrTableSeeder::class);
 
-                $this->call(SetorTableSeeder::class);
+                // $this->call(SetorTableSeeder::class);
                 $this->call(AvaliacoesTableSeeder::class);
 
                 //FAQ
