@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateTiposAvaliacaoTable extends Migration
+class CreateSetoresTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,15 +13,15 @@ class CreateTiposAvaliacaoTable extends Migration
      */
     public function up()
     {
-        Schema::create('tipo_avaliacoes', function (Blueprint $table) {
+        Schema::create('setores', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('secretaria_id')->unsigned();
-            $table->foreign('secretaria_id')->references('id')->on('secretarias');
+            $table->integer('unidade_id')->unsigned();
+            $table->foreign('unidade_id')->references('id')->on('unidades');
             $table->string('nome');
-            $table->text('pergunta')->nullable();
-            $table->boolean('obrigatorio')->nullable();
-            $table->boolean('default')->nullable();
+            $table->string('token');
+            $table->float('nota')->nullable();
             $table->boolean('ativo');
+            $table->boolean('principal');
             $table->timestamps();
             $table->softDeletes();
         });
@@ -34,6 +34,6 @@ class CreateTiposAvaliacaoTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('tipos_avaliacao');
+        Schema::dropIfExists('setores');
     }
 }
