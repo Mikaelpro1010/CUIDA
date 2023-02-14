@@ -6,22 +6,23 @@
 
     <form class="" action="{{ route('get-comentarios-avaliacoes-list') }}" method="GET">
         <div class="m-0 p-0 row">
-            <div class="col-md-3">
-                <label for="pesquisa">Secretaria:</label>
-                <input id="pesquisa_secretaria" class="form-control" type="text" name="pesquisa_secretaria" placeholder="Secretaria"
-                    value="{{ request()->pesquisa_secretaria }}">
-            </div>
-            
-            <div class="col-md-2">
-                <label for="pesquisa">Unidade:</label>
-                <input id="pesquisa_unidade" class="form-control" type="text" name="pesquisa_unidade" placeholder="Unidade"
-                    value="{{ request()->pesquisa_unidade }}">
-            </div>
 
             <div class="col-md-2">
-                <label for="pesquisa">Setor:</label>
-                <input id="pesquisa_setor" class="form-control" type="text" name="pesquisa_setor" placeholder="Unidade"
-                    value="{{ request()->pesquisa_setor }}">
+                <label for="pesquisa">Unidade/Setor:</label>
+                <input id="pesquisa_unidade_setor" class="form-control" type="text" name="pesquisa_unidade_setor" placeholder="Unidade"
+                    value="{{ request()->pesquisa_unidade_setor }}">
+            </div>
+
+            <div class="col-md-3">
+                <label for="secretaria_pesq">Secretaria:</label>
+                <select id="secretaria_pesq" class="form-select" name="secretaria_pesq">
+                    <option value="" @if (is_null(request()->secretaria_pesq)) selected @endif>Selecione</option>
+                    @foreach ($secretariasSearchSelect as $secretaria)
+                        <option value="{{ $secretaria->id }}" @if (request()->secretaria_pesq == $secretaria->id) selected @endif>
+                            {{ $secretaria->sigla . ' - ' . $secretaria->nome }}
+                        </option>
+                    @endforeach
+                </select>
             </div>
 
             <div class="col-md-1">
@@ -60,7 +61,7 @@
             @forelse ($avaliacoes as $avaliacao)
                 <tr>
                     <td>
-                        {{ $avaliacao->setor->unidade->secretaria->sigla. ' - ' .$avaliacao->setor->unidade->secretaria->nome }}
+                        {{ $avaliacao->setor->unidade->secretaria->sigla . ' - ' . $avaliacao->setor->unidade->secretaria->nome }}
                     </td>
                     <td>
                         {{ $avaliacao->setor->unidade->nome }}
@@ -73,7 +74,8 @@
                     </td>
                     <td class="col-md-1">
                         <div class="d-flex justify-content-evenly">
-                            <a class="btn text-primary" href="{{ route('get-comentarios-avaliacoes-view', ['id' => $avaliacao->id] ) }}">
+                            <a class="btn text-primary"
+                                href="{{ route('get-comentarios-avaliacoes-view', ['id' => $avaliacao->id]) }}">
                                 <i class="fa-xl fa-solid fa-magnifying-glass"></i>
                             </a>
                         </div>
@@ -98,10 +100,9 @@
 @push('scripts')
     <script nonce="{{ app('csp-nonce') }}">
         $('#btnLimpaForm').click(function() {
-            $('#pesquisa_secretaria').val('');
-            $('#pesquisa_unidade').val('');
+            $('#pesquisa_unidade_setor').val('');
             $('#pesq_nota').val('');
-            $('#pesquisa_setor').val('');
+            $('#secretaria_pesq').val('');
         });
     </script>
 @endpush
