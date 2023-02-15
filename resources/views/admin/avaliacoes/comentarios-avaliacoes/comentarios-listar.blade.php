@@ -9,8 +9,8 @@
 
             <div class="col-md-2">
                 <label for="pesquisa">Unidade/Setor:</label>
-                <input id="pesquisa_unidade_setor" class="form-control" type="text" name="pesquisa_unidade_setor" placeholder="Unidade"
-                    value="{{ request()->pesquisa_unidade_setor }}">
+                <input id="pesquisa_unidade_setor" class="form-control" type="text" name="pesquisa_unidade_setor"
+                    placeholder="Unidade" value="{{ request()->pesquisa_unidade_setor }}">
             </div>
 
             <div class="col-md-3">
@@ -25,12 +25,67 @@
                 </select>
             </div>
 
-            <div class="col-md-1">
-                <label for="pesq_nota">Nota:</label>
-                <input id="pesq_nota" class="form-control" type="number" name="pesq_nota" placeholder="Nota"
-                    value="{{ request()->pesq_nota }}">
-            </div>
 
+            <div class="col-3 dropdown d-flex align-items-end mt-3">
+                <a class="btn btn-secondary dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                    aria-expanded="false">
+                    Notas
+                </a>
+
+                <ul class="dropdown-menu">
+                    <li>
+                        <a class="dropdown-item"
+                            href="{{ route('get-comentarios-avaliacoes-list', [
+                                'pesquisa_unidade_setor' => request()->pesquisa_unidade_setor,
+                                'secretaria_pesq' => request()->secretaria_pesq,
+                                'pesq_nota' => 2,
+                            ]) }}">
+                            Muito Insatisfeito - <i class="text-danger fa-regular fa-face-angry"></i>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="dropdown-item"
+                            href="{{ route('get-comentarios-avaliacoes-list', [
+                                'pesquisa_unidade_setor' => request()->pesquisa_unidade_setor,
+                                'secretaria_pesq' => request()->secretaria_pesq,
+                                'pesq_nota' => 4,
+                            ]) }}">
+                            Insatisfeito - <i class="text-warning fa-regular fa-face-frown"></i>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="dropdown-item"
+                            href="{{ route('get-comentarios-avaliacoes-list', [
+                                'pesquisa_unidade_setor' => request()->pesquisa_unidade_setor,
+                                'secretaria_pesq' => request()->secretaria_pesq,
+                                'pesq_nota' => 6,
+                            ]) }}">
+                            Neutro - <i class="text-info fa-regular fa-face-meh"></i>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="dropdown-item"
+                            href="{{ route('get-comentarios-avaliacoes-list', [
+                                'pesquisa_unidade_setor' => request()->pesquisa_unidade_setor,
+                                'secretaria_pesq' => request()->secretaria_pesq,
+                                'pesq_nota' => 8,
+                            ]) }}">
+                            Satisfeito - <i class="text-primary fa-regular fa-face-smile"></i>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="dropdown-item"
+                            href="{{ route('get-comentarios-avaliacoes-list', [
+                                'pesquisa_unidade_setor' => request()->pesquisa_unidade_setor,
+                                'secretaria_pesq' => request()->secretaria_pesq,
+                                'pesq_nota' => 10,
+                            ]) }}">
+                            Muito Satisfeito - <i class="text-success fa-regular fa-face-laugh-beam"></i>
+                        </a>
+                    </li>
+
+                </ul>
+            </div>
             <div class="col-md-2 d-flex align-items-end">
                 <button class="btn btn-primary form-control mt-3" type="submit">
                     <i class="fa-solid fa-magnifying-glass"></i>
@@ -44,6 +99,7 @@
                 </a>
             </div>
         </div>
+
 
     </form>
 
@@ -70,7 +126,27 @@
                         {{ $avaliacao->setor->nome }}
                     </td>
                     <td>
-                        {{ $avaliacao->nota }}
+                        @switch($avaliacao->nota)
+                            @case(2)
+                                <i class="text-danger fa-regular fa-face-angry"></i>
+                            @break
+
+                            @case(4)
+                                <i class="text-warning fa-regular fa-face-frown"></i>
+                            @break
+
+                            @case(6)
+                                <i class="text-info fa-regular fa-face-meh"></i>
+                            @break
+
+                            @case(8)
+                                <i class="text-primary fa-regular fa-face-smile"></i>
+                            @break
+
+                            @case(10)
+                                <i class="text-success fa-regular fa-face-laugh-beam"></i>
+                            @break
+                        @endswitch
                     </td>
                     <td class="col-md-1">
                         <div class="d-flex justify-content-evenly">
@@ -81,28 +157,28 @@
                         </div>
                     </td>
                 </tr>
-            @empty
-                <tr>
-                    <td colspan="6" class="text-center table-warning">
-                        Nenhum resultado encontrado!
-                    </td>
-                </tr>
-            @endforelse
-        </tbody>
-    </table>
+                @empty
+                    <tr>
+                        <td colspan="6" class="text-center table-warning">
+                            Nenhum resultado encontrado!
+                        </td>
+                    </tr>
+                @endforelse
+            </tbody>
+        </table>
 
-    <div class='mx-auto'>
-        {{ $avaliacoes->links('pagination::bootstrap-4') }}
-    </div>
+        <div class='mx-auto'>
+            {{ $avaliacoes->links('pagination::bootstrap-4') }}
+        </div>
 
-@endsection
+    @endsection
 
-@push('scripts')
-    <script nonce="{{ app('csp-nonce') }}">
-        $('#btnLimpaForm').click(function() {
-            $('#pesquisa_unidade_setor').val('');
-            $('#pesq_nota').val('');
-            $('#secretaria_pesq').val('');
-        });
-    </script>
-@endpush
+    @push('scripts')
+        <script nonce="{{ app('csp-nonce') }}">
+            $('#btnLimpaForm').click(function() {
+                $('#pesquisa_unidade_setor').val('');
+                $('#pesq_nota').val('');
+                $('#secretaria_pesq').val('');
+            });
+        </script>
+    @endpush
