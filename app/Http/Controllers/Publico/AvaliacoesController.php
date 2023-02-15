@@ -18,7 +18,6 @@ class AvaliacoesController extends Controller
         if (is_null($unidade)) {
             return redirect()->route('home');
         } else if ($unidade->setores->count() == 1) {
-            dd($unidade->setores);
             return redirect()->route('get-view-avaliacao', $unidade->setores[0]->token);
         }
 
@@ -27,16 +26,10 @@ class AvaliacoesController extends Controller
 
     public function viewAvaliacao($setorToken)
     {
-        $unidade = Unidade::get();
+        $setor = Setor::where('token', $setorToken)->with('unidade', 'tiposAvaliacao')->first();
 
-        if($unidade->ativo == true){
-            $setor = Setor::where('token', $setorToken)->with('unidade', 'tiposAvaliacao')->first();
-        } else {
+        if(is_null($setor) || !$setor->ativo || !$setor->unidade->ativo || !$setor->unidade->secretaria->ativo ){
             return redirect()->route('home')->withErrors(['erro' => "Não é possivel avaliar pois a Unidade está desativada!"]);
-        }
-
-        if (is_null($setor)) {
-            return redirect()->route('home');
         }
 
         return view('public.avaliacoes.avaliacao', compact('setor'));

@@ -171,6 +171,7 @@ class UnidadeSecrController extends Controller
     public function gerarQrcode(Unidade $unidade)
     {
         $qrcode = QrCode::size(500)->generate(route('get-avaliacao-setores', $unidade->token));
+        dd(route('get-avaliacao-setores', $unidade->token));
         $setor = null;
         return view('admin.avaliacoes.qrcode-view', compact('unidade', 'setor', 'qrcode'));
     }
