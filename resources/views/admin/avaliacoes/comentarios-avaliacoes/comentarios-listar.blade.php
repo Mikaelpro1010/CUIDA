@@ -25,67 +25,6 @@
                 </select>
             </div>
 
-
-            <div class="col-3 dropdown d-flex align-items-end mt-3">
-                <a class="btn btn-secondary dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
-                    aria-expanded="false">
-                    Notas
-                </a>
-
-                <ul class="dropdown-menu">
-                    <li>
-                        <a class="dropdown-item"
-                            href="{{ route('get-comentarios-avaliacoes-list', [
-                                'pesquisa_unidade_setor' => request()->pesquisa_unidade_setor,
-                                'secretaria_pesq' => request()->secretaria_pesq,
-                                'pesq_nota' => 2,
-                            ]) }}">
-                            Muito Insatisfeito - <i class="text-danger fa-regular fa-face-angry"></i>
-                        </a>
-                    </li>
-                    <li>
-                        <a class="dropdown-item"
-                            href="{{ route('get-comentarios-avaliacoes-list', [
-                                'pesquisa_unidade_setor' => request()->pesquisa_unidade_setor,
-                                'secretaria_pesq' => request()->secretaria_pesq,
-                                'pesq_nota' => 4,
-                            ]) }}">
-                            Insatisfeito - <i class="text-warning fa-regular fa-face-frown"></i>
-                        </a>
-                    </li>
-                    <li>
-                        <a class="dropdown-item"
-                            href="{{ route('get-comentarios-avaliacoes-list', [
-                                'pesquisa_unidade_setor' => request()->pesquisa_unidade_setor,
-                                'secretaria_pesq' => request()->secretaria_pesq,
-                                'pesq_nota' => 6,
-                            ]) }}">
-                            Neutro - <i class="text-info fa-regular fa-face-meh"></i>
-                        </a>
-                    </li>
-                    <li>
-                        <a class="dropdown-item"
-                            href="{{ route('get-comentarios-avaliacoes-list', [
-                                'pesquisa_unidade_setor' => request()->pesquisa_unidade_setor,
-                                'secretaria_pesq' => request()->secretaria_pesq,
-                                'pesq_nota' => 8,
-                            ]) }}">
-                            Satisfeito - <i class="text-primary fa-regular fa-face-smile"></i>
-                        </a>
-                    </li>
-                    <li>
-                        <a class="dropdown-item"
-                            href="{{ route('get-comentarios-avaliacoes-list', [
-                                'pesquisa_unidade_setor' => request()->pesquisa_unidade_setor,
-                                'secretaria_pesq' => request()->secretaria_pesq,
-                                'pesq_nota' => 10,
-                            ]) }}">
-                            Muito Satisfeito - <i class="text-success fa-regular fa-face-laugh-beam"></i>
-                        </a>
-                    </li>
-
-                </ul>
-            </div>
             <div class="col-md-2 d-flex align-items-end">
                 <button class="btn btn-primary form-control mt-3" type="submit">
                     <i class="fa-solid fa-magnifying-glass"></i>
@@ -103,70 +42,153 @@
 
     </form>
 
-    <table class="table table-sm table-striped">
-        <thead>
-            <tr>
-                <th>Secretarias</th>
-                <th>Unidade</th>
-                <th>Setor</th>
-                <th>Nota</th>
-                <th class="text-center">Ações</th>
-            </tr>
-        </thead>
-        <tbody class="table-group-divider">
-            @forelse ($avaliacoes as $avaliacao)
+        <div class="table-responsive">
+            <table class="table table-sm table-striped mt-3 align-middle">
+                <thead>
                 <tr>
-                    <td>
-                        {{ $avaliacao->setor->unidade->secretaria->sigla . ' - ' . $avaliacao->setor->unidade->secretaria->nome }}
-                    </td>
-                    <td>
-                        {{ $avaliacao->setor->unidade->nome }}
-                    </td>
-                    <td>
-                        {{ $avaliacao->setor->nome }}
-                    </td>
-                    <td>
-                        @switch($avaliacao->nota)
+                    <th>Secretarias</th>
+                    <th>Unidade</th>
+                    <th>Setor</th>
+                    <th>
+                        <div class="col-3 dropdown d-flex align-items-end">
+                            <a class="btn btn-outline-secondary dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                            aria-expanded="false">
+                            Notas
+                        </a>
+                        
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a class="dropdown-item"
+                                href="{{ route('get-comentarios-avaliacoes-list', [
+                                    'pesquisa_unidade_setor' => request()->pesquisa_unidade_setor,
+                                    'secretaria_pesq' => request()->secretaria_pesq,
+                                    'pesq_nota' => 2,
+                                    ]) }}">
+                                        <span class="text-danger">
+                                            <i class="fa-regular fa-face-angry"></i> - Muito Ruim
+                                        </span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item"
+                                        href="{{ route('get-comentarios-avaliacoes-list', [
+                                            'pesquisa_unidade_setor' => request()->pesquisa_unidade_setor,
+                                            'secretaria_pesq' => request()->secretaria_pesq,
+                                            'pesq_nota' => 4,
+                                        ]) }}">
+                                        <span class="text-warning">
+                                            <i class="fa-regular fa-face-frown"></i> - Ruim
+                                        </span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item"
+                                    href="{{ route('get-comentarios-avaliacoes-list', [
+                                        'pesquisa_unidade_setor' => request()->pesquisa_unidade_setor,
+                                            'secretaria_pesq' => request()->secretaria_pesq,
+                                            'pesq_nota' => 6,
+                                            ]) }}">
+                                        <span class="text-info">
+                                            <i class="fa-regular fa-face-meh"></i> - Neutro
+                                        </span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item"
+                                    href="{{ route('get-comentarios-avaliacoes-list', [
+                                        'pesquisa_unidade_setor' => request()->pesquisa_unidade_setor,
+                                        'secretaria_pesq' => request()->secretaria_pesq,
+                                            'pesq_nota' => 8,
+                                            ]) }}">
+                                        <span class="text-primary">
+                                            <i class="fa-regular fa-face-smile"></i> - Bom
+                                        </span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item"
+                                        href="{{ route('get-comentarios-avaliacoes-list', [
+                                            'pesquisa_unidade_setor' => request()->pesquisa_unidade_setor,
+                                            'secretaria_pesq' => request()->secretaria_pesq,
+                                            'pesq_nota' => 10,
+                                            ]) }}">
+                                        <span class="text-success">
+                                            <i class="fa-regular fa-face-laugh-beam"></i> - Muito Bom
+                                        </span>
+                                    </a>
+                                </li>
+                                
+                            </ul>
+                        </div>
+                    </th>
+                    <th class="text-center">Ações</th>
+                </tr>
+            </thead>
+            <tbody class="table-group-divider">
+                @forelse ($avaliacoes as $avaliacao)
+                    <tr>
+                        <td>
+                            {{ $avaliacao->setor->unidade->secretaria->sigla . ' - ' . $avaliacao->setor->unidade->secretaria->nome }}
+                        </td>
+                        <td>
+                            {{ $avaliacao->setor->unidade->nome }}
+                        </td>
+                        <td>
+                            {{ $avaliacao->setor->nome }}
+                        </td>
+                        <td>
+                            @switch($avaliacao->nota)
                             @case(2)
-                                <i class="text-danger fa-regular fa-face-angry"></i>
+                            <span class="text-danger">
+                                <i class="fa-regular fa-face-angry"></i> - Muito Ruim
+                            </span>
                             @break
-
+                            
                             @case(4)
-                                <i class="text-warning fa-regular fa-face-frown"></i>
+                            <span class="text-warning">
+                                <i class="fa-regular fa-face-frown"></i> - Ruim
+                            </span>
                             @break
+                            
+                                @case(6)
+                                    <span class="text-info">
+                                        <i class="fa-regular fa-face-meh"></i> - Neutro
+                                    </span>
+                                @break
 
-                            @case(6)
-                                <i class="text-info fa-regular fa-face-meh"></i>
-                            @break
-
-                            @case(8)
-                                <i class="text-primary fa-regular fa-face-smile"></i>
-                            @break
-
-                            @case(10)
-                                <i class="text-success fa-regular fa-face-laugh-beam"></i>
-                            @break
-                        @endswitch
-                    </td>
-                    <td class="col-md-1">
-                        <div class="d-flex justify-content-evenly">
-                            <a class="btn text-primary"
+                                @case(8)
+                                <span class="text-primary">
+                                        <i class="fa-regular fa-face-smile"></i> - Bom
+                                    </span>
+                                    @break
+                                    
+                                    @case(10)
+                                    <span class="text-success">
+                                        <i class="fa-regular fa-face-laugh-beam"></i> - Muito Bom
+                                    </span>
+                                    @break
+                                    @endswitch
+                        </td>
+                        <td class="col-md-1">
+                            <div class="d-flex justify-content-evenly">
+                                <a class="btn text-primary"
                                 href="{{ route('get-comentarios-avaliacoes-view', ['id' => $avaliacao->id]) }}">
                                 <i class="fa-xl fa-solid fa-magnifying-glass"></i>
                             </a>
                         </div>
                     </td>
                 </tr>
-                @empty
-                    <tr>
-                        <td colspan="6" class="text-center table-warning">
-                            Nenhum resultado encontrado!
-                        </td>
-                    </tr>
-                @endforelse
-            </tbody>
-        </table>
-
+                    @empty
+                        <tr>
+                            <td colspan="6" class="text-center table-warning">
+                                Nenhum resultado encontrado!
+                            </td>
+                        </tr>
+                        @endforelse
+                </tbody>
+            </table>
+        </div>
+        
         <div class='mx-auto'>
             {{ $avaliacoes->links('pagination::bootstrap-4') }}
         </div>
