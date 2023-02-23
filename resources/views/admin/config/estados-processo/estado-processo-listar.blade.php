@@ -11,29 +11,8 @@
 </div>
 <hr>
 
-<form class="" action="{{ route('get-estado-processo-list') }}" method="GET">
-    <div class="m-0 p-0 row">
-        <div class="col-md-5">
-            <label for="pesquisa">Nome:</label>
-            <input id="pesquisa" class="form-control" type="text" name="pesquisa" placeholder="Pesquisar"
-                value="{{ request()->pesquisa }}">
-        </div>
-
-        <div class="col-md-2 d-flex align-items-end">
-            <button class="btn btn-primary form-control mt-3" type="submit">
-                <i class="fa-solid fa-magnifying-glass"></i>
-                Buscar
-            </button>
-        </div>
-        <div class="col-md-2 d-flex align-items-end">
-            <a id="btnLimpaForm" class="btn btn-warning form-control mt-3">
-                Limpar
-                <i class="fa-solid fa-eraser"></i>
-            </a>
-        </div>
-    </div>
-
-</form>
+@component('admin.config.components_crud.filtrar-pesquisa', ['route' => 'get-estado-processo-list'])
+@endcomponent
 
 <table class="table table-striped">
     <thead>
@@ -45,7 +24,6 @@
         <th class="text-center">Ações</th>
     </thead>
     <tbody class="table-group-divider">
-
         @forelse ($estados_processo as $estado_processo)
         <tr id="{{ $estado_processo->id }}">
             <td>
@@ -73,20 +51,12 @@
             </td>
             <td class="col-md-1">
                 <div class="d-flex justify-content-evenly">
-                    <a href="{{ route('get-estado-processo-view', ['id' => $estado_processo->id]) }}">
-                        <i class="fa-xl fa-solid fa-magnifying-glass text-primary"></i>
-                    </a>
-                    <a href="{{ route('get-edit-estado-processo-view', ['id' => $estado_processo->id]) }}">
-                        <i class="fa-xl fa-solid fa-pen-to-square text-warning"></i>
-                    </a>
-                    <a class="btnDelete" data-id="{{ $estado_processo->id }}">
-                        <i class="fa-xl text-danger fa-solid fa-trash"></i>
-                    </a>
-                    <form class="d-none" id="deleteEstadoProcesso{{ $estado_processo->id }}"
-                        action="{{ route('delete-delete-estado-processo', $estado_processo) }}" method="POST">
-                        {{ csrf_field() }}
-                        {{ method_field('DELETE') }}
-                    </form>
+                    @component('admin.config.components_crud.view', ['item' => $estado_processo], ['route' => 'get-estado-processo-view'])
+                    @endcomponent
+                    @component('admin.config.components_crud.edit', ['item' => $estado_processo], ['route' => 'get-edit-estado-processo-view'])
+                    @endcomponent
+                    @component('admin.config.components_crud.delete', ['item' => $estado_processo], ['route' => 'delete-delete-estado_processo'])
+                    @endcomponent
                 </div>
             </td>
         </tr>

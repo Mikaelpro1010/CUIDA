@@ -12,31 +12,10 @@
         </a>
     </div>
     <hr>
-
-    <form class="" action="{{ route('get-faq-list') }}" method="GET">
-        <div class="m-0 p-0 row">
-            <div class="col-md-5">
-                <label for="pesquisa">Nome:</label>
-                <input id="pesquisa" class="form-control" type="text" name="pesquisa" placeholder="Pesquisar"
-                    value="{{ request()->pesquisa }}">
-            </div>
-
-            <div class="col-md-2 d-flex align-items-end">
-                <button class="btn btn-primary form-control mt-3" type="submit">
-                    <i class="fa-solid fa-magnifying-glass"></i>
-                    Buscar
-                </button>
-            </div>
-            <div class="col-md-2 d-flex align-items-end">
-                <a id="btnLimpaForm" class="btn btn-warning form-control mt-3">
-                    Limpar
-                    <i class="fa-solid fa-eraser"></i>
-                </a>
-            </div>
-        </div>
-
-    </form>
-
+    
+    @component('admin.config.components_crud.filtrar-pesquisa', ['route' => 'get-faq-list'])
+    @endcomponent
+    
     <table class="table table-striped">
         <thead>
             <th></th>
@@ -48,67 +27,56 @@
         </thead>
         <tbody id="tabela" class="table-group-divider">
             @forelse ($faqs as $faq)
-                <tr id="{{ $faq->id }}">
-                    <td>
-                        <i class="fa-solid fa-sort"></i>
-                    </td>
-                    <td>
-                        {{ $faq->id }}
-                    </td>
-                    <td>
+            <tr id="{{ $faq->id }}">
+                <td>
+                    <i class="fa-solid fa-sort"></i>
+                </td>
+                <td>
+                    {{ $faq->id }}
+                </td>
+                <td>
                         @if ($faq->ativo)
-                            <a class="btn" href="{{ route('get-toggle-faq-status', ['id' => $faq->id]) }}">
+                        <a class="btn" href="{{ route('get-toggle-faq-status', ['id' => $faq->id]) }}">
                                 <i class="text-success fa-solid fa-circle-check"></i>
                             </a>
-                        @else
+                            @else
                             <a class="btn" href="{{ route('get-toggle-faq-status', ['id' => $faq->id]) }}">
                                 <i class="text-danger fa-solid fa-circle-xmark"></i>
                             </a>
-                        @endif
-                    </td>
-                    <td class="name">
-                        {{ substr($faq->pergunta, 0, 100) . '...' }}
-                    </td>
-                    <td>
-                        {{ Carbon\Carbon::parse($faq->updated_at)->format('d/m/Y \à\s H:i\h') }}
+                            @endif
+                        </td>
+                        <td class="name">
+                            {{ substr($faq->pergunta, 0, 100) . '...' }}
+                        </td>
+                        <td>
+                            {{ Carbon\Carbon::parse($faq->updated_at)->format('d/m/Y \à\s H:i\h') }}
                     </td>
                     <td class="col-md-1">
                         <div class="d-flex justify-content-evenly">
-                            <a href="{{ route('get-faq-view', ['id' => $faq->id]) }}">
-                                <i class="fa-xl fa-solid fa-magnifying-glass text-primary"></i>
-                            </a>
-
-                            <a href="{{ route('get-edit-faq-view', ['id' => $faq->id]) }}">
-                                <i class="fa-xl fa-solid fa-pen-to-square text-warning"></i>
-                            </a>
-                            <a class="btnDelete" data-id="{{ $faq->id }}">
-                                <i class="fa-xl text-danger fa-solid fa-trash"></i>
-                            </a>
-                            {{-- <button class="btnDelete btn" data-id="{{ $faq->id }}">
-                                <i class="fa-xl text-danger fa-solid fa-trash"></i>
-                            </button> --}}
-                            <form class="d-none" id="deleteFaq{{ $faq->id }}"
-                                action="{{ route('delete-delete-faq', $faq) }}" method="POST">
-                                {{ csrf_field() }}
-                                {{ method_field('DELETE') }}
-                            </form>
+                            @component('admin.config.components_crud.view', ['item' => $faq], ['route' => 'get-faq-view'])
+                            @endcomponent
+                            @component('admin.config.components_crud.edit', ['item' => $faq], ['route' => 'get-edit-faq-view'])
+                            @endcomponent
+                            @component('admin.config.components_crud.delete', ['item' => $faq], ['route' => 'delete-delete-faq'])
+                            @endcomponent
                         </div>
                     </td>
                 </tr>
             @empty
-                <tr>
-                    <td colspan="6" class="text-center table-warning">
-                        Nenhum resultado encontrado!
-                    </td>
-                </tr>
+            <tr>
+                <td colspan="6" class="text-center table-warning">
+                    Nenhum resultado encontrado!
+                </td>
+            </tr>
             @endforelse
         </tbody>
     </table>
+        
     <div class='mx-auto'>
         {{ $faqs->links('pagination::bootstrap-4') }}
     </div>
-    </div>
-    <div id="deleteModal_3" name="id" class="modal" tabindex="-1">
+
+        <div id="deleteModal_3" name="id" class="modal" tabindex="-1">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header bg-danger">
