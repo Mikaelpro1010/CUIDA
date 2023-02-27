@@ -251,6 +251,7 @@ class Permission
         self::SETOR_TOGGLE_ATIVO,
     ];
 
+    //Comentarios das avaliações
     public const GERENCIAR_COMENTARIOS_AVALIACOES_LIST = 'Listar avaliações';
     public const GERENCIAR_COMENTARIOS_AVALIACOES_VIEW = 'Visualizar comentários das avaliações';
 

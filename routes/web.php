@@ -207,16 +207,6 @@ Route::middleware(['auth:web'])->group(
                 Route::delete('faq/{FAQ}', 'FaqController@deleteFAQ')->name('delete-delete-faq');
                 Route::get('faq/{FAQ}/toggle', 'FaqController@toggleFAQStatus')->name("get-toggle-faq-status");
                 Route::post('faq/order', 'FaqController@orderFAQ')->name("order-faq");
-
-                Route::get('tipo-avaliacao', 'TipoAvaliacaoController@listTipoAvaliacao')->name('get-tipo-avaliacao-list');
-                Route::get('tipo-avaliacao/create', 'TipoAvaliacaoController@createTipoAvaliacao')->name('get-create-tipo-avaliacao');
-                Route::post('tipo-avaliacao', 'TipoAvaliacaoController@storeTipoAvaliacao')->name('post-store-tipo-avaliacao');
-                Route::get('tipo-avaliacao/{tipoAvaliacao}', 'TipoAvaliacaoController@viewTipoavaliacao')->name('get-tipo-avaliacao-view');
-                Route::get('tipo-avaliacao/{tipoAvaliacao}/edit', 'TipoAvaliacaoController@editTipoavaliacao')->name('get-edit-tipo-avaliacao-view');
-                Route::patch('tipo-avaliacao/{tipoAvaliacao}', 'TipoAvaliacaoController@updateTipoavaliacao')->name('patch-update-tipo-avaliacao');
-                Route::delete('tipo-avaliacao/{tipoAvaliacao}', 'TipoAvaliacaoController@deleteTipoavaliacao')->name('delete-delete-tipo-avaliacao');
-                Route::get('tipo-avaliacao/{tipoAvaliacao}/toggle', 'TipoAvaliacaoController@toggleTipoavaliacaoStatus')->name("get-toggle-tipo-avaliacao-status");
-                Route::get('tipo-avaliacao/{secretariaId}/secretaria', 'TipoAvaliacaoController@getTiposAvaliacaoSecretaria')->name("get-tipo-avaliacao-secretaria");
             }
         );
 
@@ -236,8 +226,8 @@ Route::middleware(['auth:web'])->group(
         Route::post('/manifestacao2/compartilhamento/{compartilhamento}/resposta', 'CompartilhamentoController@responderCompartilhamento')->name("responder-compartilhamento");
         Route::post('/manifestacao2/compartilhamento', 'Manifests2Controller@viewCompartilhamento')->name("view-compartilhamento");
         Route::post('/manifestacao2/{manifestacao}/{recurso}/responder', "Manifests2Controller@responderRecurso")->name('responder-recurso');
-        
-        
+
+
         //mensagens
         Route::get('/messages', "MessagesController@index")->name('mensagens');
         Route::get('/messages/{id}', "MessagesController@visualizarMsg")->name('visualizarMsg');
@@ -246,30 +236,30 @@ Route::middleware(['auth:web'])->group(
         // AnexosMensagem
         Route::get('/messages/download/{anexo}', 'AnexoMensagemController@downloadAnexo')->name('download-anexo');
         Route::get('/messages/view/{anexo}', 'AnexoMensagemController@viewAnexo')->name('view-anexo');
-        
-        
+
+
         //modulo Avaliacoes
         Route::prefix('avaliacoes')->namespace('Avaliacoes')->group(function () {
             //Relatorios
             Route::get('/relatorios', 'RelatoriosAvaliacoesController@resumo')->name('get-avaliacao-geral');
-            
+
             Route::get('/relatorios/secretaria', 'RelatoriosAvaliacoesController@resumoSecretariasList')->name('get-list-resumo-avaliacoes-secretaria');
             Route::get('/relatorios/secretaria/{secretaria}', 'RelatoriosAvaliacoesController@resumoSecretaria')->name('get-resumo-avaliacoes-secretaria');
-            
+
             Route::get('/relatorios/secretaria/{secretaria}/avaliacoes/mes', 'RelatoriosAvaliacoesController@avaliacoesPorMesSecretaria')
-            ->middleware('throttle:60,60')
-            ->name('get-resumo-avaliacoes-secretaria-avaliacoes-mes');
-            
+                ->middleware('throttle:60,60')
+                ->name('get-resumo-avaliacoes-secretaria-avaliacoes-mes');
+
             Route::get('/relatorios/unidade', 'RelatoriosAvaliacoesController@resumoUnidadeSecrList')->name('get-list-resumo-avaliacoes-unidade');
             Route::get('/relatorios/secretaria/{secretaria}/unidade/{unidade}', 'RelatoriosAvaliacoesController@resumoUnidadeSecr')->name('get-resumo-avaliacoes-unidade');
-            
+
             Route::get('/relatorios/unidade/{unidade}/notas-mes', 'RelatoriosAvaliacoesController@notasPorMesUnidade')
-            ->middleware('throttle:60,60')
-            ->name('get-resumo-avaliacoes-unidade-notas-mes');
+                ->middleware('throttle:60,60')
+                ->name('get-resumo-avaliacoes-unidade-notas-mes');
             Route::get('/relatorios/unidade/{unidade}/avaliacoes-mes', 'RelatoriosAvaliacoesController@avaliacoesPorMesUnidade')
-            ->middleware('throttle:60,60')
-            ->name('get-resumo-avaliacoes-unidade-avaliacoes-mes');
-            
+                ->middleware('throttle:60,60')
+                ->name('get-resumo-avaliacoes-unidade-avaliacoes-mes');
+
             //Gerenciar Unidade
             Route::get('/unidade', 'UnidadeSecrController@listagem')->name('get-unidades-secr-list');
             Route::get('/unidade/create', 'UnidadeSecrController@createUnidade')->name('get-create-unidade');
@@ -279,17 +269,29 @@ Route::middleware(['auth:web'])->group(
             Route::patch('/unidade/{unidade}/update', 'UnidadeSecrController@updateUnidade')->name('patch-update-unidade-secr');
             Route::get('/unidade/{unidade}/ativar', 'UnidadeSecrController@ativarDesativar')->name('get-ativar-unidade-secr');
             Route::get('/unidade/{unidade}/qr-code', 'UnidadeSecrController@gerarQrcode')->name('get-qrcode-unidade-secr');
-            
-            Route::get('/comentario', 'ComentariosAvaliacoesController@listComentarios')->name('get-comentarios-avaliacoes-list');
-            Route::get('/comentario/{id}', 'ComentariosAvaliacoesController@viewComentarios')->name('get-comentarios-avaliacoes-view');
 
-
+            // Setor
             Route::post('/setor/{unidade}', 'SetoresController@storeSetor')->name('post-store-setor');
             Route::patch('/setor/{setor}/update', 'SetoresController@updateSetor')->name('patch-update-setor');
             Route::delete('/setor/{setor}', 'SetoresController@deleteSetor')->name('delete-delete-setor');
             Route::get('/setor/{setor}/ativar', 'SetoresController@ativarDesativar')->name('get-toggle-setor-status');
             Route::get('/setor/{setor}/tipos-avaliacao', 'SetoresController@getTiposAvaliacaoSetor')->name('get-tipos-avaliacao-setor');
             Route::get('/setor/{setor}/qr-code', 'SetoresController@gerarQrcode')->name('get-qrcode-setor');
+
+            // Comentarios
+            Route::get('/comentario', 'ComentariosAvaliacoesController@listComentarios')->name('get-comentarios-avaliacoes-list');
+            Route::get('/comentario/{id}', 'ComentariosAvaliacoesController@viewComentarios')->name('get-comentarios-avaliacoes-view');
+
+            //Tipo Avaliação
+            Route::get('tipo-avaliacao', 'TipoAvaliacaoController@listTipoAvaliacao')->name('get-tipo-avaliacao-list');
+            Route::get('tipo-avaliacao/create', 'TipoAvaliacaoController@createTipoAvaliacao')->name('get-create-tipo-avaliacao');
+            Route::post('tipo-avaliacao', 'TipoAvaliacaoController@storeTipoAvaliacao')->name('post-store-tipo-avaliacao');
+            Route::get('tipo-avaliacao/{tipoAvaliacao}', 'TipoAvaliacaoController@viewTipoavaliacao')->name('get-tipo-avaliacao-view');
+            Route::get('tipo-avaliacao/{tipoAvaliacao}/edit', 'TipoAvaliacaoController@editTipoavaliacao')->name('get-edit-tipo-avaliacao-view');
+            Route::patch('tipo-avaliacao/{tipoAvaliacao}', 'TipoAvaliacaoController@updateTipoavaliacao')->name('patch-update-tipo-avaliacao');
+            Route::delete('tipo-avaliacao/{tipoAvaliacao}', 'TipoAvaliacaoController@deleteTipoavaliacao')->name('delete-delete-tipo-avaliacao');
+            Route::get('tipo-avaliacao/{tipoAvaliacao}/toggle', 'TipoAvaliacaoController@toggleTipoavaliacaoStatus')->name("get-toggle-tipo-avaliacao-status");
+            Route::get('tipo-avaliacao/{secretariaId}/secretaria', 'TipoAvaliacaoController@getTiposAvaliacaoSecretaria')->name("get-tipo-avaliacao-secretaria");
         });
     }
 );

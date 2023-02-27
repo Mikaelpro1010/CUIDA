@@ -1,13 +1,12 @@
 <?php
 
-namespace App\Http\Controllers\Configs;
+namespace App\Http\Controllers\Avaliacoes;
 
-use App\Constants\Permission;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Constants\Permission;
 use App\Models\Avaliacao\TipoAvaliacao;
 use App\Models\Secretaria;
-use Illuminate\Support\Facades\Validator;
 
 class TipoAvaliacaoController extends Controller
 {

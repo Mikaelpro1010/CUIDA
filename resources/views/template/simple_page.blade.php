@@ -76,16 +76,16 @@
 
                                         @if (auth()->user()->can(permissionConstant()::RELATORIO_AVALIACOES_GERAL_VIEW) ||
                                                 auth()->user()->can(permissionConstant()::UNIDADE_SECRETARIA_LIST))
-                                            <a class="dropdown-item"
-                                                href="
-                                        @can(permissionConstant()::RELATORIO_AVALIACOES_GERAL_VIEW)
-                                            {{ route('get-avaliacao-geral') }}
-                                        @else
-                                            {{ route('get-list-resumo-avaliacoes-secretaria') }} 
-                                        @endcan
-                                        ">
-                                                Resumos das Avaliações
-                                            </a>
+                                            @can(permissionConstant()::RELATORIO_AVALIACOES_GERAL_VIEW)
+                                                <a class="dropdown-item" href="{{ route('get-avaliacao-geral') }}">
+                                                    Resumos das Avaliações
+                                                </a>
+                                            @else
+                                                <a class="dropdown-item"
+                                                    href="{{ route('get-list-resumo-avaliacoes-secretaria') }} ">
+                                                    Resumos das Avaliações
+                                                </a>
+                                            @endcan
                                             <hr>
                                         @endif
                                         <a id="logoutBtn" class="dropdown-item" href="{{ route('logout') }}">
@@ -145,6 +145,7 @@
 
                             @if (auth()->user()->can(permissionConstant()::RELATORIO_AVALIACOES_GERAL_VIEW) ||
                                     auth()->user()->can(permissionConstant()::UNIDADE_SECRETARIA_LIST) ||
+                                    auth()->user()->can(permissionConstant()::GERENCIAR_COMENTARIOS_AVALIACOES_LIST) ||
                                     auth()->user()->can(permissionConstant()::GERENCIAR_TIPOS_AVALIACAO_LIST))
                                 <li
                                     class="nav-item dropdown @if (Route::current()->action['namespace'] == 'App\Http\Controllers\Avaliacoes') border-bottom border-3 border-primary @endif">
@@ -153,19 +154,26 @@
                                         Avaliações
                                     </a>
                                     <ul class="dropdown-menu">
-                                        <li>
-                                            <a class="dropdown-item"
-                                                href="
-                                                @if (auth()->user()->can(permissionConstant()::RELATORIO_AVALIACOES_GERAL_VIEW)) {{ route('get-avaliacao-geral') }}
-                                                @else
-                                                {{ route('get-list-resumo-avaliacoes-secretaria') }} @endif">
-                                                Resumos
-                                            </a>
-                                        </li>
-                                        <hr>
-                                        @can(permissionConstant()::GERENCIAR_TIPOS_AVALIACAO_LIST)
+                                        @if (auth()->user()->can(permissionConstant()::RELATORIO_AVALIACOES_GERAL_VIEW) ||
+                                                auth()->user()->can(permissionConstant()::RELATORIO_AVALIACOES_SECRETARIA_VIEW))
                                             <li>
-                                                <a class="dropdown-item" href="{{ route('get-comentarios-avaliacoes-list') }}">
+                                                @can(permissionConstant()::RELATORIO_AVALIACOES_GERAL_VIEW)
+                                                    <a class="dropdown-item" href="{{ route('get-avaliacao-geral') }}">
+                                                        Resumos
+                                                    </a>
+                                                @else
+                                                    <a class="dropdown-item"
+                                                        href="{{ route('get-list-resumo-avaliacoes-secretaria') }} ">
+                                                        Resumos
+                                                    </a>
+                                                @endcan
+                                            </li>
+                                            <hr>
+                                        @endif
+                                        @can(permissionConstant()::GERENCIAR_COMENTARIOS_AVALIACOES_LIST)
+                                            <li>
+                                                <a class="dropdown-item"
+                                                    href="{{ route('get-comentarios-avaliacoes-list') }}">
                                                     Comentários das Avaliações
                                                 </a>
                                             </li>
