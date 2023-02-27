@@ -170,13 +170,13 @@ class UnidadeSecrController extends Controller
 
     public function gerarQrcode(Unidade $unidade)
     {
-        $setores = $unidade->setores()->where('ativo', true)->get();
+        $setores = $unidade->setores()->with('unidade', 'unidade.secretaria')->where('ativo', true)->get();
 
         $setorQrcode = [];
         foreach ($setores as $key => $setor) {
-            $setorQrcode [$key] = [
-                    'setor' => $setor,
-                    'qrcode' => QrCode::size(500)->generate(route('get-view-avaliacao', $setor->token))
+            $setorQrcode[$key] = [
+                'setor' => $setor,
+                'qrcode' => QrCode::size(500)->generate(route('get-view-avaliacao', $setor->token))
             ];
         }
 
