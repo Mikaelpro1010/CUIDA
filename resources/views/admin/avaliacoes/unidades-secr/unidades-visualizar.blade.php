@@ -41,14 +41,14 @@
         <div class="col-md-2">
             <b>Emitir QRcode:</b>
             <p class="border-2 border-bottom border-warning">
-                {{-- @if (!$unidadeObj->secretaria->ativo || !$unidadeObj->ativo)
+                @if (!$unidadeObj->secretaria->ativo || !$unidadeObj->ativo)
                     <span class="text-danger"> (Inativo)</span>
-                @else --}}
+                @else
                     <a href="{{ route('get-qrcode-unidade-secr', $unidadeObj) }}" target="_blank">
                         Abrir
                         <i class="fa-solid fa-arrow-up-right-from-square"></i>
                     </a>
-                {{-- @endif --}}
+                @endif
             </p>
         </div>
 

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="{{ app()->getLocale() }}">
 
-<head>
+<head> 
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -26,7 +26,11 @@
 
 <body class="text-center">
     @foreach ($setorQrcode as $key => $atual)
+        {{-- <div class="position-absolute top-50 start-50"> --}}
+            
+            {{-- </div> --}}
         <div class="setor">
+            <img src="{{ asset('imgs/Escutasol_2.png') }}" alt="" width="500" height="1000">
             <div class="d-flex justify-content-between m-3">
                 <div class="d-flex align-items-center">
                     <img class="me-2 border border-3 rounded-circle border-primary"
@@ -47,8 +51,8 @@
 
             <h4>{{ $atual['setor']->unidade->secretaria->nome }} - {{ $atual['setor']->unidade->secretaria->sigla }}
             </h4>
-            <footer class="d-flex justify-content-center my-3">
-                <div class="border-bottom text-center">
+            <footer class="d-flex justify-content-center my-0">
+                <div>
                     EscutaSol - Controladoria e Ouvidoria Geral do Municipio de Sobral - CGM - {{ now()->year }}
                 </div>
             </footer>
