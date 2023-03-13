@@ -91,7 +91,7 @@ class UsersController extends Controller
             'name' => $request->name,
             'email' => $request->email,
             'role_id' => $request->tipo_usuario,
-            'password' => bcrypt($request->senha),
+            'password' => $request->senha,
         ]);
 
         $user->secretarias()->attach($request->secretaria);
