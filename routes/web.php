@@ -56,25 +56,20 @@ $this->post('logout', 'Auth\LoginController@logout')->name('logout');
 //     return "<div><img width='300px' src=" . route('teste') . " alt=''></div>";
 // })->middleware('auth');
 
-Route::get('/teste', function () {
-
-    $avaliacao = Avaliacao::inRandomOrder()->first();
-
-    SetorTipoAvaliacao::updateResumoCache($avaliacao);
-
-    // $nome = ['name' => 'name'];
-    // dd(auth()->user()->$nome['name']);
-    //     $file = AnexoMensagem::first();
-    //     // $path = storage_path('app/msgs_anexos/') . $file->caminho . $file->nome;
-    //     $path = $file->caminho . $file->nome;
-    //     if (Storage::disk('msgs_anexos')->exists($path)) {
-    //         // return Storage::disk('msgs_anexos')->download($path, $file->nome);
-    //         return Storage::disk('msgs_anexos')->response($path);
-    //     } else {
-    //         abort(404, 'File not found!');
-    //     }
-    //     return;
-})->name('teste');
+// Route::get('/teste', function () {
+// $nome = ['name' => 'name'];
+// dd(auth()->user()->$nome['name']);
+//     $file = AnexoMensagem::first();
+//     // $path = storage_path('app/msgs_anexos/') . $file->caminho . $file->nome;
+//     $path = $file->caminho . $file->nome;
+//     if (Storage::disk('msgs_anexos')->exists($path)) {
+//         // return Storage::disk('msgs_anexos')->download($path, $file->nome);
+//         return Storage::disk('msgs_anexos')->response($path);
+//     } else {
+//         abort(404, 'File not found!');
+//     }
+//     return;
+// })->name('teste');
 
 // Route::get('/anexos', function () {
 //     $arquivos = AnexoMensagem::all();

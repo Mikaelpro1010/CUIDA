@@ -57,7 +57,12 @@ class UnidadesSecrTableSeeder extends Seeder
             "Centro de Saúde da Família Maria Rosângela Rodrigues da Silva",
             "Centro de Saúde da Família de Taperuaba",
             "Centro de Saúde da Família Antônio Ribeiro da Silva",
-
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
         ];
 
         $nome = [
@@ -100,6 +105,12 @@ class UnidadesSecrTableSeeder extends Seeder
             'CSF - Salgado dos Machados',
             'CSF - Taperuaba',
             'CSF - Torto',
+            "Unidade de Apoio Barragem",
+            "Unidade de Apoio Vassouras",
+            "Unidade de Apoio São Francisco",
+            "Unidade de Apoio Contendas",
+            "Unidade de Apoio Ouro Branco",
+            "Unidade de Apoio Recreio",
         ];
 
         $setores = [

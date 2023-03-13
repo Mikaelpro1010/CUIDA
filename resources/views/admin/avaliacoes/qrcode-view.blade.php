@@ -34,7 +34,7 @@
     @if ($setor)
         <h1>{{ $setor->nome }}</h1>
         <br>
-        <h4>{{ $unidade->nome }} - {{ $unidade->nome_oficial }}</h4>
+        <h4>{{ $unidade->nome }}{{ $unidade->nome_oficial ? ' - ' . $unidade->nome_oficial : '' }}</h4>
         <br>
     @else
         <h1>{{ $unidade->nome }}</h1>
