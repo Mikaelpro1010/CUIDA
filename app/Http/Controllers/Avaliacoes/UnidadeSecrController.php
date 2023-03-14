@@ -174,9 +174,9 @@ class UnidadeSecrController extends Controller
 
         $setorQrcode = [];
         foreach ($setores as $key => $setor) {
-            $setorQrcode [$key] = [
-                    'setor' => $setor,
-                    'qrcode' => QrCode::size(350)->generate(route('get-view-avaliacao', $setor->token))
+            $setorQrcode[$key] = [
+                'setor' => $setor,
+                'qrcode' => QrCode::margin(0)->size(300)->generate(route('get-view-avaliacao', $setor->token))
             ];
         }
 
