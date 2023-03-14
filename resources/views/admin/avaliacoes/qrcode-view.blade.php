@@ -14,10 +14,32 @@
         <style nonce="{{ app('csp-nonce') }}">
             @media print {
 
-                .logo-container,
-                .img-wrapper,
-                img {
-                    height: 60px !important;
+                .title {
+                    width: 600px;
+                }
+
+                .escutasol {
+                    position: absolute;
+                    top: 240px;
+                    left: 320px
+                }
+
+                .qr-code {
+                    position: absolute;
+                    top: 390px;
+                    left: 285px
+                }
+
+                .pms-logo {
+                    position: absolute;
+                    height: 75px;
+                    width: 265px;
+                    top: 480px;
+                    left: 0px
+                }
+
+                footer {
+                    width: 700px;
                 }
 
                 @page {
@@ -32,50 +54,51 @@
     </head>
 
     <body class="text-center">
-        <img class="h-100 w-100 position-relative" src="{{ asset('imgs/Escutasol_2.png') }}">
+        <img class="bg-img h-100 w-100 position-relative" src="{{ asset('imgs/bg_qrcode.png') }}">
 
-        <div class="mt-5 position-absolute top-0">
-            <div class="d-flex justify-content-between m-3">
-                <div class="d-flex align-items-center col row mt-2">
-                    <h1>Avaliação geral</h1>
-                    <h2>Unidade de Apoio Barragem</h2>
-                </div>
+        <div class="position-absolute top-0 start-50 translate-middle-x mt-5">
+            <div class="text-center title">
+                <h1 class="fs-2">Avaliação geral</h1>
+                <h2 class="fs-4">
+                    {{ $unidade->nome }}{{ $unidade->nome_oficial ? ' - ' . $unidade->nome_oficial : '' }}
+                </h2>
             </div>
+        </div>
 
-            <div class="my-5 row align-items-center col-12 mb-5">
-                <div class="mx-4 col-3">
-                    <img class="col-md-4" src="{{ asset('imgs/pms.png') }}" alt="" srcset="">
+        <div class="position-absolute top-0 left-0 h-100">
+            <img class="pms-logo" src="{{ asset('imgs/pms.png') }}" alt="logo Prefeitura Municipal de Sobral">
+            <div class="escutasol">
+                <div class="d-flex justify-content-center">
+                    <img class="me-2 border border-3 rounded-circle border-primary"
+                        src="{{ asset('imgs/adaptive-icon.png') }}" height="60px" alt="Logo EscutaSol">
+                    <b class="fs-1 text-primary align-self-center">EscutaSol</b>
                 </div>
-                <div class="mx-5 col-6 mt-4">
-                    <div class="mb-3">
-                        <img class="me-2 border border-3 rounded-circle border-primary"
-                            src="{{ asset('imgs/adaptive-icon.png') }}" height="20px" alt="Logo EscutaSol">
-                        <span class="fs-1 text-primary"><b>EscutaSol</b></span>
-                    </div>
-                    {{-- @if ($setor)
+                {{-- @if ($setor)
                         <h1>{{ $setor->nome }}</h1>
-                        
-                        <h4>{{ $unidade->nome }} - {{ $unidade->nome_oficial }}</h4>
-                       
+                        <h4></h4>                      
                     @else
                         <h1>{{ $unidade->nome }}</h1>
                         <h3>{{ $unidade->nome_oficial }}</h3>
-                    
                     @endif --}}
-                    <div class="mb-4">
-                        <h4>Faça sua Avaliação através do QRcode!</h4>
-                    </div>
-                    <div class="pe-1 pb-1">
-                        <?= $qrcode ?>
-                    </div>
+                <div class="mt-2 text-white">
+                    <h4>Faça sua Avaliação através do QRcode!</h4>
                 </div>
             </div>
-        </div>
-        <footer class="d-flex justify-content-center row bottom-3 ">
-            <div class="">
-                <h4>{{ $unidade->secretaria->nome }} - {{ $unidade->secretaria->sigla }}</h4>
-                EscutaSol - Controladoria e Ouvidoria Geral do Municipio de Sobral - CGM - {{ now()->year }}
+            <div class="qr-code">
+                <?= $qrcode ?>
             </div>
+        </div>
+
+        <footer class="position-absolute bottom-0 start-50 translate-middle-x text-center">
+            <span class="fs-2">
+                Aponte a câmera do seu celular e envie sua Avaliação!
+            </span>
+            <h4 class="fs-3">
+                {{ $unidade->secretaria->nome }} - {{ $unidade->secretaria->sigla }}
+            </h4>
+            <span>
+                EscutaSol - Controladoria e Ouvidoria Geral do Municipio de Sobral - CGM - {{ now()->year }}
+            </span>
         </footer>
     </body>
     <script src="{{ asset('js/scripts.js') }}" nonce="{{ app('csp-nonce') }}" data-auto-add-css="false"></script>
