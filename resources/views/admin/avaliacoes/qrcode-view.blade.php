@@ -8,7 +8,7 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>@yield('titulo', 'EscutaSol')</title>
+        <title>{{ $unidade->nome . ' - ' . $setor->nome }}</title>
 
         <link rel="stylesheet" href="{{ asset('css/styles.css') }}" nonce="{{ app('csp-nonce') }}">
         <style nonce="{{ app('csp-nonce') }}">
@@ -54,11 +54,11 @@
     </head>
 
     <body class="text-center">
-        <img class="bg-img h-100 w-100 position-relative" src="{{ asset('imgs/bg_qrcode.png') }}">
+        <img class="bg-img h-100 w-100 position-relative" src="{{ asset('imgs/bg_low.png') }}">
 
         <div class="position-absolute top-0 start-50 translate-middle-x mt-5">
             <div class="text-center title">
-                <h1 class="fs-2">Avaliação geral</h1>
+                <h1 class="fs-2">{{ $setor->nome }}</h1>
                 <h2 class="fs-4">
                     {{ $unidade->nome }}{{ $unidade->nome_oficial ? ' - ' . $unidade->nome_oficial : '' }}
                 </h2>
