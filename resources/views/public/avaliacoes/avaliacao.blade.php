@@ -73,6 +73,7 @@
 
         $('.btnAvaliacao').click(function() {
             enviarAvaliacao($(this).data('id'));
+            $('.btnAvaliacao').addClass('d-none');
         });
 
         function avaliar(nota, nPergunta) {
@@ -80,7 +81,7 @@
                 $(element).addClass('opacity-50');
             });
             $("#comentario-" + nPergunta).removeClass('d-none');
-            $("#btn-avaliacao").removeClass('d-none');
+            $(".btnAvaliacao").removeClass('d-none');
 
             switch (nota) {
                 case 1:
