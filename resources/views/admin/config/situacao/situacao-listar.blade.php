@@ -11,29 +11,8 @@
     </div>
     <hr>
 
-    <form class="" action="{{ route('get-situacao-list') }}" method="GET">
-        <div class="m-0 p-0 row">
-            <div class="col-md-5">
-                <label for="pesquisa">Nome:</label>
-                <input id="pesquisa" class="form-control" type="text" name="pesquisa" placeholder="Pesquisar"
-                    value="{{ request()->pesquisa }}">
-            </div>
-    
-            <div class="col-md-2 d-flex align-items-end">
-                <button class="btn btn-primary form-control mt-3" type="submit">
-                    <i class="fa-solid fa-magnifying-glass"></i>
-                    Buscar
-                </button>
-            </div>
-            <div class="col-md-2 d-flex align-items-end">
-                <a id="btnLimpaForm" class="btn btn-warning form-control mt-3">
-                    Limpar
-                    <i class="fa-solid fa-eraser"></i>
-                </a>
-            </div>
-        </div>
-    
-    </form>
+    @component('admin.config.components_crud.filtrar-pesquisa', ['route' => 'get-situacao-list'])
+    @endcomponent
 
     <table class="table table-striped">
         <thead>
@@ -74,24 +53,12 @@
                         </td>
                         <td class="col-md-1">
                             <div class="d-flex justify-content-evenly">
-                                <a href="{{ route('get-situacao-view', ['id' => $situacao->id]) }}">
-                                    <i class="fa-xl fa-solid fa-magnifying-glass text-primary"></i>
-                                </a>
-                                <a href="{{ route('get-edit-situacao-view', ['id' => $situacao->id]) }}">
-                                    <i class="fa-xl fa-solid fa-pen-to-square text-warning"></i>
-                                </a>
-                                <a class="btnDelete" data-id="{{ $situacao->id }}">
-                                    <i class="fa-xl text-danger fa-solid fa-trash"></i>
-                                </a>
-                                {{-- <button class="btnDelete btn" data-id="{{ $situacao->id }}">
-                                    <i class="fa-xl text-danger fa-solid fa-trash"></i>
-                                </button> --}}
-                                <form class="d-none" id="deleteSituacao{{ $situacao->id }}"
-                                    action="{{ route('delete-delete-situacao', $situacao) }}"
-                                    method="POST">
-                                    {{ csrf_field() }}
-                                    {{ method_field('DELETE') }}
-                                </form>
+                                @component('admin.config.components_crud.view', ['item' => $situacao], ['route' => 'get-situacao-view'])
+                                @endcomponent
+                                @component('admin.config.components_crud.edit', ['item' => $situacao], ['route' => 'get-edit-situacao-view'])
+                                @endcomponent
+                                @component('admin.config.components_crud.delete', ['item' => $situacao], ['route' => 'delete-delete-situacao'])
+                                @endcomponent
                             </div>
                         </td>
                     </tr>
