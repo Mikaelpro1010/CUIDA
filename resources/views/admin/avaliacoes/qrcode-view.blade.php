@@ -63,26 +63,6 @@
         </div>
     </div>
 
-<<<<<<< HEAD
-    @if ($setor)
-        <h1>{{ $setor->nome }}</h1>
-        <br>
-        <h4>{{ $unidade->nome }}{{ $unidade->nome_oficial ? ' - ' . $unidade->nome_oficial : '' }}</h4>
-        <br>
-    @else
-        <h1>{{ $unidade->nome }}</h1>
-        <h3>{{ $unidade->nome_oficial }}</h3>
-        <br>
-    @endif
-    <h4>Faça sua Avaliação através do QRcode!</h4>
-
-    <?= $qrcode ?>
-
-    <h4>{{ $unidade->secretaria->nome }} - {{ $unidade->secretaria->sigla }}</h4>
-    <footer class="d-flex justify-content-center my-3">
-        <div class="border-bottom text-center">
-            EscutaSol - Controladoria e Ouvidoria Geral do Municipio de Sobral - CGM - {{ now()->year }}
-=======
     <div class="position-absolute top-0 left-0 h-100">
         <img class="pms-logo" src="{{ asset('imgs/pms.png') }}" alt="logo Prefeitura Municipal de Sobral">
         <div class="escutasol text-center">
@@ -94,7 +74,6 @@
             <div class="mt-2 text-white">
                 <h4>Faça sua Avaliação através do QRcode!</h4>
             </div>
->>>>>>> feature/OUV-144
         </div>
         <div class="qr-code">
             <?= $qrcode ?>

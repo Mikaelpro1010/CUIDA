@@ -109,9 +109,12 @@
                                 @can(permissionConstant()::RELATORIO_AVALIACOES_UNIDADE_VIEW)
                                     <a class="btn text-orange"
                                         href="{{ route('get-resumo-avaliacoes-unidade', ['unidade' => $unidade, 'secretaria' => $unidade->secretaria_id]) }}">
-                                        <i class=" fa-xl fa-solid fa-chart-area"></i>
+                                        <i class=" fa-xl fa-solid fa-chart-simple"></i>
                                     </a>
                                 @endcan
+                                <a class="btn text-success" href="{{ route('get-unidades-relatorio', $unidade->id) }}">
+                                    <i class=" fa-xl fa-solid fa-chart-area"></i>
+                                </a>
                             </td>
                         </tr>
                     @endforeach
