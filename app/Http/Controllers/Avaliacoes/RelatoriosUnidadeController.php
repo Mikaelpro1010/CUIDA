@@ -10,7 +10,7 @@ class RelatoriosUnidadeController extends Controller
 {
     public function relatorio($unidade_id)
     {
-        $unidade = Unidade::with('setores', 'setores.avaliacoes')->find($unidade_id);
+        $unidade = Unidade::with('setores', 'setores.avaliacoes', 'secretaria')->find($unidade_id);
 
         $setores = [];
         $totalAvaliacoes = 0;
