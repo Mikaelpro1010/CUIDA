@@ -43,7 +43,7 @@
                                 <label class="col-md-9 col-form-label text-end" for="notasMes">Ano:</label>
                                 <div class="col-md-3">
                                     <select id="notasMes" class="form-select" name="notasMes">
-                                        @for ($ano = intval(formatarDataHora(null, 'Y')); $ano >= 2022; $ano--)
+                                        @for ($ano = intval(formatarDataHora(null, 'Y')); $ano >= 2023; $ano--)
                                             <option value="{{ $ano }}"
                                                 @if (request()->ano == $ano) selected @endif>
                                                 {{ $ano }}
@@ -83,7 +83,7 @@
                                 <label class="col-md-9 col-form-label text-end" for="avaliacoesMes">Ano:</label>
                                 <div class="col-md-3">
                                     <select id="avaliacoesMes" class="form-select" name="avaliacoesMes">
-                                        @for ($ano = intval(formatarDataHora(null, 'Y')); $ano >= 2022; $ano--)
+                                        @for ($ano = intval(formatarDataHora(null, 'Y')); $ano >= 2023; $ano--)
                                             <option value="{{ $ano }}"
                                                 @if (request()->ano == $ano) selected @endif>
                                                 {{ $ano }}

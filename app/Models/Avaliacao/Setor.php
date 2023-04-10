@@ -38,6 +38,17 @@ class Setor extends Model
         return $this->hasMany(Avaliacao::class);
     }
 
+    /**
+     * Query Scope apenas para os setores ativos.
+     *
+     * @param \Illuminate\Database\Eloquent\Builder $query
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeAtivo($query)
+    {
+        return $query->where('ativo', 1);
+    }
+
     public function getResumoAllTiposAvaliacao(): Collection
     {
         $response = [];
@@ -65,8 +76,8 @@ class Setor extends Model
             'notas5' => $setorTiposAvaliacao->sum('notas5'),
         ]);
 
-        $nota = $resumoSetor['notas1'] * 2 + $resumoSetor['notas2'] * 4 + $resumoSetor['notas3'] * 6 + $resumoSetor['notas4'] * 8 + $resumoSetor['notas5'] * 10 /
-            ($resumoSetor['qtd']);
+        $nota = ($resumoSetor['notas1'] * 2 + $resumoSetor['notas2'] * 4 + $resumoSetor['notas3'] * 6 + $resumoSetor['notas4'] * 8 + $resumoSetor['notas5'] * 10) /
+            $resumoSetor['qtd'];
 
         $this->update([
             'nota' => $nota

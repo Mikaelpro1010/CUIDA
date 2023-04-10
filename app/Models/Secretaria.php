@@ -3,12 +3,14 @@
 namespace App\Models;
 
 use App\Models\Avaliacao\Avaliacao;
+use App\Models\Avaliacao\Setor;
 use App\Models\Avaliacao\TipoAvaliacao;
 use App\Models\Avaliacao\Unidade;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\Relations\HasManyThrough;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Cache;
 
 class Secretaria extends Model
@@ -31,16 +33,25 @@ class Secretaria extends Model
         return $this->belongsToMany(User::class);
     }
 
-    public function avaliacoes(): HasManyThrough
+    public function scopeAvaliacoes(): Builder
     {
-        return $this->hasManyThrough(Avaliacao::class, Unidade::class, 'secretaria_id', 'unidade_secr_id');
+        return Avaliacao::whereHas('setor.unidade', function ($query) {
+            $query->whereIn(
+                'unidade_id',
+                $this->unidades()->ativo()->get()->pluck('id')
+            );
+        });
+    }
+
+    public function scopeAtivo($query): Builder
+    {
+        return $query->where('ativo', true);
     }
 
     public function tiposAvaliacao(): HasMany
     {
         return $this->hasMany(TipoAvaliacao::class);
     }
-
 
     public static function getResumoSecretariaId($id): array
     {
@@ -50,7 +61,7 @@ class Secretaria extends Model
 
     public static function getResumoSecretariaAll(): array
     {
-        $secretarias = Secretaria::query()->with('unidades')->where('ativo', true)->get();
+        $secretarias = Secretaria::query()->with('unidades')->ativo()->get();
 
         $resumoSecretarias = [
             'qtd' => 0,
@@ -108,5 +119,13 @@ class Secretaria extends Model
 
 
         return $resumoSecretaria;
+    }
+
+    public function getResumoFromCache(): Collection
+    {
+        $cache = Cache::rememberForever('Secretaria_' . $this->id, function () {
+            return $this->getResumo();
+        });
+        return collect($cache);
     }
 }

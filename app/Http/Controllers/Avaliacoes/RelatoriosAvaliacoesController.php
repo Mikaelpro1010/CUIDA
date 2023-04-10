@@ -7,12 +7,16 @@ use App\Http\Controllers\Controller;
 use App\Models\Avaliacao\Avaliacao;
 use App\Models\Avaliacao\Unidade;
 use App\Models\Secretaria;
-use Illuminate\Http\Response;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Response as HttpResponse;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Response;
+use Illuminate\View\View;
 
 class RelatoriosAvaliacoesController extends Controller
 {
     //resumo Geral
-    public function resumo()
+    public function resumo(): View
     {
         $this->authorize(Permission::RELATORIO_AVALIACOES_GERAL_VIEW);
 
@@ -126,7 +130,7 @@ class RelatoriosAvaliacoesController extends Controller
     }
 
     // Listagem das Secretarias para resumo
-    public function resumoSecretariasList()
+    public function resumoSecretariasList(): View
     {
         $this->authorize(Permission::RELATORIO_AVALIACOES_SECRETARIA_VIEW);
 
@@ -140,8 +144,22 @@ class RelatoriosAvaliacoesController extends Controller
             $secretarias = auth()->user()->secretarias();
         };
 
-        $secretarias = $secretarias->orderBy('ativo', 'desc')
-            ->withCount('unidades', 'avaliacoes')
+        $avaliacoes = [];
+        foreach ($secretarias->get() as $secretaria) {
+            $avaliacoes[$secretaria->id] = $secretaria->getResumoFromCache()['qtd'];
+        }
+
+        if (request()->has('avaliacoes')) {
+            if (request()->avaliacoes == 'desc') {
+                arsort($avaliacoes);
+            } else {
+                asort($avaliacoes);
+            }
+        }
+
+        $secretarias = $secretarias
+            ->orderBy('ativo', 'desc')
+            ->withCount('unidades')
             ->when(
                 request()->unidades,
                 function ($query) {
@@ -152,12 +170,6 @@ class RelatoriosAvaliacoesController extends Controller
                 request()->notas,
                 function ($query) {
                     $query->orderBy('nota', request()->notas);
-                }
-            )
-            ->when(
-                request()->avaliacoes,
-                function ($query) {
-                    $query->orderBy('avaliacoes_count', request()->avaliacoes);
                 }
             )
             ->when(
@@ -177,18 +189,18 @@ class RelatoriosAvaliacoesController extends Controller
             return redirect()->route('get-resumo-avaliacoes-secretaria', $secretarias[0]);
         }
 
-        return view('admin.avaliacoes.resumos.secretarias.resumo-secretaria-list', compact('secretarias'));
+        return view('admin.avaliacoes.resumos.secretarias.resumo-secretaria-list', compact('secretarias', 'avaliacoes'));
     }
 
     //Resumo por secretaria
-    public function resumoSecretaria(Secretaria $secretaria)
+    public function resumoSecretaria(Secretaria $secretaria): View
     {
         $this->authorize(Permission::RELATORIO_AVALIACOES_SECRETARIA_VIEW);
 
         abort_unless(
             auth()->user()->can(Permission::UNIDADE_SECRETARIA_ACCESS_ANY_SECRETARIA) ||
                 (auth()->user()->secretarias->contains($secretaria) && auth()->user()->can(Permission::RELATORIO_AVALIACOES_SECRETARIA_VIEW)),
-            Response::HTTP_FORBIDDEN
+            HttpResponse::HTTP_FORBIDDEN
         );
 
         //notas qtd
@@ -216,7 +228,7 @@ class RelatoriosAvaliacoesController extends Controller
 
         $unidades = $secretaria
             ->unidades()
-            ->where('ativo', true)
+            ->ativo()
             ->where('nota', '>', 0)
             ->orderBy('nota', 'desc')
             ->limit(20)
@@ -273,25 +285,17 @@ class RelatoriosAvaliacoesController extends Controller
     }
 
     //retorna json com os dados para o grafico de avaliaçoes por mes
-    public function avaliacoesPorMesSecretaria(Secretaria $secretaria)
+    public function avaliacoesPorMesSecretaria(Secretaria $secretaria): JsonResponse
     {
         $this->authorize(Permission::RELATORIO_AVALIACOES_SECRETARIA_VIEW);
-
-        $unidades = $secretaria->unidades()->where('ativo', true)->get();
 
         $status = false;
         $resposta = null;
         if (preg_match("/^20[0-9]{2}$/", request()->ano)) {
-            // Avaliacoes por mes (qtd)
             $resposta = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
 
             $avaliacoesAno = $secretaria
                 ->avaliacoes()
-                ->where(
-                    function ($query) use ($unidades) {
-                        $query->whereIn('unidade_secr_id', $unidades->pluck('id'));
-                    }
-                )
                 ->whereYear('avaliacoes.created_at', request()->ano)
                 ->get();
 
@@ -305,11 +309,11 @@ class RelatoriosAvaliacoesController extends Controller
             'resposta' => $resposta,
         ];
 
-        return json_encode($response);
+        return Response::json($response);
     }
 
     //Lista de resumos por Unidade
-    public function resumoUnidadeSecrList()
+    public function resumoUnidadeSecrList(): View
     {
         $this->authorize(Permission::RELATORIO_AVALIACOES_UNIDADE_VIEW);
 
@@ -320,6 +324,9 @@ class RelatoriosAvaliacoesController extends Controller
         }
 
         $unidades = Unidade::query()
+            ->with('secretaria')
+            ->withCount('avaliacoes')
+            ->orderBy('ativo', 'desc')
             ->when(request()->pesquisa, function ($query) {
                 $query->where('nome', 'like', '%' . request()->pesquisa . '%');
             })
@@ -332,10 +339,6 @@ class RelatoriosAvaliacoesController extends Controller
                     $query->whereIn('secretaria_id', $secretariasSearchSelect->pluck('id'));
                 }
             )
-            ->with('secretaria');
-
-        $unidades = $unidades->orderBy('ativo', 'desc')
-            ->withCount('avaliacoes')
             ->when(
                 request()->notas,
                 function ($query) {
@@ -375,14 +378,14 @@ class RelatoriosAvaliacoesController extends Controller
     }
 
     //pagina de resumos por Unidade
-    public function resumoUnidadeSecr(Secretaria $secretaria, Unidade $unidade)
+    public function resumoUnidadeSecr(Secretaria $secretaria, Unidade $unidade): View
     {
         abort_unless(
             auth()->user()->can(Permission::UNIDADE_SECRETARIA_ACCESS_ANY_SECRETARIA) ||
                 (auth()->user()->secretarias->contains($secretaria) &&
                     $secretaria->unidades->contains($unidade) &&
                     auth()->user()->can(Permission::RELATORIO_AVALIACOES_UNIDADE_VIEW)),
-            Response::HTTP_FORBIDDEN
+            HttpResponse::HTTP_FORBIDDEN
         );
 
         //media Geral
@@ -423,7 +426,7 @@ class RelatoriosAvaliacoesController extends Controller
     }
 
     //Rota de api que retorna o array com as quantidades de avaliaçoes por mes
-    public function avaliacoesPorMesUnidade(Unidade $unidade)
+    public function avaliacoesPorMesUnidade(Unidade $unidade): JsonResponse
     {
         $this->authorize(Permission::RELATORIO_AVALIACOES_UNIDADE_VIEW);
 
@@ -433,7 +436,9 @@ class RelatoriosAvaliacoesController extends Controller
             // Avaliacoes por mes (qtd)
             $resposta = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
 
+            // $avaliacoesAno = Avaliacao::whereIn('setor_id', $unidade->setores()->pluck('id'))->whereYear('created_at', request()->ano)->get();
             $avaliacoesAno = $unidade->avaliacoes()->whereYear('avaliacoes.created_at', request()->ano)->get();
+
 
             foreach ($avaliacoesAno as $avaliacao) {
                 $resposta[formatarDataHora($avaliacao->created_at, 'n') - 1] += 1;
@@ -446,11 +451,11 @@ class RelatoriosAvaliacoesController extends Controller
             'resposta' => $resposta,
         ];
 
-        return json_encode($response);
+        return Response::json($response);
     }
 
     //Rota de Api que retorna os arrays com notas por mes
-    public function notasPorMesUnidade(Unidade $unidade)
+    public function notasPorMesUnidade(Unidade $unidade): JsonResponse
     {
         $this->authorize(Permission::RELATORIO_AVALIACOES_UNIDADE_VIEW);
 
@@ -478,6 +483,6 @@ class RelatoriosAvaliacoesController extends Controller
             'resposta' => $resposta,
         ];
 
-        return json_encode($response);
+        return Response::json($response);
     }
 }
