@@ -49,6 +49,7 @@
                     <th>Secretarias</th>
                     <th>Unidade</th>
                     <th>Setor</th>
+                    <th>Data</th>
                     <th>
                         <div class="col-3 dropdown d-flex align-items-end">
                             <a class="btn btn-outline-secondary dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
@@ -137,6 +138,9 @@
                             {{ $avaliacao->setor->nome }}
                         </td>
                         <td>
+                            {{ formatarDataHora($avaliacao->created_at) }}
+                        </td>
+                        <td>
                             @switch($avaliacao->nota)
                             @case(2)
                             <span class="text-danger">
@@ -174,10 +178,10 @@
                                 <a class="btn text-primary"
                                 href="{{ route('get-comentarios-avaliacoes-view', ['id' => $avaliacao->id]) }}">
                                 <i class="fa-xl fa-solid fa-magnifying-glass"></i>
-                            </a>
-                        </div>
-                    </td>
-                </tr>
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
                     @empty
                         <tr>
                             <td colspan="6" class="text-center table-warning">
