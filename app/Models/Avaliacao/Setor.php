@@ -76,8 +76,12 @@ class Setor extends Model
             'notas5' => $setorTiposAvaliacao->sum('notas5'),
         ]);
 
-        $nota = ($resumoSetor['notas1'] * 2 + $resumoSetor['notas2'] * 4 + $resumoSetor['notas3'] * 6 + $resumoSetor['notas4'] * 8 + $resumoSetor['notas5'] * 10) /
-            $resumoSetor['qtd'];
+        if ($resumoSetor['qtd'] > 0) {
+            $nota = ($resumoSetor['notas1'] * 2 + $resumoSetor['notas2'] * 4 + $resumoSetor['notas3'] * 6 + $resumoSetor['notas4'] * 8 + $resumoSetor['notas5'] * 10) /
+                $resumoSetor['qtd'];
+        } else {
+            $nota = 0;
+        }
 
         $this->update([
             'nota' => $nota
