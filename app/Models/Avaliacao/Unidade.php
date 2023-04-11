@@ -77,8 +77,12 @@ class Unidade extends Model
             'notas5' => $resumoAllSetores->sum('notas5'),
         ]);
 
-        $nota = ($resumoUnidade['notas1'] * 2 + $resumoUnidade['notas2'] * 4 + $resumoUnidade['notas3'] * 6 + $resumoUnidade['notas4'] * 8 + $resumoUnidade['notas5'] * 10) /
-            $resumoUnidade['qtd'];
+        if ($resumoUnidade['qtd'] > 0) {
+            $nota = ($resumoUnidade['notas1'] * 2 + $resumoUnidade['notas2'] * 4 + $resumoUnidade['notas3'] * 6 + $resumoUnidade['notas4'] * 8 + $resumoUnidade['notas5'] * 10) /
+                $resumoUnidade['qtd'];
+        } else {
+            $nota = 0;
+        }
 
         $this->update([
             'nota' => $nota
