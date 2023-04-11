@@ -3,18 +3,21 @@
 @section('titulo', 'Comentários das Avaliações')
 
 @section('content')
-
+    <div class="d-flex justify-content-between">
+        <h1 class="text-primary fs-3">Comentarios das Avaliações</h1>
+    </div>
+    <hr>
     <form class="" action="{{ route('get-comentarios-avaliacoes-list') }}" method="GET">
         <div class="m-0 p-0 row">
 
             <div class="col-md-2">
-                <label for="pesquisa">Unidade/Setor:</label>
+                <label class="fw-bold" for="pesquisa">Unidade/Setor:</label>
                 <input id="pesquisa_unidade_setor" class="form-control" type="text" name="pesquisa_unidade_setor"
                     placeholder="Unidade" value="{{ request()->pesquisa_unidade_setor }}">
             </div>
 
             <div class="col-md-3">
-                <label for="secretaria_pesq">Secretaria:</label>
+                <label class="fw-bold" for="secretaria_pesq">Secretaria:</label>
                 <select id="secretaria_pesq" class="form-select" name="secretaria_pesq">
                     <option value="" @if (is_null(request()->secretaria_pesq)) selected @endif>Selecione</option>
                     @foreach ($secretariasSearchSelect as $secretaria)
@@ -42,29 +45,28 @@
 
     </form>
 
-        <div class="table-responsive">
-            <table class="table table-sm table-striped mt-3 align-middle">
-                <thead>
+    <div class="table-responsive">
+        <table class="table table-sm table-striped mt-3 align-middle">
+            <thead>
                 <tr>
                     <th>Secretarias</th>
                     <th>Unidade</th>
                     <th>Setor</th>
-                    <th>Data</th>
                     <th>
                         <div class="col-3 dropdown d-flex align-items-end">
-                            <a class="btn btn-outline-secondary dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
-                            aria-expanded="false">
-                            Notas
-                        </a>
-                        
-                        <ul class="dropdown-menu">
-                            <li>
-                                <a class="dropdown-item"
-                                href="{{ route('get-comentarios-avaliacoes-list', [
-                                    'pesquisa_unidade_setor' => request()->pesquisa_unidade_setor,
-                                    'secretaria_pesq' => request()->secretaria_pesq,
-                                    'pesq_nota' => 2,
-                                    ]) }}">
+                            <a class="btn btn-outline-secondary dropdown-toggle" href="#" role="button"
+                                data-bs-toggle="dropdown" aria-expanded="false">
+                                Notas
+                            </a>
+
+                            <ul class="dropdown-menu">
+                                <li>
+                                    <a class="dropdown-item"
+                                        href="{{ route('get-comentarios-avaliacoes-list', [
+                                            'pesquisa_unidade_setor' => request()->pesquisa_unidade_setor,
+                                            'secretaria_pesq' => request()->secretaria_pesq,
+                                            'pesq_nota' => 2,
+                                        ]) }}">
                                         <span class="text-danger">
                                             <i class="fa-regular fa-face-angry"></i> - Muito Ruim
                                         </span>
@@ -84,11 +86,11 @@
                                 </li>
                                 <li>
                                     <a class="dropdown-item"
-                                    href="{{ route('get-comentarios-avaliacoes-list', [
-                                        'pesquisa_unidade_setor' => request()->pesquisa_unidade_setor,
+                                        href="{{ route('get-comentarios-avaliacoes-list', [
+                                            'pesquisa_unidade_setor' => request()->pesquisa_unidade_setor,
                                             'secretaria_pesq' => request()->secretaria_pesq,
                                             'pesq_nota' => 6,
-                                            ]) }}">
+                                        ]) }}">
                                         <span class="text-info">
                                             <i class="fa-regular fa-face-meh"></i> - Neutro
                                         </span>
@@ -96,11 +98,11 @@
                                 </li>
                                 <li>
                                     <a class="dropdown-item"
-                                    href="{{ route('get-comentarios-avaliacoes-list', [
-                                        'pesquisa_unidade_setor' => request()->pesquisa_unidade_setor,
-                                        'secretaria_pesq' => request()->secretaria_pesq,
+                                        href="{{ route('get-comentarios-avaliacoes-list', [
+                                            'pesquisa_unidade_setor' => request()->pesquisa_unidade_setor,
+                                            'secretaria_pesq' => request()->secretaria_pesq,
                                             'pesq_nota' => 8,
-                                            ]) }}">
+                                        ]) }}">
                                         <span class="text-primary">
                                             <i class="fa-regular fa-face-smile"></i> - Bom
                                         </span>
@@ -112,16 +114,17 @@
                                             'pesquisa_unidade_setor' => request()->pesquisa_unidade_setor,
                                             'secretaria_pesq' => request()->secretaria_pesq,
                                             'pesq_nota' => 10,
-                                            ]) }}">
+                                        ]) }}">
                                         <span class="text-success">
                                             <i class="fa-regular fa-face-laugh-beam"></i> - Muito Bom
                                         </span>
                                     </a>
                                 </li>
-                                
+
                             </ul>
                         </div>
                     </th>
+                    <th>Data da Avaliação</th>
                     <th class="text-center">Ações</th>
                 </tr>
             </thead>
@@ -138,22 +141,19 @@
                             {{ $avaliacao->setor->nome }}
                         </td>
                         <td>
-                            {{ formatarDataHora($avaliacao->created_at) }}
-                        </td>
-                        <td>
                             @switch($avaliacao->nota)
-                            @case(2)
-                            <span class="text-danger">
-                                <i class="fa-regular fa-face-angry"></i> - Muito Ruim
-                            </span>
-                            @break
-                            
-                            @case(4)
-                            <span class="text-warning">
-                                <i class="fa-regular fa-face-frown"></i> - Ruim
-                            </span>
-                            @break
-                            
+                                @case(2)
+                                    <span class="text-danger">
+                                        <i class="fa-regular fa-face-angry"></i> - Muito Ruim
+                                    </span>
+                                @break
+
+                                @case(4)
+                                    <span class="text-warning">
+                                        <i class="fa-regular fa-face-frown"></i> - Ruim
+                                    </span>
+                                @break
+
                                 @case(6)
                                     <span class="text-info">
                                         <i class="fa-regular fa-face-meh"></i> - Neutro
@@ -161,23 +161,26 @@
                                 @break
 
                                 @case(8)
-                                <span class="text-primary">
+                                    <span class="text-primary">
                                         <i class="fa-regular fa-face-smile"></i> - Bom
                                     </span>
-                                    @break
-                                    
-                                    @case(10)
+                                @break
+
+                                @case(10)
                                     <span class="text-success">
                                         <i class="fa-regular fa-face-laugh-beam"></i> - Muito Bom
                                     </span>
-                                    @break
-                                    @endswitch
+                                @break
+                            @endswitch
+                        </td>
+                        <td>
+                            {{ formatarDataHora($avaliacao->created_at) }}
                         </td>
                         <td class="col-md-1">
                             <div class="d-flex justify-content-evenly">
                                 <a class="btn text-primary"
-                                href="{{ route('get-comentarios-avaliacoes-view', ['id' => $avaliacao->id]) }}">
-                                <i class="fa-xl fa-solid fa-magnifying-glass"></i>
+                                    href="{{ route('get-comentarios-avaliacoes-view', ['id' => $avaliacao->id]) }}">
+                                    <i class="fa-xl fa-solid fa-magnifying-glass"></i>
                                 </a>
                             </div>
                         </td>
@@ -188,11 +191,11 @@
                                 Nenhum resultado encontrado!
                             </td>
                         </tr>
-                        @endforelse
+                    @endforelse
                 </tbody>
             </table>
         </div>
-        
+
         <div class='mx-auto'>
             {{ $avaliacoes->links('pagination::bootstrap-4') }}
         </div>
