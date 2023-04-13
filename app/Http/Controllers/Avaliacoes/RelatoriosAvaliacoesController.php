@@ -9,7 +9,6 @@ use App\Models\Avaliacao\Unidade;
 use App\Models\Secretaria;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response as HttpResponse;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Response;
 use Illuminate\View\View;
 
@@ -130,7 +129,7 @@ class RelatoriosAvaliacoesController extends Controller
     }
 
     // Listagem das Secretarias para resumo
-    public function resumoSecretariasList(): View
+    public function resumoSecretariasList()
     {
         $this->authorize(Permission::RELATORIO_AVALIACOES_SECRETARIA_VIEW);
 
@@ -144,26 +143,27 @@ class RelatoriosAvaliacoesController extends Controller
             $secretarias = auth()->user()->secretarias();
         };
 
-        $avaliacoes = [];
-        foreach ($secretarias->get() as $secretaria) {
-            $avaliacoes[$secretaria->id] = $secretaria->getResumoFromCache()['qtd'];
-        }
-
-        if (request()->has('avaliacoes')) {
-            if (request()->avaliacoes == 'desc') {
-                arsort($avaliacoes);
-            } else {
-                asort($avaliacoes);
-            }
-        }
-
         $secretarias = $secretarias
             ->orderBy('ativo', 'desc')
-            ->withCount('unidades')
+            ->withCount(['unidades' => function ($query) {
+                $query->where('ativo', true);
+            }, 'avaliacoes' => function ($query) {
+                $query->whereHas('setor', function ($query) {
+                    $query->whereHas('unidade', function ($query) {
+                        $query->where('ativo', true);
+                    });
+                });
+            }])
             ->when(
                 request()->unidades,
                 function ($query) {
                     $query->orderBy('unidades_count', request()->unidades);
+                }
+            )
+            ->when(
+                request()->avaliacoes,
+                function ($query) {
+                    $query->orderBy('avaliacoes_count', request()->avaliacoes);
                 }
             )
             ->when(
@@ -189,7 +189,7 @@ class RelatoriosAvaliacoesController extends Controller
             return redirect()->route('get-resumo-avaliacoes-secretaria', $secretarias[0]);
         }
 
-        return view('admin.avaliacoes.resumos.secretarias.resumo-secretaria-list', compact('secretarias', 'avaliacoes'));
+        return view('admin.avaliacoes.resumos.secretarias.resumo-secretaria-list', compact('secretarias'));
     }
 
     //Resumo por secretaria
@@ -313,7 +313,7 @@ class RelatoriosAvaliacoesController extends Controller
     }
 
     //Lista de resumos por Unidade
-    public function resumoUnidadeSecrList(): View
+    public function resumoUnidadeSecrList()
     {
         $this->authorize(Permission::RELATORIO_AVALIACOES_UNIDADE_VIEW);
 
