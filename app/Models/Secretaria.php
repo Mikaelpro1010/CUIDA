@@ -3,13 +3,13 @@
 namespace App\Models;
 
 use App\Models\Avaliacao\Avaliacao;
-use App\Models\Avaliacao\Setor;
 use App\Models\Avaliacao\TipoAvaliacao;
 use App\Models\Avaliacao\Unidade;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Cache;
 
@@ -33,24 +33,19 @@ class Secretaria extends Model
         return $this->belongsToMany(User::class);
     }
 
-    public function scopeAvaliacoes(): Builder
+    public function tiposAvaliacao(): HasMany
     {
-        return Avaliacao::whereHas('setor.unidade', function ($query) {
-            $query->whereIn(
-                'unidade_id',
-                $this->unidades()->ativo()->get()->pluck('id')
-            );
-        });
+        return $this->hasMany(TipoAvaliacao::class);
+    }
+
+    public function avaliacoes(): HasManyThrough
+    {
+        return $this->hasManyThrough(Avaliacao::class, TipoAvaliacao::class);
     }
 
     public function scopeAtivo($query): Builder
     {
         return $query->where('ativo', true);
-    }
-
-    public function tiposAvaliacao(): HasMany
-    {
-        return $this->hasMany(TipoAvaliacao::class);
     }
 
     public static function getResumoSecretariaId($id): array

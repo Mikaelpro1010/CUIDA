@@ -3,18 +3,21 @@
 @section('titulo', 'Comentários das Avaliações')
 
 @section('content')
-
+    <div class="d-flex justify-content-between">
+        <h1 class="text-primary fs-3">Comentarios das Avaliações</h1>
+    </div>
+    <hr>
     <form class="" action="{{ route('get-comentarios-avaliacoes-list') }}" method="GET">
         <div class="m-0 p-0 row">
 
             <div class="col-md-2">
-                <label for="pesquisa">Unidade/Setor:</label>
+                <label class="fw-bold" for="pesquisa">Unidade/Setor:</label>
                 <input id="pesquisa_unidade_setor" class="form-control" type="text" name="pesquisa_unidade_setor"
                     placeholder="Unidade" value="{{ request()->pesquisa_unidade_setor }}">
             </div>
 
             <div class="col-md-3">
-                <label for="secretaria_pesq">Secretaria:</label>
+                <label class="fw-bold" for="secretaria_pesq">Secretaria:</label>
                 <select id="secretaria_pesq" class="form-select" name="secretaria_pesq">
                     <option value="" @if (is_null(request()->secretaria_pesq)) selected @endif>Selecione</option>
                     @foreach ($secretariasSearchSelect as $secretaria)
@@ -97,8 +100,8 @@
                     <th>Secretarias</th>
                     <th>Unidade</th>
                     <th>Setor</th>
-                    <th>Data</th>
                     <th>Notas</th>
+                    <th>Data</th>
                     <th class="text-center">Ações</th>
                 </tr>
             </thead>
@@ -113,9 +116,6 @@
                         </td>
                         <td>
                             {{ $avaliacao->setor->nome }}
-                        </td>
-                        <td>
-                            {{ formatarDataHora($avaliacao->created_at) }}
                         </td>
                         <td>
                             @switch($avaliacao->nota)
@@ -149,6 +149,9 @@
                                     </span>
                                 @break
                             @endswitch
+                        </td>
+                        <td>
+                            {{ formatarDataHora($avaliacao->created_at) }}
                         </td>
                         <td class="col-md-1">
                             <div class="d-flex justify-content-evenly">

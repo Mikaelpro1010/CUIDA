@@ -80,7 +80,7 @@
                         @endif
                     </th>
                     <th class="text-end">
-                        {{-- @if (request()->avaliacoes == 'desc')
+                        @if (request()->avaliacoes == 'desc')
                             <a class="btn btn-outline-primary"
                                 href="{{ route('get-list-resumo-avaliacoes-secretaria', [
                                     'avaliacoes' => 'asc',
@@ -98,8 +98,7 @@
                                 <i class="fa-solid fa-arrow-down-9-1"></i>
                                 Avaliações(qtd.)
                             </a>
-                        @endif --}}
-                        Avaliações(qtd.)
+                        @endif
                     </th>
                     <th class="col-1">Visualizar</th>
                 </tr>
@@ -118,7 +117,7 @@
                         <td>{{ $secretaria->nome }}</td>
                         <td class="text-center">{{ $secretaria->unidades_count }}</td>
                         <td class="text-center">{{ number_format($secretaria->nota, 2, ',', '') }}</td>
-                        <td class="text-center">{{ $avaliacoes[$secretaria->id] }}</td>
+                        <td class="text-center">{{ $secretaria->avaliacoes_count }}</td>
                         <td class="text-center">
                             <a href="{{ route('get-resumo-avaliacoes-secretaria', $secretaria) }}">
                                 <i class="fa-solid fa-magnifying-glass"></i>
