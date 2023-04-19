@@ -3,21 +3,18 @@
 @section('titulo', 'Comentários das Avaliações')
 
 @section('content')
-    <div class="d-flex justify-content-between">
-        <h1 class="text-primary fs-3">Comentarios das Avaliações</h1>
-    </div>
-    <hr>
+
     <form class="" action="{{ route('get-comentarios-avaliacoes-list') }}" method="GET">
         <div class="m-0 p-0 row">
 
             <div class="col-md-2">
-                <label class="fw-bold" for="pesquisa">Unidade/Setor:</label>
+                <label for="pesquisa">Unidade/Setor:</label>
                 <input id="pesquisa_unidade_setor" class="form-control" type="text" name="pesquisa_unidade_setor"
                     placeholder="Unidade" value="{{ request()->pesquisa_unidade_setor }}">
             </div>
 
             <div class="col-md-3">
-                <label class="fw-bold" for="secretaria_pesq">Secretaria:</label>
+                <label for="secretaria_pesq">Secretaria:</label>
                 <select id="secretaria_pesq" class="form-select" name="secretaria_pesq">
                     <option value="" @if (is_null(request()->secretaria_pesq)) selected @endif>Selecione</option>
                     @foreach ($secretariasSearchSelect as $secretaria)
@@ -27,6 +24,54 @@
                     @endforeach
                 </select>
             </div>
+
+            <div class="col-3 dropdown d-flex align-items-end">
+                <a class="btn btn-outline-secondary dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                    aria-expanded="false">
+                    Notas
+                </a>
+
+                <ul class="dropdown-menu">
+                    <li>
+                        <button class="dropdown-item" id="nota_2">
+                            <span class="text-danger">
+                                <i class="fa-regular fa-face-angry"></i> - Muito Ruim
+                            </span>
+                        </button>
+                    </li>
+                    <li>
+                        <button class="dropdown-item" id="nota_4">
+                            <span class="text-warning">
+                                <i class="fa-regular fa-face-frown"></i> - Ruim
+                            </span>
+                        </button>
+                    </li>
+                    <li>
+                        <button class="dropdown-item" id="nota_6">
+                            <span class="text-info">
+                                <i class="fa-regular fa-face-meh"></i> - Neutro
+                            </span>
+                        </button>
+                    </li>
+                    <li>
+                        <button class="dropdown-item" id="nota_8">
+                            <span class="text-primary">
+                                <i class="fa-regular fa-face-smile"></i> - Bom
+                            </span>
+                        </button>
+                    </li>
+                    <li>
+                        <button class="dropdown-item" id="nota_10">
+                            <span class="text-success">
+                                <i class="fa-regular fa-face-laugh-beam"></i> - Muito Bom
+                            </span>
+                        </button>
+                    </li>
+
+                </ul>
+            </div>
+
+            <input id="pesq_nota" type="hidden" name="pesq_nota" value="{{ request()->pesq_nota }}">
 
             <div class="col-md-2 d-flex align-items-end">
                 <button class="btn btn-primary form-control mt-3" type="submit">
@@ -52,79 +97,8 @@
                     <th>Secretarias</th>
                     <th>Unidade</th>
                     <th>Setor</th>
-                    <th>
-                        <div class="col-3 dropdown d-flex align-items-end">
-                            <a class="btn btn-outline-secondary dropdown-toggle" href="#" role="button"
-                                data-bs-toggle="dropdown" aria-expanded="false">
-                                Notas
-                            </a>
-
-                            <ul class="dropdown-menu">
-                                <li>
-                                    <a class="dropdown-item"
-                                        href="{{ route('get-comentarios-avaliacoes-list', [
-                                            'pesquisa_unidade_setor' => request()->pesquisa_unidade_setor,
-                                            'secretaria_pesq' => request()->secretaria_pesq,
-                                            'pesq_nota' => 2,
-                                        ]) }}">
-                                        <span class="text-danger">
-                                            <i class="fa-regular fa-face-angry"></i> - Muito Ruim
-                                        </span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a class="dropdown-item"
-                                        href="{{ route('get-comentarios-avaliacoes-list', [
-                                            'pesquisa_unidade_setor' => request()->pesquisa_unidade_setor,
-                                            'secretaria_pesq' => request()->secretaria_pesq,
-                                            'pesq_nota' => 4,
-                                        ]) }}">
-                                        <span class="text-warning">
-                                            <i class="fa-regular fa-face-frown"></i> - Ruim
-                                        </span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a class="dropdown-item"
-                                        href="{{ route('get-comentarios-avaliacoes-list', [
-                                            'pesquisa_unidade_setor' => request()->pesquisa_unidade_setor,
-                                            'secretaria_pesq' => request()->secretaria_pesq,
-                                            'pesq_nota' => 6,
-                                        ]) }}">
-                                        <span class="text-info">
-                                            <i class="fa-regular fa-face-meh"></i> - Neutro
-                                        </span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a class="dropdown-item"
-                                        href="{{ route('get-comentarios-avaliacoes-list', [
-                                            'pesquisa_unidade_setor' => request()->pesquisa_unidade_setor,
-                                            'secretaria_pesq' => request()->secretaria_pesq,
-                                            'pesq_nota' => 8,
-                                        ]) }}">
-                                        <span class="text-primary">
-                                            <i class="fa-regular fa-face-smile"></i> - Bom
-                                        </span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a class="dropdown-item"
-                                        href="{{ route('get-comentarios-avaliacoes-list', [
-                                            'pesquisa_unidade_setor' => request()->pesquisa_unidade_setor,
-                                            'secretaria_pesq' => request()->secretaria_pesq,
-                                            'pesq_nota' => 10,
-                                        ]) }}">
-                                        <span class="text-success">
-                                            <i class="fa-regular fa-face-laugh-beam"></i> - Muito Bom
-                                        </span>
-                                    </a>
-                                </li>
-
-                            </ul>
-                        </div>
-                    </th>
-                    <th>Data da Avaliação</th>
+                    <th>Notas</th>
+                    <th>Data</th>
                     <th class="text-center">Ações</th>
                 </tr>
             </thead>
@@ -208,6 +182,26 @@
                 $('#pesquisa_unidade_setor').val('');
                 $('#pesq_nota').val('');
                 $('#secretaria_pesq').val('');
+            });
+            $('#nota_2').click(function(e) {
+                e.preventDefault();
+                $('#pesq_nota').val('2')
+            });
+            $('#nota_4').click(function(e) {
+                e.preventDefault();
+                $('#pesq_nota').val('4')
+            });
+            $('#nota_6').click(function(e) {
+                e.preventDefault();
+                $('#pesq_nota').val('6')
+            });
+            $('#nota_8').click(function(e) {
+                e.preventDefault();
+                $('#pesq_nota').val('8')
+            });
+            $('#nota_10').click(function(e) {
+                e.preventDefault();
+                $('#pesq_nota').val('10')
             });
         </script>
     @endpush
