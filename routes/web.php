@@ -81,6 +81,23 @@ $this->post('logout', 'Auth\LoginController@logout')->name('logout');
 // })->name('storageUrl');
 
 
+Route::get('/teste', function () {
+    $ano = [2021, 2022, 2023];
+    $mes = ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12'];
+    $nota = [2, 4, 6, 8, 10];
+
+    for ($i = 0; $i <= 5000; $i++) {
+        Avaliacao::create([
+            'setor_id' => 1,
+            'tipo_avaliacao_id' => 13,
+            'nota' => $nota[rand() % 5],
+            'created_at' => $ano[rand() % 3] . '-' . $mes[rand() % 12] . '-01 00:00:00'
+        ]);
+        
+    }
+    dump('terminou');
+})->name('teste');
+
 //Rotas Não Logadas
 Route::view('/', 'public.home')->name('home');
 Route::view('/politicas-de-privacidade', 'public.politicas')->name('politicas');

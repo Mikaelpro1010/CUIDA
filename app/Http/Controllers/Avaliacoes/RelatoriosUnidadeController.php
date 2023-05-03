@@ -10,7 +10,28 @@ class RelatoriosUnidadeController extends Controller
 {
     public function relatorio($unidade_id)
     {
-        $unidade = Unidade::with('setores', 'setores.avaliacoes', 'secretaria')->find($unidade_id);
+        $unidade = Unidade::with(['setores', 'setores.avaliacoes' =>  function ($query) {
+
+            $query->when(request()->mes_pesq, function ($query) {
+                $query->whereMonth('avaliacoes.created_at', request()->mes_pesq);
+               
+            });
+            $query->when(request()->ano_pesq, function ($query) {
+                $query->whereYear('avaliacoes.created_at', request()->ano_pesq);
+               
+            });
+        }, 'secretaria'])
+
+            
+
+            // ->when(request()->ano_pesq, function ($query) {
+            //     $query->whereYear('created_at', request()->ano_pesq);
+            // })
+            // ->orderBy('ativo', 'desc')
+            // ->orderBy('updated_at', 'desc')
+            ->find($unidade_id);
+        // dd($unidade);
+
 
         $setores = [];
         $totalAvaliacoes = 0;
