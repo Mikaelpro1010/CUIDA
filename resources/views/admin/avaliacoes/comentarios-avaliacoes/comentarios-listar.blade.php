@@ -25,50 +25,92 @@
                 </select>
             </div>
 
-            <div class="col-3 dropdown d-flex align-items-end">
-                <a class="btn btn-outline-secondary dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
-                    aria-expanded="false">
-                    Notas
-                </a>
+            <div class="col-md-3">
+                <label for="notas_select">Notas:</label>
+                <div class="">
+                    <button id="notas_select" class="form-select text-decoration-none text-start" data-bs-toggle="dropdown"
+                        aria-expanded="false">
+                        @switch(request()->pesq_nota)
+                            @case(2)
+                                <span class="text-danger">
+                                    <i class="fa-regular fa-face-angry"></i> - Muito Ruim
+                                </span>
+                            @break
 
-                <ul class="dropdown-menu">
-                    <li>
-                        <button class="dropdown-item" id="nota_2">
-                            <span class="text-danger">
-                                <i class="fa-regular fa-face-angry"></i> - Muito Ruim
-                            </span>
-                        </button>
-                    </li>
-                    <li>
-                        <button class="dropdown-item" id="nota_4">
-                            <span class="text-warning">
-                                <i class="fa-regular fa-face-frown"></i> - Ruim
-                            </span>
-                        </button>
-                    </li>
-                    <li>
-                        <button class="dropdown-item" id="nota_6">
-                            <span class="text-info">
-                                <i class="fa-regular fa-face-meh"></i> - Neutro
-                            </span>
-                        </button>
-                    </li>
-                    <li>
-                        <button class="dropdown-item" id="nota_8">
-                            <span class="text-primary">
-                                <i class="fa-regular fa-face-smile"></i> - Bom
-                            </span>
-                        </button>
-                    </li>
-                    <li>
-                        <button class="dropdown-item" id="nota_10">
-                            <span class="text-success">
-                                <i class="fa-regular fa-face-laugh-beam"></i> - Muito Bom
-                            </span>
-                        </button>
-                    </li>
+                            @case(4)
+                                <span class="text-warning">
+                                    <i class="fa-regular fa-face-frown"></i> - Ruim
+                                </span>
+                            @break
 
-                </ul>
+                            @case(6)
+                                <span class="text-info">
+                                    <i class="fa-regular fa-face-meh"></i> - Neutro
+                                </span>
+                            @break
+
+                            @case(8)
+                                <span class="text-primary">
+                                    <i class="fa-regular fa-face-smile"></i> - Bom
+                                </span>
+                            @break
+
+                            @case(10)
+                                <span class="text-success">
+                                    <i class="fa-regular fa-face-laugh-beam"></i> - Muito Bom
+                                </span>
+                            @break
+
+                            @default
+                                Todas as Notas
+                        @endswitch
+                    </button>
+
+                    <ul class="dropdown-menu">
+                        <li>
+                            <button class="dropdown-item nota" data-nota=''>
+                                <span>
+                                    Todas as Notas
+                                </span>
+                            </button>
+                        </li>
+                        <li>
+                            <button class="dropdown-item nota" data-nota='2'>
+                                <span class="text-danger">
+                                    <i class="fa-regular fa-face-angry"></i> - Muito Ruim
+                                </span>
+                            </button>
+                        </li>
+                        <li>
+                            <button class="dropdown-item nota" data-nota='4'>
+                                <span class="text-warning">
+                                    <i class="fa-regular fa-face-frown"></i> - Ruim
+                                </span>
+                            </button>
+                        </li>
+                        <li>
+                            <button class="dropdown-item nota" data-nota='6'>
+                                <span class="text-info">
+                                    <i class="fa-regular fa-face-meh"></i> - Neutro
+                                </span>
+                            </button>
+                        </li>
+                        <li>
+                            <button class="dropdown-item nota" data-nota='8'>
+                                <span class="text-primary">
+                                    <i class="fa-regular fa-face-smile"></i> - Bom
+                                </span>
+                            </button>
+                        </li>
+                        <li>
+                            <button class="dropdown-item nota" data-nota='10'>
+                                <span class="text-success">
+                                    <i class="fa-regular fa-face-laugh-beam"></i> - Muito Bom
+                                </span>
+                            </button>
+                        </li>
+                    </ul>
+                </div>
             </div>
 
             <input id="pesq_nota" type="hidden" name="pesq_nota" value="{{ request()->pesq_nota }}">
@@ -183,25 +225,51 @@
                 $('#pesq_nota').val('');
                 $('#secretaria_pesq').val('');
             });
-            $('#nota_2').click(function(e) {
+            $('.nota').click(function(e) {
                 e.preventDefault();
-                $('#pesq_nota').val('2')
-            });
-            $('#nota_4').click(function(e) {
-                e.preventDefault();
-                $('#pesq_nota').val('4')
-            });
-            $('#nota_6').click(function(e) {
-                e.preventDefault();
-                $('#pesq_nota').val('6')
-            });
-            $('#nota_8').click(function(e) {
-                e.preventDefault();
-                $('#pesq_nota').val('8')
-            });
-            $('#nota_10').click(function(e) {
-                e.preventDefault();
-                $('#pesq_nota').val('10')
+                $('#pesq_nota').val($(this).data('nota'));
+
+                switch ($(this).data('nota')) {
+                    case (''):
+                        $("#notas_select").html(`Todas as Notas`);
+                        break;
+                    case (2):
+                        $("#notas_select").html(
+                            `<span class="text-danger">
+                                <i class="fa-regular fa-face-angry"></i> - Muito Ruim
+                            </span>`
+                        );
+                        break;
+                    case (4):
+                        $("#notas_select").html(
+                            `<span class="text-warning">
+                                <i class="fa-regular fa-face-frown"></i> - Ruim
+                            </span>`
+                        );
+                        break;
+                    case (6):
+                        $("#notas_select").html(
+                            `<span class="text-info">
+                                <i class="fa-regular fa-face-meh"></i> - Neutro
+                            </span>`
+                        );
+                        break;
+                    case (8):
+                        $("#notas_select").html(
+                            `<span class="text-primary">
+                                <i class="fa-regular fa-face-smile"></i> - Bom
+                            </span>`
+                        );
+                        break;
+                    case (10):
+                        $("#notas_select").html(
+                            `<span class="text-success">
+                                <i class="fa-regular fa-face-laugh-beam"></i> - Muito Bom
+                            </span>`
+                        );
+                        break;
+                }
+
             });
         </script>
     @endpush

@@ -18,11 +18,58 @@
                 @endif
             </h5>
         </div>
+        <h5>Total de Avaliações: {{ $totalAvaliacoes }}</h5>
     </div>
     <hr>
 
-    <h5>Total de Avaliações: {{ $totalAvaliacoes }}</h5>
-    <div class="table-responsive">
+    <form action="{{ route('get-unidades-relatorio', $unidade) }}" method="GET">
+        <div class="row">
+            <div class="col-3">
+                <label for="mes_pesq" class="fw-bold">Mês</label>
+                <select name="mes_pesq" class="form-select" id="mes_pesq">
+                    <option value="">Selecione</option>
+                    <option value="1">Janeiro</option>
+                    <option value="2">Fevreiro</option>
+                    <option value="3">Março</option>
+                    <option value="4">Abril</option>
+                    <option value="5">Maio</option>
+                    <option value="6">Junho</option>
+                    <option value="7">Julho</option>
+                    <option value="8">Agosto</option>
+                    <option value="9">Setembro</option>
+                    <option value="10">Outubro</option>
+                    <option value="11">Novembro</option>
+                    <option value="12">Dezembro</option>
+                </select>
+            </div>
+    
+            <div class="col-3">
+                <label for="ano_pesq" class="fw-bold">Ano</label>
+                <select name="ano_pesq" class="form-select" id="ano_pesq">
+                    @for ($ano = 2021; $ano <= now()->format('Y') ;$ano++)
+                        <option value="{{$ano}}" @if ($ano == now()->format('Y')) selected @endif>{{$ano}}</option>
+                    @endfor
+                </select>
+            </div>
+            <div class="col-md-2 d-flex align-items-end">
+                <button class="btn btn-primary form-control mt-3" type="submit">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                    Buscar
+                </button>
+            </div>
+            <div class="col-md-2 d-flex align-items-end">
+                <a id="btnLimpaForm" class="btn btn-warning form-control mt-3">
+                    Limpar
+                    <i class="fa-solid fa-eraser"></i>
+                </a>
+            </div>
+        </div>
+    </form>
+
+    {{-- <div class="col-md-3">
+    </div> --}}
+
+    <div class="table-responsive mt-3">
         <table class="table table-striped">
             <thead>
                 <tr>
@@ -102,3 +149,12 @@
         </a>
     </div>
 @endsection
+
+@push('scripts')
+<script nonce="{{ app('csp-nonce') }}">
+    $('#btnLimpaForm').click(function() {
+        $('#mes_pesq').val('');
+        $('#ano_pesq').val({{now()->format('Y')}});
+    });
+    </script>
+@endpush
