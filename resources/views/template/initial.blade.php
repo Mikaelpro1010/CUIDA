@@ -30,12 +30,6 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav me-auto pb-2 pb-lg-0">
                         <li class="nav-item">
-                            <a class="nav-link text-white @if (Route::is('pagina-inicial')) border-bottom border-3 border-light @endif"
-                                href="{{ route('pagina-inicial') }}">
-                                Pagina Inicial
-                            </a>
-                        </li>
-                        <li class="nav-item">
                             <a class="nav-link text-white @if (Route::is('politicas')) border-bottom border-3 border-light @endif"
                                 href="{{ route('politicas') }}">
                                 Políticas de Privacidade
@@ -51,7 +45,6 @@
 
                     <ul class="nav navbar-nav navbar-right text-white gap-2">
                         <li><a class="btn btn-outline-light" href="{{ route('login') }}">Login</a></li>
-                        {{-- <li><a class="btn btn-outline-light" href="{{ route('register') }}">Register</a></li> --}}
                     </ul>
                 </div>
             </div>
@@ -64,7 +57,7 @@
 
     <footer class="d-flex justify-content-center mt-2 mb-3 mx-3">
         <div class="border-bottom text-center">
-            EscutaSol - Controladoria e Ouvidoria Geral do Municipio de Sobral - CGM - 2022
+            EscutaSol - Controladoria e Ouvidoria Geral do Municipio de Sobral - CGM - {{ now()->format('Y') }}
         </div>
     </footer>
     <script src="{{ asset('js/scripts.js') }}" nonce="{{ app('csp-nonce') }}" data-auto-add-css="false"></script>

@@ -29,14 +29,6 @@
                 </button>
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav me-auto pb-2 pb-lg-0">
-                        @can(permissionConstant()::MANIFESTACAO_LIST)
-                            <li class="nav-item">
-                                <a class="nav-link text-white @if (Route::is('pagina-inicial')) border-bottom border-3 border-light @endif"
-                                    href="{{ route('pagina-inicial') }}">
-                                    Pagina Inicial
-                                </a>
-                            </li>
-                        @endcan
                         <li class="nav-item">
                             <a class="nav-link text-white @if (Route::is('politicas')) border-bottom border-3 border-light @endif"
                                 href="{{ route('politicas') }}">
@@ -67,12 +59,6 @@
                                         <a class="dropdown-item" href="{{ route('get-user-perfil') }}">
                                             Perfil de Usuário
                                         </a>
-                                        {{-- @can(permissionConstant()::MANIFESTACAO_LIST)
-                                    <a class="dropdown-item" href="{{ route('inicio') }}">Manifestações</a>
-                                    @endcan
-                                    @can(permissionConstant()::CHAT_MANIFESTACAO)
-                                    <a class="dropdown-item" href="{{ route('mensagens') }}">Mensagens</a>
-                                    @endcan --}}
 
                                         @if (auth()->user()->can(permissionConstant()::RELATORIO_AVALIACOES_GERAL_VIEW) ||
                                                 auth()->user()->can(permissionConstant()::UNIDADE_SECRETARIA_LIST))
@@ -119,7 +105,7 @@
                                 Inicio
                             </a>
 
-                            @can(permissionConstant()::MANIFESTACAO_LIST)
+                            {{-- @can(permissionConstant()::MANIFESTACAO_LIST)
                                 <a class="nav-link @if (Route::is('get-list-manifestacoes')) border-bottom border-3 border-primary @endif"
                                     href="{{ route('get-list-manifestacoes') }}">
                                     Manifestações
@@ -141,7 +127,7 @@
                                         {{ canaisAguardandoRespostaNotification() }}
                                     </span>
                                 </a>
-                            @endcan
+                            @endcan --}}
 
                             @if (auth()->user()->can(permissionConstant()::RELATORIO_AVALIACOES_GERAL_VIEW) ||
                                     auth()->user()->can(permissionConstant()::UNIDADE_SECRETARIA_LIST) ||
@@ -172,8 +158,7 @@
                                         @endif
                                         @can(permissionConstant()::GERENCIAR_COMENTARIOS_AVALIACOES_LIST)
                                             <li>
-                                                <a class="dropdown-item"
-                                                    href="{{ route('get-comentarios-avaliacoes-list') }}">
+                                                <a class="dropdown-item" href="{{ route('get-comentarios-avaliacoes-list') }}">
                                                     Comentários das Avaliações
                                                 </a>
                                             </li>
@@ -221,12 +206,7 @@
                                 </li>
                             @endif
 
-                            @if (auth()->user()->can(permissionConstant()::GERENCIAR_TIPOS_USUARIOS_LIST) ||
-                                    auth()->user()->can(permissionConstant()::GERENCIAR_TIPOS_MANIFESTACAO_LIST) ||
-                                    auth()->user()->can(permissionConstant()::GERENCIAR_ESTADOS_PROCESSO_LIST) ||
-                                    auth()->user()->can(permissionConstant()::GERENCIAR_MOTIVACOES_LIST) ||
-                                    auth()->user()->can(permissionConstant()::GERENCIAR_SITUACOES_LIST) ||
-                                    auth()->user()->can(permissionConstant()::GERENCIAR_FAQS_LIST))
+                            @if (auth()->user()->can(permissionConstant()::GERENCIAR_TIPOS_USUARIOS_LIST))
                                 <li
                                     class="nav-item dropdown @if (Route::current()->action['namespace'] == 'App\Http\Controllers\Configs') border-bottom border-3 border-primary @endif">
                                     <a class="nav-link dropdown-toggle" href="#" role="button"
@@ -238,41 +218,6 @@
                                             <li>
                                                 <a class="dropdown-item" href="{{ route('get-roles-list') }}">
                                                     Tipos de Usuários
-                                                </a>
-                                            </li>
-                                        @endcan
-                                        @can(permissionConstant()::GERENCIAR_TIPOS_MANIFESTACAO_LIST)
-                                            <li>
-                                                <a class="dropdown-item" href="{{ route('get-tipo-manifestacao-list') }}">
-                                                    Tipos de Manifestacao
-                                                </a>
-                                            </li>
-                                        @endcan
-                                        @can(permissionConstant()::GERENCIAR_ESTADOS_PROCESSO_LIST)
-                                            <li>
-                                                <a class="dropdown-item" href="{{ route('get-estado-processo-list') }}">
-                                                    Estados do Processo
-                                                </a>
-                                            </li>
-                                        @endcan
-                                        @can(permissionConstant()::GERENCIAR_MOTIVACOES_LIST)
-                                            <li>
-                                                <a class="dropdown-item" href="{{ route('get-motivacao-list') }}">
-                                                    Motivações
-                                                </a>
-                                            </li>
-                                        @endcan
-                                        @can(permissionConstant()::GERENCIAR_SITUACOES_LIST)
-                                            <li>
-                                                <a class="dropdown-item" href="{{ route('get-situacao-list') }}">
-                                                    Situações
-                                                </a>
-                                            </li>
-                                        @endcan
-                                        @can(permissionConstant()::GERENCIAR_FAQS_LIST)
-                                            <li>
-                                                <a class="dropdown-item" href="{{ route('get-faq-list') }}">
-                                                    FAQs
                                                 </a>
                                             </li>
                                         @endcan
@@ -312,7 +257,7 @@
 
     <footer class="d-flex justify-content-center mt-2 mb-3 mx-3">
         <div class="border-bottom text-center">
-            EscutaSol - Controladoria e Ouvidoria Geral do Municipio de Sobral - CGM - 2022
+            EscutaSol - Controladoria e Ouvidoria Geral do Municipio de Sobral - CGM - {{ now()->format('Y') }}
         </div>
     </footer>
     <script src="{{ asset('js/scripts.js') }}" nonce="{{ app('csp-nonce') }}" data-auto-add-css="false"></script>

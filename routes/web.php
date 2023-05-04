@@ -81,15 +81,31 @@ $this->post('logout', 'Auth\LoginController@logout')->name('logout');
 // })->name('storageUrl');
 
 
+Route::get('/teste', function () {
+
+    $ano = [2021, 2022, 2023];
+    $mes = ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12'];
+    $nota = [2, 4, 6, 8, 10];
+
+    for ($i = 0; $i < 5000; $i++) {
+        // Avaliacao::create([
+        //     'setor_id' => 1,
+        //     'tipo_avaliacao_id' => 13,
+        //     'nota' =>  $nota[rand() % 5],
+        //     'created_at' => $ano[rand() % 3] . "-" . $mes[rand() % 12] . '-01 00:00:00'
+        // ]);
+    }
+})->name('teste');
+
 //Rotas Não Logadas
 Route::view('/', 'public.home')->name('home');
 Route::view('/politicas-de-privacidade', 'public.politicas')->name('politicas');
 Route::view('/termos-de-uso', 'public.termos')->name('termos');
 
-Route::get('pagina-manifestacao/visualizar', 'Publico\PaginaManifestController@visualizarPagina')->name("vis-pagina_manifestacao");
-Route::post('manifestacao/cadastrar/novo', 'Publico\PaginaManifestController@cadastrar')->name("cadastrar-manifestacao");
-Route::post('pagina-manifestacao/visualizar-manifestacao', 'Publico\PaginaManifestController@visualizarManifestacao')->name("vis-manifestacao");
-Route::post('pagina-manifestacao/visualizar-manifestacao/recurso/criar', 'Publico\PaginaManifestController@criarRecurso')->name("criar-recurso");
+// Route::get('pagina-manifestacao/visualizar', 'Publico\PaginaManifestController@visualizarPagina')->name("vis-pagina_manifestacao");
+// Route::post('manifestacao/cadastrar/novo', 'Publico\PaginaManifestController@cadastrar')->name("cadastrar-manifestacao");
+// Route::post('pagina-manifestacao/visualizar-manifestacao', 'Publico\PaginaManifestController@visualizarManifestacao')->name("vis-manifestacao");
+// Route::post('pagina-manifestacao/visualizar-manifestacao/recurso/criar', 'Publico\PaginaManifestController@criarRecurso')->name("criar-recurso");
 
 // Route::get('/pagina-inicial', 'Publico\FaqController@paginaInicial')->name("pagina-inicial");
 Route::get('/pagina-inicial', function () {
@@ -156,82 +172,8 @@ Route::middleware(['auth:web'])->group(
                 Route::get('/users-type/{role}/edit', 'RolesController@editRole')->name('get-edit-role-view');
                 Route::patch('/users-type/{role}', 'RolesController@updateRole')->name('patch-update-role');
                 Route::delete('/users-type/{role}', 'RolesController@deleteRole')->name('delete-delete-role');
-
-                Route::get('tipo-manifestacao', 'TipoManifestacaoController@listTipoManifestacao')->name('get-tipo-manifestacao-list');
-                Route::get('tipo-manifestacao/create', 'TipoManifestacaoController@createTipoManifestacao')->name('get-create-tipo-manifestacao');
-                Route::post('tipo-manifestacao', 'TipoManifestacaoController@storeTipoManifestacao')->name('post-store-tipo-manifestacao');
-                Route::get('tipo-manifestacao/{tipoManifestacao}', 'TipoManifestacaoController@viewTipoManifestacao')->name('get-tipo-manifestacao-view');
-                Route::get('tipo-manifestacao/{tipoManifestacao}/edit', 'TipoManifestacaoController@editTipoManifestacao')->name('get-edit-tipo-manifestacao-view');
-                Route::patch('tipo-manifestacao/{tipoManifestacao}', 'TipoManifestacaoController@updateTipoManifestacao')->name('patch-update-tipo-manifestacao');
-                Route::delete('tipo-manifestacao/{tipoManifestacao}', 'TipoManifestacaoController@deleteTipoManifestacao')->name('delete-delete-tipo-manifestacao');
-                Route::get('tipo-manifestacao/{tipoManifestacao}/toggle', 'TipoManifestacaoController@toggleTipoManifestacaoStatus')->name("get-toggle-tipo-manifestacao-status");
-
-                Route::get('estado-processo', 'EstadoProcessoController@listEstadoProcesso')->name('get-estado-processo-list');
-                Route::get('estado-processo/create', 'EstadoProcessoController@createEstadoProcesso')->name('get-create-estado-processo');
-                Route::post('estado-processo', 'EstadoProcessoController@storeEstadoProcesso')->name('post-store-estado-processo');
-                Route::get('estado-processo/{estadoProcesso}', 'EstadoProcessoController@viewEstadoProcesso')->name('get-estado-processo-view');
-                Route::get('estado-processo/{estadoProcesso}/edit', 'EstadoProcessoController@editEstadoProcesso')->name('get-edit-estado-processo-view');
-                Route::patch('estado-processo/{estadoProcesso}', 'EstadoProcessoController@updateEstadoProcesso')->name('patch-update-estado-processo');
-                Route::delete('estado-processo/{estadoProcesso}', 'EstadoProcessoController@deleteEstadoProcesso')->name('delete-delete-estado-processo');
-                Route::get('estado-processo/{estadoProcesso}/toggle', 'EstadoProcessoController@toggleEstadoProcessoStatus')->name("get-toggle-estado-processo-status");
-
-                Route::get('motivacao', 'MotivacaoController@listMotivacao')->name('get-motivacao-list');
-                Route::get('motivacao/create', 'MotivacaoController@createMotivacao')->name('get-create-motivacao');
-                Route::post('motivacao', 'MotivacaoController@storeMotivacao')->name('post-store-motivacao');
-                Route::get('motivacao/{Motivacao}', 'MotivacaoController@viewMotivacao')->name('get-motivacao-view');
-                Route::get('motivacao/{Motivacao}/edit', 'MotivacaoController@editMotivacao')->name('get-edit-motivacao-view');
-                Route::patch('motivacao/{Motivacao}', 'MotivacaoController@updateMotivacao')->name('patch-update-motivacao');
-                Route::delete('motivacao/{Motivacao}', 'MotivacaoController@deleteMotivacao')->name('delete-delete-motivacao');
-                Route::get('motivacao/{Motivacao}/toggle', 'MotivacaoController@toggleMotivacaoStatus')->name("get-toggle-motivacao-status");
-
-                Route::get('situacao', 'SituacaoController@listSituacao')->name('get-situacao-list');
-                Route::get('situacao/create', 'SituacaoController@createSituacao')->name('get-create-situacao');
-                Route::post('situacao', 'SituacaoController@storeSituacao')->name('post-store-situacao');
-                Route::get('situacao/{Situacao}', 'SituacaoController@viewSituacao')->name('get-situacao-view');
-                Route::get('situacao/{Situacao}/edit', 'SituacaoController@editSituacao')->name('get-edit-situacao-view');
-                Route::patch('situacao/{Situacao}', 'SituacaoController@updateSituacao')->name('patch-update-situacao');
-                Route::delete('situacao/{Situacao}', 'SituacaoController@deleteSituacao')->name('delete-delete-situacao');
-                Route::get('situacao/{Situacao}/toggle', 'SituacaoController@toggleSituacaoStatus')->name("get-toggle-situacao-status");
-
-                Route::get('faq', 'FaqController@listFAQ')->name('get-faq-list');
-                Route::get('faq/create', 'FaqController@createFAQ')->name('get-create-faq');
-                Route::post('faq', 'FaqController@storeFAQ')->name('post-store-faq');
-                Route::get('faq/{FAQ}', 'FaqController@viewFAQ')->name('get-faq-view');
-                Route::get('faq/{FAQ}/edit', 'FaqController@editFAQ')->name('get-edit-faq-view');
-                Route::patch('faq/{FAQ}', 'FaqController@updateFAQ')->name('patch-update-faq');
-                Route::delete('faq/{FAQ}', 'FaqController@deleteFAQ')->name('delete-delete-faq');
-                Route::get('faq/{FAQ}/toggle', 'FaqController@toggleFAQStatus')->name("get-toggle-faq-status");
-                Route::post('faq/order', 'FaqController@orderFAQ')->name("order-faq");
             }
         );
-
-        // manifestacoes
-        Route::get('/manifestacoes', "ManifestsController@list")->name('get-list-manifestacoes');
-        Route::get('/manifestacao/{id}', "ManifestsController@viewManifest")->name('get-view-manifestacao');
-
-        //manifestacoes 2
-
-        Route::get('/manifestacoes2', "Manifests2Controller@list")->name('get-list-manifestacoes2');
-        Route::get('/manifestacao2/create', 'Manifests2Controller@create')->name("get-create-manifest2");
-        Route::post('/manifestacao2', 'Manifests2Controller@storeManifest')->name("post-store-manifest2");
-        Route::get('/manifestacoes2/{id}', "Manifests2Controller@viewManifest")->name('get-view-manifestacao2');
-        Route::post('/manifestacao2/{manifestacao}/prorrogacao/create', 'ProrrogacaoController@create')->name("criar-prorrogacao");
-        Route::post('/manifestacao2/{manifestacao}/prorrogacao/{prorrogacao}/response', 'ProrrogacaoController@responseProrrogacao')->name("criar-resposta");
-        Route::post('/manifestacao2/compartilhamento/{manifestacao_id}', 'CompartilhamentoController@compartilharManifestacao')->name("compartilhar-manifestacao");
-        Route::post('/manifestacao2/compartilhamento/{compartilhamento}/resposta', 'CompartilhamentoController@responderCompartilhamento')->name("responder-compartilhamento");
-        Route::post('/manifestacao2/compartilhamento', 'Manifests2Controller@viewCompartilhamento')->name("view-compartilhamento");
-        Route::post('/manifestacao2/{manifestacao}/{recurso}/responder', "Manifests2Controller@responderRecurso")->name('responder-recurso');
-
-
-        //mensagens
-        Route::get('/messages', "MessagesController@index")->name('mensagens');
-        Route::get('/messages/{id}', "MessagesController@visualizarMsg")->name('visualizarMsg');
-        Route::post('/messages/{id}/new-msg', "MessagesController@enviarMsg")->name('enviarMsg');
-        Route::post('/messages/encerrar/{id}', "MessagesController@encerrarCanal")->name('encerrarCanal');
-        // AnexosMensagem
-        Route::get('/messages/download/{anexo}', 'AnexoMensagemController@downloadAnexo')->name('download-anexo');
-        Route::get('/messages/view/{anexo}', 'AnexoMensagemController@viewAnexo')->name('view-anexo');
-
 
         //modulo Avaliacoes
         Route::prefix('avaliacoes')->namespace('Avaliacoes')->group(function () {
