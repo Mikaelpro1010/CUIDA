@@ -7,7 +7,7 @@
     <form class="" action="{{ route('get-comentarios-avaliacoes-list') }}" method="GET">
         <div class="m-0 p-0 row">
 
-            <div class="col-md-2">
+            <div class="col-md-3">
                 <label for="pesquisa">Unidade/Setor:</label>
                 <input id="pesquisa_unidade_setor" class="form-control" type="text" name="pesquisa_unidade_setor"
                     placeholder="Unidade" value="{{ request()->pesquisa_unidade_setor }}">
@@ -25,7 +25,7 @@
                 </select>
             </div>
 
-            <div class="col-md-3">
+            <div class="col-md-2">
                 <label for="notas_select">Notas:</label>
                 <div class="">
                     <button id="notas_select" class="form-select text-decoration-none text-start" data-bs-toggle="dropdown"
