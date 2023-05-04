@@ -9,8 +9,7 @@ $factory->define(Setor::class, function (Faker $faker) {
     $unidadeSec = Unidade::inRandomOrder()->first();
     $principal = $unidadeSec->setores->count() == 0;
     return [
-        'unidade_id' => 1,
-        // 'unidade_id' => $unidadeSec->id,
+        'unidade_id' => $unidadeSec->id,
         'nome' => $principal ? 'Principal' : $faker->company(),
         'ativo' => true,
         'principal' => $principal,
