@@ -16,12 +16,14 @@ class SetoresController extends Controller
     {
         $this->authorize(Permission::SETOR_CREATE);
 
+        $unidade->userCanAccess();
+
         $request->validate([
             'nome' => 'required|string|max:255',
             'tipos_avaliacao' => 'required|array',
         ]);
 
-        $tipos_avaliacao = $unidade->secretaria->tiposAvaliacao()->where('ativo', true)->pluck('id')->toArray();
+        $tipos_avaliacao = $unidade->secretaria->tiposAvaliacao()->ativo()->pluck('id')->toArray();
 
         $tiposAvaliacao = [];
         foreach ($request->tipos_avaliacao as $tipo) {
@@ -52,13 +54,15 @@ class SetoresController extends Controller
     {
         $this->authorize(Permission::SETOR_EDIT);
 
+        $setor->unidade->userCanAccess();
+
         $request->validate([
             'nome' => 'required|string|max:255',
             'tipos_avaliacao' => 'required|array',
         ]);
 
         if ($setor != null) {
-            $tipos_avaliacao = $setor->unidade->secretaria->tiposAvaliacao()->where('ativo', true)->pluck('id')->toArray();
+            $tipos_avaliacao = $setor->unidade->secretaria->tiposAvaliacao()->ativo()->pluck('id')->toArray();
 
             $tiposAvaliacao = [];
             foreach ($request->tipos_avaliacao as $tipo) {
@@ -83,6 +87,9 @@ class SetoresController extends Controller
     public function deleteSetor(Setor $setor)
     {
         $this->authorize(Permission::SETOR_DELETE);
+
+        $setor->unidade->userCanAccess();
+
         $setor->delete();
         return redirect()
             ->route('get-unidades-secr-view', $setor->unidade_id)
@@ -92,6 +99,9 @@ class SetoresController extends Controller
     public function ativarDesativar(Setor $setor): RedirectResponse
     {
         $this->authorize(Permission::SETOR_TOGGLE_ATIVO);
+
+        $setor->unidade->userCanAccess();
+
         if (!$setor->principal) {
             $setor->ativo = !$setor->ativo;
             $setor->save();
@@ -102,20 +112,24 @@ class SetoresController extends Controller
         return redirect()->route('get-unidades-secr-view', $setor->unidade_id)->with(['success' => "Setor " . ($setor->ativo ? "Ativado" : "Desativado") . " com Sucesso!"]);
     }
 
-    public function getTiposAvaliacaoSetor($setor): Setor
+    public function getTiposAvaliacaoSetor($setorId): Setor
     {
         return Setor::with(['tiposAvaliacao' => function ($query) {
             $query->select('tipo_avaliacoes.id', 'tipo_avaliacoes.nome')
                 ->where('ativo', true);
         }])
             ->select('id', 'nome')
-            ->find($setor);
+            ->find($setorId);
     }
 
     public function gerarQrcode(Setor $setor)
     {
-        $qrcode = QrCode::margin(0)->size(300)->generate(route('get-view-avaliacao', $setor->token));
+        $this->authorize(Permission::SETOR_GERAR_QRCODE);
         $unidade = $setor->unidade;
+
+        $unidade->userCanAccess();
+
+        $qrcode = QrCode::margin(0)->size(300)->generate(route('get-view-avaliacao', $setor->token));
         return view('admin.avaliacoes.qrcode-view', compact('unidade', 'setor', 'qrcode'));
     }
 }

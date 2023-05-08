@@ -2,12 +2,14 @@
 
 namespace App\Models\Avaliacao;
 
+use App\Constants\Permission;
 use App\Models\Secretaria;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasManyThrough;
+use Illuminate\Http\Response;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Cache;
 
@@ -18,6 +20,21 @@ class Unidade extends Model
 {
     protected $table = "unidades";
     protected $guarded = [];
+
+    public function userCanAccess()
+    {
+        if (auth()->user()->cant(Permission::UNIDADE_SECRETARIA_ACCESS_ANY_SECRETARIA)) {
+            $abort = true;
+            foreach (auth()->user()->secretarias as $secretaria) {
+                if ($secretaria->is($this->secretaria)) {
+                    $abort = false;
+                    break;
+                }
+            }
+
+            abort_if($abort, Response::HTTP_FORBIDDEN);
+        }
+    }
 
     public function secretaria(): BelongsTo
     {

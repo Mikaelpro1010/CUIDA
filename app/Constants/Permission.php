@@ -203,6 +203,8 @@ class Permission
     public const UNIDADE_SECRETARIA_EDIT = 'Editar Unidades da Secretaria';
     public const UNIDADE_SECRETARIA_TOGGLE_ATIVO = 'Ativar ou Desativar Unidades da Secretaria';
     public const UNIDADE_SECRETARIA_DELETE = 'Deletar Unidades da Secretaria';
+    public const UNIDADE_SECRETARIA_GERAR_QRCODE = 'Gerar QrCode da Unidades da Secretaria';
+
 
     public const UNIDADE_SECRETARIA = [
         self::UNIDADE_SECRETARIA_LIST,
@@ -213,6 +215,7 @@ class Permission
         self::UNIDADE_SECRETARIA_EDIT,
         self::UNIDADE_SECRETARIA_TOGGLE_ATIVO,
         self::UNIDADE_SECRETARIA_DELETE,
+        self::UNIDADE_SECRETARIA_GERAR_QRCODE,
     ];
 
     // Tipos de avaliacao
@@ -242,6 +245,7 @@ class Permission
     public const SETOR_EDIT = 'Editar Setor da Unidade';
     public const SETOR_DELETE = 'Deletar Setor da Unidade';
     public const SETOR_TOGGLE_ATIVO = 'Ativar ou Desativar Setor da Unidade';
+    public const SETOR_GERAR_QRCODE = 'Gerar Qr Code do Setor';
 
     public const SETOR = [
         self::SETOR_CREATE,
@@ -249,6 +253,7 @@ class Permission
         self::SETOR_EDIT,
         self::SETOR_DELETE,
         self::SETOR_TOGGLE_ATIVO,
+        self::SETOR_GERAR_QRCODE,
     ];
 
     //Comentarios das avaliações

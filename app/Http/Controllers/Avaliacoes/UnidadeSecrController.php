@@ -80,8 +80,8 @@ class UnidadeSecrController extends Controller
 
         $request->validate([
             'nome' => 'required|string|max:255',
+            'nome_oficial' => 'nullable|string|max:255',
             'secretaria' => 'required|int',
-            'nome_oficial' => 'nullable|string',
             'descricao' => 'nullable|string',
         ]);
 
@@ -104,6 +104,7 @@ class UnidadeSecrController extends Controller
         ]);
 
         $tiposAvaliacao = TipoAvaliacao::where('secretaria_id', $request->secretaria)
+            ->ativo()
             ->get()
             ->mapWithKeys(function ($item) {
                 return [$item->id => ['nota' => 0]];
@@ -123,16 +124,21 @@ class UnidadeSecrController extends Controller
         return redirect()->route('get-unidades-secr-list')->with(['success' => 'Unidade Cadastrada com Sucesso!']);
     }
 
-    public function visualizar($unidade)
+    public function visualizar($unidadeId)
     {
         $this->authorize(Permission::UNIDADE_SECRETARIA_VIEW);
-        $unidadeObj = Unidade::with('secretaria', 'secretaria.tiposAvaliacao', 'setores')->find($unidade);
+        $unidadeObj = Unidade::with('secretaria', 'secretaria.tiposAvaliacao', 'setores')->find($unidadeId);
+
+        $unidadeObj->userCanAccess();
+
         return view('admin.avaliacoes.unidades-secr.unidades-visualizar', compact('unidadeObj'));
     }
 
     public function editUnidade(Unidade $unidade)
     {
         $this->authorize(Permission::UNIDADE_SECRETARIA_EDIT);
+
+        $unidade->userCanAccess();
 
         return view('admin.avaliacoes.unidades-secr.unidades-editar', compact('unidade'));
     }
@@ -141,9 +147,11 @@ class UnidadeSecrController extends Controller
     {
         $this->authorize(Permission::UNIDADE_SECRETARIA_EDIT);
 
+        $unidade->userCanAccess();
+
         $request->validate([
             'nome' => 'required|string|max:255',
-            'nome_oficial' => 'nullable|string',
+            'nome_oficial' => 'nullable|string|max:255',
             'descricao' => 'nullable|string',
         ]);
 
@@ -162,6 +170,9 @@ class UnidadeSecrController extends Controller
     public function ativarDesativar(Unidade $unidade)
     {
         $this->authorize(Permission::UNIDADE_SECRETARIA_TOGGLE_ATIVO);
+
+        $unidade->userCanAccess();
+
         $unidade->ativo = !$unidade->ativo;
         $unidade->save();
 
@@ -170,6 +181,10 @@ class UnidadeSecrController extends Controller
 
     public function gerarQrcode(Unidade $unidade)
     {
+        $this->authorize(Permission::UNIDADE_SECRETARIA_GERAR_QRCODE);
+
+        $unidade->userCanAccess();
+
         $setores = $unidade->setores()->with('unidade', 'unidade.secretaria')->where('ativo', true)->get();
 
         $setorQrcode = [];
