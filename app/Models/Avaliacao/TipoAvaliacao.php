@@ -3,6 +3,7 @@
 namespace App\Models\Avaliacao;
 
 use App\Models\Secretaria;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -30,5 +31,10 @@ class TipoAvaliacao extends Model
     public function setorTipoAvaliacao(): HasMany
     {
         return $this->hasMany(SetorTipoAvaliacao::class);
+    }
+
+    public function scopeAtivo(Builder $query): Builder
+    {
+        return $query->where('ativo', true);
     }
 }
