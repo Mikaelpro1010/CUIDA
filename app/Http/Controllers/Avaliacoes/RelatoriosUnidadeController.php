@@ -12,6 +12,9 @@ class RelatoriosUnidadeController extends Controller
     {
         $unidade = Unidade::with(['setores', 'setores.avaliacoes' =>  function ($query) {
 
+            $query->when(request()->tipos_avaliacao_pesq, function ($query) {
+                $query->where('avaliacoes.tipo_avaliacao_id', request()->tipos_avaliacao_pesq);               
+            });
             $query->when(request()->mes_pesq, function ($query) {
                 $query->whereMonth('avaliacoes.created_at', request()->mes_pesq);
                
@@ -19,19 +22,14 @@ class RelatoriosUnidadeController extends Controller
             $query->when(request()->ano_pesq, function ($query) {
                 $query->whereYear('avaliacoes.created_at', request()->ano_pesq);
                
+            },function ($query) {
+                $query->whereYear('avaliacoes.created_at', now()->format('Y'));             
             });
-        }, 'secretaria'])
+        }, 'secretaria', 'secretaria.tiposAvaliacao' => function ($query){
+            $query->where('ativo', true);
+        }])
 
-            
-
-            // ->when(request()->ano_pesq, function ($query) {
-            //     $query->whereYear('created_at', request()->ano_pesq);
-            // })
-            // ->orderBy('ativo', 'desc')
-            // ->orderBy('updated_at', 'desc')
-            ->find($unidade_id);
-        // dd($unidade);
-
+        ->find($unidade_id);
 
         $setores = [];
         $totalAvaliacoes = 0;
@@ -48,6 +46,9 @@ class RelatoriosUnidadeController extends Controller
                 10 => $setor->avaliacoes->where('nota', 10)->count(),
             ];
         }
+
+
+
         return view('admin.avaliacoes.unidades-secr.unidade-relatorio', compact('setores', 'unidade', 'totalAvaliacoes'));
     }
 }

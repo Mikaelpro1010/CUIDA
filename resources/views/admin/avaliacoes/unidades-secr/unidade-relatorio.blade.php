@@ -25,6 +25,18 @@
     <form action="{{ route('get-unidades-relatorio', $unidade) }}" method="GET">
         <div class="row">
             <div class="col-md-3">
+                <label for="tipos_avaliacao_pesq" class="fw-bold">Tipos de avaliação</label>
+                <select name="tipos_avaliacao_pesq" class="form-select" id="tipos_avaliacao_pesq">
+                    <option value="">Selecione</option>
+                    @foreach ($unidade->secretaria->tiposAvaliacao as $key=>$tipoAvaliacao)
+                        <option value="{{ $tipoAvaliacao->id }}" @if (request()->tipos_avaliacao_pesq == $tipoAvaliacao->id) selected @endif>
+                            {{$tipoAvaliacao->nome}}
+                        </option>
+                    @endforeach
+                </select>
+            </div>
+
+            <div class="col-md-2">
                 <label for="mes_pesq" class="fw-bold">Mês</label>
                 <select name="mes_pesq" class="form-select" id="mes_pesq">
                     <option value="">Selecione</option>
@@ -43,7 +55,7 @@
                 </select>
             </div>
 
-            <div class="col-md-3">
+            <div class="col-md-2">
                 <label for="ano_pesq" class="fw-bold">Ano</label>
                 <select name="ano_pesq" class="form-select" id="ano_pesq">
                     @for ($ano = 2023, $anoAtual = now()->format('Y'); $ano <= $anoAtual; $ano++)
