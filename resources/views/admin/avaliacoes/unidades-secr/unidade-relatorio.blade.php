@@ -23,14 +23,14 @@
     <hr>
 
     <form action="{{ route('get-unidades-relatorio', $unidade) }}" method="GET">
-        <div class="row">
+        <div class="row mb-3 d-print-none">
             <div class="col-md-3">
                 <label for="tipos_avaliacao_pesq" class="fw-bold">Tipos de avaliação</label>
                 <select name="tipos_avaliacao_pesq" class="form-select" id="tipos_avaliacao_pesq">
                     <option value="">Selecione</option>
-                    @foreach ($unidade->secretaria->tiposAvaliacao as $key=>$tipoAvaliacao)
+                    @foreach ($unidade->secretaria->tiposAvaliacao as $key => $tipoAvaliacao)
                         <option value="{{ $tipoAvaliacao->id }}" @if (request()->tipos_avaliacao_pesq == $tipoAvaliacao->id) selected @endif>
-                            {{$tipoAvaliacao->nome}}
+                            {{ $tipoAvaliacao->nome }}
                         </option>
                     @endforeach
                 </select>
@@ -80,7 +80,15 @@
         </div>
     </form>
 
-    <div class="table-responsive mt-3">
+    <div class="d-none d-print-block">
+        <h5>
+            Tipo Avaliação: {{ request()->tipos_avaliacao_pesq ?? ' - ' }} /
+            Mês: {{ request()->mes_pesq ?? ' - ' }} /
+            Ano: {{ request()->ano_pesq ?? now()->format('Y') }}
+        </h5>
+    </div>
+
+    <div class="table-responsive">
         <table class="table table-striped">
             <thead>
                 <tr>
@@ -153,7 +161,7 @@
         </table>
     </div>
 
-    <div class="d-flex justify-content-center mt-3">
+    <div class="d-flex justify-content-center">
         <a class="btn btn-warning" href="{{ route('get-unidades-secr-list') }}">
             <i class="fa-solid fa-chevron-left"></i>
             Voltar
