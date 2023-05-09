@@ -28,8 +28,8 @@ class AvaliacoesController extends Controller
     {
         $setor = Setor::where('token', $setorToken)->with('unidade', 'tiposAvaliacao')->first();
 
-        if(is_null($setor) || !$setor->ativo || !$setor->unidade->ativo || !$setor->unidade->secretaria->ativo ){
-            return redirect()->route('home')->withErrors(['erro' => "Não é possivel avaliar pois a Unidade está desativada!"]);
+        if (is_null($setor) || !$setor->ativo || !$setor->unidade->ativo || !$setor->unidade->secretaria->ativo) {
+            return redirect()->route('home')->withErrors(['erro' => "Não é possivel avaliar!"]);
         }
 
         return view('public.avaliacoes.avaliacao', compact('setor'));

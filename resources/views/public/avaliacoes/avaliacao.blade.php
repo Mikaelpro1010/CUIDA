@@ -12,7 +12,9 @@
                 <div id="title-{{ $key }}" class="@if (!$loop->first) d-none @endif">
                     <p class="align-items-center">
                         {{ $key + 1 }} - {{ $tipoAvaliacao->pergunta }}
-                        <i id="check-{{ $key }}" class="fa-2x fa-solid fa-check text-success d-none"></i>
+                        <span id="check-{{ $key }}" class="d-none">
+                            <i class="fa-2x fa-solid fa-check text-success"></i>
+                        </span>
                     </p>
                 </div>
                 <div id="body-{{ $key }}" class="@if (!$loop->first) d-none @endif">
@@ -65,7 +67,41 @@
 
 @push('scripts')
     <script nonce="{{ app('csp-nonce') }}">
-        maxItens = {{ $setor->tiposAvaliacao->count() }};
+        let maxItens = {{ $setor->tiposAvaliacao->count() }};
+        let local = null;
+        let storeIndex = -1;
+
+        $(document).ready(function() {
+            local = JSON.parse(window.localStorage.getItem('avaliacao'));
+            if (local) {
+                if (diferentDates(new Date(local.date), new Date())) {
+                    window.localStorage.removeItem('avaliacao');
+                } else {
+                    for (let [index, avaliacao] of local.avaliacao.entries()) {
+                        if (avaliacao.url == window.location.href) {
+                            storeIndex = index;
+                            if (avaliacao.itens >= maxItens) {
+                                window.location.href = '{{ route('agradecimento-avaliacao') }}';
+                            } else {
+                                for (i = 0; i < avaliacao.itens; i++) {
+                                    $("#check-" + i).removeClass('d-none');
+                                    $("#body-" + i).addClass('d-none');
+                                    $("#title-" + (i + 1)).removeClass('d-none');
+                                    $("#body-" + (i + 1)).removeClass('d-none');
+                                }
+                            }
+                            break;
+                        }
+                    }
+                }
+            }
+        });
+
+        function diferentDates(date1, date2) {
+            return date1.getFullYear() != date2.getFullYear() ||
+                date1.getMonth() != date2.getMonth() ||
+                date1.getDate() != date2.getDate();
+        }
 
         $("label").click(function() {
             avaliar($(this).data('nota'), $(this).data('item'));
@@ -113,9 +149,6 @@
         }
 
         function enviarAvaliacao(item) {
-            console.log(
-                $("#" + (item + 1))
-            );
             $.ajax({
                 url: "{{ route('post-store-avaliacao', $setor->token) }}",
                 type: "post",
@@ -127,6 +160,26 @@
                     "_token": "{{ csrf_token() }}",
                 },
             }).done(function(response) {
+                if (local) {
+                    avaliacao = [...local.avaliacao];
+                    if (storeIndex == -1) {
+                        avaliacao.push({
+                            url: window.location.href,
+                            itens: item + 1,
+                        });
+                    } else {
+                        avaliacao[storeIndex].itens = item + 1;
+                    }
+                } else {
+                    avaliacao = [{
+                        url: window.location.href,
+                        itens: item + 1,
+                    }]
+                }
+                window.localStorage.setItem('avaliacao', JSON.stringify({
+                    avaliacao: avaliacao,
+                    date: '{{ now() }}'
+                }));
                 Swal.fire({
                     position: 'center',
                     icon: 'success',
@@ -136,7 +189,6 @@
                 }).then(function() {
                     $('#check-' + item).removeClass('d-none');
                     if (item + 1 < maxItens) {
-                        $("#" + item).addClass('d-none');
                         $("#body-" + item).addClass('d-none');
                         $("#title-" + (item + 1)).removeClass('d-none');
                         $("#body-" + (item + 1)).removeClass('d-none');

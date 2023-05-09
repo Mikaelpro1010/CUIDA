@@ -32,10 +32,12 @@ Route::view('/termos-de-uso', 'public.termos')->name('termos');
 
 Route::prefix('avaliacoes')->namespace('Publico')->group(function () {
     Route::get('/unidade/setores/{unidadeToken}', 'AvaliacoesController@listSetores')->name('get-avaliacao-setores');
-    Route::get('/unidade/{setorToken}/avaliar', 'AvaliacoesController@viewAvaliacao')->name('get-view-avaliacao');
-    Route::post('/unidade/{setorToken}/avaliar', 'AvaliacoesController@storeAvaliacao')->name('post-store-avaliacao');
-    // ->middleware('throttle:1,1440');
-    Route::view('/agradecer', 'public.avaliacoes.agradecimento')->name('agradecimento-avaliacao');
+    Route::get('/unidade/{setorToken}/avaliar', 'AvaliacoesController@viewAvaliacao')->name('get-view-avaliacao')
+        ->middleware('throttle:4,1');
+    Route::post('/unidade/{setorToken}/avaliar', 'AvaliacoesController@storeAvaliacao')->name('post-store-avaliacao')
+        ->middleware('throttle:4,1');
+    Route::view('/agradecer', 'public.avaliacoes.agradecimento')->name('agradecimento-avaliacao')
+        ->middleware('throttle:3,1');
 });
 
 Route::middleware(['auth:web'])->group(
