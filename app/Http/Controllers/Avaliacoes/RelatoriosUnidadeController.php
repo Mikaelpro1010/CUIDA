@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Avaliacoes;
 
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Avaliacao\Unidade;
 
@@ -10,44 +9,51 @@ class RelatoriosUnidadeController extends Controller
 {
     public function relatorio($unidade_id)
     {
-        $unidade = Unidade::with(['setores', 'setores.avaliacoes' =>  function ($query) {
-
-            $query->when(request()->tipos_avaliacao_pesq, function ($query) {
-                $query->where('avaliacoes.tipo_avaliacao_id', request()->tipos_avaliacao_pesq);               
-            });
-            $query->when(request()->mes_pesq, function ($query) {
-                $query->whereMonth('avaliacoes.created_at', request()->mes_pesq);
-               
-            });
-            $query->when(request()->ano_pesq, function ($query) {
-                $query->whereYear('avaliacoes.created_at', request()->ano_pesq);
-               
-            },function ($query) {
-                $query->whereYear('avaliacoes.created_at', now()->format('Y'));             
-            });
-        }, 'secretaria', 'secretaria.tiposAvaliacao' => function ($query){
-            $query->where('ativo', true);
+        $unidade = Unidade::with(['setores' =>  function ($query) {
+            $query->withCount([
+                'avaliacoes as notas_10' => function ($query) {
+                    $query->resumeFilter(request()->tipos_avaliacao_pesq, request()->mes_pesq, request()->ano_pesq);
+                    $query->where('nota', 10);
+                },
+                'avaliacoes as notas_8' => function ($query) {
+                    $query->resumeFilter(request()->tipos_avaliacao_pesq, request()->mes_pesq, request()->ano_pesq);
+                    $query->where('nota', 8);
+                },
+                'avaliacoes as notas_6' => function ($query) {
+                    $query->resumeFilter(request()->tipos_avaliacao_pesq, request()->mes_pesq, request()->ano_pesq);
+                    $query->where('nota', 6);
+                },
+                'avaliacoes as notas_4' => function ($query) {
+                    $query->resumeFilter(request()->tipos_avaliacao_pesq, request()->mes_pesq, request()->ano_pesq);
+                    $query->where('nota', 4);
+                },
+                'avaliacoes as notas_2' => function ($query) {
+                    $query->resumeFilter(request()->tipos_avaliacao_pesq, request()->mes_pesq, request()->ano_pesq);
+                    $query->where('nota', 2);
+                }
+            ]);
+        }, 'secretaria', 'secretaria.tiposAvaliacao' => function ($query) {
+            $query->ativo();
         }])
+            ->find($unidade_id);
 
-        ->find($unidade_id);
+        $unidade->userCanAccess();
 
         $setores = [];
         $totalAvaliacoes = 0;
         foreach ($unidade->setores as $setor) {
-            $total = $setor->avaliacoes->count();
+            $total = $setor->notas_2 + $setor->notas_4 + $setor->notas_6 + $setor->notas_8 + $setor->notas_10;
             $totalAvaliacoes += $total;
             $setores[$setor->id] = [
                 'nome' => $setor->nome,
                 'total' => $total,
-                2 => $setor->avaliacoes->where('nota', 2)->count(),
-                4 => $setor->avaliacoes->where('nota', 4)->count(),
-                6 => $setor->avaliacoes->where('nota', 6)->count(),
-                8 => $setor->avaliacoes->where('nota', 8)->count(),
-                10 => $setor->avaliacoes->where('nota', 10)->count(),
+                2 => $setor->notas_2,
+                4 => $setor->notas_4,
+                6 => $setor->notas_6,
+                8 => $setor->notas_8,
+                10 => $setor->notas_10,
             ];
         }
-
-
 
         return view('admin.avaliacoes.unidades-secr.unidade-relatorio', compact('setores', 'unidade', 'totalAvaliacoes'));
     }
