@@ -40,18 +40,18 @@
                 <label for="mes_pesq" class="fw-bold">Mês</label>
                 <select name="mes_pesq" class="form-select" id="mes_pesq">
                     <option value="">Selecione</option>
-                    <option value="1">Janeiro</option>
-                    <option value="2">Fevereiro</option>
-                    <option value="3">Março</option>
-                    <option value="4">Abril</option>
-                    <option value="5">Maio</option>
-                    <option value="6">Junho</option>
-                    <option value="7">Julho</option>
-                    <option value="8">Agosto</option>
-                    <option value="9">Setembro</option>
-                    <option value="10">Outubro</option>
-                    <option value="11">Novembro</option>
-                    <option value="12">Dezembro</option>
+                    <option value="1" {{ request()->mes_pesq == 1 ? 'selected' : '' }}>Janeiro</option>
+                    <option value="2" {{ request()->mes_pesq == 2 ? 'selected' : '' }}>Fevereiro</option>
+                    <option value="3" {{ request()->mes_pesq == 3 ? 'selected' : '' }}>Março</option>
+                    <option value="4" {{ request()->mes_pesq == 4 ? 'selected' : '' }}>Abril</option>
+                    <option value="5" {{ request()->mes_pesq == 5 ? 'selected' : '' }}>Maio</option>
+                    <option value="6" {{ request()->mes_pesq == 6 ? 'selected' : '' }}>Junho</option>
+                    <option value="7" {{ request()->mes_pesq == 7 ? 'selected' : '' }}>Julho</option>
+                    <option value="8" {{ request()->mes_pesq == 8 ? 'selected' : '' }}>Agosto</option>
+                    <option value="9" {{ request()->mes_pesq == 9 ? 'selected' : '' }}>Setembro</option>
+                    <option value="10" {{ request()->mes_pesq == 10 ? 'selected' : '' }}>Outubro</option>
+                    <option value="11" {{ request()->mes_pesq == 11 ? 'selected' : '' }}>Novembro</option>
+                    <option value="12" {{ request()->mes_pesq == 12 ? 'selected' : '' }}>Dezembro</option>
                 </select>
             </div>
 
