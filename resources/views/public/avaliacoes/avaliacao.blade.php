@@ -73,6 +73,25 @@
 
         $(document).ready(function() {
             local = JSON.parse(window.localStorage.getItem('avaliacao'));
+            verifyStorage();
+        });
+
+        $("label").click(function() {
+            avaliar($(this).data('nota'), $(this).data('item'));
+        });
+
+        $('.btnAvaliacao').click(function() {
+            enviarAvaliacao($(this).data('id'));
+            $('.btnAvaliacao').addClass('d-none');
+        });
+
+        function diferentDates(date1, date2) {
+            return date1.getFullYear() != date2.getFullYear() ||
+                date1.getMonth() != date2.getMonth() ||
+                date1.getDate() != date2.getDate();
+        }
+
+        function verifyStorage() {
             if (local) {
                 if (diferentDates(new Date(local.date), new Date())) {
                     window.localStorage.removeItem('avaliacao');
@@ -95,22 +114,7 @@
                     }
                 }
             }
-        });
-
-        function diferentDates(date1, date2) {
-            return date1.getFullYear() != date2.getFullYear() ||
-                date1.getMonth() != date2.getMonth() ||
-                date1.getDate() != date2.getDate();
         }
-
-        $("label").click(function() {
-            avaliar($(this).data('nota'), $(this).data('item'));
-        });
-
-        $('.btnAvaliacao').click(function() {
-            enviarAvaliacao($(this).data('id'));
-            $('.btnAvaliacao').addClass('d-none');
-        });
 
         function avaliar(nota, nPergunta) {
             $('.avaliar-' + nPergunta + ' label').each(function(index, element) {
@@ -148,6 +152,29 @@
             }
         }
 
+        function storage(item) {
+            if (local) {
+                avaliacao = [...local.avaliacao];
+                if (storeIndex == -1) {
+                    avaliacao.push({
+                        url: window.location.href,
+                        itens: item + 1,
+                    });
+                } else {
+                    avaliacao[storeIndex].itens = item + 1;
+                }
+            } else {
+                avaliacao = [{
+                    url: window.location.href,
+                    itens: item + 1,
+                }]
+            }
+            window.localStorage.setItem('avaliacao', JSON.stringify({
+                avaliacao: avaliacao,
+                date: '{{ now() }}'
+            }));
+        }
+
         function enviarAvaliacao(item) {
             $.ajax({
                 url: "{{ route('post-store-avaliacao', $setor->token) }}",
@@ -160,26 +187,6 @@
                     "_token": "{{ csrf_token() }}",
                 },
             }).done(function(response) {
-                if (local) {
-                    avaliacao = [...local.avaliacao];
-                    if (storeIndex == -1) {
-                        avaliacao.push({
-                            url: window.location.href,
-                            itens: item + 1,
-                        });
-                    } else {
-                        avaliacao[storeIndex].itens = item + 1;
-                    }
-                } else {
-                    avaliacao = [{
-                        url: window.location.href,
-                        itens: item + 1,
-                    }]
-                }
-                window.localStorage.setItem('avaliacao', JSON.stringify({
-                    avaliacao: avaliacao,
-                    date: '{{ now() }}'
-                }));
                 Swal.fire({
                     position: 'center',
                     icon: 'success',
@@ -187,6 +194,7 @@
                     showConfirmButton: false,
                     timer: 1500,
                 }).then(function() {
+                    storage(item);
                     $('#check-' + item).removeClass('d-none');
                     if (item + 1 < maxItens) {
                         $("#body-" + item).addClass('d-none');
