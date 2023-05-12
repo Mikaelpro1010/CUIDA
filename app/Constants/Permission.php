@@ -269,18 +269,18 @@ class Permission
         //perfil
         'Gerenciar Perfil de Usuário' => self::PERFIL_USUARIO,
         //Manifestaçoes
-        'Manifestações' => self::MANIFESTACOES,
+        // 'Manifestações' => self::MANIFESTACOES,
         //Gerenciar
         'Gerenciamento de Usuários' => self::GERENCIAR_USUARIOS,
         'Gerenciamento de Secretarias' => self::GERENCIAR_SECRETARIAS,
         //Configuraçoes
         'Configuração de Tipos de Usuário' => self::GERENCIAR_TIPOS_USUARIOS,
         'Configuração de Tipos de Avaliação' => self::GERENCIAR_TIPOS_AVALIACAO,
-        'Configuração de Tipos de Manifestação' => self::GERENCIAR_TIPOS_MANIFESTACAO,
-        'Configuração de Estados do Processo' => self::GERENCIAR_ESTADOS_PROCESSO,
-        'Configuração de Motivações' => self::GERENCIAR_MOTIVACOES,
-        'Configuração de Situações' => self::GERENCIAR_SITUACOES,
-        'Configuração de FAQs' => self::GERENCIAR_FAQS,
+        // 'Configuração de Tipos de Manifestação' => self::GERENCIAR_TIPOS_MANIFESTACAO,
+        // 'Configuração de Estados do Processo' => self::GERENCIAR_ESTADOS_PROCESSO,
+        // 'Configuração de Motivações' => self::GERENCIAR_MOTIVACOES,
+        // 'Configuração de Situações' => self::GERENCIAR_SITUACOES,
+        // 'Configuração de FAQs' => self::GERENCIAR_FAQS,
         //avaliacao
         'Relatórios Modulo Avaliação' => self::RELATORIO_AVALIACOES,
         'Modulo Avaliação' => self::UNIDADE_SECRETARIA,
