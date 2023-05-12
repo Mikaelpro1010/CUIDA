@@ -35,9 +35,9 @@ Route::prefix('avaliacoes')->namespace('Publico')->group(function () {
     Route::get('/unidade/{setorToken}/avaliar', 'AvaliacoesController@viewAvaliacao')->name('get-view-avaliacao')
         ->middleware('throttle:4,1');
     Route::post('/unidade/{setorToken}/avaliar', 'AvaliacoesController@storeAvaliacao')->name('post-store-avaliacao')
-        ->middleware('throttle:4,1');
+        ->middleware('throttle:8,1');
     Route::view('/agradecer', 'public.avaliacoes.agradecimento')->name('agradecimento-avaliacao')
-        ->middleware('throttle:3,1');
+        ->middleware('throttle:6,1');
 });
 
 Route::middleware(['auth:web'])->group(
@@ -138,6 +138,8 @@ Route::middleware(['auth:web'])->group(
 
             //Comentarios
             Route::get('/comentario', 'ComentariosAvaliacoesController@listComentarios')->name('get-comentarios-avaliacoes-list');
+            Route::get('/comentario/secretaria', 'ComentariosAvaliacoesController@getSecretariaInfo')->name('get-comentarios-scretaria-info');
+            Route::get('/comentario/setor', 'ComentariosAvaliacoesController@getSetoresInfo')->name('get-comentarios-setores-info');
             Route::get('/comentario/{id}', 'ComentariosAvaliacoesController@viewComentarios')->name('get-comentarios-avaliacoes-view');
 
             // Setor
