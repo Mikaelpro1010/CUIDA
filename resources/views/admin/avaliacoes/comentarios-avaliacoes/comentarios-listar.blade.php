@@ -29,7 +29,7 @@
         </div>
         <div class="d-flex flex-wrap gap-2">
 
-            <div class="flex-grow-1 @if (is_null(request()->tipo_avaliacao)) d-none @endif">
+            <div class="flex-grow-1 @if (is_null(request()->secretaria_pesq) && is_null(request()->tipo_avaliacao)) d-none @endif">
                 <label class="fw-bold" for="tipo_avaliacao">Tipo de Avaliação:</label>
                 <select id="tipo_avaliacao" class="form-select" name="tipo_avaliacao">
                     <option value="" @if (is_null(request()->tipo_avaliacao)) selected @endif>Selecione</option>
@@ -40,7 +40,7 @@
                     @endforeach
                 </select>
             </div>
-            <div class="flex-fill @if (is_null(request()->unidade_pesq)) d-none @endif">
+            <div class="flex-fill @if (is_null(request()->secretaria_pesq) && is_null(request()->unidade_pesq)) d-none @endif">
                 <label class="fw-bold" for="unidade_pesq">Unidade:</label>
                 <select id="unidade_pesq" class="form-select" name="unidade_pesq">
                     <option value="" @if (is_null(request()->unidade_pesq)) selected @endif>Selecione</option>
@@ -52,7 +52,7 @@
                 </select>
             </div>
 
-            <div class="flex-grow-1 @if (is_null(request()->setor_pesq)) d-none @endif">
+            <div class="flex-grow-1 @if (is_null(request()->unidade_pesq) && is_null(request()->setor_pesq)) d-none @endif">
                 <label class="fw-bold" for="setor_pesq">Setores:</label>
                 <select id="setor_pesq" class="form-select" name="setor_pesq">
                     <option value="" @if (is_null(request()->setor_pesq)) selected @endif>Selecione</option>

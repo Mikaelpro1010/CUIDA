@@ -21,7 +21,6 @@ class ComentariosAvaliacoesController extends Controller
         $avaliacoes = Avaliacao::query()
             ->with('setor', 'setor.unidade', 'setor.unidade.secretaria')
             ->where('comentario', '!=', null)
-            ->secretaria(request()->secretaria_pesq)
             ->when(
                 request()->pesquisa_unidade_setor,
                 function ($query) {
@@ -33,6 +32,18 @@ class ComentariosAvaliacoesController extends Controller
                     });
                 }
             )
+            ->secretaria(request()->secretaria_pesq)
+            ->when(request()->tipo_avaliacao, function ($query) {
+                $query->where('tipo_avaliacao_id', request()->tipo_avaliacao);
+            })
+            ->when(request()->unidade_pesq, function ($query) {
+                $query->whereHas('setor', function ($query) {
+                    $query->where('unidade_id', request()->unidade_pesq);
+                });
+            })
+            ->when(request()->setor_pesq, function ($query) {
+                $query->where('setor_id', request()->setor_pesq);
+            })
             ->when(is_numeric(request()->pesq_nota), function ($query) {
                 $query->where('nota', request()->pesq_nota);
             })
