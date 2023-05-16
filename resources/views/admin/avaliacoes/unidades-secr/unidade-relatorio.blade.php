@@ -172,6 +172,7 @@
 @push('scripts')
     <script nonce="{{ app('csp-nonce') }}">
         $('#btnLimpaForm').click(function() {
+        	$('#tipos_avaliacao_pesq').val('');
             $('#mes_pesq').val('');
             $('#ano_pesq').val({{ now()->format('Y') }});
         });
