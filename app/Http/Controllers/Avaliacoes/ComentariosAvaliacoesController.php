@@ -99,14 +99,6 @@ class ComentariosAvaliacoesController extends Controller
         return view('admin.avaliacoes.comentarios-avaliacoes.comentarios-listar', compact('avaliacoes', 'secretariasSearchSelect', 'secretaria', 'unidades', 'setores', 'tiposAvaliacao'));
     }
 
-    public function viewComentarios($id)
-    {
-        $this->authorize(Permission::GERENCIAR_COMENTARIOS_AVALIACOES_VIEW);
-        $avaliacoes = Avaliacao::find($id);
-
-        return view('admin.avaliacoes.comentarios-avaliacoes.comentarios-visualizar', compact('avaliacoes'));
-    }
-
     public function getSecretariaInfo(): JsonResponse
     {
         if (!request()->ajax()) {

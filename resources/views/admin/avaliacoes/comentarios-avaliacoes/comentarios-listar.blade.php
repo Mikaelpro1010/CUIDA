@@ -275,10 +275,18 @@
                         </td>
                         <td class="col-md-1">
                             <div class="d-flex justify-content-evenly">
-                                <a class="btn text-primary"
-                                    href="{{ route('get-comentarios-avaliacoes-view', ['id' => $avaliacao->id]) }}">
-                                    <i class="fa-xl fa-solid fa-magnifying-glass"></i>
+                                <a class="btn text-primary see-comment" href="#" data-id="{{ $avaliacao->id }}">
+                                    <i class="fa-xl fa-solid fa-eye"></i>
                                 </a>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr id="{{ $avaliacao->id }}" class="d-none">
+                        <td colspan='6'>
+                            <label class="fw-bold">Comentario:</label>
+                            <div class="border-2
+                                border border-warning p-2">
+                                {{ $avaliacao->comentario }}
                             </div>
                         </td>
                     </tr>
@@ -309,6 +317,7 @@
                 $('#pesq_nota').val('');
                 $('#secretaria_pesq').val('');
             });
+
             $('.nota').click(function(e) {
                 e.preventDefault();
                 $('#pesq_nota').val($(this).data('nota'));
@@ -354,6 +363,14 @@
                         break;
                 }
 
+            });
+
+            $(document).ready(function() {
+                $('.see-comment').click(function(e) {
+                    e.preventDefault();
+                    var id = $(this).data('id');
+                    $('#' + id).toggleClass('d-none');
+                });
             });
 
             let dataFilters = {
