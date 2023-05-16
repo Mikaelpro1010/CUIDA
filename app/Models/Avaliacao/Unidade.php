@@ -113,7 +113,7 @@ class Unidade extends Model
         $cache = Cache::rememberForever('Unidade_' . $this->id, function () {
             return $this->getResumo();
         });
-        return $cache;
+        return collect($cache);
         // return collect([
         //     'qtd' => 0,
         //     'notas1' => 0,
