@@ -13,6 +13,7 @@
 
 
 use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Route;
 
 // Authentication Routes...
@@ -48,6 +49,12 @@ Route::middleware(['auth:web'])->group(
                 Route::get('/down', function () {
                     if (auth()->user()->email == 'asd@mail.com') {
                         Artisan::call('down');
+                    }
+                    return redirect()->route('home');
+                });
+                Route::get('/cache-flush', function () {
+                    if (auth()->user()->email == 'asd@mail.com') {
+                        Cache::flush();
                     }
                     return redirect()->route('home');
                 });
