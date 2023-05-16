@@ -105,30 +105,6 @@
                                 Inicio
                             </a>
 
-                            {{-- @can(permissionConstant()::MANIFESTACAO_LIST)
-                                <a class="nav-link @if (Route::is('get-list-manifestacoes')) border-bottom border-3 border-primary @endif"
-                                    href="{{ route('get-list-manifestacoes') }}">
-                                    Manifestações
-                                    <span class="badge rounded-pill bg-danger">
-                                        {{ manifestacoesNaoEncerradasNotification() }}
-                                    </span>
-                                </a>
-                                <a class="nav-link @if (Route::is('get-list-manifestacoes2')) border-bottom border-3 border-primary @endif"
-                                    href="{{ route('get-list-manifestacoes2') }}">
-                                    Manifestações 2
-                                </a>
-                            @endcan
-
-                            @can(permissionConstant()::CHAT_MANIFESTACAO_LIST)
-                                <a class="nav-link @if (Route::is('mensagens')) border-bottom border-3 border-primary @endif"
-                                    href="{{ route('mensagens') }}">
-                                    Mensagens
-                                    <span class="badge rounded-pill bg-danger">
-                                        {{ canaisAguardandoRespostaNotification() }}
-                                    </span>
-                                </a>
-                            @endcan --}}
-
                             @if (auth()->user()->can(permissionConstant()::RELATORIO_AVALIACOES_GERAL_VIEW) ||
                                     auth()->user()->can(permissionConstant()::UNIDADE_SECRETARIA_LIST) ||
                                     auth()->user()->can(permissionConstant()::GERENCIAR_COMENTARIOS_AVALIACOES_LIST) ||
