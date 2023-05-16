@@ -9,11 +9,14 @@ use App\Models\Avaliacao\Avaliacao;
 use App\Models\Avaliacao\TipoAvaliacao;
 use App\Models\Avaliacao\Unidade;
 use App\Models\Secretaria;
+use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
+use App\Traits\ExportExcel;
 
 class ComentariosAvaliacoesController extends Controller
 {
+
     public function listComentarios(Request $request)
     {
         $this->authorize(Permission::GERENCIAR_COMENTARIOS_AVALIACOES_LIST);
@@ -148,5 +151,61 @@ class ComentariosAvaliacoesController extends Controller
         });
 
         return response()->json(compact('setores'));
+    }
+
+    public function exportComments(Request $request)
+    {
+        $this->authorize(Permission::GERENCIAR_COMENTARIOS_AVALIACOES_LIST);
+
+        $comentarios = Avaliacao::query()
+            // ->with('setor', 'setor.unidade', 'setor.unidade.secretaria')
+            ->where('comentario', '!=', null)
+            ->when(
+                request()->pesquisa_unidade_setor,
+                function ($query) {
+                    $query->whereHas('setor', function ($query) {
+                        $query->where('nome', 'ilike', "%" . request()->pesquisa_unidade_setor . "%")
+                            ->orWhereHas('unidade', function ($query) {
+                                $query->where('nome', 'ilike', "%" . request()->pesquisa_unidade_setor . "%");
+                            });
+                    });
+                }
+            )
+            // ->secretaria(request()->secretaria_pesq)
+            ->when(request()->tipo_avaliacao, function ($query) {
+                $query->where('tipo_avaliacao_id', request()->tipo_avaliacao);
+            })
+            ->when(request()->unidade_pesq, function ($query) {
+                $query->whereHas('setor', function ($query) {
+                    $query->where('unidade_id', request()->unidade_pesq);
+                });
+            })
+            ->when(request()->setor_pesq, function ($query) {
+                $query->where('setor_id', request()->setor_pesq);
+            })
+            ->when(is_numeric(request()->pesq_nota), function ($query) {
+                $query->where('nota', request()->pesq_nota);
+            })
+            ->when(
+                request()->data_inicial || request()->data_final,
+                function ($query) {
+                    $query->when(request()->data_inicial, function ($query) {
+                        $query->whereDate('created_at', '>=', request()->data_inicial);
+                    })
+                        ->when(request()->data_final, function ($query) {
+                            $query->whereDate('created_at', '<=', request()->data_final);
+                        });
+                },
+                function ($query) {
+                    $query->whereDate('created_at', '>=', now()->subDays(30));
+                }
+            )
+            ->orderBy('created_at', 'asc')
+            ->get();
+
+        // dd($comentarios->toArray());
+
+        ExportExcel::export($comentarios);
+        // ExportExcel::export(User::all());
     }
 }

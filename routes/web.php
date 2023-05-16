@@ -11,7 +11,8 @@
 |
 */
 
-
+use App\Models\Avaliacao\Avaliacao;
+use App\Models\User;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Route;
@@ -21,9 +22,7 @@ $this->get('login', 'Auth\LoginController@showLoginForm')->name('login');
 $this->post('login', 'Auth\LoginController@login');
 $this->post('logout', 'Auth\LoginController@logout')->name('logout');
 
-
 // Route::get('/teste', function () {
-// return 0;
 // })->name('teste');
 
 //Rotas Não Logadas
@@ -145,6 +144,7 @@ Route::middleware(['auth:web'])->group(
 
             //Comentarios
             Route::get('/comentario', 'ComentariosAvaliacoesController@listComentarios')->name('get-comentarios-avaliacoes-list');
+            Route::get('/comentario/export', 'ComentariosAvaliacoesController@exportcomments')->name('get-comentarios-avaliacoes-export');
             Route::get('/comentario/secretaria', 'ComentariosAvaliacoesController@getSecretariaInfo')->name('get-comentarios-scretaria-info');
             Route::get('/comentario/setor', 'ComentariosAvaliacoesController@getSetoresInfo')->name('get-comentarios-setores-info');
 
