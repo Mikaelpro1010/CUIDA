@@ -7,8 +7,10 @@ use App\Http\Controllers\Controller;
 use App\Models\Avaliacao\Avaliacao;
 use App\Models\Avaliacao\Unidade;
 use App\Models\Secretaria;
+use Carbon\Carbon;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response as HttpResponse;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Response;
 use Illuminate\View\View;
 
@@ -426,7 +428,7 @@ class RelatoriosAvaliacoesController extends Controller
     }
 
     //Rota de api que retorna o array com as quantidades de avaliaçoes por mes
-    public function avaliacoesPorMesUnidade(Unidade $unidade): JsonResponse
+    public function avaliacoesPorMesUnidade($unidade_id)
     {
         $this->authorize(Permission::RELATORIO_AVALIACOES_UNIDADE_VIEW);
 
@@ -435,14 +437,18 @@ class RelatoriosAvaliacoesController extends Controller
         if (preg_match("/^20[0-9]{2}$/", request()->ano)) {
             // Avaliacoes por mes (qtd)
             $resposta = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+            $unidade = Unidade::with('setores')->find($unidade_id);
 
-            // $avaliacoesAno = Avaliacao::whereIn('setor_id', $unidade->setores()->pluck('id'))->whereYear('created_at', request()->ano)->get();
-            $avaliacoesAno = $unidade->avaliacoes()->whereYear('avaliacoes.created_at', request()->ano)->get();
+            $postsCountByMonth = Avaliacao::selectRaw('extract(month from created_at) as month, COUNT(*) as count')
+                ->whereYear('created_at', request()->ano)
+                ->groupBy('month')
+                ->whereIn('setor_id', $unidade->setores->pluck('id')->toArray())
+                ->get();
 
-
-            foreach ($avaliacoesAno as $avaliacao) {
-                $resposta[formatarDataHora($avaliacao->created_at, 'n') - 1] += 1;
+            foreach ($postsCountByMonth as $item) {
+                $resposta[$item->month - 1] = $item->count;
             }
+
             $status = true;
         }
 
@@ -455,7 +461,7 @@ class RelatoriosAvaliacoesController extends Controller
     }
 
     //Rota de Api que retorna os arrays com notas por mes
-    public function notasPorMesUnidade(Unidade $unidade): JsonResponse
+    public function notasPorMesUnidade($unidade_id): JsonResponse
     {
         $this->authorize(Permission::RELATORIO_AVALIACOES_UNIDADE_VIEW);
 
@@ -471,13 +477,336 @@ class RelatoriosAvaliacoesController extends Controller
             $resposta[7] = $aux;
             $resposta[9] = $aux;
 
-            $avaliacoesAno = $unidade->avaliacoes()->whereYear('avaliacoes.created_at', request()->ano)->get();
+            $unidade = Unidade::withCount([
+                'avaliacoes as notas_10_1' => function ($query) {
+                    $query->whereYear('avaliacoes.created_at', request()->ano)
+                        ->whereMonth('avaliacoes.created_at', 1)
+                        ->where('avaliacoes.nota', 10);
+                },
+                'avaliacoes as notas_10_2' => function ($query) {
+                    $query->whereYear('avaliacoes.created_at', request()->ano)
+                        ->whereMonth('avaliacoes.created_at', 2)
+                        ->where('avaliacoes.nota', 10);
+                },
+                'avaliacoes as notas_10_3' => function ($query) {
+                    $query->whereYear('avaliacoes.created_at', request()->ano)
+                        ->whereMonth('avaliacoes.created_at', 3)
+                        ->where('avaliacoes.nota', 10);
+                },
+                'avaliacoes as notas_10_4' => function ($query) {
+                    $query->whereYear('avaliacoes.created_at', request()->ano)
+                        ->whereMonth('avaliacoes.created_at', 4)
+                        ->where('avaliacoes.nota', 10);
+                },
+                'avaliacoes as notas_10_5' => function ($query) {
+                    $query->whereYear('avaliacoes.created_at', request()->ano)
+                        ->whereMonth('avaliacoes.created_at', 5)
+                        ->where('avaliacoes.nota', 10);
+                },
+                'avaliacoes as notas_10_6' => function ($query) {
+                    $query->whereYear('avaliacoes.created_at', request()->ano)
+                        ->whereMonth('avaliacoes.created_at', 6)
+                        ->where('avaliacoes.nota', 10);
+                },
+                'avaliacoes as notas_10_7' => function ($query) {
+                    $query->whereYear('avaliacoes.created_at', request()->ano)
+                        ->whereMonth('avaliacoes.created_at', 7)
+                        ->where('avaliacoes.nota', 10);
+                },
+                'avaliacoes as notas_10_8' => function ($query) {
+                    $query->whereYear('avaliacoes.created_at', request()->ano)
+                        ->whereMonth('avaliacoes.created_at', 8)
+                        ->where('avaliacoes.nota', 10);
+                },
+                'avaliacoes as notas_10_9' => function ($query) {
+                    $query->whereYear('avaliacoes.created_at', request()->ano)
+                        ->whereMonth('avaliacoes.created_at', 9)
+                        ->where('avaliacoes.nota', 10);
+                },
+                'avaliacoes as notas_10_10' => function ($query) {
+                    $query->whereYear('avaliacoes.created_at', request()->ano)
+                        ->whereMonth('avaliacoes.created_at', 10)
+                        ->where('avaliacoes.nota', 10);
+                },
+                'avaliacoes as notas_10_11' => function ($query) {
+                    $query->whereYear('avaliacoes.created_at', request()->ano)
+                        ->whereMonth('avaliacoes.created_at', 11)
+                        ->where('avaliacoes.nota', 10);
+                },
+                'avaliacoes as notas_10_12' => function ($query) {
+                    $query->whereYear('avaliacoes.created_at', request()->ano)
+                        ->whereMonth('avaliacoes.created_at', 12)
+                        ->where('avaliacoes.nota', 10);
+                },
+                'avaliacoes as notas_8_1' => function ($query) {
+                    $query->whereYear('avaliacoes.created_at', request()->ano)
+                        ->whereMonth('avaliacoes.created_at', 1)
+                        ->where('avaliacoes.nota', 8);
+                },
+                'avaliacoes as notas_8_2' => function ($query) {
+                    $query->whereYear('avaliacoes.created_at', request()->ano)
+                        ->whereMonth('avaliacoes.created_at', 2)
+                        ->where('avaliacoes.nota', 8);
+                },
+                'avaliacoes as notas_8_3' => function ($query) {
+                    $query->whereYear('avaliacoes.created_at', request()->ano)
+                        ->whereMonth('avaliacoes.created_at', 3)
+                        ->where('avaliacoes.nota', 8);
+                },
+                'avaliacoes as notas_8_4' => function ($query) {
+                    $query->whereYear('avaliacoes.created_at', request()->ano)
+                        ->whereMonth('avaliacoes.created_at', 4)
+                        ->where('avaliacoes.nota', 8);
+                },
+                'avaliacoes as notas_8_5' => function ($query) {
+                    $query->whereYear('avaliacoes.created_at', request()->ano)
+                        ->whereMonth('avaliacoes.created_at', 5)
+                        ->where('avaliacoes.nota', 8);
+                },
+                'avaliacoes as notas_8_6' => function ($query) {
+                    $query->whereYear('avaliacoes.created_at', request()->ano)
+                        ->whereMonth('avaliacoes.created_at', 6)
+                        ->where('avaliacoes.nota', 8);
+                },
+                'avaliacoes as notas_8_7' => function ($query) {
+                    $query->whereYear('avaliacoes.created_at', request()->ano)
+                        ->whereMonth('avaliacoes.created_at', 7)
+                        ->where('avaliacoes.nota', 8);
+                },
+                'avaliacoes as notas_8_8' => function ($query) {
+                    $query->whereYear('avaliacoes.created_at', request()->ano)
+                        ->whereMonth('avaliacoes.created_at', 8)
+                        ->where('avaliacoes.nota', 8);
+                },
+                'avaliacoes as notas_8_9' => function ($query) {
+                    $query->whereYear('avaliacoes.created_at', request()->ano)
+                        ->whereMonth('avaliacoes.created_at', 9)
+                        ->where('avaliacoes.nota', 8);
+                },
+                'avaliacoes as notas_8_10' => function ($query) {
+                    $query->whereYear('avaliacoes.created_at', request()->ano)
+                        ->whereMonth('avaliacoes.created_at', 10)
+                        ->where('avaliacoes.nota', 8);
+                },
+                'avaliacoes as notas_8_11' => function ($query) {
+                    $query->whereYear('avaliacoes.created_at', request()->ano)
+                        ->whereMonth('avaliacoes.created_at', 11)
+                        ->where('avaliacoes.nota', 8);
+                },
+                'avaliacoes as notas_8_12' => function ($query) {
+                    $query->whereYear('avaliacoes.created_at', request()->ano)
+                        ->whereMonth('avaliacoes.created_at', 12)
+                        ->where('avaliacoes.nota', 8);
+                },
+                'avaliacoes as notas_6_1' => function ($query) {
+                    $query->whereYear('avaliacoes.created_at', request()->ano)
+                        ->whereMonth('avaliacoes.created_at', 1)
+                        ->where('avaliacoes.nota', 6);
+                },
+                'avaliacoes as notas_6_2' => function ($query) {
+                    $query->whereYear('avaliacoes.created_at', request()->ano)
+                        ->whereMonth('avaliacoes.created_at', 2)
+                        ->where('avaliacoes.nota', 6);
+                },
+                'avaliacoes as notas_6_3' => function ($query) {
+                    $query->whereYear('avaliacoes.created_at', request()->ano)
+                        ->whereMonth('avaliacoes.created_at', 3)
+                        ->where('avaliacoes.nota', 6);
+                },
+                'avaliacoes as notas_6_4' => function ($query) {
+                    $query->whereYear('avaliacoes.created_at', request()->ano)
+                        ->whereMonth('avaliacoes.created_at', 4)
+                        ->where('avaliacoes.nota', 6);
+                },
+                'avaliacoes as notas_6_5' => function ($query) {
+                    $query->whereYear('avaliacoes.created_at', request()->ano)
+                        ->whereMonth('avaliacoes.created_at', 5)
+                        ->where('avaliacoes.nota', 6);
+                },
+                'avaliacoes as notas_6_6' => function ($query) {
+                    $query->whereYear('avaliacoes.created_at', request()->ano)
+                        ->whereMonth('avaliacoes.created_at', 6)
+                        ->where('avaliacoes.nota', 6);
+                },
+                'avaliacoes as notas_6_7' => function ($query) {
+                    $query->whereYear('avaliacoes.created_at', request()->ano)
+                        ->whereMonth('avaliacoes.created_at', 7)
+                        ->where('avaliacoes.nota', 6);
+                },
+                'avaliacoes as notas_6_6' => function ($query) {
+                    $query->whereYear('avaliacoes.created_at', request()->ano)
+                        ->whereMonth('avaliacoes.created_at', 8)
+                        ->where('avaliacoes.nota', 6);
+                },
+                'avaliacoes as notas_6_9' => function ($query) {
+                    $query->whereYear('avaliacoes.created_at', request()->ano)
+                        ->whereMonth('avaliacoes.created_at', 9)
+                        ->where('avaliacoes.nota', 6);
+                },
+                'avaliacoes as notas_6_10' => function ($query) {
+                    $query->whereYear('avaliacoes.created_at', request()->ano)
+                        ->whereMonth('avaliacoes.created_at', 10)
+                        ->where('avaliacoes.nota', 6);
+                },
+                'avaliacoes as notas_6_11' => function ($query) {
+                    $query->whereYear('avaliacoes.created_at', request()->ano)
+                        ->whereMonth('avaliacoes.created_at', 11)
+                        ->where('avaliacoes.nota', 6);
+                },
+                'avaliacoes as notas_6_12' => function ($query) {
+                    $query->whereYear('avaliacoes.created_at', request()->ano)
+                        ->whereMonth('avaliacoes.created_at', 12)
+                        ->where('avaliacoes.nota', 6);
+                },
+                'avaliacoes as notas_4_1' => function ($query) {
+                    $query->whereYear('avaliacoes.created_at', request()->ano)
+                        ->whereMonth('avaliacoes.created_at', 1)
+                        ->where('avaliacoes.nota', 4);
+                },
+                'avaliacoes as notas_4_2' => function ($query) {
+                    $query->whereYear('avaliacoes.created_at', request()->ano)
+                        ->whereMonth('avaliacoes.created_at', 2)
+                        ->where('avaliacoes.nota', 4);
+                },
+                'avaliacoes as notas_4_3' => function ($query) {
+                    $query->whereYear('avaliacoes.created_at', request()->ano)
+                        ->whereMonth('avaliacoes.created_at', 3)
+                        ->where('avaliacoes.nota', 4);
+                },
+                'avaliacoes as notas_4_4' => function ($query) {
+                    $query->whereYear('avaliacoes.created_at', request()->ano)
+                        ->whereMonth('avaliacoes.created_at', 4)
+                        ->where('avaliacoes.nota', 4);
+                },
+                'avaliacoes as notas_4_5' => function ($query) {
+                    $query->whereYear('avaliacoes.created_at', request()->ano)
+                        ->whereMonth('avaliacoes.created_at', 5)
+                        ->where('avaliacoes.nota', 4);
+                },
+                'avaliacoes as notas_4_4' => function ($query) {
+                    $query->whereYear('avaliacoes.created_at', request()->ano)
+                        ->whereMonth('avaliacoes.created_at', 6)
+                        ->where('avaliacoes.nota', 4);
+                },
+                'avaliacoes as notas_4_7' => function ($query) {
+                    $query->whereYear('avaliacoes.created_at', request()->ano)
+                        ->whereMonth('avaliacoes.created_at', 7)
+                        ->where('avaliacoes.nota', 4);
+                },
+                'avaliacoes as notas_4_4' => function ($query) {
+                    $query->whereYear('avaliacoes.created_at', request()->ano)
+                        ->whereMonth('avaliacoes.created_at', 8)
+                        ->where('avaliacoes.nota', 4);
+                },
+                'avaliacoes as notas_4_9' => function ($query) {
+                    $query->whereYear('avaliacoes.created_at', request()->ano)
+                        ->whereMonth('avaliacoes.created_at', 9)
+                        ->where('avaliacoes.nota', 4);
+                },
+                'avaliacoes as notas_4_10' => function ($query) {
+                    $query->whereYear('avaliacoes.created_at', request()->ano)
+                        ->whereMonth('avaliacoes.created_at', 10)
+                        ->where('avaliacoes.nota', 4);
+                },
+                'avaliacoes as notas_4_11' => function ($query) {
+                    $query->whereYear('avaliacoes.created_at', request()->ano)
+                        ->whereMonth('avaliacoes.created_at', 11)
+                        ->where('avaliacoes.nota', 4);
+                },
+                'avaliacoes as notas_4_12' => function ($query) {
+                    $query->whereYear('avaliacoes.created_at', request()->ano)
+                        ->whereMonth('avaliacoes.created_at', 12)
+                        ->where('avaliacoes.nota', 4);
+                },
+                'avaliacoes as notas_2_1' => function ($query) {
+                    $query->whereYear('avaliacoes.created_at', request()->ano)
+                        ->whereMonth('avaliacoes.created_at', 1)
+                        ->where('avaliacoes.nota', 2);
+                },
+                'avaliacoes as notas_2_2' => function ($query) {
+                    $query->whereYear('avaliacoes.created_at', request()->ano)
+                        ->whereMonth('avaliacoes.created_at', 2)
+                        ->where('avaliacoes.nota', 2);
+                },
+                'avaliacoes as notas_2_3' => function ($query) {
+                    $query->whereYear('avaliacoes.created_at', request()->ano)
+                        ->whereMonth('avaliacoes.created_at', 3)
+                        ->where('avaliacoes.nota', 2);
+                },
+                'avaliacoes as notas_2_4' => function ($query) {
+                    $query->whereYear('avaliacoes.created_at', request()->ano)
+                        ->whereMonth('avaliacoes.created_at', 4)
+                        ->where('avaliacoes.nota', 2);
+                },
+                'avaliacoes as notas_2_5' => function ($query) {
+                    $query->whereYear('avaliacoes.created_at', request()->ano)
+                        ->whereMonth('avaliacoes.created_at', 5)
+                        ->where('avaliacoes.nota', 2);
+                },
+                'avaliacoes as notas_2_2' => function ($query) {
+                    $query->whereYear('avaliacoes.created_at', request()->ano)
+                        ->whereMonth('avaliacoes.created_at', 6)
+                        ->where('avaliacoes.nota', 2);
+                },
+                'avaliacoes as notas_2_7' => function ($query) {
+                    $query->whereYear('avaliacoes.created_at', request()->ano)
+                        ->whereMonth('avaliacoes.created_at', 7)
+                        ->where('avaliacoes.nota', 2);
+                },
+                'avaliacoes as notas_2_2' => function ($query) {
+                    $query->whereYear('avaliacoes.created_at', request()->ano)
+                        ->whereMonth('avaliacoes.created_at', 8)
+                        ->where('avaliacoes.nota', 2);
+                },
+                'avaliacoes as notas_2_9' => function ($query) {
+                    $query->whereYear('avaliacoes.created_at', request()->ano)
+                        ->whereMonth('avaliacoes.created_at', 9)
+                        ->where('avaliacoes.nota', 2);
+                },
+                'avaliacoes as notas_2_10' => function ($query) {
+                    $query->whereYear('avaliacoes.created_at', request()->ano)
+                        ->whereMonth('avaliacoes.created_at', 10)
+                        ->where('avaliacoes.nota', 2);
+                },
+                'avaliacoes as notas_2_11' => function ($query) {
+                    $query->whereYear('avaliacoes.created_at', request()->ano)
+                        ->whereMonth('avaliacoes.created_at', 11)
+                        ->where('avaliacoes.nota', 2);
+                },
+                'avaliacoes as notas_2_12' => function ($query) {
+                    $query->whereYear('avaliacoes.created_at', request()->ano)
+                        ->whereMonth('avaliacoes.created_at', 12)
+                        ->where('avaliacoes.nota', 2);
+                }
+                // 'avaliacoes as notas_8' => function ($query) {
+                //     $query->whereYear('avaliacoes.created_at', request()->ano);
+                //     $query->where('avaliacoes.nota', 8);
+                // },
+                // 'avaliacoes as notas_6' => function ($query) {
+                //     $query->whereYear('avaliacoes.created_at', request()->ano);
+                //     $query->where('avaliacoes.nota', 6);
+                // },
+                // 'avaliacoes as notas_4' => function ($query) {
+                //     $query->whereYear('avaliacoes.created_at', request()->ano);
+                //     $query->where('avaliacoes.nota', 4);
+                // },
+                // 'avaliacoes as notas_2' => function ($query) {
+                //     $query->whereYear('avaliacoes.created_at', request()->ano);
+                //     $query->where('avaliacoes.nota', 2);
+                // }
+            ])
+                ->find($unidade_id);
 
-            foreach ($avaliacoesAno as $avaliacao) {
-                $resposta[$avaliacao->nota - 1][formatarDataHora($avaliacao->created_at, 'n') - 1] += 1;
-            }
+            dd($unidade);
             $status = true;
         }
+
+        $resposta[1] = [
+            $unidade->notas_2_1,
+            $unidade->notas_2_2, $unidade->notas_2_3, $unidade->notas_2_4, $unidade->notas_2_5, $unidade->notas_2_6, $unidade->notas_2_7, $unidade->notas_2_8, $unidade->notas_2_9, $unidade->notas_2_10, $unidade->notas_2_11, $unidade->notas_2_12, $unidade->notas_4_1, $unidade->notas_4_2, $unidade->notas_4_3, $unidade->notas_4_4, $unidade->notas_4_5, $unidade->notas_4_6, $unidade->notas_4_7, $unidade->notas_4_8, $unidade->notas_4_9, $unidade->notas_4_10, $unidade->notas_4_11, $unidade->notas_4_12, $unidade->notas_6_1, $unidade->notas_6_2, $unidade->notas_6_3, $unidade->notas_6_4, $unidade->notas_6_5, $unidade->notas_6_6, $unidade->notas_6_7, $unidade->notas_6_8, $unidade->notas_6_9, $unidade->notas_6_10, $unidade->notas_6_11, $unidade->notas_6_12, $unidade->notas_8_1, $unidade->notas_8_2, $unidade->notas_8_3, $unidade->notas_8_4, $unidade->notas_8_5, $unidade->notas_8_6, $unidade->notas_8_7, $unidade->notas_8_8, $unidade->notas_8_9, $unidade->notas_8_10, $unidade->notas_8_11, $unidade->notas_8_12, $unidade->notas_10_1, $unidade->notas_10_2, $unidade->notas_10_3, $unidade->notas_10_4, $unidade->notas_10_5, $unidade->notas_10_6, $unidade->notas_10_7, $unidade->notas_10_8, $unidade->notas_10_9, $unidade->notas_10_10, $unidade->notas_10_11, $unidade->notas_10_12
+        ];
+
+
         $response = [
             'status' => $status,
             'resposta' => $resposta,
