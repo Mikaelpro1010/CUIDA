@@ -12,6 +12,6 @@ class AvaliacoesTableSeeder extends Seeder
      */
     public function run()
     {
-        factory(Avaliacao::class, 5000)->create();
+        factory(Avaliacao::class, 50000)->create();
     }
 }
