@@ -468,14 +468,6 @@ class RelatoriosAvaliacoesController extends Controller
         $status = false;
         $resposta = null;
         if (preg_match("/^20[0-9]{2}$/", request()->ano)) {
-            // Avaliacoes por mes (qtd)
-            $aux = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-
-            $resposta[1] = $aux;
-            $resposta[3] = $aux;
-            $resposta[5] = $aux;
-            $resposta[7] = $aux;
-            $resposta[9] = $aux;
 
             $unidade = Unidade::withCount([
                 'avaliacoes as notas_10_1' => function ($query) {
@@ -778,34 +770,75 @@ class RelatoriosAvaliacoesController extends Controller
                         ->whereMonth('avaliacoes.created_at', 12)
                         ->where('avaliacoes.nota', 2);
                 }
-                // 'avaliacoes as notas_8' => function ($query) {
-                //     $query->whereYear('avaliacoes.created_at', request()->ano);
-                //     $query->where('avaliacoes.nota', 8);
-                // },
-                // 'avaliacoes as notas_6' => function ($query) {
-                //     $query->whereYear('avaliacoes.created_at', request()->ano);
-                //     $query->where('avaliacoes.nota', 6);
-                // },
-                // 'avaliacoes as notas_4' => function ($query) {
-                //     $query->whereYear('avaliacoes.created_at', request()->ano);
-                //     $query->where('avaliacoes.nota', 4);
-                // },
-                // 'avaliacoes as notas_2' => function ($query) {
-                //     $query->whereYear('avaliacoes.created_at', request()->ano);
-                //     $query->where('avaliacoes.nota', 2);
-                // }
             ])
                 ->find($unidade_id);
-
-            dd($unidade);
             $status = true;
+
+            $resposta[1][0] = $unidade->notas_2_1 ?? 0;
+            $resposta[1][1] = $unidade->notas_2_2 ?? 0;
+            $resposta[1][2] = $unidade->notas_2_3 ?? 0;
+            $resposta[1][3] = $unidade->notas_2_4 ?? 0;
+            $resposta[1][4] = $unidade->notas_2_5 ?? 0;
+            $resposta[1][5] = $unidade->notas_2_6 ?? 0;
+            $resposta[1][6] = $unidade->notas_2_7 ?? 0;
+            $resposta[1][7] = $unidade->notas_2_8 ?? 0;
+            $resposta[1][8] = $unidade->notas_2_9 ?? 0;
+            $resposta[1][9] = $unidade->notas_2_10 ?? 0;
+            $resposta[1][10] = $unidade->notas_2_11 ?? 0;
+            $resposta[1][11] = $unidade->notas_2_12 ?? 0;
+
+            $resposta[3][0] = $unidade->notas_4_1 ?? 0;
+            $resposta[3][1] = $unidade->notas_4_2 ?? 0;
+            $resposta[3][2] = $unidade->notas_4_3 ?? 0;
+            $resposta[3][3] = $unidade->notas_4_4 ?? 0;
+            $resposta[3][4] = $unidade->notas_4_5 ?? 0;
+            $resposta[3][5] = $unidade->notas_4_6 ?? 0;
+            $resposta[3][6] = $unidade->notas_4_7 ?? 0;
+            $resposta[3][7] = $unidade->notas_4_8 ?? 0;
+            $resposta[3][8] = $unidade->notas_4_9 ?? 0;
+            $resposta[3][9] = $unidade->notas_4_10 ?? 0;
+            $resposta[3][10] = $unidade->notas_4_11 ?? 0;
+            $resposta[3][11] = $unidade->notas_4_12 ?? 0;
+
+            $resposta[5][0] = $unidade->notas_6_1 ?? 0;
+            $resposta[5][1] = $unidade->notas_6_2 ?? 0;
+            $resposta[5][2] = $unidade->notas_6_3 ?? 0;
+            $resposta[5][3] = $unidade->notas_6_4 ?? 0;
+            $resposta[5][4] = $unidade->notas_6_5 ?? 0;
+            $resposta[5][5] = $unidade->notas_6_6 ?? 0;
+            $resposta[5][6] = $unidade->notas_6_7 ?? 0;
+            $resposta[5][7] = $unidade->notas_6_8 ?? 0;
+            $resposta[5][8] = $unidade->notas_6_9 ?? 0;
+            $resposta[5][9] = $unidade->notas_6_10 ?? 0;
+            $resposta[5][10] = $unidade->notas_6_11 ?? 0;
+            $resposta[5][11] = $unidade->notas_6_12 ?? 0;
+
+            $resposta[7][0] = $unidade->notas_8_1 ?? 0;
+            $resposta[7][1] = $unidade->notas_8_2 ?? 0;
+            $resposta[7][2] = $unidade->notas_8_3 ?? 0;
+            $resposta[7][3] = $unidade->notas_8_4 ?? 0;
+            $resposta[7][4] = $unidade->notas_8_5 ?? 0;
+            $resposta[7][5] = $unidade->notas_8_6 ?? 0;
+            $resposta[7][6] = $unidade->notas_8_7 ?? 0;
+            $resposta[7][7] = $unidade->notas_8_8 ?? 0;
+            $resposta[7][8] = $unidade->notas_8_9 ?? 0;
+            $resposta[7][9] = $unidade->notas_8_10 ?? 0;
+            $resposta[7][10] = $unidade->notas_8_11 ?? 0;
+            $resposta[7][11] = $unidade->notas_8_12 ?? 0;
+
+            $resposta[9][0] = $unidade->notas_10_1 ?? 0;
+            $resposta[9][1] = $unidade->notas_10_2 ?? 0;
+            $resposta[9][2] = $unidade->notas_10_3 ?? 0;
+            $resposta[9][3] = $unidade->notas_10_4 ?? 0;
+            $resposta[9][4] = $unidade->notas_10_5 ?? 0;
+            $resposta[9][5] = $unidade->notas_10_6 ?? 0;
+            $resposta[9][6] = $unidade->notas_10_7 ?? 0;
+            $resposta[9][7] = $unidade->notas_10_8 ?? 0;
+            $resposta[9][8] = $unidade->notas_10_9 ?? 0;
+            $resposta[9][9] = $unidade->notas_10_10 ?? 0;
+            $resposta[9][10] = $unidade->notas_10_11 ?? 0;
+            $resposta[9][11] = $unidade->notas_10_12 ?? 0;
         }
-
-        $resposta[1] = [
-            $unidade->notas_2_1,
-            $unidade->notas_2_2, $unidade->notas_2_3, $unidade->notas_2_4, $unidade->notas_2_5, $unidade->notas_2_6, $unidade->notas_2_7, $unidade->notas_2_8, $unidade->notas_2_9, $unidade->notas_2_10, $unidade->notas_2_11, $unidade->notas_2_12, $unidade->notas_4_1, $unidade->notas_4_2, $unidade->notas_4_3, $unidade->notas_4_4, $unidade->notas_4_5, $unidade->notas_4_6, $unidade->notas_4_7, $unidade->notas_4_8, $unidade->notas_4_9, $unidade->notas_4_10, $unidade->notas_4_11, $unidade->notas_4_12, $unidade->notas_6_1, $unidade->notas_6_2, $unidade->notas_6_3, $unidade->notas_6_4, $unidade->notas_6_5, $unidade->notas_6_6, $unidade->notas_6_7, $unidade->notas_6_8, $unidade->notas_6_9, $unidade->notas_6_10, $unidade->notas_6_11, $unidade->notas_6_12, $unidade->notas_8_1, $unidade->notas_8_2, $unidade->notas_8_3, $unidade->notas_8_4, $unidade->notas_8_5, $unidade->notas_8_6, $unidade->notas_8_7, $unidade->notas_8_8, $unidade->notas_8_9, $unidade->notas_8_10, $unidade->notas_8_11, $unidade->notas_8_12, $unidade->notas_10_1, $unidade->notas_10_2, $unidade->notas_10_3, $unidade->notas_10_4, $unidade->notas_10_5, $unidade->notas_10_6, $unidade->notas_10_7, $unidade->notas_10_8, $unidade->notas_10_9, $unidade->notas_10_10, $unidade->notas_10_11, $unidade->notas_10_12
-        ];
-
 
         $response = [
             'status' => $status,
