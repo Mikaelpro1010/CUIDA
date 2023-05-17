@@ -259,10 +259,12 @@ class Permission
     //Comentarios das avaliações
     public const GERENCIAR_COMENTARIOS_AVALIACOES_LIST = 'Listar avaliações';
     public const GERENCIAR_COMENTARIOS_AVALIACOES_VIEW = 'Visualizar comentários das avaliações';
+    public const GERENCIAR_COMENTARIOS_AVALIACOES_EXPORT = 'Exportar comentários das avaliações';
 
     public const COMENTARIOS_AVALIACOES = [
         self::GERENCIAR_COMENTARIOS_AVALIACOES_LIST,
         self::GERENCIAR_COMENTARIOS_AVALIACOES_VIEW,
+        self::GERENCIAR_COMENTARIOS_AVALIACOES_EXPORT,
     ];
 
     public const PERMISSIONS = [

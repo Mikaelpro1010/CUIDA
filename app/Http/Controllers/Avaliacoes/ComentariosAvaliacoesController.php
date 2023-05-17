@@ -13,6 +13,7 @@ use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
 use App\Traits\ExportExcel;
+use Illuminate\Support\Facades\DB;
 
 class ComentariosAvaliacoesController extends Controller
 {
@@ -155,11 +156,14 @@ class ComentariosAvaliacoesController extends Controller
 
     public function exportComments(Request $request)
     {
-        $this->authorize(Permission::GERENCIAR_COMENTARIOS_AVALIACOES_LIST);
+        $this->authorize(Permission::GERENCIAR_COMENTARIOS_AVALIACOES_EXPORT);
 
         $comentarios = Avaliacao::query()
-            // ->with('setor', 'setor.unidade', 'setor.unidade.secretaria')
             ->where('comentario', '!=', null)
+            ->leftJoin('setores', 'setores.id', '=', 'avaliacoes.setor_id')
+            ->leftJoin('tipo_avaliacoes', 'tipo_avaliacoes.id', '=', 'avaliacoes.tipo_avaliacao_id')
+            ->leftJoin('unidades', 'unidades.id', '=', 'setores.unidade_id')
+            ->leftJoin('secretarias', 'secretarias.id', '=', 'unidades.secretaria_id')
             ->when(
                 request()->pesquisa_unidade_setor,
                 function ($query) {
@@ -171,7 +175,7 @@ class ComentariosAvaliacoesController extends Controller
                     });
                 }
             )
-            // ->secretaria(request()->secretaria_pesq)
+            ->secretaria(request()->secretaria_pesq)
             ->when(request()->tipo_avaliacao, function ($query) {
                 $query->where('tipo_avaliacao_id', request()->tipo_avaliacao);
             })
@@ -190,22 +194,28 @@ class ComentariosAvaliacoesController extends Controller
                 request()->data_inicial || request()->data_final,
                 function ($query) {
                     $query->when(request()->data_inicial, function ($query) {
-                        $query->whereDate('created_at', '>=', request()->data_inicial);
+                        $query->whereDate('avaliacoes.created_at', '>=', request()->data_inicial);
                     })
                         ->when(request()->data_final, function ($query) {
-                            $query->whereDate('created_at', '<=', request()->data_final);
+                            $query->whereDate('avaliacoes.created_at', '<=', request()->data_final);
                         });
                 },
                 function ($query) {
-                    $query->whereDate('created_at', '>=', now()->subDays(30));
+                    $query->whereDate('avaliacoes.created_at', '>=', now()->subDays(30));
                 }
             )
-            ->orderBy('created_at', 'asc')
+            ->select([
+                DB::raw('concat(secretarias.nome, " - ", secretarias.sigla) as Secretaria'),
+                'tipo_avaliacoes.nome as Tipo de Avaliacao',
+                'unidades.nome as Unidade',
+                'setores.nome as Setor',
+                DB::raw('if(avaliacoes.nota = 2, "Muito Ruim", if(avaliacoes.nota = 4, "Ruim", if(avaliacoes.nota = 6, "Neutro", if(avaliacoes.nota = 8, "Bom", if(avaliacoes.nota = 10, "Muito Bom", "-"))))) as Nota'),
+                'avaliacoes.created_at as data de Avaliacao',
+                'avaliacoes.comentario as Comentario'
+            ])
+            ->orderBy('avaliacoes.created_at', 'asc')
             ->get();
 
-        // dd($comentarios->toArray());
-
         ExportExcel::export($comentarios);
-        // ExportExcel::export(User::all());
     }
 }

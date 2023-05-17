@@ -32,6 +32,7 @@ trait ExportExcel
             }
             // The array_walk() function runs each array element in a user-defined function.
             array_walk($row, function (&$str) {
+                $str = preg_replace(array("/(á|à|ã|â|ä)/", "/(Á|À|Ã|Â|Ä)/", "/(é|è|ê|ë)/", "/(É|È|Ê|Ë)/", "/(í|ì|î|ï)/", "/(Í|Ì|Î|Ï)/", "/(ó|ò|õ|ô|ö)/", "/(Ó|Ò|Õ|Ô|Ö)/", "/(ú|ù|û|ü)/", "/(Ú|Ù|Û|Ü)/", "/(ñ)/", "/(Ñ)/", "/(ç)/", "/(Ç)/"), explode(" ", "a A e E i I o O u U n N c C"), $str);
                 $str = preg_replace("/\t/", "\\t", $str);
                 $str = preg_replace("/\r?\n/", "\\n", $str);
                 if (strstr($str, '"')) {
