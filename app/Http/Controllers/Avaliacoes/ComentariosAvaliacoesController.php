@@ -205,11 +205,18 @@ class ComentariosAvaliacoesController extends Controller
                 }
             )
             ->select([
-                DB::raw('concat(secretarias.nome, " - ", secretarias.sigla) as Secretaria'),
+                DB::raw("concat(secretarias.nome, ' - ', secretarias.sigla) as Secretaria"),
                 'tipo_avaliacoes.nome as Tipo de Avaliacao',
                 'unidades.nome as Unidade',
                 'setores.nome as Setor',
-                DB::raw('if(avaliacoes.nota = 2, "Muito Ruim", if(avaliacoes.nota = 4, "Ruim", if(avaliacoes.nota = 6, "Neutro", if(avaliacoes.nota = 8, "Bom", if(avaliacoes.nota = 10, "Muito Bom", "-"))))) as Nota'),
+                DB::raw("(case avaliacoes.nota
+                    when 2 then 'Muito Ruim'
+                    when 4 then 'Ruim'
+                    when 6 then 'Neutro'
+                    when 8 then 'Bom'
+                    when 10 then 'Muito Bom'
+                    end)
+                    as Avaliacao"),
                 'avaliacoes.created_at as data de Avaliacao',
                 'avaliacoes.comentario as Comentario'
             ])
