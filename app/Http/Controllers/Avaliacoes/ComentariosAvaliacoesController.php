@@ -65,7 +65,7 @@ class ComentariosAvaliacoesController extends Controller
                     $query->whereDate('created_at', '>=', now()->subDays(30));
                 }
             )
-            ->orderBy('created_at', 'asc')
+            ->orderBy('created_at', 'desc')
             ->paginate(15)
             ->appends($request->all());
 
@@ -220,7 +220,7 @@ class ComentariosAvaliacoesController extends Controller
                 'avaliacoes.created_at as data de Avaliacao',
                 'avaliacoes.comentario as Comentario'
             ])
-            ->orderBy('avaliacoes.created_at', 'asc')
+            ->orderBy('avaliacoes.created_at', 'desc')
             ->get();
 
         ExportExcel::export($comentarios);
