@@ -205,7 +205,7 @@ class ComentariosAvaliacoesController extends Controller
                 }
             )
             ->select([
-                DB::raw("concat(secretarias.nome, ' - ', secretarias.sigla) as Secretaria"),
+                DB::raw("concat(secretarias.sigla, ' - ', secretarias.nome) as Secretaria"),
                 'tipo_avaliacoes.nome as Tipo de Avaliacao',
                 'unidades.nome as Unidade',
                 'setores.nome as Setor',
