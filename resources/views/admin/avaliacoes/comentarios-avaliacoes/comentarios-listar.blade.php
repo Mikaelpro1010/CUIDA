@@ -158,11 +158,11 @@
                     <div class="flex-fill">
                         <label class="fw-bold" for="data_inicial">Data Inicial:</label>
                         <input class="form-control" id="data_inicial" type="date" name="data_inicial"
-                            min="2023-01-01" value="{{ request()->data_inicial }}">
+                            min="2023-01-01" max="{{ now()->format('Y-m-d') }}" value="{{ request()->data_inicial }}">
                     </div>
                     <div class="flex-fill">
                         <label class="fw-bold" for="data_final">Data Final:</label>
-                        <input class="form-control" id="data_final" type="date" name="data_final"
+                        <input class="form-control" id="data_final" type="date" name="data_final" min="2023-01-01"
                             max="{{ now()->format('Y-m-d') }}" value="{{ request()->data_final }}">
                     </div>
                 </div>
