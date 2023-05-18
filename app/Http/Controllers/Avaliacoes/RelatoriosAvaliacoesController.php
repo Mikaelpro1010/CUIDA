@@ -382,13 +382,9 @@ class RelatoriosAvaliacoesController extends Controller
     //pagina de resumos por Unidade
     public function resumoUnidadeSecr(Secretaria $secretaria, Unidade $unidade): View
     {
-        abort_unless(
-            auth()->user()->can(Permission::UNIDADE_SECRETARIA_ACCESS_ANY_SECRETARIA) ||
-                (auth()->user()->secretarias->contains($secretaria) &&
-                    $secretaria->unidades->contains($unidade) &&
-                    auth()->user()->can(Permission::RELATORIO_AVALIACOES_UNIDADE_VIEW)),
-            HttpResponse::HTTP_FORBIDDEN
-        );
+        $this->authorize(Permission::RELATORIO_AVALIACOES_UNIDADE_VIEW);
+
+        $unidade->userCanAccess();
 
         //media Geral
         $avaliacoesAverage = floatval(number_format($unidade->nota, 2, '.', ''));
@@ -430,6 +426,10 @@ class RelatoriosAvaliacoesController extends Controller
     //Rota de api que retorna o array com as quantidades de avaliaçoes por mes
     public function avaliacoesPorMesUnidade($unidade_id)
     {
+        if (!request()->ajax()) {
+            abort(HttpResponse::HTTP_NOT_FOUND);
+        }
+
         $this->authorize(Permission::RELATORIO_AVALIACOES_UNIDADE_VIEW);
 
         $status = false;
@@ -463,6 +463,10 @@ class RelatoriosAvaliacoesController extends Controller
     //Rota de Api que retorna os arrays com notas por mes
     public function notasPorMesUnidade($unidade_id): JsonResponse
     {
+        if (!request()->ajax()) {
+            abort(HttpResponse::HTTP_NOT_FOUND);
+        }
+
         $this->authorize(Permission::RELATORIO_AVALIACOES_UNIDADE_VIEW);
 
         $status = false;
