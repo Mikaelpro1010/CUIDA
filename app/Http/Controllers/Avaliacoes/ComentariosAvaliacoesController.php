@@ -217,7 +217,7 @@ class ComentariosAvaliacoesController extends Controller
                     when 10 then 'Muito Bom'
                     end)
                     as Avaliacao"),
-                'avaliacoes.created_at as data de Avaliacao',
+                'avaliacoes.created_at as Data de Avaliacao',
                 'avaliacoes.comentario as Comentario'
             ])
             ->orderBy('avaliacoes.created_at', 'desc')
