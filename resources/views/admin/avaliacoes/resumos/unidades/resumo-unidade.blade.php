@@ -3,18 +3,34 @@
 @section('titulo', 'Resumo por Unidade')
 
 @section('content')
-    <h2 class="text-primary">
-        {{ $unidade->nome }}
-        @if (!$unidade->ativo)
-            <span class="text-danger">(Inativo)</span>
-        @endif
-    </h2>
-    <h5 class="text-secondary">
-        {{ $secretaria->nome }} - {{ $secretaria->sigla }}
-        @if (!$secretaria->ativo)
-            <span class="text-danger">(Inativo)</span>
-        @endif
-    </h5>
+    <div class=" d-flex ">
+        <div class="flex-fill">
+            <h1 class="fs-2 text-primary">
+                {{ $unidade->nome }}
+                @if (!$unidade->ativo)
+                    <span class="text-danger">(Inativo)</span>
+                @endif
+            </h1>
+            <h5 class="text-secondary">
+                {{ $secretaria->nome }} - {{ $secretaria->sigla }}
+                @if (!$secretaria->ativo)
+                    <span class="text-danger">(Inativo)</span>
+                @endif
+            </h5>
+        </div>
+
+        <div class="d-block">
+            <label class="form-label me-2" for="tipo_avaliacao">Tipo de Avaliação:</label>
+            <select id="tipo_avaliacao" class="form-select" name="tipo_avaliacao">
+                <option value="">Selecione</option>
+                @for ($ano = intval(formatarDataHora(null, 'Y')); $ano >= 2023; $ano--)
+                    <option value="{{ $ano }}" @if (request()->ano == $ano) selected @endif>
+                        {{ $ano }}
+                    </option>
+                @endfor
+            </select>
+        </div>
+    </div>
 
     <hr>
 
@@ -34,23 +50,21 @@
         <div class="col-md-12 mt-3">
             <div class="card">
                 <div class="card-header">
-                    <div class="row">
-                        <div class="col">
+                    <div class="d-flex flex-wrap">
+                        <div>
                             <h4>Avaliaçoes por mês (qtd)</h4>
                         </div>
                         @if ($qtdAvaliacoes > 0)
-                            <div class="col row">
-                                <label class="col-md-9 col-form-label text-end" for="notasMes">Ano:</label>
-                                <div class="col-md-3">
-                                    <select id="notasMes" class="form-select" name="notasMes">
-                                        @for ($ano = intval(formatarDataHora(null, 'Y')); $ano >= 2023; $ano--)
-                                            <option value="{{ $ano }}"
-                                                @if (request()->ano == $ano) selected @endif>
-                                                {{ $ano }}
-                                            </option>
-                                        @endfor
-                                    </select>
-                                </div>
+                            <div class="ms-auto d-flex">
+                                <label class="col-form-label me-2" for="notasMes">Ano:</label>
+                                <select id="notasMes" class="form-select" name="notasMes">
+                                    @for ($ano = intval(formatarDataHora(null, 'Y')); $ano >= 2023; $ano--)
+                                        <option value="{{ $ano }}"
+                                            @if (request()->ano == $ano) selected @endif>
+                                            {{ $ano }}
+                                        </option>
+                                    @endfor
+                                </select>
                             </div>
                         @endif
                     </div>
@@ -74,23 +88,21 @@
         <div class="col-md-12 mt-3">
             <div class="card">
                 <div class="card-header">
-                    <div class="row">
-                        <div class="col">
+                    <div class="d-flex flex-wrap">
+                        <div>
                             <h4>Contagem de avaliaçoes por mês (qtd)</h4>
                         </div>
                         @if ($qtdAvaliacoes > 0)
-                            <div class="col row">
-                                <label class="col-md-9 col-form-label text-end" for="avaliacoesMes">Ano:</label>
-                                <div class="col-md-3">
-                                    <select id="avaliacoesMes" class="form-select" name="avaliacoesMes">
-                                        @for ($ano = intval(formatarDataHora(null, 'Y')); $ano >= 2023; $ano--)
-                                            <option value="{{ $ano }}"
-                                                @if (request()->ano == $ano) selected @endif>
-                                                {{ $ano }}
-                                            </option>
-                                        @endfor
-                                    </select>
-                                </div>
+                            <div class="ms-auto d-flex w-25">
+                                <label class="col-form-label me-2" for="avaliacoesMes">Ano:</label>
+                                <select id="avaliacoesMes" class="form-select" name="avaliacoesMes">
+                                    @for ($ano = intval(formatarDataHora(null, 'Y')); $ano >= 2023; $ano--)
+                                        <option value="{{ $ano }}"
+                                            @if (request()->ano == $ano) selected @endif>
+                                            {{ $ano }}
+                                        </option>
+                                    @endfor
+                                </select>
                             </div>
                         @endif
                     </div>
