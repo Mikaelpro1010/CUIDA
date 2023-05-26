@@ -320,6 +320,15 @@
 
     @push('scripts')
         <script nonce="{{ app('csp-nonce') }}">
+            window.addEventListener('load', function() {
+                document.getElementById('pesquisa_unidade_setor').value = '';
+                document.getElementById('secretaria_pesq').selectedIndex = -1;
+            });
+        </script>
+    @endpush
+
+    @push('scripts')
+        <script nonce="{{ app('csp-nonce') }}">
             $('#btnLimpaForm').click(function() {
                 $('#pesquisa_unidade_setor').val('');
                 $('#pesq_nota').val('');

@@ -69,14 +69,14 @@ class Avaliacao extends Model
 
     public function scopeSecretaria(Builder $query, $secretaria_id = null): Builder
     {
-        if (auth()->user()->can(Permission::UNIDADE_SECRETARIA_ACCESS_ANY_SECRETARIA)) {
+        if (auth()->user()->can(Permission::UNIDADE_SECRETARIA_ACCESS_ANY_SECRETARIA)) {   // Se o usuário tem permissão para acessar qualquer secretaria
             if ($secretaria_id == null) {
                 return $query;
             }
-            return $query->secretariaWithoutPermissionCheck([$secretaria_id]);
+            return $query->secretariaWithoutPermissionCheck([$secretaria_id]); //  Se o usuário tem permissão para acessar qualquer secretaria, mas está filtrando por uma secretaria específica
         } else {
-            $secretarias = auth()->user()->secretarias->pluck('id');
-            if ($secretaria_id != null && in_array($secretaria_id, $secretarias->toArray())) {
+            $secretarias = auth()->user()->secretarias->pluck('id');        // Se o usuário não tem permissão para acessar qualquer secretaria, mas tem permissão para acessar uma ou mais secretarias específicas
+            if ($secretaria_id != null && in_array($secretaria_id, $secretarias->toArray())) {  // Se o usuário não tem permissão para acessar qualquer secretaria, mas tem permissão para acessar uma ou mais secretarias específicas, e está filtrando por uma secretaria específica
                 return $query->secretariaWithoutPermissionCheck([$secretaria_id]);
             } else {
                 return $query->secretariaWithoutPermissionCheck($secretarias);

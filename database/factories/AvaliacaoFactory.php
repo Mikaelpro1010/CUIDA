@@ -6,6 +6,8 @@ use App\Models\Avaliacao\TipoAvaliacao;
 use App\Models\Avaliacao\Unidade;
 use Faker\Generator as Faker;
 
+
+// o metodo with permite um carregamento adiantado de relacionamentos 
 $factory->define(Avaliacao::class, function (Faker $faker) {
     $setor = Setor::with('unidade', 'unidade.secretaria', 'unidade.secretaria.tiposAvaliacao')->inRandomOrder()->first();
     $tipoAvaliacao = $setor->unidade->secretaria->tiposAvaliacao()->inRandomOrder()->first();
