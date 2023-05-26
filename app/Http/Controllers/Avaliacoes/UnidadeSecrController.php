@@ -27,11 +27,11 @@ class UnidadeSecrController extends Controller
                 function ($query) {
                     if (
                         auth()->user()->can(Permission::UNIDADE_SECRETARIA_ACCESS_ANY_SECRETARIA) ||
-                        in_array(request()->secretaria_pesq, auth()->user()->secretarias->pluck('id')->toArray())
+                        in_array(request()->secretaria_pesq, auth()->user()->secretarias->pluck('id')->toArray())  // Verifica se o usuário tem permissão para acessar a secretaria pesquisada 
                     ) {
                         $query->where('secretaria_id', request()->secretaria_pesq);
                     } else {
-                        $query->whereIn('secretaria_id', auth()->user()->secretarias->pluck('id'));
+                        $query->whereIn('secretaria_id', auth()->user()->secretarias->pluck('id'));  // 
                     }
                 },
                 function ($query) {
@@ -119,7 +119,7 @@ class UnidadeSecrController extends Controller
             'principal' => true
         ]);
 
-        $setor->tiposAvaliacao()->sync($tiposAvaliacao);
+        $setor->tiposAvaliacao()->sync($tiposAvaliacao);     // Sincroniza os tipos de avaliação com o setor
 
         return redirect()->route('get-unidades-secr-list')->with(['success' => 'Unidade Cadastrada com Sucesso!']);
     }
@@ -169,7 +169,7 @@ class UnidadeSecrController extends Controller
 
     public function ativarDesativar(Unidade $unidade)
     {
-        $this->authorize(Permission::UNIDADE_SECRETARIA_TOGGLE_ATIVO);
+        $this->authorize(Permission::UNIDADE_SECRETARIA_TOGGLE_ATIVO);  // Verifica se o usuário tem permissão para ativar/desativar unidades
 
         $unidade->userCanAccess();
 

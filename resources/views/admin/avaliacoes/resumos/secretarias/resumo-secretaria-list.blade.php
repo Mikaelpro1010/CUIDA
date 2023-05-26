@@ -120,7 +120,7 @@
                         <td class="text-center">{{ $secretaria->avaliacoes_count }}</td>
                         <td class="text-center">
                             <a href="{{ route('get-resumo-avaliacoes-secretaria', $secretaria) }}">
-                                <i class="fa-solid fa-magnifying-glass"></i>
+                                <i class="fa-solid fa-eye"></i>
                             </a>
                         </td>
                     </tr>

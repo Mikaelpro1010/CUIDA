@@ -154,7 +154,7 @@ class ComentariosAvaliacoesController extends Controller
         return response()->json(compact('setores'));
     }
 
-    public function exportComments(Request $request)
+    public function exportComments(Request $request) // exporta os comentarios e avaliações para o excel usando o metodo export do trait ExportExcel e o metodo get do eloquent a consulta é feita usando o metodo query e o metodo when para fazer os filtros
     {
         $this->authorize(Permission::GERENCIAR_COMENTARIOS_AVALIACOES_EXPORT);  // se o usuario não tiver permissão para acessar qualquer secretaria
 
@@ -188,7 +188,7 @@ class ComentariosAvaliacoesController extends Controller
                 $query->where('setor_id', request()->setor_pesq);
             })
             ->when(is_numeric(request()->pesq_nota), function ($query) {
-                $query->where('nota', request()->pesq_nota);
+                $query->where('nota', request()->pesq_nota);               // quando o campo de pesquisa for preenchido por nota
             })
             ->when(
                 request()->data_inicial || request()->data_final,
@@ -204,13 +204,13 @@ class ComentariosAvaliacoesController extends Controller
                     $query->whereDate('avaliacoes.created_at', '>=', now()->subDays(30));
                 }
             )
-            ->select([
-                DB::raw("concat(secretarias.sigla, ' - ', secretarias.nome) as Secretaria"),
-                'tipo_avaliacoes.nome as Tipo de Avaliacao',           // retorna os campos
+            ->select([  // seleciona os campos que serão retornados e renomeia os campos e
+                DB::raw("concat(secretarias.sigla, ' - ', secretarias.nome) as Secretaria"),  // 
+                'tipo_avaliacoes.nome as Tipo de Avaliacao',           // retorna os campos   // retorna os campos e renomeia os campos 
                 'unidades.nome as Unidade',
                 'setores.nome as Setor',
                 DB::raw("(case avaliacoes.nota  
-                    when 2 then 'Muito Ruim'
+                    when 2 then 'Muito Ruim' 
                     when 4 then 'Ruim'
                     when 6 then 'Neutro'
                     when 8 then 'Bom'
@@ -221,8 +221,8 @@ class ComentariosAvaliacoesController extends Controller
                 'avaliacoes.comentario as Comentario'
             ])
             ->orderBy('avaliacoes.created_at', 'desc') // ordena por data de avaliação
-            ->get();
+            ->get(); // retorna os dados que foram selecionados acima  usando o metodo get DB::raw é usado para fazer uma consulta sql no laravel sem usar o eloquent 
 
-        ExportExcel::export($comentarios);
+        ExportExcel::export($comentarios); // exporta os dados para o excel
     }
 }
