@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Avaliacoes;
 use App\Constants\Permission;
 use App\Http\Controllers\Controller;
 use App\Models\Avaliacao\Avaliacao;
+use App\Models\Avaliacao\TipoAvaliacao;
 use App\Models\Avaliacao\Unidade;
 use App\Models\Secretaria;
 use Carbon\Carbon;
@@ -390,18 +391,40 @@ class RelatoriosAvaliacoesController extends Controller
         $avaliacoesAverage = floatval(number_format($unidade->nota, 2, '.', ''));
         $percentAverage = $avaliacoesAverage * 10;
 
-        //notas qtd
-        $resumoUnidade = $unidade->getResumoFromCache();
+        $resumoUnidade = Avaliacao::query()
+            ->join('setores', 'avaliacoes.setor_id', '=', 'setores.id')
+            ->join('unidades', 'setores.unidade_id', '=', 'unidades.id')
+            ->where('unidades.id', $unidade->id)
+            ->when(request()->tipoAvalicao, function ($query) {
+                $query->where('avaliacoes.tipo_avaliacao_id', request()->tipoAvalicao);
+            })
+            ->when(request()->ano, function ($query) {
+                $query->whereYear('avaliacoes.created_at', request()->ano);
+            }, function ($query) {
+                $query->whereYear('avaliacoes.created_at', now()->year);
+            })
+            ->when(request()->mes, function ($query) {
+                $query->whereMonth('avaliacoes.created_at', request()->mes);
+            })
+            ->selectRaw('avaliacoes.nota, avaliacoes.nota, COUNT(*) as qtd_notas')
+            ->groupBy('avaliacoes.nota')
+            ->get();
 
-        $qtdAvaliacoes = $resumoUnidade['qtd'];
+        $qtdAvaliacoes = $resumoUnidade->sum('qtd_notas');
 
-        $notas = [
-            2 => ['qtd' => $resumoUnidade['notas1'], "percent" => $qtdAvaliacoes > 0 ? number_format($resumoUnidade['notas1'] / $qtdAvaliacoes * 100, 1, '.', '') : 0],
-            4 => ['qtd' => $resumoUnidade['notas2'], "percent" => $qtdAvaliacoes > 0 ? number_format($resumoUnidade['notas2'] / $qtdAvaliacoes * 100, 1, '.', '') : 0],
-            6 => ['qtd' => $resumoUnidade['notas3'], "percent" => $qtdAvaliacoes > 0 ? number_format($resumoUnidade['notas3'] / $qtdAvaliacoes * 100, 1, '.', '') : 0],
-            8 => ['qtd' => $resumoUnidade['notas4'], "percent" => $qtdAvaliacoes > 0 ? number_format($resumoUnidade['notas4'] / $qtdAvaliacoes * 100, 1, '.', '') : 0],
-            10 => ['qtd' => $resumoUnidade['notas5'], "percent" => $qtdAvaliacoes > 0 ? number_format($resumoUnidade['notas5'] / $qtdAvaliacoes * 100, 1, '.', '') : 0],
-        ];
+        $notas = [];
+        foreach ($resumoUnidade as $item) {
+            $notas[$item->nota] = [
+                'qtd' => $item->qtd_notas,
+                'percent' => $qtdAvaliacoes > 0 ? number_format($item->qtd_notas / $qtdAvaliacoes * 100, 1, '.', '') : 0
+            ];
+        }
+
+        $tiposAvaliacao = TipoAvaliacao::query()
+            ->where('secretaria_id', $secretaria->id)
+            ->ativo()
+            ->get(['id', 'nome']);
+
 
         //gerando cores aleatorias
         $r = random_int(1, 255);
@@ -417,7 +440,8 @@ class RelatoriosAvaliacoesController extends Controller
             'notas',
             'avaliacoesAverage',
             'percentAverage',
-            'corGrafico'
+            'corGrafico',
+            'tiposAvaliacao'
         );
 
         return view('admin.avaliacoes.resumos.unidades.resumo-unidade', $dataToView);

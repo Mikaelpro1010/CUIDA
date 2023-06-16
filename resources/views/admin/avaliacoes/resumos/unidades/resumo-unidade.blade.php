@@ -23,11 +23,11 @@
             <label class="form-label me-2" for="tipo_avaliacao">Tipo de Avaliação:</label>
             <select id="tipo_avaliacao" class="form-select" name="tipo_avaliacao">
                 <option value="">Selecione</option>
-                @for ($ano = intval(formatarDataHora(null, 'Y')); $ano >= 2023; $ano--)
-                    <option value="{{ $ano }}" @if (request()->ano == $ano) selected @endif>
-                        {{ $ano }}
+                @foreach ($tiposAvaliacao as $tipo)
+                    <option value="{{ $tipo->id }}" @if (request()->tipoAvaliacao == $tipo->id) selected @endif>
+                        {{ $tipo->nome }}
                     </option>
-                @endfor
+                @endforeach
             </select>
         </div>
     </div>
