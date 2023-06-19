@@ -53,7 +53,7 @@ class Setor extends Model
     {
         $response = [];
         foreach ($this->setorTipoAvaliacao as $key => $tipo) {
-            $response[$key] = $tipo->getResumoFromCache();
+            $response[$key] = $tipo->getResumo();
         }
 
         return collect($response);
@@ -61,7 +61,7 @@ class Setor extends Model
 
     public function getResumoSetorTiposAvaliacaoById($tipoAvaliacaoId): Collection
     {
-        return $this->setorTipoAvaliacao()->where('tipo_avaliacao_id', $tipoAvaliacaoId)->first()->getResumoFromCache();
+        return $this->setorTipoAvaliacao()->where('tipo_avaliacao_id', $tipoAvaliacaoId)->first()->getResumo();
     }
 
     public function getResumo(): Collection
@@ -90,23 +90,10 @@ class Setor extends Model
         return $resumoSetor;
     }
 
-    public function getResumoFromCache(): Collection
-    {
-        $cache = Cache::rememberForever('Setor_' . $this->id, function () {
-            return $this->getResumo();
-        });
-
-        if ($cache['qtd'] != $this->getResumoAllTiposAvaliacao()->sum('qtd')) {
-            Cache::forget('Setor_' . $this->id);
-            return Cache::forever('Setor_' . $this->id, $this->getResumo());
-        } else {
-            return $cache;
-        }
-    }
 
     public static function getResumoById($id): Collection
     {
         $setor = Setor::find($id);
-        return $setor->getResumoFromCache();
+        return $setor->getResumo();
     }
 }

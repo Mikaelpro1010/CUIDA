@@ -93,7 +93,7 @@ class RelatoriosAvaliacoesController extends Controller
             $b = random_int(1, 255);
 
             $nota = is_null($unidade->nota) ? floatval('0.00') : floatval(number_format($unidade->nota, 2, '.', ''));
-            $qtd = $unidade->getResumoFromCache()['qtd'];
+            $qtd = $unidade->getResumo()['qtd'];
 
             //melhores unidades
             $top5BestUnidades[] = [
@@ -239,7 +239,7 @@ class RelatoriosAvaliacoesController extends Controller
 
         foreach ($unidades as $unidade) {
             $nota = $unidade->nota;
-            $qtd = $unidade->getResumoFromCache()['qtd'];
+            $qtd = $unidade->getResumo()['qtd'];
 
             //melhores unidades
             $top5BestUnidades[] = [
