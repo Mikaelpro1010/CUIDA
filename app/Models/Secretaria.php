@@ -80,6 +80,7 @@ class Secretaria extends Model
         return $resumoSecretarias;
     }
 
+
     public function getResumo(): array
     {
         $resumoSecretaria = [
@@ -95,7 +96,10 @@ class Secretaria extends Model
             if (!$unidade->ativo) {
                 continue;
             }
-            $resumoUnidade = $unidade->getResumoFromCache();
+
+            // Calculate the resumo for the unidade directly
+            $resumoUnidade = $unidade->getResumo();
+
             $resumoSecretaria['qtd'] += $resumoUnidade['qtd'];
             $resumoSecretaria['notas1'] += $resumoUnidade['notas1'];
             $resumoSecretaria['notas2'] += $resumoUnidade['notas2'];
@@ -112,15 +116,50 @@ class Secretaria extends Model
             ]);
         }
 
-
         return $resumoSecretaria;
     }
-
-    public function getResumoFromCache(): Collection
-    {
-        $cache = Cache::rememberForever('Secretaria_' . $this->id, function () {
-            return $this->getResumo();
-        });
-        return collect($cache);
-    }
 }
+
+    // public function getResumo(): array
+    // {
+    //     $resumoSecretaria = [
+    //         'qtd' => 0,
+    //         'notas1' => 0,
+    //         'notas2' => 0,
+    //         'notas3' => 0,
+    //         'notas4' => 0,
+    //         'notas5' => 0,
+    //     ];
+
+    //     foreach ($this->unidades as $unidade) {
+    //         if (!$unidade->ativo) {
+    //             continue;
+    //         }
+    //         $resumoUnidade = $unidade->getResumoFromCache();
+    //         $resumoSecretaria['qtd'] += $resumoUnidade['qtd'];
+    //         $resumoSecretaria['notas1'] += $resumoUnidade['notas1'];
+    //         $resumoSecretaria['notas2'] += $resumoUnidade['notas2'];
+    //         $resumoSecretaria['notas3'] += $resumoUnidade['notas3'];
+    //         $resumoSecretaria['notas4'] += $resumoUnidade['notas4'];
+    //         $resumoSecretaria['notas5'] += $resumoUnidade['notas5'];
+    //     }
+
+    //     $notaSecretaria = $this->unidades->where('nota', '!=', 0)->where('ativo', true)->avg('nota');
+
+    //     if (!is_null($notaSecretaria) && $notaSecretaria != $this->nota) {
+    //         $this->update([
+    //             'nota' => $notaSecretaria
+    //         ]);
+    //     }
+
+
+    //     return $resumoSecretaria;
+    // }
+
+    // public function getResumoFromCache(): Collection
+    // {
+    //     $cache = Cache::rememberForever('Secretaria_' . $this->id, function () {
+    //         return $this->getResumo();
+    //     });
+    //     return collect($cache);
+    // }

@@ -18,14 +18,14 @@ class TipoAvaliacao extends Model
 
     protected $guarded = [];
 
-    public function setor(): BelongsToMany
+    public function setor(): BelongsToMany  // TODO: verificar se é BelongsToMany ou BelongsTo
     {
-        return $this->belongsToMany(Setor::class);
+        return $this->belongsToMany(Setor::class); // TODO: verificar se é Setor ou SetorTipoAvaliacao
     }
 
     public function secretaria(): BelongsTo
     {
-        return $this->belongsTo(Secretaria::class);
+        return $this->belongsTo(Secretaria::class);  // secretaria_id fa
     }
 
     public function setorTipoAvaliacao(): HasMany
@@ -33,7 +33,7 @@ class TipoAvaliacao extends Model
         return $this->hasMany(SetorTipoAvaliacao::class);
     }
 
-    public function scopeAtivo(Builder $query): Builder
+    public function scopeAtivo(Builder $query): Builder        //  TODO: verificar se é Builder ou \Illuminate\Database\Eloquent\Builder
     {
         return $query->where('ativo', true);
     }

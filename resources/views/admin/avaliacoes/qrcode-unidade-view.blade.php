@@ -11,7 +11,6 @@
     <link rel="stylesheet" href="{{ asset('css/styles.css') }}" nonce="{{ app('csp-nonce') }}">
     <style nonce="{{ app('csp-nonce') }}">
         @media print {
-
             .title {
                 width: 600px;
             }

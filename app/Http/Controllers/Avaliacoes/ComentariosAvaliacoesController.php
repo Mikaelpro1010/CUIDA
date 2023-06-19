@@ -20,10 +20,10 @@ class ComentariosAvaliacoesController extends Controller
 
     public function listComentarios(Request $request)
     {
-        $this->authorize(Permission::GERENCIAR_COMENTARIOS_AVALIACOES_LIST);
+        $this->authorize(Permission::GERENCIAR_COMENTARIOS_AVALIACOES_LIST);  // se o usuario não tiver permissão para acessar qualquer secretaria
         // Esse filtro pode ser por unidade setor ou secretaria
         $avaliacoes = Avaliacao::query()
-            ->with('setor', 'setor.unidade', 'setor.unidade.secretaria')
+            ->with('setor', 'setor.unidade', 'setor.unidade.secretaria') // with é um metodo do eloquent que retorna as relações  avaliacao->setor->unidade->secretaria 
             ->where('comentario', '!=', null)
             ->when(
                 request()->pesquisa_unidade_setor,  // quando o campo de pesquisa for preenchido por pesquisa unidade setor
@@ -85,22 +85,29 @@ class ComentariosAvaliacoesController extends Controller
             if ($key !== false) {
                 $secretaria = $secretariasSearchSelect[$key]->load(['unidades' => function ($query) { // retorna a secretaria com o id passado 
                     $query->ativo();
-                }, 'unidades.setores' => function ($query) {
+                }, 'unidades.setores' => function ($query) {  // retorna as unidades da secretaria
                     $query->when(request()->unidade_pesq, function ($query) {
-                        $query->where('unidade_id', request()->unidade_pesq);
+                        $query->where('unidade_id', request()->unidade_pesq);  // unidade_pesq é o id da unidade
                     })->ativo();
                 }, 'tiposAvaliacao']);
 
                 $unidades = $secretaria->unidades;
-                $keyUnidade = array_search(request()->unidade_pesq, $unidades->pluck('id')->toArray());
+                $keyUnidade = array_search(request()->unidade_pesq, $unidades->pluck('id')->toArray());  //retorna o indice do array que contem o valor passado e
                 if ($keyUnidade !== false) {
-                    $setores = $unidades[$keyUnidade]->setores;
+                    $setores = $unidades[$keyUnidade]->setores; // retorna os setores da unidade
                 }
-                $tiposAvaliacao  = $secretaria->tiposAvaliacao;
+                $tiposAvaliacao  = $secretaria->tiposAvaliacao;  // retorna os tipos de avaliação da secretaria 
             }
         }
 
-        return view('admin.avaliacoes.comentarios-avaliacoes.comentarios-listar', compact('avaliacoes', 'secretariasSearchSelect', 'secretaria', 'unidades', 'setores', 'tiposAvaliacao'));
+        return view('admin.avaliacoes.comentarios-avaliacoes.comentarios-listar', compact(
+            'avaliacoes',
+            'secretariasSearchSelect',
+            'secretaria',
+            'unidades',
+            'setores',  // compact retorna um array com os valores passados
+            'tiposAvaliacao'
+        ));
     }
 
     public function getSecretariaInfo(): JsonResponse
@@ -160,7 +167,7 @@ class ComentariosAvaliacoesController extends Controller
 
         $comentarios = Avaliacao::query()   // retorna os comentarios
             ->where('comentario', '!=', null)
-            ->leftJoin('setores', 'setores.id', '=', 'avaliacoes.setor_id')      // junta as tabelas
+            ->leftJoin('setores', 'setores.id', '=', 'avaliacoes.setor_id')
             ->leftJoin('tipo_avaliacoes', 'tipo_avaliacoes.id', '=', 'avaliacoes.tipo_avaliacao_id') // junta as tabelas
             ->leftJoin('unidades', 'unidades.id', '=', 'setores.unidade_id')
             ->leftJoin('secretarias', 'secretarias.id', '=', 'unidades.secretaria_id')
@@ -201,7 +208,7 @@ class ComentariosAvaliacoesController extends Controller
                         });
                 },
                 function ($query) {
-                    $query->whereDate('avaliacoes.created_at', '>=', now()->subDays(30));
+                    $query->whereDate('avaliacoes.created_at', '>=', now()->subDays(30));  // quando o campo de pesquisa não for preenchido
                 }
             )
             ->select([  // seleciona os campos que serão retornados e renomeia os campos e
@@ -217,7 +224,7 @@ class ComentariosAvaliacoesController extends Controller
                     when 10 then 'Muito Bom'
                     end)
                     as Avaliacao"),
-                'avaliacoes.created_at as Data de Avaliacao',
+                'avaliacoes.created_at as Data de Avaliacao', // ava
                 'avaliacoes.comentario as Comentario'
             ])
             ->orderBy('avaliacoes.created_at', 'desc') // ordena por data de avaliação

@@ -129,7 +129,7 @@ class SetoresController extends Controller
 
         $unidade->userCanAccess();
 
-        $qrcode = QrCode::margin(0)->size(300)->generate(route('get-view-avaliacao', $setor->token));
-        return view('admin.avaliacoes.qrcode-view', compact('unidade', 'setor', 'qrcode'));
+        $qrcode = QrCode::margin(0)->size(300)->generate(route('get-view-avaliacao', $setor->token)); //->generate(route('get-view-avaliacao', $setor->token));
+        return view('admin.avaliacoes.qrcode-view', compact('unidade', 'setor', 'qrcode')); //    view
     }
 }

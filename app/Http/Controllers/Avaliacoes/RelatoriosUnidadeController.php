@@ -45,7 +45,7 @@ class RelatoriosUnidadeController extends Controller
             $total = $setor->notas_2 + $setor->notas_4 + $setor->notas_6 + $setor->notas_8 + $setor->notas_10;  // Total de avaliações por setor
             $totalAvaliacoes += $total;
             $setores[$setor->id] = [
-                'nome' => $setor->nome,
+                'nome' => $setor->nome, //  setor  
                 'total' => $total,
                 2 => $setor->notas_2,
                 4 => $setor->notas_4,
