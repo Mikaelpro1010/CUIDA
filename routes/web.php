@@ -114,6 +114,7 @@ Route::middleware(['auth:web'])->group(
             //Geral
             Route::get('/relatorios', 'RelatoriosAvaliacoesController@resumo')->name('get-avaliacao-geral');
 
+
             //Secretarias
             Route::get('/relatorios/secretaria', 'RelatoriosAvaliacoesController@resumoSecretariasList')->name('get-list-resumo-avaliacoes-secretaria');
             Route::get('/relatorios/secretaria/{secretaria}', 'RelatoriosAvaliacoesController@resumoSecretaria')->name('get-resumo-avaliacoes-secretaria');
@@ -147,6 +148,12 @@ Route::middleware(['auth:web'])->group(
             Route::get('/comentario/export', 'ComentariosAvaliacoesController@exportcomments')->name('get-comentarios-avaliacoes-export');
             Route::get('/comentario/secretaria', 'ComentariosAvaliacoesController@getSecretariaInfo')->name('get-comentarios-scretaria-info');
             Route::get('/comentario/setor', 'ComentariosAvaliacoesController@getSetoresInfo')->name('get-comentarios-setores-info');
+
+            // Quantidade de avaliações
+            Route::get('/quantidade-avaliacao', 'AvaliacoesRelatorioController@listAvaliacao')->name('get-quantidade-avaliacoes-list');
+            Route::get('/quantidade-avaliacao/export', 'AvaliacoesRelatorioController@exportquantidadeAvaliacoes')->name('get-quantidade-avaliacoes-export');
+            Route::get('/quantidade-avaliacao/secretaria', 'AvaliacoesRelatorioController@getSecretariaInfo')->name('get-quantidade-scretaria-info');
+            Route::get('/quantidade-avaliacao/setor', 'AvaliacoesRelatorioController@getSetoresInfo')->name('get-quantidade-setores-info');
 
             // Setor
             Route::post('/setor/{unidade}', 'SetoresController@storeSetor')->name('post-store-setor');

@@ -6,24 +6,32 @@ use App\Constants\Permission;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Avaliacao\Avaliacao;
-use App\Models\Avaliacao\TipoAvaliacao;
 use App\Models\Avaliacao\Unidade;
 use App\Models\Secretaria;
-use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
-use App\Traits\ExportExcel;
 use Illuminate\Support\Facades\DB;
 
-class ComentariosAvaliacoesController extends Controller
-{
 
-    public function listComentarios(Request $request)
+class AvaliacoesRelatorioController extends Controller
+{
+    public function listAvaliacao(Request $request)
     {
-        $this->authorize(Permission::GERENCIAR_COMENTARIOS_AVALIACOES_LIST);
-        $avaliacoes = Avaliacao::query()
-            ->with('setor', 'setor.unidade', 'setor.unidade.secretaria') // with é um metodo do eloquent que retorna as relações  avaliacao->setor->unidade->secretaria 
-            ->where('comentario', '!=', null)
+        $this->authorize(Permission::GERENCIAR_QUANTIDADE_AVALIACOES_LIST);
+        $data = Avaliacao::query()
+            ->selectRaw('
+        unidades.nome,setores.nome as setores, secretarias.nome as secretaria,
+        SUM(CASE WHEN avaliacoes.nota = 2 THEN 1 ELSE 0 END) AS muito_ruim,
+        SUM(CASE WHEN avaliacoes.nota = 4 THEN 1 ELSE 0 END) AS ruim,
+        SUM(CASE WHEN avaliacoes.nota = 6 THEN 1 ELSE 0 END) AS neutro,
+        SUM(CASE WHEN avaliacoes.nota = 8 THEN 1 ELSE 0 END) AS bom,
+        SUM(CASE WHEN avaliacoes.nota = 10 THEN 1 ELSE 0 END) AS muito_bom,
+        SUM(CASE WHEN avaliacoes.nota IN (2, 4, 6, 8, 10) THEN 1 ELSE 0 END) AS total_av
+    ')->from('avaliacoes')
+            ->leftJoin('setores', 'setores.id', '=', 'avaliacoes.setor_id')
+            ->leftJoin('unidades', 'unidades.id', '=', 'setores.unidade_id')
+            ->leftJoin('secretarias', 'secretarias.id', '=', 'unidades.secretaria_id')
+            ->groupBy('unidades.nome', 'setores.nome', 'secretarias.nome')
             ->when(
                 request()->pesquisa_unidade_setor,  // quando o campo de pesquisa for preenchido por pesquisa unidade setor
                 function ($query) {
@@ -47,38 +55,35 @@ class ComentariosAvaliacoesController extends Controller
             ->when(request()->setor_pesq, function ($query) {   // quando o campo de pesquisa for preenchido por setor
                 $query->where('setor_id', request()->setor_pesq);
             })
-            ->when(is_numeric(request()->pesq_nota), function ($query) {   // quando o campo de pesquisa for preenchido por nota
-                $query->where('nota', request()->pesq_nota);
-            })
             ->when(
                 request()->data_inicial || request()->data_final,
                 function ($query) {
                     $query->when(request()->data_inicial, function ($query) {
-                        $query->whereDate('created_at', '>=', request()->data_inicial);  // quando o campo de pesquisa for preenchido por data inicial
+                        $query->whereDate('avaliacoes.created_at', '>=', request()->data_inicial);
                     })
                         ->when(request()->data_final, function ($query) {
-                            $query->whereDate('created_at', '<=', request()->data_final); // quando o campo de pesquisa for preenchido por data final
+                            $query->whereDate('avaliacoes.created_at', '<=', request()->data_final);
                         });
                 },
                 function ($query) {
-                    $query->whereDate('created_at', '>=', now()->subDays(30)); // quando o campo de pesquisa não for preenchido
+                    $query->whereDate('avaliacoes.created_at', '>=', now()->subDays(30));
                 }
             )
-            ->orderBy('created_at', 'desc')
-            ->paginate(15)
-            ->appends($request->all());
+            ->paginate(15)->appends(request()->all());
+
+        // dd($data);
+
 
         if (auth()->user()->can(Permission::UNIDADE_SECRETARIA_ACCESS_ANY_SECRETARIA)) {
-            $secretariasSearchSelect = Secretaria::query()->orderBy('nome', 'asc')->get(); // retorna todas as secretarias
+            $secretariasSearchSelect = Secretaria::query()->orderBy('nome', 'asc')->get();
         } else {
-            $secretariasSearchSelect = auth()->user()->secretarias()->orderBy('nome', 'asc')->get(); // retorna as secretarias do usuario
+            $secretariasSearchSelect = auth()->user()->secretarias()->orderBy('nome', 'asc')->get();
         }
 
         $secretaria = [];
         $unidades = [];
         $setores = [];
         $tiposAvaliacao = [];
-
         if (request()->secretaria_pesq) {
             $key = array_search(request()->secretaria_pesq, $secretariasSearchSelect->pluck('id')->toArray()); // retorna o indice do array que contem o valor passado
             if ($key !== false) {
@@ -99,23 +104,23 @@ class ComentariosAvaliacoesController extends Controller
             }
         }
 
-        return view('admin.avaliacoes.comentarios-avaliacoes.comentarios-listar', compact(
-            'avaliacoes',
+
+        return view('admin.avaliacoes.quantidade-avaliacoes.listar-qtd-avaliacoes', compact(
+            'data',
             'secretariasSearchSelect',
             'secretaria',
             'unidades',
-            'setores',  // compact retorna um array com os valores passados
+            'setores',
             'tiposAvaliacao'
         ));
     }
 
     public function getSecretariaInfo(): JsonResponse
     {
-        if (!request()->ajax()) {  //  se a requisição não for ajax
+        if (!request()->ajax()) {
             abort(Response::HTTP_NOT_FOUND);
         }
 
-        $this->authorize(Permission::GERENCIAR_COMENTARIOS_AVALIACOES_LIST);
 
         if (
             array_search(request()->secretaria_id, auth()->user()->secretarias()->pluck('id')->toArray()) === false
@@ -127,30 +132,26 @@ class ComentariosAvaliacoesController extends Controller
         $unidades = Unidade::query()
             ->where('secretaria_id', request()->secretaria_id)          // retorna as unidades da secretaria
             ->get(['id', 'nome']);
-        $tipo_avaliacao = TipoAvaliacao::query()
-            ->where('secretaria_id', request()->secretaria_id)
-            ->get(['id', 'nome']);
 
-        return response()->json(compact('unidades', 'tipo_avaliacao'));
+
+        return response()->json(compact('unidades'));
     }
 
     public function getSetoresInfo()
     {
         if (!request()->ajax()) {
-            abort(Response::HTTP_NOT_FOUND);          // se a requisição não for ajax
+            abort(Response::HTTP_NOT_FOUND);
         }
 
-        $this->authorize(Permission::GERENCIAR_COMENTARIOS_AVALIACOES_LIST);  // se o usuario não tiver permissão para acessar qualquer secretaria
+        $unidade = Unidade::findOrFail(request()->unidade_id);
 
-        $unidade = Unidade::findOrFail(request()->unidade_id); // retorna a unidade com o id passado
+        $unidade->userCanAccess();
 
-        $unidade->userCanAccess();  // se o usuario não tiver permissão para acessar qualquer secretaria
-
-        $unidade->load(['setores' => function ($query) {  // carrega os setores da unidade load 
+        $unidade->load(['setores' => function ($query) {
             $query->ativo();
         }]);
 
-        $setores = $unidade->setores->map(function ($setor) {    // retorna os setores da unidade map está percorrendo o array setores e retornando um array com os campos id e nome   
+        $setores = $unidade->setores->map(function ($setor) {
             return [
                 'id' => $setor->id,
                 'nome' => $setor->nome,
@@ -160,18 +161,17 @@ class ComentariosAvaliacoesController extends Controller
         return response()->json(compact('setores'));
     }
 
-    public function exportComments(Request $request) // exporta os comentarios e avaliações para o excel usando o metodo export do trait ExportExcel e o metodo get do eloquent a consulta é feita usando o metodo query e o metodo when para fazer os filtros
+    public function exportquantidadeAvaliacoes(Request $request)
     {
-        $this->authorize(Permission::GERENCIAR_COMENTARIOS_AVALIACOES_EXPORT);  // se o usuario não tiver permissão para acessar qualquer secretaria
+        $this->authorize(Permission::GERENCIAR_QUANTIDADE_AVALIACOES_EXPORT);
 
-        $comentarios = Avaliacao::query()   // retorna os comentarios
-            ->where('comentario', '!=', null)
+        $qtdavaliacoes = Avaliacao::query()
             ->leftJoin('setores', 'setores.id', '=', 'avaliacoes.setor_id')
-            ->leftJoin('tipo_avaliacoes', 'tipo_avaliacoes.id', '=', 'avaliacoes.tipo_avaliacao_id') // junta as tabelas
+            ->leftJoin('tipo_avaliacoes', 'tipo_avaliacoes.id', '=', 'avaliacoes.tipo_avaliacao_id')
             ->leftJoin('unidades', 'unidades.id', '=', 'setores.unidade_id')
             ->leftJoin('secretarias', 'secretarias.id', '=', 'unidades.secretaria_id')
-            ->when(   // quando o campo de pesquisa for preenchido por pesquisa unidade setor
-                request()->pesquisa_unidade_setor,      // quando o campo de pesquisa for preenchido por pesquisa unidade setor
+            ->when(
+                request()->pesquisa_unidade_setor,
                 function ($query) {
                     $query->whereHas('setor', function ($query) {
                         $query->where('nome', 'ilike', "%" . request()->pesquisa_unidade_setor . "%")
@@ -181,9 +181,9 @@ class ComentariosAvaliacoesController extends Controller
                     });
                 }
             )
-            ->secretaria(request()->secretaria_pesq)  // quando o campo de pesquisa for preenchido por secretaria
+            ->secretaria(request()->secretaria_pesq)
             ->when(request()->tipo_avaliacao, function ($query) {
-                $query->where('tipo_avaliacao_id', request()->tipo_avaliacao);  // quando o campo de pesquisa for preenchido por tipo de avaliação
+                $query->where('tipo_avaliacao_id', request()->tipo_avaliacao);
             })
             ->when(request()->unidade_pesq, function ($query) {
                 $query->whereHas('setor', function ($query) {
@@ -194,7 +194,7 @@ class ComentariosAvaliacoesController extends Controller
                 $query->where('setor_id', request()->setor_pesq);
             })
             ->when(is_numeric(request()->pesq_nota), function ($query) {
-                $query->where('nota', request()->pesq_nota);               // quando o campo de pesquisa for preenchido por nota
+                $query->where('nota', request()->pesq_nota);
             })
             ->when(
                 request()->data_inicial || request()->data_final,
@@ -207,28 +207,42 @@ class ComentariosAvaliacoesController extends Controller
                         });
                 },
                 function ($query) {
-                    $query->whereDate('avaliacoes.created_at', '>=', now()->subDays(30));  // quando o campo de pesquisa não for preenchido
+                    $query->whereDate('avaliacoes.created_at', '>=', now()->subDays(30));
                 }
             )
-            ->select([  // seleciona os campos que serão retornados e renomeia os campos e
-                DB::raw("concat(secretarias.sigla, ' - ', secretarias.nome) as Secretaria"),  // 
-                'tipo_avaliacoes.nome as Tipo de Avaliacao',           // retorna os campos   // retorna os campos e renomeia os campos 
-                'unidades.nome as Unidade',
-                'setores.nome as Setor',
-                DB::raw("(case avaliacoes.nota  
-                    when 2 then 'Muito Ruim' 
-                    when 4 then 'Ruim'
-                    when 6 then 'Neutro'
-                    when 8 then 'Bom'
-                    when 10 then 'Muito Bom'
-                    end)
-                    as Avaliacao"),
-                'avaliacoes.created_at as Data de Avaliacao', // ava
-                'avaliacoes.comentario as Comentario'
-            ])
-            ->orderBy('avaliacoes.created_at', 'desc') // ordena por data de avaliação
-            ->get(); // retorna os dados que foram selecionados acima  usando o metodo get DB::raw é usado para fazer uma consulta sql no laravel sem usar o eloquent 
 
-        ExportExcel::export($comentarios);
+            ->select([
+                DB::raw("unidades.nome as nome,
+                SUM(CASE WHEN avaliacoes.nota = 2 THEN 1 ELSE 0 END) AS muito_ruim,
+                SUM(CASE WHEN avaliacoes.nota = 4 THEN 1 ELSE 0 END) AS ruim,
+                SUM(CASE WHEN avaliacoes.nota = 6 THEN 1 ELSE 0 END) AS neutro,
+                SUM(CASE WHEN avaliacoes.nota = 8 THEN 1 ELSE 0 END) AS bom,
+                SUM(CASE WHEN avaliacoes.nota = 10 THEN 1 ELSE 0 END) AS muito_bom,
+                COUNT(*) AS total_av,
+                'Avaliacao' AS tipo
+            ")
+            ])
+            ->groupBy('unidades.nome')
+            ->unionAll(
+                Avaliacao::query()
+                    ->leftJoin('setores', 'setores.id', '=', 'avaliacoes.setor_id')
+                    ->leftJoin('tipo_avaliacoes', 'tipo_avaliacoes.id', '=', 'avaliacoes.tipo_avaliacao_id')
+                    ->leftJoin('unidades', 'unidades.id', '=', 'setores.unidade_id')
+                    ->leftJoin('secretarias', 'secretarias.id', '=', 'unidades.secretaria_id')
+                    ->select([
+                        DB::raw("'Total' as nome,
+                        SUM(CASE WHEN avaliacoes.nota = 2 THEN 1 ELSE 0 END) AS muito_ruim,
+                        SUM(CASE WHEN avaliacoes.nota = 4 THEN 1 ELSE 0 END) AS ruim,
+                        SUM(CASE WHEN avaliacoes.nota = 6 THEN 1 ELSE 0 END) AS neutro,
+                        SUM(CASE WHEN avaliacoes.nota = 8 THEN 1 ELSE 0 END) AS bom,
+                        SUM(CASE WHEN avaliacoes.nota = 10 THEN 1 ELSE 0 END) AS muito_bom,
+                        COUNT(*) AS total_av,
+                        'Total' AS tipo
+                    ")
+                    ])
+            )
+            ->get();
+
+        ExportExcel::export($qtdavaliacoes);
     }
 }

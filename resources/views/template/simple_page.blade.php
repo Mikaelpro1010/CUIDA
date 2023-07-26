@@ -108,7 +108,8 @@
                             @if (auth()->user()->can(permissionConstant()::RELATORIO_AVALIACOES_GERAL_VIEW) ||
                                     auth()->user()->can(permissionConstant()::UNIDADE_SECRETARIA_LIST) ||
                                     auth()->user()->can(permissionConstant()::GERENCIAR_COMENTARIOS_AVALIACOES_LIST) ||
-                                    auth()->user()->can(permissionConstant()::GERENCIAR_TIPOS_AVALIACAO_LIST))
+                                    auth()->user()->can(permissionConstant()::GERENCIAR_TIPOS_AVALIACAO_LIST) ||
+                                    auth()->user()->can(permissionConstant()::GERENCIAR_QUANTIDADE_AVALIACOES_LIST))
                                 <li
                                     class="nav-item dropdown @if (Route::current()->action['namespace'] == 'App\Http\Controllers\Avaliacoes') border-bottom border-3 border-primary @endif">
                                     <a class=" nav-link dropdown-toggle" href="#" role="button"
@@ -150,6 +151,13 @@
                                             <li>
                                                 <a class="dropdown-item" href="{{ route('get-unidades-secr-list') }}">
                                                     Unidades da Secretaria
+                                                </a>
+                                            </li>
+                                        @endcan
+                                        @can(permissionConstant()::UNIDADE_SECRETARIA_LIST)
+                                            <li>
+                                                <a class="dropdown-item" href="{{ route('get-quantidade-avaliacoes-list') }}">
+                                                    Quantidade de Avaliações
                                                 </a>
                                             </li>
                                         @endcan

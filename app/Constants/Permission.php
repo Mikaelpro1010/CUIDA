@@ -261,10 +261,21 @@ class Permission
     public const GERENCIAR_COMENTARIOS_AVALIACOES_VIEW = 'Visualizar comentários das avaliações';
     public const GERENCIAR_COMENTARIOS_AVALIACOES_EXPORT = 'Exportar comentários das avaliações';
 
+    // Quantidade de avaliações
+    public const GERENCIAR_QUANTIDADE_AVALIACOES_LIST = 'Listar avaliações';
+    public const GERENCIAR_QUANTIDADE_AVALIACOES_VIEW = 'Visualizar quantidade das avaliações';
+    public const GERENCIAR_QUANTIDADE_AVALIACOES_EXPORT = 'Exportar quantidade das avaliações';
+
     public const COMENTARIOS_AVALIACOES = [
         self::GERENCIAR_COMENTARIOS_AVALIACOES_LIST,
         self::GERENCIAR_COMENTARIOS_AVALIACOES_VIEW,
         self::GERENCIAR_COMENTARIOS_AVALIACOES_EXPORT,
+    ];
+
+    public const QUANTIDADE_AVALIACOES = [
+        self::GERENCIAR_QUANTIDADE_AVALIACOES_LIST,
+        self::GERENCIAR_QUANTIDADE_AVALIACOES_VIEW,
+        self::GERENCIAR_QUANTIDADE_AVALIACOES_EXPORT,
     ];
 
     public const PERMISSIONS = [

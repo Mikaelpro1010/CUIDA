@@ -15,7 +15,7 @@ class CreateSetorTipoAvaliacaoTable extends Migration
     {
         Schema::create('setor_tipo_avaliacao', function (Blueprint $table) {
             $table->increments('id');
-            -$table->integer('setor_id')->unsigned();
+            $table->integer('setor_id')->unsigned();
             $table->foreign('setor_id')->references('id')->on('setores');
             $table->integer('tipo_avaliacao_id')->unsigned();
             $table->foreign('tipo_avaliacao_id')->references('id')->on('tipo_avaliacoes');
