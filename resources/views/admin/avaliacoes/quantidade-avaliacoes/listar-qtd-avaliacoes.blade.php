@@ -248,16 +248,15 @@
 
                  @empty
                      <tr>
-                         <td colspan="6" class="text-center table-warning">
+                         <td colspan="9" class="text-center table-warning">
                              Nenhum resultado encontrado!
                          </td>
                      </tr>
                  @endforelse
+            @if(count($data) > 0)
              <tfoot>
                  <tr>
-                     <th></th>
-                     <th></th>
-                     <th></th>
+                     <th colspan="3">Totais</th>
                      <th>{{ $totalMuitoRuim }}</th>
                      <th>{{ $totalRuim }}</th>
                      <th>{{ $totalneutro }}</th>
@@ -266,7 +265,7 @@
                      <th>{{ $totaltotal_av }}</th>
                  </tr>
              </tfoot>
-
+            @endif
              </tbody>
          </table>
      </div>
@@ -278,15 +277,6 @@
          {{ $data->links('pagination::bootstrap-4') }}
      </div>
  @endsection
-
- @push('scripts')
-     <script nonce="{{ app('csp-nonce') }}">
-         window.addEventListener('load', function() {
-             document.getElementById('pesquisa_unidade_setor').value = '';
-             document.getElementById('secretaria_pesq').selectedIndex = -1;
-         });
-     </script>
- @endpush
 
  @push('scripts')
      <script nonce="{{ app('csp-nonce') }}">
@@ -359,14 +349,6 @@
                  '&secretaria_pesq=' + secretaria_pesq + '&tipo_avaliacao=' + tipo_avaliacao + '&unidade_pesq=' +
                  unidade_pesq + '&setor_pesq=' + setor_pesq + '&data_inicial=' + data_inicial + '&data_final=' +
                  data_final, '_blank')
-         });
-
-         $(document).ready(function() {
-             $('.see-comment').click(function(e) {
-                 e.preventDefault();
-                 var id = $(this).data('id');
-                 $('#' + id).toggleClass('d-none');
-             });
          });
 
          let dataFilters = {
