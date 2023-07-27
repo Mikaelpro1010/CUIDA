@@ -150,6 +150,7 @@ Route::middleware(['auth:web'])->group(
             Route::get('/comentario/setor', 'ComentariosAvaliacoesController@getSetoresInfo')->name('get-comentarios-setores-info');
 
             // Quantidade de avaliações
+
             Route::get('/quantidade-avaliacao', 'AvaliacoesRelatorioController@listAvaliacao')->name('get-quantidade-avaliacoes-list');
             Route::get('/quantidade-avaliacao/export', 'AvaliacoesRelatorioController@exportquantidadeAvaliacoes')->name('get-quantidade-avaliacoes-export');
             Route::get('/quantidade-avaliacao/secretaria', 'AvaliacoesRelatorioController@getSecretariaInfo')->name('get-quantidade-scretaria-info');

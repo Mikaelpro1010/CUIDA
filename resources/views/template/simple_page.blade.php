@@ -154,7 +154,7 @@
                                                 </a>
                                             </li>
                                         @endcan
-                                        @can(permissionConstant()::UNIDADE_SECRETARIA_LIST)
+                                        @can(permissionConstant()::GERENCIAR_QUANTIDADE_AVALIACOES_LIST)
                                             <li>
                                                 <a class="dropdown-item" href="{{ route('get-quantidade-avaliacoes-list') }}">
                                                     Quantidade de Avaliações

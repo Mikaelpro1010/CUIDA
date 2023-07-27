@@ -121,7 +121,7 @@ class AvaliacoesRelatorioController extends Controller
             abort(Response::HTTP_NOT_FOUND);
         }
 
-
+        $this->authorize(Permission::GERENCIAR_QUANTIDADE_AVALIACOES_LIST);
         if (
             array_search(request()->secretaria_id, auth()->user()->secretarias()->pluck('id')->toArray()) === false
             && !auth()->user()->can(Permission::UNIDADE_SECRETARIA_ACCESS_ANY_SECRETARIA)  // se o usuario não tiver permissão para acessar qualquer secretaria
@@ -142,6 +142,7 @@ class AvaliacoesRelatorioController extends Controller
         if (!request()->ajax()) {
             abort(Response::HTTP_NOT_FOUND);
         }
+        $this->authorize(Permission::GERENCIAR_QUANTIDADE_AVALIACOES_LIST);  // se o usuario não tiver permissão para acessar qualquer secretaria
 
         $unidade = Unidade::findOrFail(request()->unidade_id);
 
