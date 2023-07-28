@@ -262,7 +262,7 @@ class Permission
     public const GERENCIAR_COMENTARIOS_AVALIACOES_EXPORT = 'Exportar comentários das avaliações';
 
     // Quantidade de avaliações
-    public const GERENCIAR_QUANTIDADE_AVALIACOES_LIST = 'Listar avaliações';
+    public const GERENCIAR_QUANTIDADE_AVALIACOES_LIST = 'Listar quantidade avaliações';
     public const GERENCIAR_QUANTIDADE_AVALIACOES_VIEW = 'Visualizar quantidade das avaliações';
     public const GERENCIAR_QUANTIDADE_AVALIACOES_EXPORT = 'Exportar quantidade das avaliações';
 
@@ -299,6 +299,7 @@ class Permission
         'Modulo Avaliação' => self::UNIDADE_SECRETARIA,
         'Setores das Unidades' => self::SETOR,
         'Comentários das Avaliações' => self::COMENTARIOS_AVALIACOES,
+        'Quantidade das Avaliações' => self::QUANTIDADE_AVALIACOES,
     ];
 
     public const SUPER_MIGRAR_DADOS = 'Super usuário migrar dados';

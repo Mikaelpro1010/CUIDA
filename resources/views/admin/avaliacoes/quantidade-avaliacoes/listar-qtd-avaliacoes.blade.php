@@ -159,14 +159,14 @@
          </div>
 
          <div class="row justify-content-end">
-             @can(permissionConstant()::GERENCIAR_QUANTIDADE_AVALIACOES_EXPORT)
-                 <div class="col-md-3 align-self-end">
-                     <a id="exportar" class="btn btn-success form-control mt-3" href="#">
-                         <i class="fa-solid fa-file-excel"></i>
-                         Exportar para Excel
-                     </a>
-                 </div>
-             @endcan
+             {{-- @can(permissionConstant()::GERENCIAR_QUANTIDADE_AVALIACOES_EXPORT) --}}
+             <div class="col-md-3 align-self-end">
+                 <a id="exportar" class="btn btn-success form-control mt-3" href="#">
+                     <i class="fa-solid fa-file-excel"></i>
+                     Exportar para Excel
+                 </a>
+             </div>
+             {{-- @endcan --}}
              <div class="col-md-2 align-self-end">
                  <button class="btn btn-primary form-control mt-3" type="submit">
                      <i class="fa-solid fa-magnifying-glass"></i>
@@ -253,7 +253,7 @@
                          </td>
                      </tr>
                  @endforelse
-            @if(count($data) > 0)
+                 @if (count($data) > 0)
              <tfoot>
                  <tr>
                      <th colspan="3">Totais</th>
@@ -265,7 +265,7 @@
                      <th>{{ $totaltotal_av }}</th>
                  </tr>
              </tfoot>
-            @endif
+             @endif
              </tbody>
          </table>
      </div>
