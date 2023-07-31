@@ -4,7 +4,7 @@
 
  @section('content')
      <div class="d-flex justify-content-between">
-         <h1 class="text-primary fs-3">Avaliações({{ $data->total() }})</h1>
+         <h1 class="text-primary fs-3">Avaliações por Setor ({{ $data->total() }})</h1>
      </div>
      <hr>
      <form class="" action="{{ route('get-quantidade-avaliacoes-list') }}" method="GET">
@@ -65,7 +65,7 @@
              </div>
          </div>
          <div class="d-flex flex-wrap gap-2">
-             <div class="flex-fill w-sm-100">
+             <div class="d-inline-block">
                  <div class="">
 
                      <ul class="dropdown-menu">
@@ -159,14 +159,14 @@
          </div>
 
          <div class="row justify-content-end">
-             {{-- @can(permissionConstant()::GERENCIAR_QUANTIDADE_AVALIACOES_EXPORT) --}}
-             <div class="col-md-3 align-self-end">
-                 <a id="exportar" class="btn btn-success form-control mt-3" href="#">
-                     <i class="fa-solid fa-file-excel"></i>
-                     Exportar para Excel
-                 </a>
-             </div>
-             {{-- @endcan --}}
+             @can(permissionConstant()::GERENCIAR_QUANTIDADE_AVALIACOES_EXPORT)
+                 <div class="col-md-3 align-self-end">
+                     <a id="exportar" class="btn btn-success form-control mt-3" href="#">
+                         <i class="fa-solid fa-file-excel"></i>
+                         Exportar para Excel
+                     </a>
+                 </div>
+             @endcan
              <div class="col-md-2 align-self-end">
                  <button class="btn btn-primary form-control mt-3" type="submit">
                      <i class="fa-solid fa-magnifying-glass"></i>

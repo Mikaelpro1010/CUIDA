@@ -154,20 +154,16 @@
                                                 </a>
                                             </li>
                                         @endcan
-                                        {{-- @can(permissionConstant()::GERENCIAR_QUANTIDADE_AVALIACOES_LIST) --}}
-                                        <li>
-                                            <a class="dropdown-item" href="{{ route('get-quantidade-avaliacoes-list') }}">
-                                                Quantidade de Avaliações
-                                            </a>
-                                        </li>
-                                        {{-- @endcan --}}
+                                        @can(permissionConstant()::GERENCIAR_QUANTIDADE_AVALIACOES_LIST)
+                                            <li>
+                                                <a class="dropdown-item" href="{{ route('get-quantidade-avaliacoes-list') }}">
+                                                    Quantidade de Avaliações
+                                                </a>
+                                            </li>
+                                        @endcan
                                     </ul>
                                 </li>
                             @endif
-                            {{-- @php
-                                $permissionName = permissionConstant()::GERENCIAR_QUANTIDADE_AVALIACOES_LIST;
-                                // dd($permissionName);
-                            @endphp --}}
                             @if (auth()->user()->can(permissionConstant()::GERENCIAR_USUARIOS_LIST) ||
                                     auth()->user()->can(permissionConstant()::GERENCIAR_SECRETARIAS_LIST))
                                 <li

@@ -20,7 +20,7 @@ class AvaliacoesRelatorioController extends Controller
     public function listAvaliacao(Request $request)
     {
 
-        // dd($this->authorize(Permission::GERENCIAR_QUANTIDADE_AVALIACOES_LIST));
+        $this->authorize(Permission::GERENCIAR_QUANTIDADE_AVALIACOES_LIST);
         $data = Avaliacao::query()
             ->selectRaw('
         unidades.nome,setores.nome as setores, secretarias.nome as secretaria,
@@ -167,7 +167,7 @@ class AvaliacoesRelatorioController extends Controller
 
     public function exportquantidadeAvaliacoes(Request $request)
     {
-        // $this->authorize(Permission::GERENCIAR_QUANTIDADE_AVALIACOES_EXPORT);
+        $this->authorize(Permission::GERENCIAR_QUANTIDADE_AVALIACOES_EXPORT);
 
         $x = Avaliacao::query()
             ->leftJoin('setores', 'setores.id', '=', 'avaliacoes.setor_id')
