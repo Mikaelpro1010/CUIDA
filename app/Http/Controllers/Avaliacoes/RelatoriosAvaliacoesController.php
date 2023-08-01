@@ -17,7 +17,7 @@ use Illuminate\View\View;
 
 class RelatoriosAvaliacoesController extends Controller
 {
-    //resumo Geral
+    // resumo Geral
     public function resumo(): View
     {
         $this->authorize(Permission::RELATORIO_AVALIACOES_GERAL_VIEW);
@@ -131,7 +131,6 @@ class RelatoriosAvaliacoesController extends Controller
         return view('admin.avaliacoes.resumos.resumo-geral', $dataToView);
     }
 
-    // Listagem das Secretarias para resumo
     public function resumoSecretariasList()
     {
         $this->authorize(Permission::RELATORIO_AVALIACOES_SECRETARIA_VIEW);

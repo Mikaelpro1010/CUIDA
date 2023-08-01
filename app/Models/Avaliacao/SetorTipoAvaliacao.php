@@ -119,7 +119,7 @@ class SetorTipoAvaliacao extends Model
     //             'nota' =>  $media
     //         ]);
 
-    //         Cache::forget('Setor_Tipo_Avaliacao_' . $setorTipoAvaliacao->id);
+    //         ::forget('Setor_Tipo_Avaliacao_' . $setorTipoAvaliacao->id);
     //         Cache::forever('Setor_Tipo_Avaliacao_' . $setorTipoAvaliacao->id, $setorTipoAvaliacaoCache);
     //     }
     // }
