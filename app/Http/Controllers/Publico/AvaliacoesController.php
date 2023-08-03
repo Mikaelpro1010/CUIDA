@@ -37,6 +37,8 @@ class AvaliacoesController extends Controller
 
     public function storeAvaliacao($setorToken, Request $request)
     {
+        $clientIP = $request->header('X-Real-IP');
+
         $request->validate([
             'avaliacao' => 'required|integer|max:10|min:1',
             'comentario' => 'nullable|string',
@@ -56,6 +58,7 @@ class AvaliacoesController extends Controller
             'comentario'  => $request->comentario,
             'setor_id'  => $setor->id,
             'tipo_avaliacao_id'  => $request->tipo,
+            'avaliador_ip' => $request->ip()
         ]);
 
         return response()->json([
