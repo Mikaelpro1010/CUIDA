@@ -149,6 +149,12 @@ Route::middleware(['auth:web'])->group(
             Route::get('/comentario/secretaria', 'ComentariosAvaliacoesController@getSecretariaInfo')->name('get-comentarios-scretaria-info');
             Route::get('/comentario/setor', 'ComentariosAvaliacoesController@getSetoresInfo')->name('get-comentarios-setores-info');
 
+            // Avaliacoes
+            Route::get('/todas-avaliacoes', 'AvaliacoesController@listAvaliacoes')->name('get-avaliacoes-list');
+            Route::get('/avaliacoes/ipavaliador', 'AvaliacoesController@getipavaliador')->name('get-avaliacoes-ipavaliador');
+            Route::get('/avaliacoes/secretaria', 'AvaliacoesController@getSecretariaInfo')->name('get-avaliacoes-scretaria-info');
+            Route::get('/avaliacoes/setor', 'AvaliacoesController@getSetoresInfo')->name('get-avaliacoes-setores-info');
+
             // Quantidade de avaliações
             Route::get('/quantidade-avaliacao', 'AvaliacoesRelatorioController@listAvaliacao')->name('get-quantidade-avaliacoes-list');
             Route::get('/quantidade-avaliacao/export', 'AvaliacoesRelatorioController@exportquantidadeAvaliacoes')->name('get-quantidade-avaliacoes-export');

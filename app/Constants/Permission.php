@@ -261,6 +261,11 @@ class Permission
     public const GERENCIAR_COMENTARIOS_AVALIACOES_VIEW = 'Visualizar comentários das avaliações';
     public const GERENCIAR_COMENTARIOS_AVALIACOES_EXPORT = 'Exportar comentários das avaliações';
 
+    //Comentarios das avaliações
+    public const GERENCIAR_AVALIACOES_LIST = 'Listar todas avaliações';
+    public const GERENCIAR_AVALIACOES_VIEW = 'Visualizar avaliações';
+
+
     // Quantidade de avaliações
     public const GERENCIAR_QUANTIDADE_AVALIACOES_LIST = 'Listar quantidade avaliações';
     public const GERENCIAR_QUANTIDADE_AVALIACOES_VIEW = 'Visualizar quantidade das avaliações';
@@ -270,6 +275,10 @@ class Permission
         self::GERENCIAR_COMENTARIOS_AVALIACOES_LIST,
         self::GERENCIAR_COMENTARIOS_AVALIACOES_VIEW,
         self::GERENCIAR_COMENTARIOS_AVALIACOES_EXPORT,
+    ];
+    public const TODAS_AVALIACOES = [
+        self::GERENCIAR_AVALIACOES_LIST,
+        self::GERENCIAR_AVALIACOES_VIEW,
     ];
 
     public const QUANTIDADE_AVALIACOES = [
@@ -300,6 +309,7 @@ class Permission
         'Setores das Unidades' => self::SETOR,
         'Comentários das Avaliações' => self::COMENTARIOS_AVALIACOES,
         'Quantidade das Avaliações' => self::QUANTIDADE_AVALIACOES,
+        'TODAS_AVALIACOES' => self::TODAS_AVALIACOES,
     ];
 
     public const SUPER_MIGRAR_DADOS = 'Super usuário migrar dados';
