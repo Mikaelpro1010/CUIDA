@@ -578,42 +578,6 @@ class RelatoriosAvaliacoesController extends Controller
             )
             ->get();
 
-        // $unidades = Unidade::query()
-        //     ->with('secretaria')
-        //     ->withCount('avaliacoes')
-        //     ->orderBy('ativo', 'desc')
-        //     ->when(request()->pesquisa, function ($query) {
-        //         $query->where('nome', 'like', '%' . request()->pesquisa . '%');
-        //     })
-        //     ->when(
-        //         in_array(request()->secretaria_pesq, $secretariasSearchSelect->pluck('id')->toArray()),
-        //         function ($query) {
-        //             $query->where('secretaria_id', request()->secretaria_pesq);
-        //         },
-        //         function ($query) use ($secretariasSearchSelect) {
-        //             $query->whereIn('secretaria_id', $secretariasSearchSelect->pluck('id'));
-        //         }
-        //     )
-        //     ->when(
-        //         request()->notas,
-        //         function ($query) {
-        //             $query->orderBy('nota', request()->notas);
-        //         }
-        //     )
-        //     ->when(
-        //         request()->avaliacoes,
-        //         function ($query) {
-        //             $query->orderBy('avaliacoes_count', request()->avaliacoes);
-        //         }
-        //     )
-        //     ->when(
-        //         !(request()->notas || request()->avaliacoes),
-        //         function ($query) {
-        //             $query->orderBy('nome', 'asc');
-        //         }
-        //     )
-        //     ->get();
-
         ExportExcel::export($unidades);
     }
 }
