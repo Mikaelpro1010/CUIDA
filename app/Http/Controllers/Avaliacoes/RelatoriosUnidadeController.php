@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Avaliacoes;
 use App\Http\Controllers\Controller;
 use App\Models\Avaliacao\Unidade;
 
+
 class RelatoriosUnidadeController extends Controller
 {
     public function relatorio($unidade_id)

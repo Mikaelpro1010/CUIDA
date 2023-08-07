@@ -131,6 +131,8 @@ Route::middleware(['auth:web'])->group(
             Route::get('/relatorios/unidade/{unidade}/avaliacoes-mes', 'RelatoriosAvaliacoesController@avaliacoesPorMesUnidade')
                 ->middleware('throttle:60,60')
                 ->name('get-resumo-avaliacoes-unidade-avaliacoes-mes');
+            Route::get('/relatorios/unidade/export', 'RelatoriosAvaliacoesController@exportRelatorioUnidade')->name('get-export-avaliacoes-unidade');
+
 
             //Gerenciar Unidade
             Route::get('/unidade', 'UnidadeSecrController@listagem')->name('get-unidades-secr-list');

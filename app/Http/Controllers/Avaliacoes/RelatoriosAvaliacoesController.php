@@ -14,6 +14,7 @@ use Illuminate\Http\Response as HttpResponse;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Response;
 use Illuminate\View\View;
+use App\Traits\ExportExcel;
 
 class RelatoriosAvaliacoesController extends Controller
 {
@@ -522,5 +523,97 @@ class RelatoriosAvaliacoesController extends Controller
         ];
 
         return Response::json($response);
+    }
+
+    public function exportRelatorioUnidade()
+    {
+        $this->authorize(Permission::RELATORIO_AVALIACOES_UNIDADE_VIEW);
+
+        if (auth()->user()->can(Permission::UNIDADE_SECRETARIA_ACCESS_ANY_SECRETARIA)) {
+            $secretariasSearchSelect = Secretaria::query()->orderBy('nome', 'asc')->get();
+        } else {
+            $secretariasSearchSelect = auth()->user()->secretarias()->orderBy('nome', 'asc')->get();
+        }
+
+
+        $unidades = Unidade::query()
+            ->select([
+                DB::raw("
+            unidades.nome as Unidade, 
+            secretarias.nome as Secretaria, 
+            CAST(unidades.nota AS NUMERIC(10, 2)) AS nota, 
+            COUNT(CASE WHEN avaliacoes.nota IN (2, 4, 6, 8, 10) THEN 1 ELSE 0 END) AS qtd_avaliacoes
+        ")
+            ])->from('unidades')
+            ->join('setores', 'unidades.id', '=', 'setores.unidade_id')
+            ->join('avaliacoes', 'setores.id', '=', 'avaliacoes.setor_id')
+            ->leftJoin('secretarias', 'secretarias.id', '=', 'unidades.secretaria_id')
+            ->groupBy('unidades.nome', 'secretarias.nome', 'unidades.nota')
+            ->when(
+                in_array(request()->secretaria_pesq, $secretariasSearchSelect->pluck('id')->toArray()),
+                function ($query) {
+                    $query->where('secretaria_id', request()->secretaria_pesq);
+                },
+                function ($query) use ($secretariasSearchSelect) {
+                    $query->whereIn('secretaria_id', $secretariasSearchSelect->pluck('id'));
+                }
+            )
+            ->when(
+                request()->notas,
+                function ($query) {
+                    $query->orderBy('nota', request()->notas);
+                }
+            )
+            ->when(
+                request()->avaliacoes,
+                function ($query) {
+                    $query->orderBy('qtd_avaliacoes', request()->avaliacoes);
+                }
+            )
+            ->when(
+                !(request()->notas || request()->avaliacoes),
+                function ($query) {
+                    $query->orderBy('unidades.nome', 'asc');
+                }
+            )
+            ->get();
+
+        // $unidades = Unidade::query()
+        //     ->with('secretaria')
+        //     ->withCount('avaliacoes')
+        //     ->orderBy('ativo', 'desc')
+        //     ->when(request()->pesquisa, function ($query) {
+        //         $query->where('nome', 'like', '%' . request()->pesquisa . '%');
+        //     })
+        //     ->when(
+        //         in_array(request()->secretaria_pesq, $secretariasSearchSelect->pluck('id')->toArray()),
+        //         function ($query) {
+        //             $query->where('secretaria_id', request()->secretaria_pesq);
+        //         },
+        //         function ($query) use ($secretariasSearchSelect) {
+        //             $query->whereIn('secretaria_id', $secretariasSearchSelect->pluck('id'));
+        //         }
+        //     )
+        //     ->when(
+        //         request()->notas,
+        //         function ($query) {
+        //             $query->orderBy('nota', request()->notas);
+        //         }
+        //     )
+        //     ->when(
+        //         request()->avaliacoes,
+        //         function ($query) {
+        //             $query->orderBy('avaliacoes_count', request()->avaliacoes);
+        //         }
+        //     )
+        //     ->when(
+        //         !(request()->notas || request()->avaliacoes),
+        //         function ($query) {
+        //             $query->orderBy('nome', 'asc');
+        //         }
+        //     )
+        //     ->get();
+
+        ExportExcel::export($unidades);
     }
 }
