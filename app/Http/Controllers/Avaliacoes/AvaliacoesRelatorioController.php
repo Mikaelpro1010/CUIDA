@@ -74,8 +74,6 @@ class AvaliacoesRelatorioController extends Controller
             )
             ->paginate(15)->appends(request()->all());
 
-        // dd($data);
-
 
         if (auth()->user()->can(Permission::UNIDADE_SECRETARIA_ACCESS_ANY_SECRETARIA)) {
             $secretariasSearchSelect = Secretaria::query()->orderBy('nome', 'asc')->get();
