@@ -11,81 +11,50 @@ use Illuminate\Http\JsonResponse;
 
 class GraficosSecretariasController extends Controller
 {
-
-    public function mostrargraficoPorSecretaria(Request $request): JsonResponse
+    public function resumoSecretaria(Secretaria $secretaria, Unidade $unidade): 
     {
-        return Response::json();
-    }
+        $this->authorize(Permission::RELATORIO_AVALIACOES_UNIDADE_VIEW);
 
+        $unidade->userCanAccess();
 
-    public function resumoSecretaria(Secretaria $secretaria): View
-    {
-        $this->authorize(Permission::RELATORIO_AVALIACOES_SECRETARIA_VIEW);
-
-        abort_unless(
-            auth()->user()->can(Permission::UNIDADE_SECRETARIA_ACCESS_ANY_SECRETARIA) ||
-                (auth()->user()->secretarias->contains($secretaria) && auth()->user()->can(Permission::RELATORIO_AVALIACOES_SECRETARIA_VIEW)),
-            HttpResponse::HTTP_FORBIDDEN
-        );
-
-        //notas qtd
-        $resumoSecretaria = $secretaria->getResumo();
-
-        $qtdAvaliacoes = $resumoSecretaria['qtd'];
-
-        $notas = [
-            2 => ['qtd' => $resumoSecretaria['notas1'], "percent" => $qtdAvaliacoes > 0 ? number_format($resumoSecretaria['notas1'] / $qtdAvaliacoes * 100, 1, '.', '') : 0],
-            4 => ['qtd' => $resumoSecretaria['notas2'], "percent" => $qtdAvaliacoes > 0 ? number_format($resumoSecretaria['notas2'] / $qtdAvaliacoes * 100, 1, '.', '') : 0],
-            6 => ['qtd' => $resumoSecretaria['notas3'], "percent" => $qtdAvaliacoes > 0 ? number_format($resumoSecretaria['notas3'] / $qtdAvaliacoes * 100, 1, '.', '') : 0],
-            8 => ['qtd' => $resumoSecretaria['notas4'], "percent" => $qtdAvaliacoes > 0 ? number_format($resumoSecretaria['notas4'] / $qtdAvaliacoes * 100, 1, '.', '') : 0],
-            10 => ['qtd' => $resumoSecretaria['notas5'], "percent" => $qtdAvaliacoes > 0 ? number_format($resumoSecretaria['notas5'] / $qtdAvaliacoes * 100, 1, '.', '') : 0],
-        ];
-
-        //media Geral
-        $avaliacoesAverage = floatval(number_format($secretaria->nota, 2, '.', ''));
+  
+        $avaliacoesAverage = floatval(number_format($unidade->nota, 2, '.', ''));
         $percentAverage = $avaliacoesAverage * 10;
 
-        //top 5 melhores Unidades
-        $top5BestUnidades = [];
-
-
-        $bestUnidades = [];
-
-        $unidades = $secretaria
-            ->unidades()
-            ->ativo()
-            ->where('nota', '>', 0)
-            ->orderBy('nota', 'desc')
-            ->limit(20)
+        $resumoUnidade = Avaliacao::query()
+            ->join('setores', 'avaliacoes.setor_id', '=', 'setores.id')
+            ->join('unidades', 'setores.unidade_id', '=', 'unidades.id')
+            ->where('unidades.id', $unidade->id)
+            ->when(request()->tipoAvalicao, function ($query) {
+                $query->where('avaliacoes.tipo_avaliacao_id', request()->tipoAvalicao);
+            })
+            ->when(request()->ano, function ($query) {
+                $query->whereYear('avaliacoes.created_at', request()->ano);
+            }, function ($query) {
+                $query->whereYear('avaliacoes.created_at', now()->year);
+            })
+            ->when(request()->mes, function ($query) {
+                $query->whereMonth('avaliacoes.created_at', request()->mes);
+            })
+            ->selectRaw('avaliacoes.nota, avaliacoes.nota, COUNT(*) as qtd_notas')
+            ->groupBy('avaliacoes.nota')
             ->get();
 
-        foreach ($unidades as $unidade) {
-            $nota = $unidade->nota;
-            $qtd = $unidade->getResumo()['qtd'];
+        $qtdAvaliacoes = $resumoUnidade->sum('qtd_notas');
 
-            //melhores unidades
-            $top5BestUnidades[] = [
-                'id' => $unidade->id,
-                'nome' => $unidade->nome,
-                'nota' => is_null($nota) ? '0,00' : number_format($nota, 2, ',', ''),
-                'qtd' => $qtd,
+        $notas = [];
+        foreach ($resumoUnidade as $item) {
+            $notas[$item->nota] = [
+                'qtd' => $item->qtd_notas,
+                'percent' => $qtdAvaliacoes > 0 ? number_format($item->qtd_notas / $qtdAvaliacoes * 100, 1, '.', '') : 0
             ];
-
-            //gerando cores aleatorias
-            $r = random_int(1, 255);
-            $g = random_int(1, 255);
-            $b = random_int(1, 255);
-
-            //melhores unidades
-            $dataSetbestUnidades['label'] = $unidade->nome . " (" . $qtd . ")";
-            $dataSetbestUnidades['data'][] = is_null($nota) ? floatval('0.00') : floatval(number_format($nota, 2, '.', ''));
-            $dataSetbestUnidades['backgroundColor'] = "rgba($r, $g, $b, 1)";
-
-            $bestUnidades[] = $dataSetbestUnidades;
-            $dataSetbestUnidades = [];
         }
 
-        $qtdBestUnidades = count($bestUnidades);
+        $tiposAvaliacao = TipoAvaliacao::query()
+            ->where('secretaria_id', $secretaria->id)
+            ->ativo()
+            ->get(['id', 'nome']);
+
 
         //gerando cores aleatorias
         $r = random_int(1, 255);
@@ -96,16 +65,15 @@ class GraficosSecretariasController extends Controller
 
         $dataToView = compact(
             'secretaria',
-            'avaliacoesAverage',
-            'percentAverage',
-            'top5BestUnidades',
+            'unidade',
             'qtdAvaliacoes',
             'notas',
-            'qtdBestUnidades',
-            'bestUnidades',
-            'corGrafico'
+            'avaliacoesAverage',
+            'percentAverage',
+            'corGrafico',
+            'tiposAvaliacao'
         );
 
-        return view('admin.avaliacoes.resumos.secretarias.resumo-secretaria', $dataToView);
+        return view('admin.avaliacoes.resumos.unidades.resumo-unidade', $dataToView);
     }
 }
