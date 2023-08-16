@@ -132,7 +132,81 @@
         </div>
     </div>
 </div>
+<div class="row">
+    <div class="col-md-12 mt-3">
+        <div class="card">
+            <div class="card-header">
+                <div class="d-flex flex-wrap">
+                    <div>
+                        <h4>Avaliaçoes por mês (qtd)</h4>
+                    </div>
+                    @if ($qtdAvaliacoes > 0)
+                        <div class="ms-auto d-flex">
+                            <label class="col-form-label me-2" for="notasMes">Ano:</label>
+                            <select id="notasMes" class="form-select" name="notasMes">
+                                @for ($ano = intval(formatarDataHora(null, 'Y')); $ano >= 2023; $ano--)
+                                    <option value="{{ $ano }}"
+                                        @if (request()->ano == $ano) selected @endif>
+                                        {{ $ano }}
+                                    </option>
+                                @endfor
+                            </select>
+                        </div>
+                    @endif
+                </div>
+            </div>
+            @if ($qtdAvaliacoes > 0)
+                <div id="graphDiv" class="p-3">
+                    <canvas id="notasMesChart" height="100px"></canvas>
+                </div>
+            @else
+                <div class=" m-3 alert alert-info">
+                    <ul>
+                        <li>Não existem avaliações para esta Unidade</li>
+                    </ul>
+                </div>
+            @endif
+        </div>
+    </div>
+</div>
 
+<div class="row">
+    <div class="col-md-12 mt-3">
+        <div class="card">
+            <div class="card-header">
+                <div class="d-flex flex-wrap">
+                    <div>
+                        <h4>Contagem de avaliaçoes por mês (qtd)</h4>
+                    </div>
+                    @if ($qtdAvaliacoes > 0)
+                        <div class="ms-auto d-flex w-25">
+                            <label class="col-form-label me-2" for="avaliacoesMes">Ano:</label>
+                            <select id="avaliacoesMes" class="form-select" name="avaliacoesMes">
+                                @for ($ano = intval(formatarDataHora(null, 'Y')); $ano >= 2023; $ano--)
+                                    <option value="{{ $ano }}"
+                                        @if (request()->ano == $ano) selected @endif>
+                                        {{ $ano }}
+                                    </option>
+                                @endfor
+                            </select>
+                        </div>
+                    @endif
+                </div>
+            </div>
+            @if ($qtdAvaliacoes > 0)
+                <div id="graphDiv" class="p-3">
+                    <canvas id="avaliacoesMesChart" height="100px"></canvas>
+                </div>
+            @else
+                <div class=" m-3 alert alert-info">
+                    <ul>
+                        <li>Não existem avaliações para esta Unidade</li>
+                    </ul>
+                </div>
+            @endif
+        </div>
+    </div>
+</div>
 @endsection
 
 @if ($qtdAvaliacoes > 0)
