@@ -485,6 +485,46 @@ class RelatoriosAvaliacoesController extends Controller
     }
 
     //Rota de Api que retorna os arrays com notas por mes
+    public function notasPorMesSecretaria($secretaria_id): JsonResponse
+    {
+        if (!request()->ajax()) {
+            abort(HttpResponse::HTTP_NOT_FOUND);
+        }
+
+        $this->authorize(Permission::RELATORIO_AVALIACOES_SECRETARIA_VIEW);
+
+        $status = false;
+        $resposta = null;
+        if (preg_match("/^20[0-9]{2}$/", request()->ano)) {
+            $aux = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+
+            $resposta[1] = $aux;
+            $resposta[3] = $aux;
+            $resposta[5] = $aux;
+            $resposta[7] = $aux;
+            $resposta[9] = $aux;
+
+            $secretaria = Secretaria::find($secretaria_id);
+
+            $notasCountByMonth = Avaliacao::selectRaw('extract(month from created_at) as month, avaliacoes.nota, COUNT(*) as count')
+                ->whereYear('created_at', request()->ano)
+                ->groupBy('month', 'nota')
+                ->whereIn('setor_id', $secretaria->setores->pluck('id')->toArray())
+                ->get();
+
+            foreach ($notasCountByMonth as $notaCount) {
+                $resposta[$notaCount->nota - 1][$notaCount->month - 1] = $notaCount['count'];
+            }
+        }
+
+        $response = [
+            'status' => $status,
+            'resposta' => $resposta,
+        ];
+
+        return Response::json($response);
+    }
+    //Rota de Api que retorna os arrays com notas por mes
     public function notasPorMesUnidade($unidade_id): JsonResponse
     {
         if (!request()->ajax()) {
@@ -581,79 +621,70 @@ class RelatoriosAvaliacoesController extends Controller
         ExportExcel::export($unidades);
     }
 
+    public function resumoSecr(Secretaria $secretaria, Unidade $unidade): View
+    {
 
-    // public function resumoSecr(Secretaria $secretaria, Unidade $unidade): View
-    // {
-    //     $this->authorize(Permission::RELATORIO_AVALIACOES_UNIDADE_VIEW);
+        $this->authorize(Permission::RELATORIO_AVALIACOES_UNIDADE_VIEW);
 
-    //     $unidade->userCanAccess();
+        $secretaria->userCanAccess();
 
-    //     //media Geral
-    //     $avaliacoesAverage = floatval(number_format($unidade->nota, 2, '.', ''));
-    //     $percentAverage = $avaliacoesAverage * 10;
+        //media Geral
+        $avaliacoesAverage = floatval(number_format($unidade->nota, 2, '.', ''));
+        $percentAverage = $avaliacoesAverage * 10;
 
-    //     $resumoUnidade = Avaliacao::query()
-    //         ->join('setores', 'avaliacoes.setor_id', '=', 'setores.id')
-    //         ->join('unidades', 'setores.unidade_id', '=', 'unidades.id')
-    //         ->where('unidades.id', $unidade->id)
-    //         ->when(request()->tipoAvalicao, function ($query) {
-    //             $query->where('avaliacoes.tipo_avaliacao_id', request()->tipoAvalicao);
-    //         })
-    //         ->when(request()->ano, function ($query) {
-    //             $query->whereYear('avaliacoes.created_at', request()->ano);
-    //         }, function ($query) {
-    //             $query->whereYear('avaliacoes.created_at', now()->year);
-    //         })
-    //         ->when(request()->mes, function ($query) {
-    //             $query->whereMonth('avaliacoes.created_at', request()->mes);
-    //         })
-    //         ->selectRaw('avaliacoes.nota, avaliacoes.nota, COUNT(*) as qtd_notas')
-    //         ->groupBy('avaliacoes.nota')
-    //         ->get();
+        $resumoUnidade = Avaliacao::query()
+            ->join('setores', 'avaliacoes.setor_id', '=', 'setores.id')
+            ->join('unidades', 'setores.unidade_id', '=', 'unidades.id')
+            ->join('secretarias', 'unidades.secretaria_id ', '=', 'secretarias.id')
+            ->where('secretarias.id', $secretaria->id)
+            ->when(request()->tipoAvalicao, function ($query) {
+                $query->where('avaliacoes.tipo_avaliacao_id', request()->tipoAvalicao);
+            })
+            ->when(request()->ano, function ($query) {
+                $query->whereYear('avaliacoes.created_at', request()->ano);
+            }, function ($query) {
+                $query->whereYear('avaliacoes.created_at', now()->year);
+            })
+            ->when(request()->mes, function ($query) {
+                $query->whereMonth('avaliacoes.created_at', request()->mes);
+            })
+            ->selectRaw('avaliacoes.nota, avaliacoes.nota, COUNT(*) as qtd_notas')
+            ->groupBy('avaliacoes.nota')
+            ->get();
 
-    //     $qtdAvaliacoes = $resumoUnidade->sum('qtd_notas');
+        $notas = [];
+        foreach ($resumoUnidade as $item) {
+            $notas[$item->nota] = [
+                'qtd' => $item->qtd_notas
+            ];
+        }
 
-    //     $notas = [];
-    //     foreach ($resumoUnidade as $item) {
-    //         $notas[$item->nota] = [
-    //             'qtd' => $item->qtd_notas,
-    //             'percent' => $qtdAvaliacoes > 0 ? number_format($item->qtd_notas / $qtdAvaliacoes * 100, 1, '.', '') : 0
-    //         ];
-    //     }
-
-    //     $tiposAvaliacao = TipoAvaliacao::query()
-    //         ->where('secretaria_id', $secretaria->id)
-    //         ->ativo()
-    //         ->get(['id', 'nome']);
+        $tiposAvaliacao = TipoAvaliacao::query()
+            ->where('secretaria_id', $secretaria->id)
+            ->ativo()
+            ->get(['id', 'nome']);
 
 
-    //     //gerando cores aleatorias
-    //     $r = random_int(
-    //         1,
-    //         255
-    //     );
-    //     $g = random_int(
-    //         1,
-    //         255
-    //     );
-    //     $b = random_int(
-    //         1,
-    //         255
-    //     );
+        //gerando cores aleatorias
+        $r = random_int(1, 255);
+        $g = random_int(1, 255);
+        $b = random_int(1, 255);
 
-    //     $corGrafico = "$r, $g, $b";
+        $corGrafico = "$r, $g, $b";
 
-    //     $dataToView = compact(
-    //         'secretaria',
-    //         'unidade',
-    //         'qtdAvaliacoes',
-    //         'notas',
-    //         'avaliacoesAverage',
-    //         'percentAverage',
-    //         'corGrafico',
-    //         'tiposAvaliacao'
-    //     );
+        $dataToView = compact(
+            'secretaria',
+            'unidade',
+            'qtdAvaliacoes',
+            'notas',
+            'avaliacoesAverage',
+            'percentAverage',
+            'corGrafico',
+            'tiposAvaliacao'
+        );
 
-    //     return view('admin.avaliacoes.resumos.avaliacoes-secretaria.secretaria', $dataToView);
-    // }
+
+
+        return view('admin.avaliacoes.resumos.avaliacoes-secretaria.secretaria', $dataToView);
+    }
 }

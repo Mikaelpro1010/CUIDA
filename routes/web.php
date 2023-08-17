@@ -121,8 +121,11 @@ Route::middleware(['auth:web'])->group(
             Route::get('/relatorios/secretaria/{secretaria}/avaliacoes/mes', 'RelatoriosAvaliacoesController@avaliacoesPorMesSecretaria')
                 ->middleware('throttle:60,60')
                 ->name('get-resumo-avaliacoes-secretaria-avaliacoes-mes');
+            Route::get('/relatorios/secretaria/{secretaria}/notas-mes', 'RelatoriosAvaliacoesController@notasPorMesSecretaria')
+                ->middleware('throttle:60,60')->name('get-resumo-avaliacoes-secretarias-notas-mes');
 
             //Unidades
+
             Route::get('/relatorios/unidade', 'RelatoriosAvaliacoesController@resumoUnidadeSecrList')->name('get-list-resumo-avaliacoes-unidade');
             Route::get('/relatorios/secretaria/{secretaria}/unidade/{unidade}', 'RelatoriosAvaliacoesController@resumoUnidadeSecr')->name('get-resumo-avaliacoes-unidade');
             Route::get('/relatorios/unidade/{unidade}/notas-mes', 'RelatoriosAvaliacoesController@notasPorMesUnidade')
