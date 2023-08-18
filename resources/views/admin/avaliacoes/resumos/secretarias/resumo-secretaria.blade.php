@@ -93,6 +93,23 @@
         </div>
     </div>
 </div>
+<div class="flex-grow-1">
+    <div class="d-flex flex-wrap gap-2">
+        <div class="flex-fill">
+            <label class="fw-bold" for="data_inicial">Data Inicial:</label>
+            <input class="form-control" id="data_inicial" type="date" name="data_inicial" min="2023-01-01"
+                max="{{ now()->format('Y-m-d') }}" value="{{ request()->data_inicial }}">
+        </div>
+        <div class="flex-fill">
+            <label class="fw-bold" for="data_final">Data Final:</label>
+            <input class="form-control" id="data_final" type="date" name="data_final" min="2023-01-01"
+                max="{{ now()->format('Y-m-d') }}" value="{{ request()->data_final }}">
+        </div>
+    </div>
+</div>
+
+</div>
+
 <div class="row">
     <div class="col-md-12 mt-3">
         <div class="card">
@@ -141,10 +158,41 @@
                     <div>
                         <h4>Avaliaçoes por mês (qtd)</h4>
                     </div>
+
+                    {{--  --}}
+                    <div class="flex-grow-1">
+                        <div class="d-flex flex-wrap h-100 ">
+                            <div class="flex-grow-1 d-flex justify-content-center">
+                                <div class="form-check form-switch align-self-end mb-2">
+                                    <input class="form-check-input days-filter" type="checkbox" role="switch"
+                                        id="thisYear" name='thisYear' {{ request()->thisYear ? 'checked' : '' }}>
+                                    <label class="form-check-label" for="thisYear">Este Ano</label>
+                                </div>
+                            </div>
+
+                            <div class="flex-grow-1 d-flex justify-content-center">
+                                <div class="form-check form-switch align-self-end mb-2">
+                                    <input class="form-check-input days-filter" type="checkbox" role="switch"
+                                        id="last_30days" name='last_30days'
+                                        {{ request()->last_30days ? 'checked' : '' }}>
+                                    <label class="form-check-label" for="last_30days">Últimos 30 dias</label>
+                                </div>
+                            </div>
+
+                            <div class="flex-grow-1 d-flex justify-content-center">
+                                <div class="form-check form-switch  align-self-end mb-2">
+                                    <input class="form-check-input days-filter" type="checkbox" role="switch"
+                                        id="last_7days" name='last_7days' {{ request()->last_7days ? 'checked' : '' }}>
+                                    <label class="form-check-label" for="last_7days">Últimos 7 dias</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {{--  --}}
                     @if ($qtdAvaliacoes > 0)
-                        <div class="ms-auto d-flex w-25">
-                            <label class="col-form-label me-2" for="avaliacoesMes">Ano:</label>
-                            <select id="avaliacoesMes" class="form-select" name="avaliacoesMes">
+                        <div class="ms-auto d-flex">
+                            <label class="col-form-label me-2" for="notasMes">Ano:</label>
+                            <select id="notasMes" class="form-select" name="notasMes">
                                 @for ($ano = intval(formatarDataHora(null, 'Y')); $ano >= 2023; $ano--)
                                     <option value="{{ $ano }}"
                                         @if (request()->ano == $ano) selected @endif>
@@ -158,7 +206,7 @@
             </div>
             @if ($qtdAvaliacoes > 0)
                 <div id="graphDiv" class="p-3">
-                    <canvas id="avaliacoesMesChart" height="100px"></canvas>
+                    <canvas id="notasMesChart" height="100px"></canvas>
                 </div>
             @else
                 <div class=" m-3 alert alert-info">
@@ -172,8 +220,8 @@
 </div>
 @endsection
 
-@if ($qtdAvaliacoes > 0)
 @push('scripts_resumo')
+@if ($qtdAvaliacoes > 0)
     <script nonce="{{ app('csp-nonce') }}">
         const melhoresUnidadesCtx = $('#melhoresUnidades')[0].getContext('2d');
         const melhoresUnidades = new Chart(melhoresUnidadesCtx, {
@@ -193,12 +241,45 @@
                 }
             }
         });
+
+        // TT
+
+        $("#notasMes").change(function() {
+            atualizarNotasMes($("#notasMes").val());
+        });
+
+        function atualizarAvaliacoesMes(ano) {
+            $.ajax({
+                url: "{{ route('get-resumo-avaliacoes-secretaria-avaliacoes-mes', $secretaria) }}",
+                dataType: 'json',
+                data: {
+                    ano: ano
+                },
+                success: function(response) {
+                    avaliacoesMes.data.datasets[0].data = response.resposta;
+                    avaliacoesMes.update();
+                }
+            });
+        }
+
+        //EE
         $(document).ready(function() {
             updateAvaliacoesMes({{ formatarDataHora(today(), 'Y') }})
         });
 
         $("#avaliacoesMes").change(function() {
             updateAvaliacoesMes($("#avaliacoesMes").val())
+        });
+        $(document).ready(function() {
+            atualizarAvaliacoesMes({{ formatarDataHora(today(), 'Y') }});
+            atualizarNotasMes({{ formatarDataHora(today(), 'Y') }});
+        });
+
+        $("#avaliacoesMes").change(function() {
+            atualizarAvaliacoesMes($("#avaliacoesMes").val())
+        });
+        $("#notasMes").change(function() {
+            atualizarNotasMes($("#notasMes").val());
         });
 
         function updateAvaliacoesMes(ano) {
@@ -244,197 +325,87 @@
                 }
             }
         });
+
+        function atualizarNotasMes(ano) {
+            $.ajax({
+                url: "{{ route('get-resumo-avaliacoes-secretarias-notas-mes', $secretaria) }}",
+                dataType: 'json',
+                data: {
+                    ano: ano
+                },
+                success: function(response) {
+                    notasMes.data.datasets[0].data = response.resposta[1];
+                    notasMes.data.datasets[1].data = response.resposta[3];
+                    notasMes.data.datasets[2].data = response.resposta[5];
+                    notasMes.data.datasets[3].data = response.resposta[7];
+                    notasMes.data.datasets[4].data = response.resposta[9];
+                    notasMes.update();
+                }
+            });
+        }
+
+        const notasMesCtx = $('#notasMesChart')[0].getContext('2d');
+        const notasMes = new Chart(notasMesCtx, {
+            type: 'line',
+            data: {
+                labels: ["janeiro", "fevereiro", "março", "abril", "maio", "junho", "julho", "agosto", "setembro",
+                    "outubro", "novembro", "dezembro"
+                ],
+                datasets: [{
+                        label: 'Muito Ruim',
+                        data: [0],
+                        borderColor: 'rgba(220,53,69,1)',
+                        backgroundColor: 'rgba(220,53,69,0.3)',
+                        fill: true,
+                        tension: 0.3,
+                    },
+                    {
+                        label: 'Ruim',
+                        data: [0],
+                        borderColor: 'rgba(255,193,6,1)',
+                        backgroundColor: 'rgba(255,193,6,0.3)',
+                        fill: true,
+                        tension: 0.3,
+                    },
+                    {
+                        label: 'Neutro',
+                        data: [0],
+                        borderColor: 'rgba(14,202,240,1)',
+                        backgroundColor: 'rgba(14,202,240,0.3)',
+                        fill: true,
+                        tension: 0.3,
+                    },
+                    {
+                        label: 'Bom',
+                        data: [0],
+                        borderColor: 'rgba(12,110,253,1)',
+                        backgroundColor: 'rgba(12,110,253,0.3)',
+                        fill: true,
+                        tension: 0.3,
+                    },
+                    {
+                        label: 'Muito Bom',
+                        data: [0],
+                        borderColor: 'rgba(26,135,84,1)',
+                        backgroundColor: 'rgba(26,135,84,0.3)',
+                        fill: true,
+                        tension: 0.3,
+                    },
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        min: 0,
+                        ticks: {
+                            stepSize: 1
+                        }
+                    }
+                }
+            }
+        });
     </script>
 @endif
-
-@push('scripts_resumo')
-    @if ($qtdAvaliacoes > 0)
-        <script nonce="{{ app('csp-nonce') }}">
-            const melhoresUnidadesCtx = $('#melhoresUnidades')[0].getContext('2d');
-            const melhoresUnidades = new Chart(melhoresUnidadesCtx, {
-                type: 'bar',
-                data: {
-                    labels: ["Unidade - Secretaria"],
-                    datasets: @json($bestUnidades),
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    scales: {
-                        y: {
-                            min: 0,
-                            max: 10,
-                        }
-                    }
-                }
-            });
-
-            // TT
-
-
-
-            $("#notasMes").change(function() {
-                atualizarNotasMes($("#notasMes").val());
-            });
-
-            function atualizarAvaliacoesMes(ano) {
-                $.ajax({
-                    url: "{{ route('get-resumo-avaliacoes-secretaria-avaliacoes-mes', $unidade) }}",
-                    dataType: 'json',
-                    data: {
-                        ano: ano
-                    },
-                    success: function(response) {
-                        avaliacoesMes.data.datasets[0].data = response.resposta;
-                        avaliacoesMes.update();
-                    }
-                });
-            }
-
-            //EE
-            $(document).ready(function() {
-                updateAvaliacoesMes({{ formatarDataHora(today(), 'Y') }})
-            });
-
-            $("#avaliacoesMes").change(function() {
-                updateAvaliacoesMes($("#avaliacoesMes").val())
-            });
-            $(document).ready(function() {
-                atualizarAvaliacoesMes({{ formatarDataHora(today(), 'Y') }});
-                atualizarNotasMes({{ formatarDataHora(today(), 'Y') }});
-            });
-
-            $("#avaliacoesMes").change(function() {
-                atualizarAvaliacoesMes($("#avaliacoesMes").val())
-            });
-            $("#notasMes").change(function() {
-                atualizarNotasMes($("#notasMes").val());
-            });
-
-            function updateAvaliacoesMes(ano) {
-                $.ajax({
-                    url: "{{ route('get-resumo-avaliacoes-secretaria-avaliacoes-mes', $secretaria) }}",
-                    dataType: 'json',
-                    data: {
-                        ano: ano
-                    },
-                    success: function(response) {
-                        avaliacoesMes.data.datasets[0].data = response.resposta;
-                        avaliacoesMes.update();
-                    }
-                });
-            }
-
-            const avaliacoesMesCtx = $('#avaliacoesMesChart')[0].getContext('2d');
-            const avaliacoesMes = new Chart(avaliacoesMesCtx, {
-                type: 'line',
-                data: {
-                    labels: ["janeiro", "fevereiro", "março", "abril", "maio", "junho", "julho", "agosto", "setembro",
-                        "outubro", "novembro", "dezembro"
-                    ],
-                    datasets: [{
-                        label: "Quantidade de Avaliações",
-                        data: [0],
-                        borderColor: "rgba({{ $corGrafico }}, 1)",
-                        backgroundColor: "rgba({{ $corGrafico }}, 0.3)",
-                        fill: true,
-                        tension: 0.3
-                    }, ]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    scales: {
-                        y: {
-                            min: 0,
-                            ticks: {
-                                stepSize: 1
-                            }
-                        }
-                    }
-                }
-            });
-
-            function atualizarNotasMes(ano) {
-                $.ajax({
-                    url: "{{ route('get-resumo-avaliacoes-secretarias-notas-mes', $secretaria) }}",
-                    dataType: 'json',
-                    data: {
-                        ano: ano
-                    },
-                    success: function(response) {
-                        notasMes.data.datasets[0].data = response.resposta[1];
-                        notasMes.data.datasets[1].data = response.resposta[3];
-                        notasMes.data.datasets[2].data = response.resposta[5];
-                        notasMes.data.datasets[3].data = response.resposta[7];
-                        notasMes.data.datasets[4].data = response.resposta[9];
-                        notasMes.update();
-                    }
-                });
-            }
-
-            const notasMesCtx = $('#notasMesChart')[0].getContext('2d');
-            const notasMes = new Chart(notasMesCtx, {
-                type: 'line',
-                data: {
-                    labels: ["janeiro", "fevereiro", "março", "abril", "maio", "junho", "julho", "agosto", "setembro",
-                        "outubro", "novembro", "dezembro"
-                    ],
-                    datasets: [{
-                            label: 'Muito Ruim',
-                            data: [0],
-                            borderColor: 'rgba(220,53,69,1)',
-                            backgroundColor: 'rgba(220,53,69,0.3)',
-                            fill: true,
-                            tension: 0.3,
-                        },
-                        {
-                            label: 'Ruim',
-                            data: [0],
-                            borderColor: 'rgba(255,193,6,1)',
-                            backgroundColor: 'rgba(255,193,6,0.3)',
-                            fill: true,
-                            tension: 0.3,
-                        },
-                        {
-                            label: 'Neutro',
-                            data: [0],
-                            borderColor: 'rgba(14,202,240,1)',
-                            backgroundColor: 'rgba(14,202,240,0.3)',
-                            fill: true,
-                            tension: 0.3,
-                        },
-                        {
-                            label: 'Bom',
-                            data: [0],
-                            borderColor: 'rgba(12,110,253,1)',
-                            backgroundColor: 'rgba(12,110,253,0.3)',
-                            fill: true,
-                            tension: 0.3,
-                        },
-                        {
-                            label: 'Muito Bom',
-                            data: [0],
-                            borderColor: 'rgba(26,135,84,1)',
-                            backgroundColor: 'rgba(26,135,84,0.3)',
-                            fill: true,
-                            tension: 0.3,
-                        },
-                    ]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    scales: {
-                        y: {
-                            min: 0,
-                            ticks: {
-                                stepSize: 1
-                            }
-                        }
-                    }
-                }
-            });
-        </script>
-    @endif
 @endpush

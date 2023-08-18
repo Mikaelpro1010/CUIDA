@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Avaliacoes;
 use App\Constants\Permission;
 use App\Http\Controllers\Controller;
 use App\Models\Avaliacao\Avaliacao;
+use App\Models\Avaliacao\Setor;
 use App\Models\Avaliacao\TipoAvaliacao;
 use App\Models\Avaliacao\Unidade;
 use App\Models\Secretaria;
@@ -211,7 +212,7 @@ class RelatoriosAvaliacoesController extends Controller
         $resumoUnidade = Avaliacao::query()
             ->join('setores', 'avaliacoes.setor_id', '=', 'setores.id')
             ->join('unidades', 'setores.unidade_id', '=', 'unidades.id')
-            ->join('secretarias', 'unidades.secretaria_id ', '=', 'secretarias.id')
+            ->join('secretarias', 'unidades.secretaria_id', '=', 'secretarias.id')
             ->where('secretarias.id', $secretaria->id)
             ->when(request()->tipoAvalicao, function ($query) {
                 $query->where('avaliacoes.tipo_avaliacao_id', request()->tipoAvalicao);
@@ -247,12 +248,6 @@ class RelatoriosAvaliacoesController extends Controller
         $b = random_int(1, 255);
 
         $corGrafico = "$r, $g, $b";
-
-
-
-
-
-
         //
 
 
@@ -342,7 +337,7 @@ class RelatoriosAvaliacoesController extends Controller
     //retorna json com os dados para o grafico de avaliaçoes por mes
     public function avaliacoesPorMesSecretaria(Secretaria $secretaria): JsonResponse
     {
-        $this->authorize(Permission::RELATORIO_AVALIACOES_SECRETARIA_VIEW);
+        // $this->authorize(Permission::RELATORIO_AVALIACOES_SECRETARIA_VIEW);
 
         $status = false;
         $resposta = null;
@@ -539,11 +534,12 @@ class RelatoriosAvaliacoesController extends Controller
     //Rota de Api que retorna os arrays com notas por mes
     public function notasPorMesSecretaria($secretaria_id): JsonResponse
     {
+
         if (!request()->ajax()) {
             abort(HttpResponse::HTTP_NOT_FOUND);
         }
 
-        $this->authorize(Permission::RELATORIO_AVALIACOES_SECRETARIA_VIEW);
+        // $this->authorize(Permission::RELATORIO_AVALIACOES_SECRETARIA_VIEW);
 
         $status = false;
         $resposta = null;
@@ -556,15 +552,27 @@ class RelatoriosAvaliacoesController extends Controller
             $resposta[7] = $aux;
             $resposta[9] = $aux;
 
-            $secretaria = Secretaria::find($secretaria_id);
 
-            $notasCountByMonth = Avaliacao::selectRaw('extract(month from created_at) as month, avaliacoes.nota, COUNT(*) as count')
+            // $secretaria = Secretaria::find($secretaria_id);
+            // $unidade = Unidade::find($secretaria_id);
+            $unidade = Unidade::find($secretaria_id);
+
+
+
+            $avaliacoesBySecretaria = Avaliacao::selectRaw('extract(month from created_at) as month, avaliacoes.nota, COUNT(*) as count')
                 ->whereYear('created_at', request()->ano)
                 ->groupBy('month', 'nota')
-                ->whereIn('setor_id', $secretaria->setores->pluck('id')->toArray())
+                ->whereIn('setor_id', function ($query) use ($secretaria_id) {
+                    $query->select('setores.id')
+                        ->from('setores')
+                        ->join('unidades', 'setores.unidade_id', '=', 'unidades.id')
+                        ->where('unidades.secretaria_id', '=', $secretaria_id);
+                })
                 ->get();
 
-            foreach ($notasCountByMonth as $notaCount) {
+
+            // dd($avaliacoesBySecretaria);
+            foreach ($avaliacoesBySecretaria as $notaCount) {
                 $resposta[$notaCount->nota - 1][$notaCount->month - 1] = $notaCount['count'];
             }
         }
