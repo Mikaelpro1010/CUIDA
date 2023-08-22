@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Response;
 use Illuminate\View\View;
 use App\Traits\ExportExcel;
+use Illuminate\Http\Request;
 
 class RelatoriosAvaliacoesController extends Controller
 {
@@ -135,7 +136,7 @@ class RelatoriosAvaliacoesController extends Controller
 
     public function resumoSecretariasList()
     {
-        $this->authorize(Permission::RELATORIO_AVALIACOES_SECRETARIA_VIEW);
+        // $this->authorize(Permission::RELATORIO_AVALIACOES_SECRETARIA_VIEW);
 
         if (auth()->user()->can(Permission::UNIDADE_SECRETARIA_ACCESS_ANY_SECRETARIA)) {
             $secretarias = Secretaria::query()
@@ -196,8 +197,56 @@ class RelatoriosAvaliacoesController extends Controller
         return view('admin.avaliacoes.resumos.secretarias.resumo-secretaria-list', compact('secretarias'));
     }
 
+    //
     //Resumo por secretaria
-    public function resumoSecretaria(Secretaria $secretaria): View
+    public function filtrar(Secretaria $secretaria, Request $request): View
+    {
+        // $this->authorize(Permission::RELATORIO_AVALIACOES_SECRETARIA_VIEW);
+
+        abort_unless(
+            auth()->user()->can(Permission::UNIDADE_SECRETARIA_ACCESS_ANY_SECRETARIA) ||
+                (auth()->user()->secretarias->contains($secretaria) && auth()->user()->can(Permission::RELATORIO_AVALIACOES_SECRETARIA_VIEW)),
+            HttpResponse::HTTP_FORBIDDEN
+        );
+
+        //  
+
+        $resumoSecretaria = Avaliacao::query()
+            ->join('setores', 'avaliacoes.setor_id', '=', 'setores.id')
+            ->join('unidades', 'setores.unidade_id', '=', 'unidades.id')
+            ->join('secretarias', 'unidades.secretaria_id', '=', 'secretarias.id')
+            ->where('secretarias.id', $secretaria->id)
+            ->when(request()->tipoAvalicao, function ($query) {
+                $query->where('avaliacoes.tipo_avaliacao_id', request()->tipoAvalicao);
+            })
+            ->when(
+                request()->data_inicial || request()->data_final,
+                function ($query) {
+                    $query->when(request()->data_inicial, function ($query) {
+                        $query->whereDate('avaliacoes.created_at', '>=', request()->data_inicial);  // quando o campo de pesquisa for preenchido por data inicial
+                    })
+                        ->when(request()->data_final, function ($query) {
+                            $query->whereDate('avaliacoes.created_at', '<=', request()->data_final); // quando o campo de pesquisa for preenchido por data final
+                        });
+                },
+            )
+            ->selectRaw('avaliacoes.nota, avaliacoes.nota, COUNT(*) as qtd_notas')
+            ->groupBy('avaliacoes.nota')
+            ->get();
+
+
+        $dataToView = compact(
+            'resumoSecretaria',
+        );
+
+        return view(
+            'admin.avaliacoes.resumos.secretarias.resumo-secretaria',
+            $dataToView
+        );
+    }
+
+    //Resumo por secretaria
+    public function resumoSecretaria(Secretaria $secretaria, Request $request): View
     {
         $this->authorize(Permission::RELATORIO_AVALIACOES_SECRETARIA_VIEW);
 
@@ -217,14 +266,17 @@ class RelatoriosAvaliacoesController extends Controller
             ->when(request()->tipoAvalicao, function ($query) {
                 $query->where('avaliacoes.tipo_avaliacao_id', request()->tipoAvalicao);
             })
-            ->when(request()->ano, function ($query) {
-                $query->whereYear('avaliacoes.created_at', request()->ano);
-            }, function ($query) {
-                $query->whereYear('avaliacoes.created_at', now()->year);
-            })
-            ->when(request()->mes, function ($query) {
-                $query->whereMonth('avaliacoes.created_at', request()->mes);
-            })
+            ->when(
+                request()->data_inicial || request()->data_final,
+                function ($query) {
+                    $query->when(request()->data_inicial, function ($query) {
+                        $query->whereDate('avaliacoes.created_at', '>=', request()->data_inicial);  // quando o campo de pesquisa for preenchido por data inicial
+                    })
+                        ->when(request()->data_final, function ($query) {
+                            $query->whereDate('avaliacoes.created_at', '<=', request()->data_final); // quando o campo de pesquisa for preenchido por data final
+                        });
+                },
+            )
             ->selectRaw('avaliacoes.nota, avaliacoes.nota, COUNT(*) as qtd_notas')
             ->groupBy('avaliacoes.nota')
             ->get();
@@ -555,7 +607,7 @@ class RelatoriosAvaliacoesController extends Controller
 
             // $secretaria = Secretaria::find($secretaria_id);
             // $unidade = Unidade::find($secretaria_id);
-            $unidade = Unidade::find($secretaria_id);
+
 
 
 

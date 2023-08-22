@@ -120,12 +120,13 @@ Route::middleware(['auth:web'])->group(
             Route::get('/relatorios/secretaria/{secretaria}', 'RelatoriosAvaliacoesController@resumoSecretaria')->name('get-resumo-avaliacoes-secretaria');
             Route::get('/relatorios/secretaria/{secretaria}/avaliacoes/mes', 'RelatoriosAvaliacoesController@avaliacoesPorMesSecretaria')
                 ->middleware('throttle:60,60')
-                ->name('get-resumo-avaliacoes-secretaria-avaliacoes-mes');
+                ->name('get-resumo-avaliaco es-secretaria-avaliacoes-mes');
             Route::get('/relatorios/secretaria/{secretaria}/notas-mes', 'RelatoriosAvaliacoesController@notasPorMesSecretaria')
                 ->middleware('throttle:60,60')->name('get-resumo-avaliacoes-secretarias-notas-mes');
+            Route::get('/relatorios/secretariafiltros/{secretaria}', 'RelatoriosAvaliacoesController@filtrar')->name('get-resumo-filtro-avaliacoes-secretaria');
 
             //Unidades
-            // http: //localhost/avaliacoes/relatorios/secretaria/7/unidade/4
+
             Route::get('/relatorios/unidade', 'RelatoriosAvaliacoesController@resumoUnidadeSecrList')->name('get-list-resumo-avaliacoes-unidade');
             Route::get('/relatorios/secretaria/{secretaria}/unidade/{unidade}', 'RelatoriosAvaliacoesController@resumoUnidadeSecr')->name('get-resumo-avaliacoes-unidade');
             Route::get('/relatorios/unidade/{unidade}/notas-mes', 'RelatoriosAvaliacoesController@notasPorMesUnidade')
