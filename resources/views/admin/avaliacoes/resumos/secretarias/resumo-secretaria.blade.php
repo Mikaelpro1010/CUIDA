@@ -236,25 +236,27 @@
             $('#buscar').click(function(e) {
                 e.preventDefault();
 
-                let url = "{{ route('get-resumo-filtro-avaliacoes-secretaria') }}";
+                // Get the secretaria ID from the URL
                 let currentURL = window.location.href;
-
-                // Extract the secretaria ID from the URL
                 let secretariaID = currentURL.split('/').pop();
-                if (!window.secretariaID) {
-                    url = secretariaID;
-                }
 
                 // Retrieve other input values
                 let data_inicial = $('#data_inicial').val();
                 let data_final = $('#data_final').val();
 
                 // Construct the URL for the secretaria route (replace with your actual route)
+                let url = "{{ route('get-resumo-filtro-avaliacoes-secretaria', ['secretaria' => ':secretaria']) }}";
+                url = url.replace(':secretaria', secretariaID);
+
+                // Construct the final URL with query parameters
                 let finalURL = url + '?data_inicial=' + data_inicial + '&data_final=' + data_final;
 
                 // Open a new window with the constructed URL
                 window.open(finalURL, '_blank');
             });
+
+            // Rest of your code...
+
 
             let dataFilters = {
                 'last_7days': '{{ now()->subDays(7)->format('Y-m-d') }}',
