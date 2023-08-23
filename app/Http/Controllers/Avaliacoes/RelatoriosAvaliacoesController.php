@@ -198,52 +198,7 @@ class RelatoriosAvaliacoesController extends Controller
     }
 
     //
-    //Resumo por secretaria
-    public function filtrar(Secretaria $secretaria, Request $request): View
-    {
-        // $this->authorize(Permission::RELATORIO_AVALIACOES_SECRETARIA_VIEW);
 
-        abort_unless(
-            auth()->user()->can(Permission::UNIDADE_SECRETARIA_ACCESS_ANY_SECRETARIA) ||
-                (auth()->user()->secretarias->contains($secretaria) && auth()->user()->can(Permission::RELATORIO_AVALIACOES_SECRETARIA_VIEW)),
-            HttpResponse::HTTP_FORBIDDEN
-        );
-
-        //  
-
-        $resumoSecretaria = Avaliacao::query()
-            ->join('setores', 'avaliacoes.setor_id', '=', 'setores.id')
-            ->join('unidades', 'setores.unidade_id', '=', 'unidades.id')
-            ->join('secretarias', 'unidades.secretaria_id', '=', 'secretarias.id')
-            ->where('secretarias.id', $secretaria->id)
-            ->when(request()->tipoAvalicao, function ($query) {
-                $query->where('avaliacoes.tipo_avaliacao_id', request()->tipoAvalicao);
-            })
-            ->when(
-                request()->data_inicial || request()->data_final,
-                function ($query) {
-                    $query->when(request()->data_inicial, function ($query) {
-                        $query->whereDate('avaliacoes.created_at', '>=', request()->data_inicial);  // quando o campo de pesquisa for preenchido por data inicial
-                    })
-                        ->when(request()->data_final, function ($query) {
-                            $query->whereDate('avaliacoes.created_at', '<=', request()->data_final); // quando o campo de pesquisa for preenchido por data final
-                        });
-                },
-            )
-            ->selectRaw('avaliacoes.nota, avaliacoes.nota, COUNT(*) as qtd_notas')
-            ->groupBy('avaliacoes.nota')
-            ->get();
-
-
-        $dataToView = compact(
-            'resumoSecretaria',
-        );
-
-        return view(
-            'admin.avaliacoes.resumos.secretarias.resumo-secretaria',
-            $dataToView
-        );
-    }
 
     //Resumo por secretaria
     public function resumoSecretaria(Secretaria $secretaria, Request $request): View
@@ -583,7 +538,6 @@ class RelatoriosAvaliacoesController extends Controller
         return Response::json($response);
     }
 
-    //Rota de Api que retorna os arrays com notas por mes
     public function notasPorMesSecretaria($secretaria_id): JsonResponse
     {
 
@@ -591,22 +545,21 @@ class RelatoriosAvaliacoesController extends Controller
             abort(HttpResponse::HTTP_NOT_FOUND);
         }
 
+
         // $this->authorize(Permission::RELATORIO_AVALIACOES_SECRETARIA_VIEW);
 
         $status = false;
         $resposta = null;
         if (preg_match("/^20[0-9]{2}$/", request()->ano)) {
-            $aux = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+            $aux = [
+                0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+            ];
 
             $resposta[1] = $aux;
             $resposta[3] = $aux;
             $resposta[5] = $aux;
             $resposta[7] = $aux;
             $resposta[9] = $aux;
-
-
-            // $secretaria = Secretaria::find($secretaria_id);
-            // $unidade = Unidade::find($secretaria_id);
 
 
 
@@ -627,6 +580,52 @@ class RelatoriosAvaliacoesController extends Controller
             foreach ($avaliacoesBySecretaria as $notaCount) {
                 $resposta[$notaCount->nota - 1][$notaCount->month - 1] = $notaCount['count'];
             }
+        }
+
+        $response = [
+            'status' => $status,
+            'resposta' => $resposta,
+        ];
+
+        return Response::json($response);
+    }
+
+    public function filtrar($secretaria_id): JsonResponse
+    {
+
+        if (!request()->ajax()) {
+            abort(HttpResponse::HTTP_NOT_FOUND);
+        }
+
+        $dataInicial = request()->data_inicial;
+        $dataFinal = request()->data_final;
+        // $this->authorize(Permission::RELATORIO_AVALIACOES_SECRETARIA_VIEW);
+
+        $status = false;
+        $resposta = null;
+        $aux = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+
+        $resposta[1] = $aux;
+        $resposta[3] = $aux;
+        $resposta[5] = $aux;
+        $resposta[7] = $aux;
+        $resposta[9] = $aux;
+
+        $avaliacoesBySecretaria = Avaliacao::selectRaw('extract(month from created_at) as month, avaliacoes.nota, COUNT(*) as count')
+            ->whereBetween('created_at', [$dataInicial, $dataFinal])
+            ->groupBy('month', 'nota')
+            ->whereIn('setor_id', function ($query) use ($secretaria_id) {
+                $query->select('setores.id')
+                    ->from('setores')
+                    ->join('unidades', 'setores.unidade_id', '=', 'unidades.id')
+                    ->where('unidades.secretaria_id', '=', $secretaria_id);
+            })
+            ->get();
+        $status = true;
+
+
+        foreach ($avaliacoesBySecretaria as $notaCount) {
+            $resposta[$notaCount->nota - 1][$notaCount->month - 1] = $notaCount['count'];
         }
 
         $response = [

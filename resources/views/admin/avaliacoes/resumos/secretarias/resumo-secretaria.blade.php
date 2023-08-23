@@ -169,7 +169,6 @@
 
                     </div>
 
-                    {{--  --}}
                     @if ($qtdAvaliacoes > 0)
                         <div class="ms-auto d-flex">
                             <label class="col-form-label me-2" for="notasMes">Ano:</label>
@@ -233,6 +232,8 @@
 @push('scripts_resumo')
     @if ($qtdAvaliacoes > 0)
         <script nonce="{{ app('csp-nonce') }}">
+            let url; // Declare url variable globally
+
             $('#buscar').click(function(e) {
                 e.preventDefault();
 
@@ -240,22 +241,43 @@
                 let currentURL = window.location.href;
                 let secretariaID = currentURL.split('/').pop();
 
+                // Assign the base URL
+                url = "{{ route('get-resumo-filtro-avaliacoes-secretaria', ['secretaria' => ':secretaria']) }}";
+                url = url.replace(':secretaria', secretariaID);
+
                 // Retrieve other input values
                 let data_inicial = $('#data_inicial').val();
                 let data_final = $('#data_final').val();
 
-                // Construct the URL for the secretaria route (replace with your actual route)
-                let url = "{{ route('get-resumo-filtro-avaliacoes-secretaria', ['secretaria' => ':secretaria']) }}";
-                url = url.replace(':secretaria', secretariaID);
 
-                // Construct the final URL with query parameters
-                let finalURL = url + '?data_inicial=' + data_inicial + '&data_final=' + data_final;
+                // Other variables (ano, etc.) need to be defined appropriately
 
-                // Open a new window with the constructed URL
-                window.open(finalURL, '_blank');
+                $.ajax({
+                    url: url,
+                    dataType: 'json',
+                    data: {
+                        data_inicial: data_inicial,
+                        data_final: data_final
+                    },
+                    success: function(response) {
+                        // Update graph data
+                        notasMes.data.datasets[0].data = response.resposta[1];
+                        notasMes.data.datasets[1].data = response.resposta[3];
+                        notasMes.data.datasets[2].data = response.resposta[5];
+                        notasMes.data.datasets[3].data = response.resposta[7];
+                        notasMes.data.datasets[4].data = response.resposta[9];
+                        notasMes.update();
+                    }
+                });
+
+                // // Construct the final URL with query parameters
+                // let finalURL = url + '?data_inicial=' + data_inicial + '&data_final=' + data_final;
+
+                // // Open a new window with the constructed URL
+                // window.open(finalURL, '_blank');
+                // Rest of your code...
             });
 
-            // Rest of your code...
 
 
             let dataFilters = {
