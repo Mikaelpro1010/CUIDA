@@ -78,6 +78,8 @@ class RelatoriosAvaliacoesController extends Controller
 
         //melhores Unidades
         $bestUnidades = [];
+        //Piores Unidades
+        $wostUnidades = [];
 
         $unidades = Unidade::query()
             ->with('secretaria')
@@ -88,7 +90,18 @@ class RelatoriosAvaliacoesController extends Controller
             ->limit(20)
             ->get();
 
+        $unidadesasc = Unidade::query()
+            ->with('secretaria')
+            ->where(function ($query) use ($secretarias) {
+                $query->whereIn('secretaria_id', $secretarias->pluck('id'));
+            })
+            ->orderBy('nota', 'asc')
+            ->limit(20)
+            ->get();
+
         foreach ($unidades as $unidade) {
+
+
             $dataSetbestUnidades = [];
             //gerando cores aleatorias
             $r = random_int(1, 255);
@@ -98,6 +111,7 @@ class RelatoriosAvaliacoesController extends Controller
             $nota = is_null($unidade->nota) ? floatval('0.00') : floatval(number_format($unidade->nota, 2, '.', ''));
             $qtd = $unidade->getResumo()['qtd'];
 
+
             //melhores unidades
             $top5BestUnidades[] = [
                 'id' => $unidade->id,
@@ -106,6 +120,10 @@ class RelatoriosAvaliacoesController extends Controller
                 'nota' => $nota,
                 'qtd' => $qtd,
             ];
+
+
+            // Piores Unidades
+
 
             $dataSetbestUnidades['label'] = $unidade->nome . "(" . $qtd . ") - " . $secretaria->sigla;
             $dataSetbestUnidades['data'][] = $nota;
@@ -117,7 +135,33 @@ class RelatoriosAvaliacoesController extends Controller
             $bestUnidades[] = $dataSetbestUnidades;
         }
 
+
+        foreach ($unidadesasc as $unidade) {
+            // piores 
+            $dataSetwostUnidades = [];
+            //gerando cores aleatorias
+            $r = random_int(1, 255);
+            $g = random_int(1, 255);
+            $b = random_int(1, 255);
+
+            $nota = is_null($unidade->nota) ? floatval('0.00') : floatval(number_format($unidade->nota, 2, '.', ''));
+            $qtd = $unidade->getResumo()['qtd'];
+
+
+            $dataSetwostUnidades['label'] = $unidade->nome . "(" . $qtd . ") - " . $secretaria->sigla;
+            $dataSetwostUnidades['data'][] = $nota;
+
+            $dataSetwostUnidades['backgroundColor'] = "rgba($r, $g, $b, 1)";
+            $dataSetwostUnidades['fill'] = true;
+            $dataSetwostUnidades['tension'] = 0.3;
+
+            $wostUnidades[] = $dataSetwostUnidades;
+        }
+
         $qtdBestUnidades = count($bestUnidades);
+        // wost
+
+        $qtdWostUnidades = count($wostUnidades);
 
         $dataToView = compact(
             'avaliacoesAverage',
@@ -128,7 +172,9 @@ class RelatoriosAvaliacoesController extends Controller
             'bestUnidades',
             'qtdBestUnidades',
             'notas',
-            'qtdAvaliacoes'
+            'wostUnidades',
+            'qtdAvaliacoes',
+            'qtdWostUnidades'
         );
 
         return view('admin.avaliacoes.resumos.resumo-geral', $dataToView);

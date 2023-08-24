@@ -270,12 +270,6 @@
                     }
                 });
 
-                // // Construct the final URL with query parameters
-                // let finalURL = url + '?data_inicial=' + data_inicial + '&data_final=' + data_final;
-
-                // // Open a new window with the constructed URL
-                // window.open(finalURL, '_blank');
-                // Rest of your code...
             });
 
 
