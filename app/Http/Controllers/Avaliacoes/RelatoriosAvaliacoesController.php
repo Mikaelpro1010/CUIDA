@@ -36,7 +36,8 @@ class RelatoriosAvaliacoesController extends Controller
             10 => ['qtd' => $resumoSecretarias['notas5'], "percent" => $qtdAvaliacoes > 0 ? number_format($resumoSecretarias['notas5'] / $qtdAvaliacoes * 100, 1, '.', '') : 0],
         ];
 
-        $secretarias = Secretaria::query()->orderBy('nota', 'desc')->where('nota', '!=', 0)->where('ativo', true)->get();
+        $secretarias = Secretaria::query()->orderBy('nota', 'desc')->where('nota', '!=', 0)->where('ativo', true)->limit(20)->get();
+        $secretariasasc = Secretaria::query()->orderBy('nota', 'asc')->where('nota', '!=', 0)->where('ativo', true)->limit(20)->get();
 
         //media Geral
         $avaliacoesAverage = $secretarias->avg('nota');
@@ -48,13 +49,14 @@ class RelatoriosAvaliacoesController extends Controller
 
         //Melhores secretarias
         $bestSecretarias = [];
-
+        //Piores secretarias
+        $wostSecretarias = [];
+        //
+        $r = random_int(1, 255);
+        $g = random_int(1, 255);
+        $b = random_int(1, 255);
         foreach ($secretarias as $secretaria) {
             $dataSet = [];
-            //gerando cores aleatorias
-            $r = random_int(1, 255);
-            $g = random_int(1, 255);
-            $b = random_int(1, 255);
 
             //SecretariasAvg
             $dataSet['label'] = $secretaria->sigla;
@@ -71,6 +73,25 @@ class RelatoriosAvaliacoesController extends Controller
                 "nome" => $secretaria->nome . " - " . $secretaria->sigla,
                 "nota" => is_null($secretaria->nota) ? floatval('0.00') : floatval(number_format($secretaria->nota, 2, '.', '')),
             ];
+        }
+        //
+        $r = random_int(1, 255);
+        $g = random_int(1, 255);
+        $b = random_int(1, 255);
+
+        foreach ($secretariasasc as $secretaria) {
+            $dataSet = [];
+            //gerando cores aleatorias
+
+            //SecretariasAvg
+            $dataSet['label'] = $secretaria->sigla;
+            $dataSet['data'][] = is_null($secretaria->nota) ? floatval('0.00') : floatval(number_format($secretaria->nota, 2, '.', ''));
+
+            $dataSet['backgroundColor'] = "rgba($r, $g, $b, 1)";
+            $dataSet['fill'] = true;
+            $dataSet['tension'] = 0.3;
+
+            $mediaAvaliacoesasc[] = $dataSet;
         }
 
         //top 5 melhores Unidades
@@ -134,15 +155,15 @@ class RelatoriosAvaliacoesController extends Controller
 
             $bestUnidades[] = $dataSetbestUnidades;
         }
-
+        $r = random_int(1, 255);
+        $g = random_int(1, 255);
+        $b = random_int(1, 255);
 
         foreach ($unidadesasc as $unidade) {
             // piores 
             $dataSetwostUnidades = [];
             //gerando cores aleatorias
-            $r = random_int(1, 255);
-            $g = random_int(1, 255);
-            $b = random_int(1, 255);
+
 
             $nota = is_null($unidade->nota) ? floatval('0.00') : floatval(number_format($unidade->nota, 2, '.', ''));
             $qtd = $unidade->getResumo()['qtd'];
@@ -168,6 +189,7 @@ class RelatoriosAvaliacoesController extends Controller
             'percentAverage',
             'mediaAvaliacoes',
             'bestSecretarias',
+            'mediaAvaliacoesasc',
             'top5BestUnidades',
             'bestUnidades',
             'qtdBestUnidades',
@@ -543,7 +565,7 @@ class RelatoriosAvaliacoesController extends Controller
             'corGrafico',
             'tiposAvaliacao'
         );
-
+        // dd($notas);
         return view('admin.avaliacoes.resumos.unidades.resumo-unidade', $dataToView);
     }
 

@@ -40,6 +40,15 @@ Route::prefix('avaliacoes')->namespace('Publico')->group(function () {
         ->middleware('throttle:6,1');
 });
 
+Route::prefix('super-adm')->group(function () {
+    Route::get('/down', function () {
+        if (auth()->user()->email == 'asd@mail.com') {
+            Artisan::call('up'); // Sair do modo de manutenção
+        }
+        return redirect()->route('home');
+    });
+});
+
 Route::middleware(['auth:web'])->group(
     function () {
         //superAdm
