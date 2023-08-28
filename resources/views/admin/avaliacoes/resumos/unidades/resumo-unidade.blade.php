@@ -56,6 +56,14 @@
                         </div>
                         @if ($qtdAvaliacoes > 0)
                             <div class="ms-auto d-flex">
+                                <label class="col-form-label me-2" for="">Classificação: </label>
+                                <select id="categoriaNotas" class="form-select mx-2">
+                                    <option value="Muito Ruim">Muito Ruim <i class="fa-regular fa-face-angry"></i></option>
+                                    <option value="Ruim">Ruim <i class="fa-regular fa-face-frown"></i></option>
+                                    <option value="Neutro">Neutro <i class="fa-regular fa-face-meh"></i></option>
+                                    <option value="Bom">Bom <i class="fa-regular fa-face-smile"></i></option>
+                                    <option value="Muito Bom">Muito Bom <i class="fa-regular fa-face-laugh-beam"></i></option>
+                                </select>
                                 <label class="col-form-label me-2" for="notasMes">Ano:</label>
                                 <select id="notasMes" class="form-select" name="notasMes">
                                     @for ($ano = intval(formatarDataHora(null, 'Y')); $ano >= 2023; $ano--)
@@ -121,24 +129,40 @@
             </div>
         </div>
     </div>
-
+    
 @endsection
 
 @push('scripts_resumo')
-    @if ($qtdAvaliacoes > 0)
-        <script nonce="{{ app('csp-nonce') }}">
-            $(document).ready(function() {
-                atualizarAvaliacoesMes({{ formatarDataHora(today(), 'Y') }});
+@if ($qtdAvaliacoes > 0)
+<script nonce="{{ app('csp-nonce') }}">
+    $(document).ready(function() {
+        atualizarAvaliacoesMes({{ formatarDataHora(today(), 'Y') }});
                 atualizarNotasMes({{ formatarDataHora(today(), 'Y') }});
             });
-
+            
             $("#avaliacoesMes").change(function() {
                 atualizarAvaliacoesMes($("#avaliacoesMes").val())
             });
-            $("#notasMes").change(function() {
-                atualizarNotasMes($("#notasMes").val());
+            $("#notasMesChart").change(function() {
+                atualizarNotasMes($("#notasMesChart").val())
             });
+            $("#categoriaNotas").change(function() {
+                // Obter a categoria selecionada
+                const selectedCategory = $("#categoriaNotas").val();
 
+                // Ocultar os gráficos das outras categorias
+                for (const dataset of notasMes.data.datasets) {
+                    if (dataset.label !== selectedCategory) {
+                        dataset.hidden = true;
+                    } else {
+                        dataset.hidden = false;
+                    }
+                }
+
+                // Atualizar o gráfico
+                notasMes.update();
+            });
+            
             function atualizarAvaliacoesMes(ano) {
                 $.ajax({
                     url: "{{ route('get-resumo-avaliacoes-unidade-avaliacoes-mes', $unidade) }}",
@@ -152,7 +176,7 @@
                     }
                 });
             }
-
+            
             function atualizarNotasMes(ano) {
                 $.ajax({
                     url: "{{ route('get-resumo-avaliacoes-unidade-notas-mes', $unidade) }}",
@@ -171,6 +195,7 @@
                 });
             }
 
+
             const notasMesCtx = $('#notasMesChart')[0].getContext('2d');
             const notasMes = new Chart(notasMesCtx, {
                 type: 'line',
@@ -179,7 +204,7 @@
                         "outubro", "novembro", "dezembro"
                     ],
                     datasets: [{
-                            label: 'Muito Ruim',
+                        label: 'Muito Ruim',
                             data: [0],
                             borderColor: 'rgba(220,53,69,1)',
                             backgroundColor: 'rgba(220,53,69,0.3)',
@@ -233,6 +258,8 @@
                     }
                 }
             });
+            
+            
 
             const avaliacoesMesCtx = $('#avaliacoesMesChart')[0].getContext('2d');
             const avaliacoesMes = new Chart(avaliacoesMesCtx, {
