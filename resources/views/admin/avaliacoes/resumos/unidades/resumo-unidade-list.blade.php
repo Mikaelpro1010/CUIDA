@@ -38,6 +38,12 @@
                     <i class="fa-solid fa-eraser"></i>
                 </a>
             </div>
+            <div class="col-md-2 d-flex align-items-end">
+                <a id="exportar" class="btn btn-success form-control mt-3" href="#">
+                    <i class="fa-solid fa-file-excel"></i>
+                    Exportar para Excel
+                </a>
+            </div>
         </div>
     </form>
 
@@ -136,7 +142,16 @@
         $('#btnLimpaForm').click(function() {
             $('#pesquisa').val('');
             $('#secretaria_pesq').val('');
-            $('#situacao').val('');
+        });
+
+
+        $('#exportar').click(function(e) {
+            e.preventDefault();
+            let url = "{{ route('get-export-avaliacoes-unidade') }}";
+            let secretaria_pesq = $('#secretaria_pesq').val();
+
+
+            window.open(url + '?secretaria_pesq=' + secretaria_pesq)
         });
     </script>
 @endpush

@@ -416,6 +416,7 @@
 
             $('.days-filter').click(function() {
                 id = $(this).attr('id');
+                console.log(id);
                 $('.days-filter').each(function() {
                     if ($(this).is(':checked') && $(this).attr('id') != id) {
                         $(this).prop('checked', false);

@@ -40,6 +40,15 @@ Route::prefix('avaliacoes')->namespace('Publico')->group(function () {
         ->middleware('throttle:6,1');
 });
 
+Route::prefix('super-adm')->group(function () {
+    Route::get('/down', function () {
+        if (auth()->user()->email == 'asd@mail.com') {
+            Artisan::call('up'); // Sair do modo de manutenção
+        }
+        return redirect()->route('home');
+    });
+});
+
 Route::middleware(['auth:web'])->group(
     function () {
         //superAdm
@@ -121,8 +130,12 @@ Route::middleware(['auth:web'])->group(
             Route::get('/relatorios/secretaria/{secretaria}/avaliacoes/mes', 'RelatoriosAvaliacoesController@avaliacoesPorMesSecretaria')
                 ->middleware('throttle:60,60')
                 ->name('get-resumo-avaliacoes-secretaria-avaliacoes-mes');
+            Route::get('/relatorios/secretaria/{secretaria}/notas-mes', 'RelatoriosAvaliacoesController@notasPorMesSecretaria')
+                ->middleware('throttle:60,60')->name('get-resumo-avaliacoes-secretarias-notas-mes');
+            Route::get('/relatorios/secretariafiltros/{secretaria}', 'RelatoriosAvaliacoesController@filtrar')->name('get-resumo-filtro-avaliacoes-secretaria');
 
             //Unidades
+
             Route::get('/relatorios/unidade', 'RelatoriosAvaliacoesController@resumoUnidadeSecrList')->name('get-list-resumo-avaliacoes-unidade');
             Route::get('/relatorios/secretaria/{secretaria}/unidade/{unidade}', 'RelatoriosAvaliacoesController@resumoUnidadeSecr')->name('get-resumo-avaliacoes-unidade');
             Route::get('/relatorios/unidade/{unidade}/notas-mes', 'RelatoriosAvaliacoesController@notasPorMesUnidade')
@@ -131,6 +144,8 @@ Route::middleware(['auth:web'])->group(
             Route::get('/relatorios/unidade/{unidade}/avaliacoes-mes', 'RelatoriosAvaliacoesController@avaliacoesPorMesUnidade')
                 ->middleware('throttle:60,60')
                 ->name('get-resumo-avaliacoes-unidade-avaliacoes-mes');
+            Route::get('/relatorios/unidade/export', 'RelatoriosAvaliacoesController@exportRelatorioUnidade')->name('get-export-avaliacoes-unidade');
+
 
             //Gerenciar Unidade
             Route::get('/unidade', 'UnidadeSecrController@listagem')->name('get-unidades-secr-list');

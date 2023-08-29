@@ -39,13 +39,12 @@
         @endcomponent
         @component(
             'admin.avaliacoes.resumos.components.avaliacao-geral',
-            compact('avaliacoesAverage', 'percentAverage', 'qtdAvaliacoes'))
+            compact('avaliacoesAverage', 'percentAverage', 'qtdAvaliacoes', 'notas'))
             @slot('title')
                 Avaliação da Unidade
             @endslot
         @endcomponent
     </div>
-
     <div class="row">
         <div class="col-md-12 mt-3">
             <div class="card">
