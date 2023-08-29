@@ -58,6 +58,7 @@
                             <div class="ms-auto d-flex">
                                 <label class="col-form-label me-2" for="">Classificação: </label>
                                 <select id="categoriaNotas" class="form-select mx-2">
+                                    <option value="Geral">Geral</option>
                                     <option value="Muito Ruim">Muito Ruim <i class="fa-regular fa-face-angry"></i></option>
                                     <option value="Ruim">Ruim <i class="fa-regular fa-face-frown"></i></option>
                                     <option value="Neutro">Neutro <i class="fa-regular fa-face-meh"></i></option>
@@ -150,12 +151,19 @@
                 // Obter a categoria selecionada
                 const selectedCategory = $("#categoriaNotas").val();
 
-                // Ocultar os gráficos das outras categorias
-                for (const dataset of notasMes.data.datasets) {
-                    if (dataset.label !== selectedCategory) {
-                        dataset.hidden = true;
-                    } else {
+                // Se "Geral" estiver selecionado, mostrar todos os gráficos
+                if (selectedCategory === "Geral") {
+                    for (const dataset of notasMes.data.datasets) {
                         dataset.hidden = false;
+                    }
+                } else {
+                    // Ocultar os gráficos das outras categorias
+                    for (const dataset of notasMes.data.datasets) {
+                        if (dataset.label !== selectedCategory) {
+                            dataset.hidden = true;
+                        } else {
+                            dataset.hidden = false;
+                        }
                     }
                 }
 
