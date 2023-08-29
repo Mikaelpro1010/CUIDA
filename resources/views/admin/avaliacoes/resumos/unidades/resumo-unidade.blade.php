@@ -58,11 +58,11 @@
                                 <label class="col-form-label me-2" for="">Classificação: </label>
                                 <select id="categoriaNotas" class="form-select mx-2">
                                     <option value="Geral">Geral</option>
-                                    <option value="Muito Ruim">Muito Ruim <i class="fa-regular fa-face-angry"></i></option>
-                                    <option value="Ruim">Ruim <i class="fa-regular fa-face-frown"></i></option>
-                                    <option value="Neutro">Neutro <i class="fa-regular fa-face-meh"></i></option>
-                                    <option value="Bom">Bom <i class="fa-regular fa-face-smile"></i></option>
-                                    <option value="Muito Bom">Muito Bom <i class="fa-regular fa-face-laugh-beam"></i></option>
+                                    <option class="text-danger" value="Muito Ruim">Muito Ruim </option>
+                                    <option class="text-warning" value="Ruim">Ruim </option>
+                                    <option class="text-info" value="Neutro">Neutro </option>
+                                    <option class="text-primary" value="Bom">Bom </option>
+                                    <option class="text-success" value="Muito Bom">Muito Bom </option>
                                 </select>
                                 <label class="col-form-label me-2" for="notasMes">Ano:</label>
                                 <select id="notasMes" class="form-select" name="notasMes">
