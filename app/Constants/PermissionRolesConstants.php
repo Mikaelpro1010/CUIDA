@@ -10,11 +10,13 @@ class PermissionRolesConstants
     // Admin
     public const ADMIN = [
         Permission::PERFIL_USUARIO,
+        Permission::GERENCIAR_ALUNOS,
     ];
 
     // Gerente
     public const GERENTE = [
         Permission::PERFIL_USUARIO,
+        Permission::GERENCIAR_PROFESSORES,
     ];
 
     // Ouvidor

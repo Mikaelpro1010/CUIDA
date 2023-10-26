@@ -17,18 +17,23 @@ use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Route;
 
-// Authentication Routes...
-$this->get('login', 'Auth\LoginController@showLoginForm')->name('login');
-$this->post('login', 'Auth\LoginController@login');
-$this->post('logout', 'Auth\LoginController@logout')->name('logout');
+// // Authentication Routes...
+// $this->get('login', 'Auth\LoginController@showLoginForm')->name('login');
+// $this->post('login', 'Auth\LoginController@login');
+// $this->post('logout', 'Auth\LoginController@logout')->name('logout');
 
 // Route::get('/teste', function () {
-// })->name('teste');
+    // })->name('teste');
+// Route::get('/', 'Publico\HomeController@Render')->name('pagina_inicial');
 
-//Rotas Não Logadas
-Route::view('/', 'public.home')->name('home');
-Route::view('/politicas-de-privacidade', 'public.politicas')->name('politicas');
-Route::view('/termos-de-uso', 'public.termos')->name('termos');
+Route::get('/', 'Auth\LoginController@showLoginForm')->name('login');
+Route::post('/login', 'Auth\LoginController@login')->name('login_submit');
+
+Route::get('/register', 'Auth\RegisterController@showRegistrationForm')->name('register');
+Route::post('/register', 'Auth\RegisterController@create')->name('register_submit');
+
+Route::post('logout', 'Auth\LoginController@logout')->name('logout');
+
 
 Route::prefix('avaliacoes')->namespace('Publico')->group(function () {
     Route::get('/unidade/setores/{unidadeToken}', 'AvaliacoesController@listSetores')->name('get-avaliacao-setores');
@@ -51,6 +56,7 @@ Route::prefix('super-adm')->group(function () {
 
 Route::middleware(['auth:web'])->group(
     function () {
+        
         //superAdm
         Route::prefix('super-adm')->group(
             function () {
@@ -69,19 +75,38 @@ Route::middleware(['auth:web'])->group(
             }
         );
 
-        //inicio
-        Route::get('/inicio', 'HomeController@index')->name('inicio');
+        // //inicio
+        // Route::get('/inicio', 'HomeController@index')->name('inicio');
 
+        Route::get('/home', 'HomeController@home')->name("home");
+        
         //Perfil do Usuário
         Route::get('/perfil-usuario', 'PerfilUsuarioController@viewPerfil')->name('get-user-perfil');
         Route::get('/perfil-usuario/edit', 'PerfilUsuarioController@editPerfil')->name('get-edit-user-perfil-view');
         Route::patch('/perfil-usuario/update-user', 'PerfilUsuarioController@updatePerfil')->name('patch-update-user-perfil');
         Route::get('/perfil-usuario/edit-password', 'PerfilUsuarioController@viewEditPassword')->name('get-user-perfil-password');
         Route::patch('/perfil-usuario/update-password', 'PerfilUsuarioController@updatePassword')->name('patch-update-user-perfil-password');
-
-        //Gerenciamento
+        
+        // //Gerenciamento
         Route::namespace('Gerenciar')->prefix('admin')->group(
             function () {
+                //Gerenciar Alunos
+                Route::get('/listarAlunos', 'AlunoController@listarAlunos')->name("listarAlunos");
+                Route::get('/visualizarCadastroAluno', 'AlunoController@visualizarCadastroAluno')->name("visualizarCadastroAluno");
+                Route::post('/cadastrarAlunos', 'AlunoController@cadastrarAlunos')->name("cadastrarAlunos");
+                Route::get('/visualizarAluno/{aluno}', 'AlunoController@visualizarAluno')->name("visualizarAluno");
+                Route::get('/editarAluno/{aluno}/acessar', 'AlunoController@editarAluno')->name("editarAluno");
+                Route::post('/atualizarAluno/atualizar/{aluno}', 'AlunoController@atualizarAluno')->name("atualizarAluno");
+                Route::post('/deletarAluno', 'AlunoController@deletarAluno')->name("deletarAluno");
+        
+                //Gerenciar Professores
+                Route::get('/listarProfessores', 'ProfessorController@listarProfessores')->name("listarProfessores");
+                Route::get('/visualizarCadastroProfessor', 'ProfessorController@visualizarCadastroProfessor')->name("visualizarCadastroProfessor");
+                Route::post('/cadastrarProfessores', 'ProfessorController@cadastrarProfessores')->name("cadastrarProfessores");
+                Route::get('/visualizarProfessor/{professor}', 'ProfessorController@visualizarProfessor')->name("visualizarProfessor");
+                Route::get('/editarProfessor/{professor}/acessar', 'ProfessorController@editarProfessor')->name("editarProfessor");
+                Route::post('/atualizarProfessor/atualizar/{professor}', 'ProfessorController@atualizarProfessor')->name("atualizarProfessor");
+                Route::post('/deletarProfessor', 'ProfessorController@deletarProfessor')->name("deletarProfessor");
                 // Usuarios
                 Route::get('/users', 'UsersController@listUsers')->name('get-users-list');
                 Route::get('/users/create', 'UsersController@createUser')->name('get-create-user');
@@ -194,6 +219,7 @@ Route::middleware(['auth:web'])->group(
             Route::delete('tipo-avaliacao/{tipoAvaliacao}', 'TipoAvaliacaoController@deleteTipoavaliacao')->name('delete-delete-tipo-avaliacao');
             Route::get('tipo-avaliacao/{tipoAvaliacao}/toggle', 'TipoAvaliacaoController@toggleTipoavaliacaoStatus')->name("get-toggle-tipo-avaliacao-status");
             Route::get('tipo-avaliacao/{secretariaId}/secretaria', 'TipoAvaliacaoController@getTiposAvaliacaoSecretaria')->name("get-tipo-avaliacao-secretaria");
+           
         });
     }
 );
@@ -201,3 +227,4 @@ Route::middleware(['auth:web'])->group(
 Route::any('{url}', function () {
     return response()->view('errors.404', ['error' => 'Not Found'], 404);
 })->where('url', '.*');
+

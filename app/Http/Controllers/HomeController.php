@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Cache;
 
 class HomeController extends Controller
 {
-    /**
+        /**
      * Create a new controller instance.
      *
      * @return void
@@ -22,8 +22,8 @@ class HomeController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function home()
     {
-        return view('admin.inicio');
+        return view('admin.welcome');
     }
 }

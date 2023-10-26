@@ -4,6 +4,39 @@ namespace App\Constants;
 
 class Permission
 {
+    //Gerenciar Alunos
+    public const GERENCIAR_ALUNOS_LIST = 'Listar Alunos';
+    public const GERENCIAR_ALUNOS_VIEW = 'Visualizar Alunos';
+    public const GERENCIAR_ALUNOS_CREATE = 'Criar Alunos';
+    public const GERENCIAR_ALUNOS_EDIT = 'Editar Alunos';
+    public const GERENCIAR_ALUNOS_DELETE = 'Deletar Alunos';
+    
+
+    public const GERENCIAR_ALUNOS = [
+        self::GERENCIAR_ALUNOS_LIST,
+        self::GERENCIAR_ALUNOS_VIEW,
+        self::GERENCIAR_ALUNOS_CREATE,
+        self::GERENCIAR_ALUNOS_EDIT,
+        self::GERENCIAR_ALUNOS_DELETE,
+    ];
+
+    //Gerenciar Professores
+    public const GERENCIAR_PROFESSORES_LIST = 'Listar Professores';
+    public const GERENCIAR_PROFESSORES_VIEW = 'Visualizar Professores';
+    public const GERENCIAR_PROFESSORES_CREATE = 'Criar Professores';
+    public const GERENCIAR_PROFESSORES_EDIT = 'Editar Professores';
+    public const GERENCIAR_PROFESSORES_DELETE = 'Deletar Professores';
+    
+
+    public const GERENCIAR_PROFESSORES = [
+        self::GERENCIAR_PROFESSORES_LIST,
+        self::GERENCIAR_PROFESSORES_VIEW,
+        self::GERENCIAR_PROFESSORES_CREATE,
+        self::GERENCIAR_PROFESSORES_EDIT,
+        self::GERENCIAR_PROFESSORES_DELETE,
+    ];
+
+
     // Perfil de usuário
     public const PERFIL_USUARIO_VIEW = 'Visualizar Perfil de Usuário';
     public const PERFIL_USUARIO_EDIT = 'Editar Perfil de Usuário';
@@ -293,6 +326,8 @@ class Permission
     ];
 
     public const PERMISSIONS = [
+        'Gerenciar Alunos' => self::GERENCIAR_ALUNOS,
+        'Gerenciar Professores' => self::GERENCIAR_PROFESSORES,
         //perfil
         'Gerenciar Perfil de Usuário' => self::PERFIL_USUARIO,
         //Manifestaçoes

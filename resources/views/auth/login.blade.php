@@ -1,51 +1,33 @@
-@extends('template.initial')
-
-@section('main')
-<div class="container col-md-5 mt-5">
-    <div class="card shadow p-3">
-        <h3 class="mx-auto my-2">Login</h3>
-        <form class="d-grid gap-2" method="POST" action="{{ route('login') }}">
-            {{ csrf_field() }}
-            <div class="form-group">
-                <label for="email" class=" ">E-mail</label>
-                <input id="email" type="email" class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}"
-                    name="email" value="{{ old('email') }}" required autofocus>
-                @if ($errors->has('email'))
-                <div class="invalid-feedback">
-                    <strong>{{ $errors->first('email') }}</strong>
+@extends('componentes/layout_login')
+@section('header')
+<body class="d-flex">
+    <div class="container-login">
+        <div class="wrapper-login">
+            <div class="title">
+                <span>Login</span>
+            </div>
+            <form action="{{route('login_submit')}}" class="form-login" method="POST">
+                {{ csrf_field() }}
+                <div class="row">
+                    <i class="fa-solid fa-user"></i>
+                    <input type="text" placeholder="E-mail" name="email" required>
                 </div>
-                @endif
-            </div>
-
-            <div class="form-group">
-                <label for="password" class="control-label">Senha</label>
-                <input id="password" type="password"
-                    class="form-control{{ $errors->has('password') ? ' is-invalid' : '' }}" name="password" required>
-                @if ($errors->has('password'))
-                <div class="invalid-feedback">
-                    <strong>{{ $errors->first('password') }}</strong>
+                <div class="row">
+                    <i class="fa-solid fa-lock"></i>
+                    <input type="password" placeholder="Senha" name="password" required>
                 </div>
-                @endif
-            </div>
 
-            <div class="form-group">
-                <div class="checkbox">
-                    <label>
-                        <input type="checkbox" name="remember" {{ old('remember') ? 'checked' : '' }}>
-                        Mantenha-me Conectado
-                    </label>
+                <div class="row button">
+                    <input type="submit" value="Acessar">
                 </div>
-            </div>
 
-            <div class="form-group text-center">
-                <button type="submit" class="btn btn-primary py-2 px-4">
-                    Login
-                </button>
-                {{-- <a class="btn btn-link" href="{{ route('password.request') }}">
-                    Esqueceu a Senha?
-                </a> --}}
-            </div>
-        </form>
+                <div class="signup-link">
+                    <a href="{{route('register')}}">Cadastrar</a> - <a href="#">Esqueceu a senha?</a>
+                </div>
+
+            </form>
+        </div>
     </div>
-</div>
+
+</body>
 @endsection
