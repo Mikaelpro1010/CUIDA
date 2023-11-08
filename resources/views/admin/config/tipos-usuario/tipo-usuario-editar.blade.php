@@ -1,7 +1,6 @@
-@extends('template.base')
+@extends('componentes/layout')
 
-@section('titulo', 'EscutaSol - Tipo de Usuário')
-@section('content')
+@section('conteudo')
 <h1 class="text-primary">Editar Tipo de Usuário</h1>
 <hr>
 <form method="POST" action="{{ route('patch-update-role', $role) }}">

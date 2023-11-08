@@ -8,6 +8,7 @@
     <link href="https://fonts.googleapis.com/css?family=Raleway:100,600" rel="stylesheet">
     <link rel="shortcut icon" href="{{ asset('imgs/icon/favicon.ico') }}" nonce="{{ csp_nonce() }}">
     <!-- Incluir os icones do font-awesome da CDN -->
+    <link rel="stylesheet" href="{{ asset('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css') }}">
     <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}" nonce="{{ csp_nonce() }}">
     <link rel="stylesheet" href="{{ asset('css/custom_adm.css') }}" nonce="{{ csp_nonce() }}">
     <link rel="stylesheet" href="{{ asset('scss/style.scss') }}" nonce="{{ csp_nonce() }}">
