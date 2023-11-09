@@ -52,13 +52,13 @@ class ProfessorController extends Controller
         return view('admin/gerenciar/CRUD_professores/visualizarProfessor', compact('professor'));
     }
     
-    public function editarProfessor(Professor $Professor){
+    public function editarProfessor(Professores $Professor){
         $this->authorize(Permission::GERENCIAR_PROFESSORES_EDIT);
         
         return view('admin/gerenciar/CRUD_professores/editarProfessor', compact('professor'));
     }
     
-    public function atualizarProfessor(Request $request, Professor $Professor){
+    public function atualizarProfessor(Request $request, Professores $Professor){
         $this->authorize(Permission::GERENCIAR_PROFESSORES_EDIT);
         
         $request->validate([

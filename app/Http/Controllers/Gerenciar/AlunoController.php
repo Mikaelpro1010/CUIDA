@@ -45,19 +45,19 @@ class AlunoController extends Controller
         
     }
     
-    public function visualizarAluno(Aluno $aluno){
+    public function visualizarAluno(Alunos $aluno){
         $this->authorize(Permission::GERENCIAR_ALUNOS_VIEW);
         
         return view('admin/gerenciar/CRUD_alunos/visualizarAluno', compact('aluno'));
     }
     
-    public function editarAluno(Aluno $aluno){
+    public function editarAluno(Alunos $aluno){
         $this->authorize(Permission::GERENCIAR_ALUNOS_EDIT);
         
         return view('admin/gerenciar/CRUD_alunos/editarAluno', compact('aluno'));
     }
     
-    public function atualizarAluno(Request $request, Aluno $aluno){
+    public function atualizarAluno(Request $request, Alunos $aluno){
         $this->authorize(Permission::GERENCIAR_ALUNOS_EDIT);
         
         $request->validate([
