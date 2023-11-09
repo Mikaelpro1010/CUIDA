@@ -1,6 +1,6 @@
-@extends('componentes/layout')
+@extends('template.base')
 
-@section('conteudo')
+@section('content')
 <div class="d-flex justify-content-between align-items-center">
     <h1 class="m-0 text-primary">Tipos de Usuário</h1>
     @can(permissionConstant()::GERENCIAR_TIPOS_USUARIOS_CREATE)

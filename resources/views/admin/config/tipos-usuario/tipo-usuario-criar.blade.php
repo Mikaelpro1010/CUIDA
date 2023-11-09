@@ -1,6 +1,6 @@
-@extends('componentes/layout')
+@extends('template.base')
 
-@section('conteudo')
+@section('content')
 <h1 class="text-primary">Cadastrar Tipo de Usuário</h1>
 <hr>
 <form method="POST" action="{{ route('post-store-role') }}">

@@ -1,5 +1,6 @@
-@extends('componentes/layout')
-@section('conteudo')
+@extends('template.base')
+
+@section('content')
 <!-- Inicio do conteudo do administrativo -->
 <div class="top-list">
     <span class="title-content">Visualizar</span>

@@ -1,6 +1,6 @@
-@extends('componentes/layout')
+@extends('template.base')
 
-@section('conteudo')
+@section('content')
 <!-- Inicio do conteudo do administrativo -->
 <div class="top-list">
     @include('componentes/flash-message')
@@ -69,7 +69,7 @@
 <!-- Fim do conteudo do administrativo -->
 @endsection
 
-@section('scripts')
+@push('scripts')
 <script>
     function deleteItem(id) {
         $('#deletar').val(id);
@@ -80,4 +80,4 @@
         $('#modalDelete').modal('hide');
     }
 </script>
-@endsection
+@endpush

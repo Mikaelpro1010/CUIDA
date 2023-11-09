@@ -15,7 +15,6 @@
 </head>
 
 <body class="bg-light">
-    <!-- <header class="sticky-top"> -->
         <!-- Inicio Navbar -->
     <nav class="navbar ">
         <div class="navbar-content">
@@ -73,7 +72,6 @@
         </div>
     </nav>
     <!-- Fim Navbar -->
-    <!-- </header> -->
 
     <div class="content">
         <!-- Inicio da Sidebar -->
@@ -130,6 +128,9 @@
         @yield('main')
     </div>
 
+    <script src="{{ asset('js/custom_adm.js') }}" nonce="{{ csp_nonce() }}"></script>
+    <script src="{{ asset('js/jquery.js') }}" nonce="{{ csp_nonce() }}"></script>
+    <script src="{{ asset('js/app.js') }}" nonce="{{ csp_nonce() }}"></script>
     <script src="{{ asset('js/scripts.js') }}" nonce="{{ app('csp-nonce') }}" data-auto-add-css="false"></script>
     @stack('scripts')
 </body>

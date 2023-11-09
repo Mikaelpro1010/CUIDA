@@ -1,6 +1,6 @@
-@extends('componentes/layout')
+@extends('template.base')
 
-@section('conteudo')
+@section('content')
 <div class="d-flex justify-content-between">
     <h1 class="m-0 text-primary">Informações do Tipo de Usuário</h1>
     <div>
