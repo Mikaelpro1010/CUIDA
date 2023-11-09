@@ -28,21 +28,17 @@ class ProfessorController extends Controller
         
         $request->validate([
             'name' => 'required|string|max:255',
-            'nota' => 'required'
+            'disciplina' => 'required'
         ]);
         
         $professor = new Professores;
         
         $professor->name = $request->name;
-        $professor->nota = $request->nota;
+        $professor->disciplina = $request->disciplina;
         
-        if($professor->nota > 10 or $professor->nota < 0 ){
-            return redirect()->route('visualizarCadastro')->with('error','Somente é permitido notas de 0 a 10!');
-        } else{
-            $professor->save();
-            
-            return redirect()->route('listarProfessores')->with('success','Professor cadastrado com sucesso!');
-        }
+        $professor->save();
+        
+        return redirect()->route('listarProfessores')->with('success','Professor cadastrado com sucesso!');
         
     }
     
