@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>@yield('titulo', 'EscutaSol')</title>
+    <title>@yield('titulo', 'CUIDA')</title>
 
     <link rel="stylesheet" href="{{ asset('css/styles.css') }}" nonce="{{ csp_nonce() }}">
     <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}" nonce="{{ csp_nonce() }}">
@@ -128,10 +128,10 @@
         @yield('main')
     </div>
 
+    <script src="{{ asset('js/scripts.js') }}" nonce="{{ app('csp-nonce') }}" data-auto-add-css="false"></script>
     <script src="{{ asset('js/custom_adm.js') }}" nonce="{{ csp_nonce() }}"></script>
     <script src="{{ asset('js/jquery.js') }}" nonce="{{ csp_nonce() }}"></script>
     <script src="{{ asset('js/app.js') }}" nonce="{{ csp_nonce() }}"></script>
-    <script src="{{ asset('js/scripts.js') }}" nonce="{{ app('csp-nonce') }}" data-auto-add-css="false"></script>
     @stack('scripts')
 </body>
 
