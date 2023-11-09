@@ -49,7 +49,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title">Deletar elemento</h5>
-                <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 <form class="" action="{{ route('deletarProfessor') }}" method="POST">
@@ -57,7 +57,7 @@
                     {{ csrf_field() }}
                     <input type="hidden" id="deletar" name="id" value="">
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancelar</button>
                         <button type="submit" class="btn btn-success" onclick="close_modal()">Deletar</button>
                     </div>
                 </form>
