@@ -48,22 +48,22 @@ class ProfessorController extends Controller
         return view('admin/gerenciar/CRUD_professores/visualizarProfessor', compact('professor'));
     }
     
-    public function editarProfessor(Professores $Professor){
+    public function editarProfessor(Professores $professor){
         $this->authorize(Permission::GERENCIAR_PROFESSORES_EDIT);
         
         return view('admin/gerenciar/CRUD_professores/editarProfessor', compact('professor'));
     }
     
-    public function atualizarProfessor(Request $request, Professores $Professor){
+    public function atualizarProfessor(Request $request, Professores $professor){
         $this->authorize(Permission::GERENCIAR_PROFESSORES_EDIT);
         
         $request->validate([
             'name' => 'required|string|max:255',
-            'nota' => 'required'
+            'disciplina' => 'required'
         ]);
         
         $professor->name = $request->name;
-        $professor->nota = $request->nota;
+        $professor->disciplina = $request->disciplina;
         
         $professor->save();
         
