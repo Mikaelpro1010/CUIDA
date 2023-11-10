@@ -1,6 +1,7 @@
 @extends('template.base')
 
 @section('content')
+<div class="row">
     @include('componentes/flash-message')
     <div class="d-flex justify-content-between">
         <h1 class="m-0 text-primary">Usuários</h1>
@@ -159,6 +160,7 @@
             </div>
         </div>
     @endcan
+</div>
 @endsection
 
 @push('scripts')

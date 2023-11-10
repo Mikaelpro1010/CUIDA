@@ -97,12 +97,21 @@
                 <a href="sidebar_dropdown2.html" class="sidebar-nav active"><i class="icon fa-solid fa-ship"></i><span>Link 4</span></a>
             </div> -->
             
-            <a href="" class="sidebar-nav"><i class="icon fa-solid fa-list"></i><span>login</span></a>
+            <!-- <a href="" class="sidebar-nav"><i class="icon fa-solid fa-list"></i><span>login</span></a>
             
-            <a href="" class="sidebar-nav"><i class="icon fa-solid fa-file-lines"></i><span>Visualizar</span></a>
+            <a href="" class="sidebar-nav"><i class="icon fa-solid fa-file-lines"></i><span>Visualizar</span></a> -->
             
-            <a href="" class="sidebar-nav"><i class="icon fa-solid fa-eye"></i><span>Gerenciar Alunos</span></a>
+            @can(permissionConstant()::GERENCIAR_ALUNOS_LIST)
+
+            <a href="{{ route('listarAlunos') }}" class="sidebar-nav"><i class="icon fa-solid fa-eye"></i><span>Gerenciar Alunos</span></a>
             
+            @endcan
+            
+            @can(permissionConstant()::GERENCIAR_PROFESSORES_LIST)
+            
+            <a href="{{ route('listarProfessores') }}" class="sidebar-nav"><i class="icon fa-solid fa-eye"></i><span>Gerenciar Professores</span></a>
+            
+            @endcan
             <!-- @if (session('warning'))
                 <div class="alert alert-warning alert-dismissible fade show" role="alert">
                     <li>{{ session('warning') }}</li>
@@ -110,10 +119,10 @@
                 </div>
             @endif
             @if (session('success'))
-                <div class="alert alert-success alert-dismissible fade show" role="alert">
-                    <li>{{ session('success') }}</li>
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                </div>
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                <li>{{ session('success') }}</li>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
             @endif
             @if (isset($errors) && $errors->any())
                 <div class="alert alert-danger alert-dismissible fade show" role="alert">
@@ -122,10 +131,12 @@
                     @endforeach
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
-            @endif -->
+                @endif -->
+            <!-- Fim da Sidebar -->
+
         </div>
-        <!-- Fim da Sidebar -->
         @yield('main')
+            
     </div>
 
     <script src="{{ asset('js/scripts.js') }}" nonce="{{ app('csp-nonce') }}" data-auto-add-css="false"></script>

@@ -100,9 +100,9 @@
                 <a href="sidebar_dropdown2.html" class="sidebar-nav active"><i class="icon fa-solid fa-ship"></i><span>Link 4</span></a>
             </div> -->
             
-            <a href="" class="sidebar-nav"><i class="icon fa-solid fa-list"></i><span>login</span></a>
+            <!-- <a href="" class="sidebar-nav"><i class="icon fa-solid fa-list"></i><span>login</span></a>
             
-            <a href="" class="sidebar-nav"><i class="icon fa-solid fa-file-lines"></i><span>Visualizar</span></a>
+            <a href="" class="sidebar-nav"><i class="icon fa-solid fa-file-lines"></i><span>Visualizar</span></a> -->
             
             <a href="" class="sidebar-nav"><i class="icon fa-solid fa-eye"></i><span>Gerenciar Alunos</span></a>
             
