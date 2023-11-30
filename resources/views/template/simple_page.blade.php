@@ -12,10 +12,14 @@
     <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}" nonce="{{ csp_nonce() }}">
     <link rel="stylesheet" href="{{ asset('css/custom_adm.css') }}" nonce="{{ csp_nonce() }}">
     <link rel="stylesheet" href="{{ asset('scss/style.scss') }}" nonce="{{ csp_nonce() }}">
+    <link rel="stylesheet" href="{{ asset('css/main.css') }}" nonce="{{ csp_nonce() }}">
+
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" nonce="{{ csp_nonce() }}">
 </head>
 
-<body class="bg-light">
-        <!-- Inicio Navbar -->
+<body class=" dark:bg-slate-900">
+    <!-- Inicio Navbar -->
     <nav class="navbar ">
         <div class="navbar-content">
             <div class="bars">
@@ -25,6 +29,8 @@
         </div>
         
         <div class="navbar-content">
+            <i class="moon cursor-pointer bi bi-moon-fill"></i>
+            <i class="sun cursor-pointer bi bi-brightness-high-fill"></i>
             <div class="notification">
                 <i class="fa-solid fa-bell"></i>
                 <span class="number">7</span>
@@ -46,6 +52,7 @@
                 </div>
             </div>
             
+
             <div class="avatar">
                 <img src="{{ asset('imgs/users/user.jpg') }}" nonce="{{ csp_nonce() }}" alt="Usuario" width="40">
                 <div class="dropdown-menu setting">
@@ -135,13 +142,16 @@
             <!-- Fim da Sidebar -->
 
         </div>
-        @yield('main')
-            
+        <main style="width: 100%; padding: 10px;" class="p-2 py-2 px-4">
+            @yield('main')
+        </main>
+        <!-- Inicio do conteudo do administrativo -->0
     </div>
 
-    <script src="{{ asset('js/scripts.js') }}" nonce="{{ app('csp-nonce') }}" data-auto-add-css="false"></script>
+    <script src="{{ asset('js/darkMode.js') }}" nonce="{{ csp_nonce() }}"></script>
     <script src="{{ asset('js/custom_adm.js') }}" nonce="{{ csp_nonce() }}"></script>
     <script src="{{ asset('js/jquery.js') }}" nonce="{{ csp_nonce() }}"></script>
+    <script src="{{ asset('js/scripts.js') }}"  nonce="{{ csp_nonce() }}" data-auto-add-css="false"></script>
     <script src="{{ asset('js/app.js') }}" nonce="{{ csp_nonce() }}"></script>
     @stack('scripts')
 </body>
