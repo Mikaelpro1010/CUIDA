@@ -1,3 +1,8 @@
+/* resources/css/styles.css */
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+
 @import "~bootstrap/scss/mixins/banner";
 @include bsBanner("");
 
@@ -59,3 +64,4 @@ $theme-colors: map-merge($theme-colors, $custom-colors);
 // Utilities
 @import "~bootstrap/scss/utilities/api";
 // scss-docs-end import-stack
+

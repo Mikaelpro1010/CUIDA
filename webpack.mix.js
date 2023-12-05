@@ -39,20 +39,25 @@ mix
       "resources/assets/css/main.css",
       "resources/assets/css/css1.css",
       "resources/assets/css/css2.css",
+      "resources/assets/css/custom_adm.css",
+      "resources/assets/css/custom_login.css",
+      "resources/assets/css/tailwind.css",
       "node_modules/@fortawesome/fontawesome-free/css/svg-with-js.css",
     ],
     "public/css/styles.css"
-  )
-  .scripts(
-    [
-      "node_modules/jquery/dist/jquery.js",
-      "resources/assets/js/scripts.js",
-      "node_modules/bootstrap/dist/js/bootstrap.bundle.js",
-      "node_modules/jquery-ui/dist/jquery-ui.js",
-      "node_modules/sweetalert2/dist/sweetalert2.js",
-      "node_modules/jquery-mask-plugin/src/jquery.mask.js",
-      "node_modules/chart.js/dist/chart.js",
-      "node_modules/@fortawesome/fontawesome-free/js/all.js",
+    )
+    .scripts(
+      [
+        "node_modules/jquery/dist/jquery.js",
+        "resources/assets/js/scripts.js",
+        "node_modules/bootstrap/dist/js/bootstrap.bundle.js",
+        "node_modules/jquery-ui/dist/jquery-ui.js",
+        "node_modules/sweetalert2/dist/sweetalert2.js",
+        "node_modules/jquery-mask-plugin/src/jquery.mask.js",
+        "node_modules/chart.js/dist/chart.js",
+        "resources/assets/js/custom_adm.js",
+        "resources/assets/js/darkMode.js",
+        "node_modules/@fortawesome/fontawesome-free/js/all.js",
     ],
     "public/js/scripts.js"
   );

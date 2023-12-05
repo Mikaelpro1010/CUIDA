@@ -33,10 +33,6 @@
     --danger-color-second: #f8d7da;
 }
 
-body {
-    background-color: var(--main-color);
-}
-
 .navbar {
     color: var(--main-color);
     display: flex;
