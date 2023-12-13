@@ -2,7 +2,7 @@ let sunIcon = document.querySelector(".sun");
 let moonIcon = document.querySelector(".moon");
 
 //Theme Vars
-const usetTheme = localStorage.getItem("theme");
+const userTheme = localStorage.getItem("theme");
 const systemTheme = window.matchMedia("(prefers-color-scheme: dark)").matches;
 
 //Icon Toggling
@@ -13,7 +13,7 @@ const iconToggle = () => {
 
 //Initial Theme Check
 const themeCheck = () => {
-    if(usetTheme === "dark" || (!usetTheme && systemTheme)){
+    if(userTheme === "dark" || (!userTheme && systemTheme)){
         document.documentElement.classList.add("dark");
         moonIcon.classList.add("display-none");
         return;

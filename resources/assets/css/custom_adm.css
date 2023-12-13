@@ -7,32 +7,6 @@
     text-decoration: none;
 }
 
-:root {
-    --site-color: #3a7afe;
-    --main-color: #ebeef6;
-    --active-color: #d4def7;
-    --bg-color: #ecedf0;
-    --second-color: #f1f1f1;
-    --third-color: #9fa7bd;
-    --fourth-color: #fff;
-    --fifth-color: #000;
-    --sixth-color: #222;
-    --main-bg-color: #192039;
-    --second-bg-color: #1e2746;
-    --third-bg-color: #3a7afe;
-    --fourth-bg-color: #131b38;
-    --primary-color: #0088cc;
-    --success-color: #47a447;
-    --info-color: #5bc0de;
-    --warning-color: #ed9c28;
-    --danger-color: #d2322d;
-    --primary-color-second: #cfe2ff;
-    --success-color-second: #d1e7dd;
-    --info-color-second: #cff4fc;
-    --warning-color-second: #fff3cd;
-    --danger-color-second: #f8d7da;
-}
-
 .navbar {
     color: var(--main-color);
     display: flex;
@@ -300,10 +274,9 @@
 
 /* Fim sidebar */
 
-.content .wrapper {
+.content .wrapper{
     width: 100%;
     padding: 10px;
-    background-color: var(--bg-color);
 }
 
 .content .row {

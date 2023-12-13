@@ -9,25 +9,22 @@
     <title>@yield('titulo', 'CUIDA')</title>
 
     <link rel="stylesheet" href="{{ asset('css/styles.css') }}" nonce="{{ csp_nonce() }}">
-    <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}" nonce="{{ csp_nonce() }}">
-    <link rel="stylesheet" href="{{ asset('css/tailwind.css') }}" nonce="{{ csp_nonce() }}">
-    <link rel="stylesheet" href="{{ asset('css/custom_adm.css') }}" nonce="{{ csp_nonce() }}">
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" nonce="{{ csp_nonce() }}">
 </head>
 
-<body class="bg-light">
+<body class="dark:bg-black">
         <!-- Inicio Navbar -->
-    <nav class="navbar ">
-        <div class="navbar-content">
+    <nav class="navbar dark:bg-black">
+        <div class="navbar-content dark:bg-black">
 
             <div class="bars">
-                <i class="fa-solid fa-bars"></i>
+                <i class="fa-solid fa-bars dark:border-white p-1"></i>
             </div>
             <img src="{{ asset('imgs/logo/logo.png') }}" nonce="{{ csp_nonce() }}" alt="Celke" class="logo">
         </div>
         
-        <div class="navbar-content">
+        <div class="navbar-content dark:bg-black">
             <i class="moon cursor-pointer bi bi-moon-fill mx-2"></i>
             <i class="sun cursor-pointer  bi bi-brightness-high-fill mx-2"></i>
             <div class="notification">
@@ -78,15 +75,15 @@
     </nav>
     <!-- Fim Navbar -->
 
-    <div class="content">
+    <div class="content dark:bg-black">
         <!-- Inicio da Sidebar -->
-        <div class="sidebar">
+        <div class="sidebar dark:bg-black">
             <a href="{{route('home')}}" class="sidebar-nav"><i class="icon fa-solid fa-house"></i><span>Dashboard</span></a>
             
-            <button class="dropdown-btn">
+            <button class="dropdown-btn dark:bg-black">
                 <i class="icon fa-solid fa-users"></i><span>Dropdown</span><i class="fa-solid fa-caret-down"></i>
             </button>
-            <div class="dropdown-container">
+            <div class="dropdown-container dark:bg-black">
                 <a href="#" class="sidebar-nav"><i class="icon fa-solid fa-user-check"></i><span>Link 1</span></a>
                 <a href="" class="sidebar-nav"><i class="icon fa-solid fa-user-gear"></i><span>Link 2</span></a>
                 <a href="#" class="sidebar-nav"><i class="icon fa-solid fa-chalkboard-user"></i><span>Link 3</span></a>
@@ -144,9 +141,7 @@
             
     </div>
 
-    <script src="{{ asset('js/scripts.js') }}" nonce="{{ csp_nonce() }}" data-auto-add-css="false"></script>
-    <script src="{{ asset('js/jquery.js') }}" nonce="{{ csp_nonce() }}"></script>
-    <script src="{{ asset('js/app.js') }}" nonce="{{ csp_nonce() }}"></script>
+    <script src="{{ asset('js/scripts.js') }}" nonce="{{ csp_nonce() }}" data-auto-add-css="false" defer></script>
     @stack('scripts')
 </body>
 
