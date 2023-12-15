@@ -36,9 +36,10 @@ mix
   )
   .styles(
     [
+      "resources/assets/css/main.css",
       "resources/assets/css/input.css",
       "resources/assets/css/output.css",
-      "resources/assets/css/main.css",
+      "resources/assets/css/bootstrap.min.css",
       "resources/assets/css/css1.css",
       "resources/assets/css/css2.css",
       "resources/assets/css/custom_adm.css",

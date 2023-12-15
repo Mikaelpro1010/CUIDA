@@ -2,8 +2,8 @@
 
 @section('main')
     <!-- Inicio do conteudo do administrativo -->
-    <main class="wrapper p-2 py-2 px-2 dark:bg-black">
-        <div class="card dark:bg-gray-700">
+    <main class="wrapper dark:bg-black">
+        <div class="card">
             @yield('content')
         </div>
     </main>

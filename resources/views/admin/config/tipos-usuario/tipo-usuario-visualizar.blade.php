@@ -2,39 +2,38 @@
 
 @section('content')
 <div class="row">
-    <div class="d-flex justify-content-between">
-        <h1 class="m-0 text-primary">Informações do Tipo de Usuário</h1>
-        <div>
+    <div class="top-list">
+        <span class="title-content">Informações do Tipo de Usuário</span>
+        <div class="top-list-right">
             <a class="btn btn-warning" href="{{ route('get-edit-role-view', $role) }}">
                 <i class="fa-solid fa-pen-to-square me-1"></i>
                 Editar Tipo de Usuário
             </a>
-        </div>
-    </div>
-    <hr>
-
-    <div class="row">
-        <div class="col-md-1">
-            <label class="fw-bold" for="">Id</label>
-            <p class="border-bottom border-2 border-warning px-2 ">{{ $role->id }}</p>
-        </div>
-        <div class="col-md-4">
-            <label class="fw-bold" for="">Nome</label>
-            <p class="border-bottom border-2 border-warning px-2 ">{{ $role->name }}</p>
-        </div>
-
-        <div class="col-md-3">
-            <label class="fw-bold" for="">Data de Cadastro</label>
-            <p class="border-bottom border-2 border-warning px-2 ">{{ formatarDataHora($role->created_at) }}</p>
-        </div>
-        <div class="col-md-3">
-            <label class="fw-bold" for="">Ultima Atualização</label>
-            <p class="border-bottom border-2 border-warning px-2 ">{{ formatarDataHora($role->updated_at) }}</p>
+            <a href="{{ route('get-roles-list') }}" class="btn-info">Listar</a>
         </div>
     </div>
 
-    <hr>
-    <h4 class="text-primary">Permissões</h4>
+    <div class="content-adm">
+        <div class="view-det-adm">
+            <span class="view-adm-title">Id: </span>
+            <span class="view-adm-info">{{ $role->id }}</span>
+        </div>
+        <div class="view-det-adm">
+            <span class="view-adm-title">Nome: </span>
+            <span class="view-adm-info">{{ $role->name }}</span>
+        </div>
+        <div class="view-det-adm">
+            <span class="view-adm-title">Data de Cadastro: </span>
+            <span class="view-adm-info">{{ formatarDataHora($role->created_at) }}</span>
+        </div>
+        <div class="view-det-adm">
+            <span class="view-adm-title">Ultima Atualização: </span>
+            <span class="view-adm-info">{{ formatarDataHora($role->updated_at) }}</span>
+        </div>
+        <hr>
+    </div>
+
+    <span class="title-content">Permissões</span>
     <div class="row mx-0">
         @foreach ($permissionGroups as $key => $permissionGroup )
         <ul class="col-md-4 list-group mb-2">
@@ -53,13 +52,6 @@
             @endforeach
         </ul>
         @endforeach
-    </div>
-
-    <div class="mt-3 d-flex justify-content-around">
-        <a class="btn btn-warning" href="{{ route('get-roles-list') }}">
-            <i class="fa-solid fa-chevron-left"></i>
-            Voltar
-        </a>
     </div>
 </div>
 @endsection

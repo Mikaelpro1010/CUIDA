@@ -141,7 +141,7 @@
             
     </div>
 
-    <script src="{{ asset('js/scripts.js') }}" nonce="{{ csp_nonce() }}" data-auto-add-css="false" defer></script>
+    <script src="{{ asset('js/scripts.js') }}" nonce="{{ csp_nonce() }}" data-auto-add-css="false"></script>
     @stack('scripts')
 </body>
 

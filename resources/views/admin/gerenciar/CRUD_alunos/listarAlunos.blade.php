@@ -42,7 +42,7 @@
     
     @endcan
     
-    <div class="d-flex justify-content-evenly">
+    <div class="justify-content-evenly">
         {{ $alunos->links('pagination::bootstrap-4') }}
     </div>
     @can(permissionConstant()::GERENCIAR_ALUNOS_DELETE)

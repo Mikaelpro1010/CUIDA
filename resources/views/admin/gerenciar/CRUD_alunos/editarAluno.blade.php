@@ -23,8 +23,9 @@
                     <input type="number" name="nota" id="nota" class="input-adm" value="{{$aluno->nota}}">
                 </div>
             </div>
-    
-            <button type="submit" class="btn-warning">Salvar</button>
+            <div class="text-center">
+                <button type="submit" class="btn-warning">Salvar</button>
+            </div>
         </form>
     </div>
     @endcan

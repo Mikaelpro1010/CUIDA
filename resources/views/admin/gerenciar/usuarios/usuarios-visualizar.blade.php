@@ -2,65 +2,56 @@
 
 @section('content')
 <div class="row">
-    <div class="d-flex justify-content-between">
-        <h1 class="m-0 text-primary">Informações do Usuário</h1>
+    <div class="top-list">
         @can(permissionConstant()::GERENCIAR_USUARIOS_EDIT)
-        <div>
+        <span class="title-content">Informações do usuário</span>
+        <div class="top-list-right">
             <a class="btn btn-warning" href="{{ route('get-edit-user-view', $user) }}">
                 <i class="fa-solid fa-pen-to-square me-1"></i>
                 Editar Usuário
             </a>
+            <a href="{{ route('get-users-list') }}" class="btn-info">Listar</a>
         </div>
         @endcan
     </div>
-    <hr>
-    
-    <div class="row">
-        <div class="col-md-1">
-            <label class="fw-bold" for="">Id</label>
-            <p class="border-bottom border-2 border-warning px-2 ">{{ $user->id }}</p>
+
+    <div class="content-adm">
+        <div class="view-det-adm">
+            <span class="view-adm-title">Id: </span>
+            <span class="view-adm-info">Id</span>
         </div>
-        <div class="col-md-4">
-            <label class="fw-bold" for="">Nome</label>
-            <p class="border-bottom border-2 border-warning px-2 ">{{ $user->name }}</p>
+        
+        <div class="view-det-adm">
+            <span class="view-adm-title">Nome: </span>
+            <span class="view-adm-info">{{ $user->name }}</span>
         </div>
-        <div class="col-md-4">
-            <label class="fw-bold" for="">Email</label>
-            <p class="border-bottom border-2 border-warning px-2 ">{{ $user->email }}</p>
+        
+        <div class="view-det-adm">
+            <span class="view-adm-title">Email: </span>
+            <span class="view-adm-info">{{ $user->email }}</span>
         </div>
-        <div class="col-md-3">
-            <label class="fw-bold" for="">Tipo de Usuário</label>
-            <p class="border-bottom border-2 border-warning px-2 ">{{ $user->role->name }}</p>
+
+        <div class="view-det-adm">
+            <span class="view-adm-title">Tipo de Usuário: </span>
+            <span class="view-adm-info">{{ $user->role->name }}</span>
         </div>
-    </div>
-    
-    <div class="row">
-        <div class="col-md-6">
-            <label class="fw-bold">Secretaria(s)</label>
-            <ul class="list-group list-group-flush">
-                @foreach ($user->secretarias as $secretaria)
-                <li class="list-group-item border-bottom border-2 border-warning pb-0">
-                    {{$secretaria->sigla}} - {{$secretaria->nome}}
-                </li>
-                @endforeach
-            </ul>
+        
+        <div class="view-det-adm">
+            <span class="view-adm-title">Secretaria(s): </span>
+            @foreach ($user->secretarias as $secretaria)
+            <span class="view-adm-info">{{$secretaria->sigla}} - {{$secretaria->nome}}</span>
+            @endforeach
         </div>
-    
-        <div class="col-md-3">
-            <label class="fw-bold" for="">Data de Cadastro</label>
-            <p class="border-bottom border-2 border-warning px-2 ">{{ formatarDataHora($user->created_at) }}</p>
+
+        <div class="view-det-adm">
+            <span class="view-adm-title">Data de Cadastro: </span>
+            <span class="view-adm-info">{{ formatarDataHora($user->created_at) }}</span>
         </div>
-        <div class="col-md-3">
-            <label class="fw-bold" for="">Ultima Atualização</label>
-            <p class="border-bottom border-2 border-warning px-2 ">{{ formatarDataHora($user->updated_at) }}</p>
+
+        <div class="view-det-adm">
+            <span class="view-adm-title">Última atualização: </span>
+            <span class="view-adm-info">{{ formatarDataHora($user->updated_at) }}</span>
         </div>
-    </div>
-    
-    <div class="d-flex justify-content-around mt-3">
-        <a class="btn btn-warning" href="{{ route('get-users-list') }}">
-            <i class="fa-solid fa-chevron-left"></i>
-            Voltar
-        </a>
     </div>
 </div>
 @endsection

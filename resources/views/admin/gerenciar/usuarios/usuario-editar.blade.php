@@ -2,50 +2,53 @@
 
 @section('content')
 <div class="row">
-    <div class="d-flex justify-content-between">
-        <h1 class="text-primary">Editar Usuário</h1>
+    <div class="top-list">
+        <span class="title-content">Editar Usuário</span>
         @can(permissionConstant()::GERENCIAR_USUARIOS_EDIT_PASSWORD)
-        <div>
+        <div class="top-list-right">
             <a class="btn btn-warning" href="{{ route('get-edit-user-password-view', $user) }}">
                 <i class="fa-solid fa-pen-to-square"></i>
                 Editar Senha
             </a>
+            <a href="{{ route('get-users-list') }}" class="btn-info">Listar</a>
         </div>
         @endcan
     </div>
-    <hr>
-    <form id="editForm" method="POST" action="{{ route('patch-update-user', $user) }}">
-        {{ csrf_field() }}
-        {{ method_field('PATCH') }}
-        <div class="row">
-            <div class="col-md-4">
-                <label class="fw-bold" for="">Nome:</label>
-                <input class="form-control" type="text" name="name" value="{{ $user->name }}">
+
+    <div class="content-adm">
+        <form class="form-adm" id="editForm" method="POST" action="{{ route('patch-update-user', $user) }}">
+            {{ csrf_field() }}
+            {{ method_field('PATCH') }}
+            <div class="row-input">
+                <div class="column">
+                    <label class="fw-bold" for="">Nome:</label>
+                    <input class="form-control" type="text" name="name" value="{{ $user->name }}">
+                </div>
+                <div class="column">
+                    <label class="fw-bold" for="">Email:</label>
+                    <input class="form-control" type="email" name="email" value="{{ $user->email }}">
+                </div>
+                <div class="column">
+                    <label class="fw-bold" for="">Tipo de Usuário:</label>
+                    <select class="form-select" name="tipo">
+                        @foreach ($roles as $role)
+                        <option @if ($role->id == $user->role_id) selected @endif value="{{ $role->id }}">
+                            {{ $role->name }}</option>
+                        @endforeach
+                    </select>
+                </div>
             </div>
-            <div class="col-md-4">
-                <label class="fw-bold" for="">Email:</label>
-                <input class="form-control" type="email" name="email" value="{{ $user->email }}">
+        
+            <div id="secretarias">
+                @foreach ($user->secretarias as $secretaria)
+                <input id="secretaria_{{$secretaria->id}}" type="hidden" name="secretaria[]" value="{{$secretaria->id}}">
+                @endforeach
             </div>
-            <div class="col-md-4">
-                <label class="fw-bold" for="">Tipo de Usuário:</label>
-                <select class="form-select" name="tipo">
-                    @foreach ($roles as $role)
-                    <option @if ($role->id == $user->role_id) selected @endif value="{{ $role->id }}">
-                        {{ $role->name }}</option>
-                    @endforeach
-                </select>
-            </div>
-        </div>
-    
-        <div id="secretarias">
-            @foreach ($user->secretarias as $secretaria)
-            <input id="secretaria_{{$secretaria->id}}" type="hidden" name="secretaria[]" value="{{$secretaria->id}}">
-            @endforeach
-        </div>
-    
-    </form>
-    <div class="row">
-        <div class="col-md-8">
+        
+        </form>
+    </div>
+    <div class="row-input">
+        <div class="column">
             <label class="fw-bold" for="">Secretaria(s):</label>
             <select id="secretariaSelect" class="form-select">
                 <option value="">Selecione</option>
@@ -58,11 +61,11 @@
         </div>
     </div>
     
-    <div class="row mt-3">
-        <div class="col-md-8">
+    <div class="row-input">
+        <div class="column">
             <ul id="secretarias_list" class="list-group">
                 @foreach ($user->secretarias as $secretaria)
-                <li id="list_{{$secretaria->id}}" class="list-group-item d-flex justify-content-between align-items-center">
+                <li id="list_{{$secretaria->id}}">
                     {{$secretaria->sigla}} - {{$secretaria->nome}}
                     <button class="btn deleteSecretaria" data-id="{{ $secretaria->id }}">
                         <i class="fa-xl text-danger fa-solid fa-trash"></i>
@@ -74,17 +77,8 @@
     </div>
     
     
-    <div class="d-flex justify-content-end mt-2">
-        <button id="btnEditForm" class="btn btn-primary">
-            <i class="fa-solid fa-pen-to-square"></i>
-            Editar
-        </button>
-    </div>
-    <div class="d-flex justify-content-around">
-        <a class="btn btn-warning" href="{{ route('get-users-list') }}">
-            <i class="fa-solid fa-chevron-left"></i>
-            Voltar
-        </a>
+    <div class="text-center">
+        <button id="btnEditForm" class="btn-warning">Salvar</button>
     </div>
     @endsection
 </div>
