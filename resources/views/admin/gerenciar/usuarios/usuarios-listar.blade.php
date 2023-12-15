@@ -11,17 +11,6 @@
             </div>
         @endcan
     </div>
-    {{-- <div class="justify-content-between">
-        <h1 class="m-0 text-primary">Usuários</h1>
-        @can(permissionConstant()::GERENCIAR_USUARIOS_CREATE)
-            <div>
-                <a class="btn btn-primary" href="{{ route('get-create-user') }}">
-                    <i class="fa-solid fa-user-plus me-1"></i>
-                    Novo Usuário
-                </a>
-            </div>
-        @endcan
-    </div> --}}
 
     <form class="" action="{{ route('get-users-list') }}" method="GET">
          <div class="row-input">

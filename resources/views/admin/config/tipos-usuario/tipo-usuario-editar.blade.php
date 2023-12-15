@@ -2,8 +2,12 @@
 
 @section('content')
 <div class="row">
-    <h1 class="text-primary">Editar Tipo de Usuário</h1>
-    <hr>
+    <div class="top-list">
+        <span class="title-content">Editar Tipo de Usuário</span>
+        <div class="top-list-right">
+            <a href="{{ route('get-roles-list') }}" class="btn-info">Listar</a>
+        </div>
+    </div>
     <form method="POST" action="{{ route('patch-update-role', $role) }}">
         {{ csrf_field() }}
         {{ method_field('PATCH') }}
@@ -19,18 +23,9 @@
         @component('admin.config.tipos-usuario.components.permissions', compact('permissionGroups', 'role'))
         @endcomponent
 
-        <div class="d-flex justify-content-end mt-2">
-            <button class="btn btn-primary " type="submit">
-                <i class="fa-solid fa-pen-to-square"></i>
-                Editar
-            </button>
+        <div class="text-center">
+            <button type="submit" id="btnEditForm" class="btn-warning">Salvar</button>
         </div>
     </form>
-    <div class="d-flex justify-content-around">
-        <a class="btn btn-warning" href="{{ route('get-roles-list') }}">
-            <i class="fa-solid fa-chevron-left"></i>
-            Voltar
-        </a>
-    </div>
 </div>
 @endsection
