@@ -718,9 +718,25 @@ video {
   border-width: 2px;
 }
 
+.bg-slate-900{
+  background-color: rgb(15 23 42);
+}
+
+.bg-blue-950{
+  background-color: rgb(23 37 84);
+}
+
+.bg-sky-950{
+  background-color: rgb(8 47 73);
+}
+
 .bg-gray-700{
   --tw-bg-opacity: 1;
   background-color: rgba(55, 65, 81, var(--tw-bg-opacity));
+}
+
+.bg-gray-900{
+  background-color: rgb(17 24 39);
 }
 
 .bg-black {

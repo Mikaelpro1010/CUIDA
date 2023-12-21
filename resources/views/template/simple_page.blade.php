@@ -15,20 +15,20 @@
 
 <body class="dark:bg-black">
         <!-- Inicio Navbar -->
-    <nav class="navbar dark:bg-black">
-        <div class="navbar-content dark:bg-black">
+    <nav class="navbar bg-blue-950 dark:bg-black border border-white">
+        <div class="navbar-content bg-blue-950 dark:bg-black">
 
-            <div class="bars">
-                <i class="fa-solid fa-bars dark:border-white p-1"></i>
+            <div class="bars text-white">
+                <i class="fa-solid fa-bars"></i>
             </div>
             <img src="{{ asset('imgs/logo/logo.png') }}" nonce="{{ csp_nonce() }}" alt="Celke" class="logo">
         </div>
         
         <div class="navbar-content dark:bg-black">
-            <i class="moon cursor-pointer bi bi-moon-fill mx-2"></i>
-            <i class="sun cursor-pointer  bi bi-brightness-high-fill mx-2"></i>
+            <i class="moon cursor-pointer bi bi-moon-fill mx-2 text-white"></i>
+            <i class="sun cursor-pointer  bi bi-brightness-high-fill mx-2 text-white"></i>
             <div class="notification">
-                <i class="fa-solid fa-bell"></i>
+                <i class="fa-solid fa-bell text-white"></i>
                 <span class="number">7</span>
                 <div class="dropdown-menu">
                     <div class="dropdown-content">
@@ -53,17 +53,17 @@
                 <div class="dropdown-menu setting">
                     <div class="item">
                         <a href="">
-                            <span class="fa-solid fa-user"></span> Perfil
+                            <span class="fa-solid fa-user text-white"></span> Perfil
                         </a>
                     </div>
                     <div class="item">
                         <a href="">
-                            <span class="fa-solid fa-gear"></span> Configuração
+                            <span class="fa-solid fa-gear text-white"></span> Configuração
                         </a>
                     </div>
                     <div class="item">
                         <a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                            <span class="fa-solid fa-arrow-right-from-bracket"></span> Sair
+                            <span class="fa-solid fa-arrow-right-from-bracket text-white"></span> Sair
                         </a>
                         <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                             {{ csrf_field() }}
@@ -77,41 +77,27 @@
 
     <div class="content dark:bg-black">
         <!-- Inicio da Sidebar -->
-        <div class="sidebar dark:bg-black">
-            <a href="{{route('home')}}" class="sidebar-nav"><i class="icon fa-solid fa-house"></i><span>Dashboard</span></a>
+        <div class="sidebar bg-blue-950 dark:bg-black border border-white">
+            <a href="{{route('home')}}" class="sidebar-nav dark:bg-black text-white"><i class="icon fa-solid fa-house"></i><span>Dashboard</span></a>
             
-            <button class="dropdown-btn dark:bg-black">
+            <button class="dropdown-btn dark:bg-black text-white">
                 <i class="icon fa-solid fa-users"></i><span>Dropdown</span><i class="fa-solid fa-caret-down"></i>
             </button>
-            <div class="dropdown-container dark:bg-black">
-                <a href="#" class="sidebar-nav"><i class="icon fa-solid fa-user-check"></i><span>Link 1</span></a>
-                <a href="" class="sidebar-nav"><i class="icon fa-solid fa-user-gear"></i><span>Link 2</span></a>
-                <a href="#" class="sidebar-nav"><i class="icon fa-solid fa-chalkboard-user"></i><span>Link 3</span></a>
+            <div class="dropdown-container dark:bg-black text-white">
+                <a href="#" class="sidebar-nav dark:bg-black text-white"><i class="icon fa-solid fa-user-check"></i><span>Link 1</span></a>
+                <a href="" class="sidebar-nav dark:bg-black text-white"><i class="icon fa-solid fa-user-gear"></i><span>Link 2</span></a>
+                <a href="#" class="sidebar-nav dark:bg-black text-white"><i class="icon fa-solid fa-chalkboard-user"></i><span>Link 3</span></a>
             </div>
-            
-            <!-- <button class="dropdown-btn active">
-                <i class="icon fa-solid fa-globe"></i><span>Dropdown</span><i class="fa-solid fa-caret-down"></i>
-            </button>
-            <div class="dropdown-container active">
-                <a href="#" class="sidebar-nav"><i class="icon fa-solid fa-car-rear"></i><span>Link 1</span></a>
-                <a href="#" class="sidebar-nav"><i class="icon fa-solid fa-bus"></i><span>Link 2</span></a>
-                <a href="#" class="sidebar-nav"><i class="icon fa-solid fa-plane"></i><span>Link 3</span></a>
-                <a href="sidebar_dropdown2.html" class="sidebar-nav active"><i class="icon fa-solid fa-ship"></i><span>Link 4</span></a>
-            </div> -->
-            
-            <!-- <a href="" class="sidebar-nav"><i class="icon fa-solid fa-list"></i><span>login</span></a>
-            
-            <a href="" class="sidebar-nav"><i class="icon fa-solid fa-file-lines"></i><span>Visualizar</span></a> -->
             
             @can(permissionConstant()::GERENCIAR_ALUNOS_LIST)
 
-            <a href="{{ route('listarAlunos') }}" class="sidebar-nav"><i class="icon fa-solid fa-eye"></i><span>Gerenciar Alunos</span></a>
+            <a href="{{ route('listarAlunos') }}" class="sidebar-nav dark:bg-black text-white"><i class="icon fa-solid fa-eye"></i><span>Gerenciar Alunos</span></a>
             
             @endcan
             
             @can(permissionConstant()::GERENCIAR_PROFESSORES_LIST)
             
-            <a href="{{ route('listarProfessores') }}" class="sidebar-nav"><i class="icon fa-solid fa-eye"></i><span>Gerenciar Professores</span></a>
+            <a href="{{ route('listarProfessores') }}" class="sidebar-nav dark:bg-black text-white"><i class="icon fa-solid fa-eye"></i><span>Gerenciar Professores</span></a>
             
             @endcan
             <!-- @if (session('warning'))
@@ -135,7 +121,6 @@
                 </div>
                 @endif -->
             <!-- Fim da Sidebar -->
-
         </div>
         @yield('main')
             
