@@ -48,65 +48,67 @@
 
     </form>
 
-    <table class="table-list">
-        <thead class="list-head">
-            <tr>
-                <th class="list-head-content">Id</th>
-                <th class="list-head-content">Nome</th>
-                <th class="list-head-content">Email</th>
-                <th class="list-head-content">Tipo de Usuário</th>
-                <th class="list-head-content">Data de Registro</th>
-                @can(permissionConstant()::GERENCIAR_USUARIOS_VIEW_DELETED)
-                    <th class="list-head-content">Deletado em</th>
-                @endcan
-                @if (auth()->user()->can(permissionConstant()::GERENCIAR_USUARIOS_VIEW) ||
-                        auth()->user()->can(permissionConstant()::GERENCIAR_USUARIOS_EDIT) ||
-                        auth()->user()->can(permissionConstant()::GERENCIAR_USUARIOS_DELETE))
-                    <th class="list-head-content">Ações</th>
-                @endif
-            </tr>
-        </thead>
-        <tbody class="list-body">
-            @forelse ($users as $user)
-                <tr id="{{ $user->id }}">
-                    <td class="list-body-content">{{ $user->id }}</td>
-                    <td class="name list-body-content">{{ $user->name }}</td>
-                    <td class="email list-body-content">{{ $user->email }}</td>
-                    <td class="role list-body-content">{{ $user->role->name }}</td>
-                    <td class="list-body-content">{{ formatarDataHora($user->created_at) }}</td>
-                    @can(permissionConstant()::GERENCIAR_USUARIOS_VIEW_DELETED)
-                        <td class="text-center">
-                            @if (is_null($user->deleted_at))
-                                -
-                            @else
-                                {{ formatarDataHora($user->deleted_at) }}
-                            @endif
-                        </td>
-                    @endcan
-                    <td class="list-body-content">
-                        @can(permissionConstant()::GERENCIAR_USUARIOS_VIEW)
-                            <a class="btn btn-outline-primary" href="{{ route('get-user-view', $user) }}">Visualizar</a>
-                        @endcan
-                        @can(permissionConstant()::GERENCIAR_USUARIOS_EDIT)
-                            <a class="btn btn-outline-warning" href="{{ route('get-edit-user-view', $user) }}">Editar</a>
-                        @endcan
-                        @can(permissionConstant()::GERENCIAR_USUARIOS_DELETE)
-                            <form class="d-none" id="deleteUser_{{ $user->id }}"
-                                action="{{ route('delete-delete-user', $user) }}" method="POST">
-                                {{ csrf_field() }}
-                                {{ method_field('DELETE') }}
-                            </form>
-                            <button class="btnDelete btn-outline-danger" data-id="{{ $user->id }}">Deletar</button>
-                        @endcan
-                    </td>
-                </tr>
-            @empty
+    <div class="table-responsive">
+        <table class="table-list">
+            <thead class="list-head">
                 <tr>
-                    <td class="table-warning text-center" colspan="6">Nenhum resultado Encontrado!</td>
+                    <th class="list-head-content">Id</th>
+                    <th class="list-head-content">Nome</th>
+                    <th class="list-head-content">Email</th>
+                    <th class="list-head-content">Tipo de Usuário</th>
+                    <th class="list-head-content">Data de Registro</th>
+                    @can(permissionConstant()::GERENCIAR_USUARIOS_VIEW_DELETED)
+                        <th class="list-head-content">Deletado em</th>
+                    @endcan
+                    @if (auth()->user()->can(permissionConstant()::GERENCIAR_USUARIOS_VIEW) ||
+                            auth()->user()->can(permissionConstant()::GERENCIAR_USUARIOS_EDIT) ||
+                            auth()->user()->can(permissionConstant()::GERENCIAR_USUARIOS_DELETE))
+                        <th class="list-head-content">Ações</th>
+                    @endif
                 </tr>
-            @endforelse
-        </tbody>
-    </table>
+            </thead>
+            <tbody class="list-body">
+                @forelse ($users as $user)
+                    <tr id="{{ $user->id }}">
+                        <td class="list-body-content">{{ $user->id }}</td>
+                        <td class="name list-body-content">{{ $user->name }}</td>
+                        <td class="email list-body-content">{{ $user->email }}</td>
+                        <td class="role list-body-content">{{ $user->role->name }}</td>
+                        <td class="list-body-content">{{ formatarDataHora($user->created_at) }}</td>
+                        @can(permissionConstant()::GERENCIAR_USUARIOS_VIEW_DELETED)
+                            <td class="text-center">
+                                @if (is_null($user->deleted_at))
+                                    -
+                                @else
+                                    {{ formatarDataHora($user->deleted_at) }}
+                                @endif
+                            </td>
+                        @endcan
+                        <td class="list-body-content">
+                            @can(permissionConstant()::GERENCIAR_USUARIOS_VIEW)
+                                <a class="btn btn-outline-primary" href="{{ route('get-user-view', $user) }}">Visualizar</a>
+                            @endcan
+                            @can(permissionConstant()::GERENCIAR_USUARIOS_EDIT)
+                                <a class="btn btn-outline-warning" href="{{ route('get-edit-user-view', $user) }}">Editar</a>
+                            @endcan
+                            @can(permissionConstant()::GERENCIAR_USUARIOS_DELETE)
+                                <form class="d-none" id="deleteUser_{{ $user->id }}"
+                                    action="{{ route('delete-delete-user', $user) }}" method="POST">
+                                    {{ csrf_field() }}
+                                    {{ method_field('DELETE') }}
+                                </form>
+                                <button class="btnDelete btn-outline-danger" data-id="{{ $user->id }}">Deletar</button>
+                            @endcan
+                        </td>
+                    </tr>
+                @empty
+                    <tr>
+                        <td class="table-warning text-center" colspan="6">Nenhum resultado Encontrado!</td>
+                    </tr>
+                @endforelse
+            </tbody>
+        </table>
+    </div>
     <div class="justify-content-evenly">
         {{ $users->links('pagination::bootstrap-4') }}
     </div>

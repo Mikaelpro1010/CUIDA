@@ -15,30 +15,32 @@
         @endcan
     </div>
     @can(permissionConstant()::GERENCIAR_ALUNOS_LIST)
-    <table class="table-list">
-        <thead class="list-head">
-            <tr>
-                <th class="list-head-content">ID</th>
-                <th class="list-head-content">Nome</th>
-                <th class="list-head-content table-sm-none">Nota</th>
-                <th class="list-head-content">Ações</th>
-            </tr>
-        </thead>
-        <tbody class="list-body">
-            @foreach($alunos as $aluno)
-            <tr>
-                <td class="list-body-content"> {{$aluno->id}} </td>
-                <td class="list-body-content">{{$aluno->name}}</td>
-                <td class="list-body-content table-sm-none">{{$aluno->nota}}</td>
-                <td class="list-body-content">
-                    <a class="btn btn-outline-primary" href="{{ route('visualizarAluno', $aluno) }}">Visualizar</a>
-                    <a class="btn btn-outline-warning" href="{{ route('editarAluno', $aluno) }}">Editar</a>
-                    <a class="btn btn-outline-danger" href="javascript:deleteItem({{ $aluno->id }})">Deletar</a>
-                </td>
-            </tr>
-            @endforeach
-        </tbody>
-    </table>
+    <div class="table-responsive">
+        <table class="table-list">
+            <thead class="list-head">
+                <tr>
+                    <th class="list-head-content">ID</th>
+                    <th class="list-head-content">Nome</th>
+                    <th class="list-head-content table-sm-none">Nota</th>
+                    <th class="list-head-content">Ações</th>
+                </tr>
+            </thead>
+            <tbody class="list-body">
+                @foreach($alunos as $aluno)
+                <tr>
+                    <td class="list-body-content"> {{$aluno->id}} </td>
+                    <td class="list-body-content">{{$aluno->name}}</td>
+                    <td class="list-body-content table-sm-none">{{$aluno->nota}}</td>
+                    <td class="list-body-content">
+                        <a class="btn btn-outline-primary" href="{{ route('visualizarAluno', $aluno) }}">Visualizar</a>
+                        <a class="btn btn-outline-warning" href="{{ route('editarAluno', $aluno) }}">Editar</a>
+                        <a class="btn btn-outline-danger" href="javascript:deleteItem({{ $aluno->id }})">Deletar</a>
+                    </td>
+                </tr>
+                @endforeach
+            </tbody>
+        </table>
+    </div>
     
     @endcan
     

@@ -36,49 +36,51 @@
 
     </form>
 
-    <table class="table-list">
-        <thead class="list-head">
-            <tr>
-                <th class="list-head-content">Id</th>
-                <th class="list-head-content">Nome</th>
-                <th class="list-head-content">Qtd Usuários</th>
-                <th class="list-head-content">Data de Registro</th>
-                <th class="list-head-content">Ações</th>
-            </tr>
-        </thead>
-        <tbody class="list-body">
-            @forelse ($roles as $role)
-            <tr id="{{ $role->id }}">
-                <td class="list-body-content">{{ $role->id }}</td>
-                <td class="name list-body-content">{{ $role->name }}</td>
-                <td class="list-body-content">{{ $role->users->count() }}</td>
-                <td class="list-body-content">{{ formatarDataHora($role->created_at) }}</td>
-                <td class="list-body-content">
-                        @can(permissionConstant()::GERENCIAR_TIPOS_USUARIOS_VIEW)
-                        <a class="btn btn-outline-primary" href="{{ route('get-role-view', $role) }}">Visualizar</a>
-                        @endcan
-
-                        @can(permissionConstant()::GERENCIAR_TIPOS_USUARIOS_EDIT)
-                        <a class="btn btn-outline-warning" href="{{ route('get-edit-role-view', $role) }}">Editar</a>
-                        @endcan
-
-                        @can(permissionConstant()::GERENCIAR_TIPOS_USUARIOS_DELETE)
-                        <form class="d-none" id="deleteRole_{{ $role->id }}"
-                            action="{{ route('delete-delete-role', $role) }}" method="POST">
-                            {{ csrf_field() }}
-                            {{ method_field('DELETE') }}
-                        </form>
-                        <button class="btnDelete btn-outline-danger" data-id="{{ $role->id }}">Deletar</button>
-                        @endcan
-                </td>
-            </tr>
-            @empty
-            <tr>
-                <td class="table-warning text-center" colspan="6">Nenhum resultado Encontrado!</td>
-            </tr>
-            @endforelse
-        </tbody>
-    </table>
+    <div class="table-responsive">
+        <table class="table-list">
+            <thead class="list-head">
+                <tr>
+                    <th class="list-head-content">Id</th>
+                    <th class="list-head-content">Nome</th>
+                    <th class="list-head-content">Qtd Usuários</th>
+                    <th class="list-head-content">Data de Registro</th>
+                    <th class="list-head-content">Ações</th>
+                </tr>
+            </thead>
+            <tbody class="list-body">
+                @forelse ($roles as $role)
+                <tr id="{{ $role->id }}">
+                    <td class="list-body-content">{{ $role->id }}</td>
+                    <td class="name list-body-content">{{ $role->name }}</td>
+                    <td class="list-body-content">{{ $role->users->count() }}</td>
+                    <td class="list-body-content">{{ formatarDataHora($role->created_at) }}</td>
+                    <td class="list-body-content">
+                            @can(permissionConstant()::GERENCIAR_TIPOS_USUARIOS_VIEW)
+                            <a class="btn btn-outline-primary" href="{{ route('get-role-view', $role) }}">Visualizar</a>
+                            @endcan
+    
+                            @can(permissionConstant()::GERENCIAR_TIPOS_USUARIOS_EDIT)
+                            <a class="btn btn-outline-warning" href="{{ route('get-edit-role-view', $role) }}">Editar</a>
+                            @endcan
+    
+                            @can(permissionConstant()::GERENCIAR_TIPOS_USUARIOS_DELETE)
+                            <form class="d-none" id="deleteRole_{{ $role->id }}"
+                                action="{{ route('delete-delete-role', $role) }}" method="POST">
+                                {{ csrf_field() }}
+                                {{ method_field('DELETE') }}
+                            </form>
+                            <button class="btnDelete btn-outline-danger" data-id="{{ $role->id }}">Deletar</button>
+                            @endcan
+                    </td>
+                </tr>
+                @empty
+                <tr>
+                    <td class="table-warning text-center" colspan="6">Nenhum resultado Encontrado!</td>
+                </tr>
+                @endforelse
+            </tbody>
+        </table>
+    </div>
     <div class="justify-content-evenly">
         {{ $roles->links('pagination::bootstrap-4') }}
     </div>
