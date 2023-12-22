@@ -718,6 +718,10 @@ video {
   border-width: 2px;
 }
 
+.border-white{
+  border-color: rgb(255 255 255);
+}
+
 .bg-slate-900{
   background-color: rgb(15 23 42);
 }

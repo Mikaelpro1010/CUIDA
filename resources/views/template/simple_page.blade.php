@@ -18,7 +18,7 @@
     <nav class="navbar bg-blue-950 dark:bg-black border border-white">
         <div class="navbar-content bg-blue-950 dark:bg-black">
 
-            <div class="bars text-white">
+            <div class="bars text-white dark:border border-white p-1 dark:border-2">
                 <i class="fa-solid fa-bars"></i>
             </div>
             <img src="{{ asset('imgs/logo/logo.png') }}" nonce="{{ csp_nonce() }}" alt="Celke" class="logo">
@@ -52,17 +52,17 @@
                 <img src="{{ asset('imgs/users/user.jpg') }}" nonce="{{ csp_nonce() }}" alt="Usuario" width="40">
                 <div class="dropdown-menu setting">
                     <div class="item">
-                        <a href="">
-                            <span class="fa-solid fa-user text-white"></span> Perfil
+                        <a href="" class="text-white">
+                            <span class="fa-solid fa-user"></span> Perfil
                         </a>
                     </div>
                     <div class="item">
-                        <a href="">
-                            <span class="fa-solid fa-gear text-white"></span> Configuração
+                        <a href="" class="text-white">
+                            <span class="fa-solid fa-gear"></span> Configuração
                         </a>
                     </div>
                     <div class="item">
-                        <a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                        <a class="text-white" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                             <span class="fa-solid fa-arrow-right-from-bracket text-white"></span> Sair
                         </a>
                         <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
