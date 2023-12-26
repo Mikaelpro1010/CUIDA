@@ -15,10 +15,9 @@
 
 <body class="dark:bg-black">
         <!-- Inicio Navbar -->
-    <nav class="navbar bg-blue-950 dark:bg-black border border-white">
+    <nav class="navbar bg-blue-950 dark:bg-black">
         <div class="navbar-content bg-blue-950 dark:bg-black">
-
-            <div class="bars text-white dark:border border-white p-1 dark:border-2">
+            <div class="bars text-white dark:border p-1">
                 <i class="fa-solid fa-bars"></i>
             </div>
             <img src="{{ asset('imgs/logo/logo.png') }}" nonce="{{ csp_nonce() }}" alt="Celke" class="logo">
@@ -77,7 +76,7 @@
 
     <div class="content dark:bg-black">
         <!-- Inicio da Sidebar -->
-        <div class="sidebar bg-blue-950 dark:bg-black border border-white">
+        <div class="sidebar bg-blue-950 dark:bg-black">
             <a href="{{route('home')}}" class="sidebar-nav dark:bg-black text-white"><i class="icon fa-solid fa-house"></i><span>Dashboard</span></a>
             
             <button class="dropdown-btn dark:bg-black text-white">

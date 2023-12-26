@@ -712,13 +712,15 @@ video {
 
 .border {
   border-width: 1px;
+  padding: 1;
 }
 
 .border-2 {
   border-width: 2px;
 }
 
-.border-white{
+.white-border{
+  border-width: 1px;
   border-color: rgb(255 255 255);
 }
 
