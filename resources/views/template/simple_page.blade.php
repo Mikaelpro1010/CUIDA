@@ -56,7 +56,7 @@
                         </a>
                     </div>
                     <div class="item">
-                        <a href="" class="text-white">
+                        <a href="{{route('get-roles-list')}}" class="text-white">
                             <span class="fa-solid fa-gear"></span> Configuração
                         </a>
                     </div>
