@@ -51,7 +51,7 @@
                 <img src="{{ asset('imgs/users/user.jpg') }}" nonce="{{ csp_nonce() }}" alt="Usuario" width="40">
                 <div class="dropdown-menu setting">
                     <div class="item">
-                        <a href="" class="text-white">
+                        <a href="{{route('get-user-perfil')}}" class="text-white">
                             <span class="fa-solid fa-user"></span> Perfil
                         </a>
                     </div>
