@@ -16,18 +16,18 @@
     <form id="editForm" method="POST" action="{{ route('patch-update-user-perfil') }}">
         {{ csrf_field() }}
         {{ method_field('PATCH') }}
-        <div class="row">
-            <div class="col-md">
-                <label class="fw-bold" for="">Nome:</label>
+        <div class="row-input">
+            <div class="column">
+                <label for="">Nome:</label>
                 <input class="form-control" type="text" name="name" value="{{ auth()->user()->name }}">
             </div>
-            <div class="col-md">
-                <label class="fw-bold" for="">Email:</label>
+            <div class="column">
+                <label for="">Email:</label>
                 <input class="form-control" type="email" name="email" value="{{ auth()->user()->email }}">
             </div>
         </div>
 
-        <div class="text-center">
+        <div class="text-center mt-3">
             <button type="submit" class="btn-warning">Salvar</button>
         </div>
     </form>
