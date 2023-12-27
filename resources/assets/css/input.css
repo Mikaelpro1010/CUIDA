@@ -5,3 +5,9 @@
 .display-none{
     @apply hidden;
 }
+
+.borda{
+    border-width: 1px;
+    padding: 1px;
+    color: white;
+}

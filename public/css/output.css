@@ -712,7 +712,6 @@ video {
 
 .border {
   border-width: 1px;
-  padding: 1;
 }
 
 .border-2 {
@@ -853,4 +852,8 @@ video {
 :is(.dark .dark\:bg-black) {
   --tw-bg-opacity: 1;
   background-color: rgb(0 0 0 / var(--tw-bg-opacity));
+}
+
+:is(.dark .dark\:border) {
+  border-width: 1px;
 }

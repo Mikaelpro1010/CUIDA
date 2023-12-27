@@ -17,8 +17,8 @@
         <!-- Inicio Navbar -->
     <nav class="navbar bg-blue-950 dark:bg-black">
         <div class="navbar-content bg-blue-950 dark:bg-black">
-            <div class="bars text-white dark:border p-1">
-                <i class="fa-solid fa-bars"></i>
+            <div class="bars text-white">
+                <i class="fa-solid fa-bars dark:border p-1"></i>
             </div>
             <img src="{{ asset('imgs/logo/logo.png') }}" nonce="{{ csp_nonce() }}" alt="Celke" class="logo">
         </div>
