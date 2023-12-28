@@ -2,7 +2,7 @@
 
 @section('content')
 <!-- Inicio do conteudo do administrativo -->
-<div class="row">
+<div class="row mx-1">
         <div class="box box-first">
             <span class="fa-solid fa-users text-white"></span>
             <span class="text-white">397</span>

@@ -702,6 +702,18 @@ video {
   white-space: nowrap;
 }
 
+.overflow-auto{
+  overflow: auto;
+}
+
+.overflow-x-scroll{
+  overflow-x: scroll;
+}
+
+.overflow-y-scroll{
+  overflow-y: scroll;
+}
+
 .break-all {
   word-break: break-all;
 }
@@ -856,4 +868,12 @@ video {
 
 :is(.dark .dark\:border) {
   border-width: 1px;
+}
+
+:is(.dark .dark\:overflow-x-scroll) {
+  overflow-x: scroll;
+}
+
+:is(.dark .dark\:overflow-y-scroll) {
+  overflow-y: scroll;
 }

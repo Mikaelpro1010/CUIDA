@@ -77,26 +77,26 @@
     <div class="content dark:bg-black">
         <!-- Inicio da Sidebar -->
         <div class="sidebar bg-blue-950 dark:bg-black">
-            <a href="{{route('home')}}" class="sidebar-nav dark:bg-black text-white"><i class="icon fa-solid fa-house"></i><span>Dashboard</span></a>
+            <a href="{{route('home')}}" class="sidebar-nav text-white dark:bg-black"><i class="icon fa-solid fa-house"></i><span>Dashboard</span></a>
             
-            <button class="dropdown-btn dark:bg-black text-white">
+            <button class="dropdown-btn text-white dark:bg-black">
                 <i class="icon fa-solid fa-users"></i><span>Dropdown</span><i class="fa-solid fa-caret-down"></i>
             </button>
-            <div class="dropdown-container dark:bg-black text-white">
-                <a href="#" class="sidebar-nav dark:bg-black text-white"><i class="icon fa-solid fa-user-check"></i><span>Link 1</span></a>
-                <a href="" class="sidebar-nav dark:bg-black text-white"><i class="icon fa-solid fa-user-gear"></i><span>Link 2</span></a>
-                <a href="#" class="sidebar-nav dark:bg-black text-white"><i class="icon fa-solid fa-chalkboard-user"></i><span>Link 3</span></a>
+            <div class="dropdown-container text-white dark:bg-black">
+                <a href="#" class="sidebar-nav text-white dark:bg-black"><i class="icon fa-solid fa-user-check"></i><span>Link 1</span></a>
+                <a href="" class="sidebar-nav text-white dark:bg-black"><i class="icon fa-solid fa-user-gear"></i><span>Link 2</span></a>
+                <a href="#" class="sidebar-nav text-white dark:bg-black"><i class="icon fa-solid fa-chalkboard-user"></i><span>Link 3</span></a>
             </div>
             
             @can(permissionConstant()::GERENCIAR_ALUNOS_LIST)
 
-            <a href="{{ route('listarAlunos') }}" class="sidebar-nav dark:bg-black text-white"><i class="icon fa-solid fa-eye"></i><span>Gerenciar Alunos</span></a>
+            <a href="{{ route('listarAlunos') }}" class="sidebar-nav text-white dark:bg-black"><i class="icon fa-solid fa-eye"></i><span>Gerenciar Alunos</span></a>
             
             @endcan
             
             @can(permissionConstant()::GERENCIAR_PROFESSORES_LIST)
             
-            <a href="{{ route('listarProfessores') }}" class="sidebar-nav dark:bg-black text-white"><i class="icon fa-solid fa-eye"></i><span>Gerenciar Professores</span></a>
+            <a href="{{ route('listarProfessores') }}" class="sidebar-nav text-white dark:bg-black"><i class="icon fa-solid fa-eye"></i><span>Gerenciar Professores</span></a>
             
             @endcan
             <!-- @if (session('warning'))
