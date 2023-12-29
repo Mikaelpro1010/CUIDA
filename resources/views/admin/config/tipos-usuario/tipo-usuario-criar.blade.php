@@ -22,7 +22,9 @@
         @component('admin.config.tipos-usuario.components.permissions', compact('permissionGroups'))
         @endcomponent
 
-        <a type="submit" class="btn btn-outline-success mt-3">Cadastrar</a>
+        <div class="text-center">
+            <a type="submit" class="btn btn-outline-success mt-3">Cadastrar</a>
+        </div>
     </form>
 </div>
 @endsection

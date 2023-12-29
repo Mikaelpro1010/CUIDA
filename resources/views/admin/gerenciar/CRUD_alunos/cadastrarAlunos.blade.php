@@ -25,7 +25,9 @@
                 </div>
             </div>
     
-            <button type="submit" class="btn btn-outline-success">Cadastrar</button>
+            <div class="text-center">
+                <button type="submit" class="btn btn-outline-success">Cadastrar</button>
+            </div>
         </form>
     </div>
     @endcan

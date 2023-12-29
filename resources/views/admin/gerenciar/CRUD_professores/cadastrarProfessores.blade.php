@@ -24,8 +24,10 @@
                     <input type="text" name="disciplina" id="disciplina" class="input-adm">
                 </div>
             </div>
-    
-            <button type="submit" class="btn btn-outline-success">Cadastrar</button>
+            
+            <div class="text-center">
+                <button type="submit" class="btn btn-outline-success">Cadastrar</button>
+            </div>
         </form>
     </div>
     @endcan
