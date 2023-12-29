@@ -7,7 +7,7 @@
         @can(permissionConstant()::GERENCIAR_TIPOS_USUARIOS_CREATE)
         <span class="title-content">Tipos de Usuários</span>
         <div class="top-list-right">
-            <a href="{{ route('get-create-role') }}" class="btn-success">Cadastrar</a>
+            <a href="{{ route('get-create-role') }}" class="btn btn-outline-success">Cadastrar</a>
         </div>
         @endcan
     </div>

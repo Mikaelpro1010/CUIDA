@@ -9,7 +9,7 @@
                 <i class="fa-solid fa-pen-to-square me-1"></i>
                 Editar Tipo de Usuário
             </a>
-            <a href="{{ route('get-roles-list') }}" class="btn-info">Listar</a>
+            <a href="{{ route('get-roles-list') }}" class="btn btn-info">Listar</a>
         </div>
     </div>
 

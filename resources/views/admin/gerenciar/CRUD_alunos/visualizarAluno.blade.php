@@ -6,7 +6,7 @@
     <div class="top-list">
         <span class="title-content">Visualizar</span>
         <div class="top-list-right">
-            <a href="{{ route('listarAlunos') }}" class="btn-info">Listar</a>
+            <a href="{{ route('listarAlunos') }}" class="btn btn-outline-info">Listar</a>
         </div>
     </div>
     @can(permissionConstant()::GERENCIAR_ALUNOS_VIEW)

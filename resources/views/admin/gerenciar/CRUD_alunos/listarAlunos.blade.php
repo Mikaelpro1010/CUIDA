@@ -9,7 +9,7 @@
         @can(permissionConstant()::GERENCIAR_ALUNOS_CREATE)
             <span class="title-content">Listar</span>
             <div class="top-list-right">
-                <a href="{{route('visualizarCadastroAluno')}}" class="btn-success">Cadastrar</a>
+                <a href="{{route('visualizarCadastroAluno')}}" class="btn btn-outline-success">Cadastrar</a>
                 <!--<button type="button" class="btn-success"><i class="fa-solid fa-square-plus"></i></button>-->
             </div>
         @endcan

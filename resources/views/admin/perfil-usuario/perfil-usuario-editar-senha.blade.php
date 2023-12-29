@@ -26,7 +26,7 @@
             </div>
         </div>
         <div class="text-center mt-3">
-            <button type="submit" class="btn-warning">Salvar</button>
+            <button type="submit" class="btn btn-outline-warning">Salvar</button>
         </div>
     </form>
 </div>

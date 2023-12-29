@@ -5,7 +5,7 @@
     <div class="top-list">
         <span class="title-content">Cadastrar Tipo de Usuário</span>
         <div class="top-list-right">
-            <a href="{{ route('get-roles-list') }}" class="btn-info">Listar</a>
+            <a href="{{ route('get-roles-list') }}" class="btn btn-outline-info">Listar</a>
         </div>
     </div>
     <form method="POST" action="{{ route('post-store-role') }}">
@@ -22,7 +22,7 @@
         @component('admin.config.tipos-usuario.components.permissions', compact('permissionGroups'))
         @endcomponent
 
-        <a type="submit" class="btn-success mt-3">Cadastrar</a>
+        <a type="submit" class="btn btn-outline-success mt-3">Cadastrar</a>
     </form>
 </div>
 @endsection

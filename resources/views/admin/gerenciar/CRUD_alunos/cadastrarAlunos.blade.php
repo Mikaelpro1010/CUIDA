@@ -7,7 +7,7 @@
         @include('componentes/flash-message')
         <span class="title-content">Formulário</span>
         <div class="top-list-right">
-            <a href="{{ route('listarAlunos') }}" class="btn-info">Listar</a>
+            <a href="{{ route('listarAlunos') }}" class="btn btn-outline-info">Listar</a>
         </div>
     </div>
     @can(permissionConstant()::GERENCIAR_ALUNOS_CREATE)
@@ -25,7 +25,7 @@
                 </div>
             </div>
     
-            <button type="submit" class="btn-success">Cadastrar</button>
+            <button type="submit" class="btn btn-outline-success">Cadastrar</button>
         </form>
     </div>
     @endcan

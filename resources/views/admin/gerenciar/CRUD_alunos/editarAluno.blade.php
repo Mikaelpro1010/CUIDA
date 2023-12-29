@@ -6,7 +6,7 @@
     <div class="top-list">
         <span class="title-content">Editar Aluno</span>
         <div class="top-list-right">
-            <a href="{{ route('listarAlunos') }}" class="btn-info">Listar</a>
+            <a href="{{ route('listarAlunos') }}" class="btn btn-outline-info">Listar</a>
         </div>
     </div>
     @can(permissionConstant()::GERENCIAR_ALUNOS_EDIT)
@@ -24,7 +24,7 @@
                 </div>
             </div>
             <div class="text-center">
-                <button type="submit" class="btn-warning">Salvar</button>
+                <button type="submit" class="btn btn-outline-warning">Salvar</button>
             </div>
         </form>
     </div>
