@@ -59,8 +59,9 @@
                         </a>
                     </div>
                     <div class="item">
-                        <a class="text-white" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                            <span class="fa-solid fa-arrow-right-from-bracket text-white"></span> Sair
+
+                        <a class="text-white" href="{{ route('logout') }}" id="logout-link">
+                            <span class="fa-solid fa-sign-out"></span> Sair
                         </a>
                         <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                             {{ csrf_field() }}
