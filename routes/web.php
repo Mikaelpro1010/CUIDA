@@ -26,6 +26,8 @@ use Illuminate\Support\Facades\Route;
     // })->name('teste');
 // Route::get('/', 'Publico\HomeController@Render')->name('pagina_inicial');
 
+Route::view('/politicas-de-privacidade', 'public.politicas')->name('politicas');
+
 Route::get('/', 'Auth\LoginController@showLoginForm')->name('login');
 Route::post('/login', 'Auth\LoginController@login')->name('login_submit');
 

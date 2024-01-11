@@ -22,7 +22,7 @@
                 </div>
 
                 <div class="signup-link">
-                    <a href="{{route('register')}}">Cadastrar</a> - <a href="#">Esqueceu a senha?</a>
+                    <a href="{{route('register')}}">Cadastrar</a> - <a href="#">Esqueceu a senha?</a> - <a href="{{route('politicas')}}">Políticas de Privacidade</a>
                 </div>
 
             </form>
