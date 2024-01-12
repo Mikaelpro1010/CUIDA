@@ -12,8 +12,8 @@
 </head>
 <body class="dark:bg-black">
      <!-- Inicio Navbar -->
-     <nav class="navbar bg-blue-950 dark:bg-black">
-        <div class="navbar-content bg-blue-950 dark:bg-black">
+     <nav class="navbar bg-second-color dark:bg-black">
+        <div class="navbar-content bg-second-color dark:bg-black">
             <img src="{{ asset('imgs/logo/logo.png') }}" nonce="{{ csp_nonce() }}" alt="Celke" class="logo">
         </div>
         
@@ -23,7 +23,7 @@
     </nav>
     <!-- Fim Navbar -->
     <div class="container mt-3">
-        <div class="card">
+        <div class="card shadow">
             <h1>Política Privacidade</h1>
             <hr>
             <p>

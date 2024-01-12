@@ -743,6 +743,10 @@ video {
   background-color: rgb(23 37 84);
 }
 
+.bg-second-color{
+  background-color: #1e2746;
+}
+
 .bg-sky-950{
   background-color: rgb(8 47 73);
 }

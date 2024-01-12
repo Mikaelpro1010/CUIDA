@@ -1,4 +1,4 @@
-@extends('componentes/layout_login')
+@extends('template/layout_login')
 @section('conteudo')
 <body>
     <div class="d-flex">
