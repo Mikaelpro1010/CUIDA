@@ -23,7 +23,7 @@
     </nav>
     <!-- Fim Navbar -->
     <div class="container mt-3">
-        <div class="card shadow">
+        <div class="card shadow p-3">
             <h1>Política Privacidade</h1>
             <hr>
             <p>
