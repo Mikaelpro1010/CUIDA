@@ -76,7 +76,10 @@
     <div class="content dark:bg-black">
         <!-- Inicio da Sidebar -->
         <div class="sidebar bg-blue-950 dark:bg-black">
+
+            @auth
             <a href="{{route('home')}}" class="sidebar-nav text-white dark:bg-black"><i class="icon fa-solid fa-house"></i><span>Dashboard</span></a>
+            
             
             <button class="dropdown-btn text-white dark:bg-black">
                 <i class="icon fa-solid fa-users"></i><span>Dropdown</span><i class="fa-solid fa-caret-down"></i>
@@ -86,6 +89,7 @@
                 <a href="" class="sidebar-nav text-white dark:bg-black"><i class="icon fa-solid fa-user-gear"></i><span>Link 2</span></a>
                 <a href="#" class="sidebar-nav text-white dark:bg-black"><i class="icon fa-solid fa-chalkboard-user"></i><span>Link 3</span></a>
             </div>
+            @endauth
             
             @can(permissionConstant()::GERENCIAR_ALUNOS_LIST)
 
