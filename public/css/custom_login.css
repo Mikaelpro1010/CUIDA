@@ -65,7 +65,7 @@ body {
     padding: 25px;
 }
 
-.wrapper-login .form-login .row {
+.wrapper-login .form-login .row{
     height: 45px;
     margin-bottom: 15px;
     position: relative;
@@ -89,7 +89,7 @@ body {
     color: var(--third-color);
 }
 
-.wrapper-login .form-login .row i {
+.wrapper-login .form-login .row .icon {
     position: absolute;
     width: 47px;
     height: 100%;
