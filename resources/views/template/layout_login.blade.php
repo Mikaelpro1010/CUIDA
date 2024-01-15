@@ -17,8 +17,8 @@
             </div>
             
             <div class="navbar-content mx-3">
-                <a href="{{route('login')}}" class="text-white mx-2">Login</a>
-                <a href="{{route('register')}}" class="bg-gray-900 text-white block rounded-md px-3 py-2 text-base font-medium">Cadastrar</a>
+                <a href="{{route('login')}}" class="nav-link text-white mx-2">Login</a>
+                <a href="{{route('register')}}" class="nav-link bg-gray-900 text-white block rounded-md px-3 py-2 text-base font-medium">Cadastrar</a>
             </div>
         </nav>
         <!-- Fim Navbar -->
