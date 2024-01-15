@@ -12,11 +12,11 @@
     <body>
         <!-- Inicio Navbar -->
         <nav class="navbar bg-second-color">
-            <div class="navbar-content bg-second-color">
+            <div class="navbar-content bg-second-color mx-3">
                 <img src="{{ asset('imgs/logo/logo.png') }}" nonce="{{ csp_nonce() }}" alt="Celke" class="logo">
             </div>
             
-            <div class="navbar-content">
+            <div class="navbar-content mx-3">
                 <a href="{{route('login')}}" class="text-white">Login</a>
             </div>
         </nav>
