@@ -11,14 +11,15 @@
     <link rel="stylesheet" href="{{ asset('css/styles.css') }}" nonce="{{ csp_nonce() }}">
 </head>
 <body>
-     <!-- Inicio Navbar -->
-     <nav class="navbar bg-second-color">
+      <!-- Inicio Navbar -->
+      <nav class="navbar bg-second-color">
         <div class="navbar-content bg-second-color mx-3">
             <img src="{{ asset('imgs/logo/logo.png') }}" nonce="{{ csp_nonce() }}" alt="Celke" class="logo">
         </div>
         
         <div class="navbar-content mx-3">
-            <a href="{{route('login')}}" class="text-white">Login</a>
+            <a href="{{route('login')}}" class="text-white mx-2">Login</a>
+            <a href="{{route('register')}}" class="bg-gray-900 text-white block rounded-md px-3 py-2 text-base font-medium">Cadastrar</a>
         </div>
     </nav>
     <!-- Fim Navbar -->
