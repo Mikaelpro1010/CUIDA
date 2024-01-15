@@ -10,14 +10,14 @@
 
     <link rel="stylesheet" href="{{ asset('css/styles.css') }}" nonce="{{ csp_nonce() }}">
 </head>
-<body class="dark:bg-black">
+<body>
      <!-- Inicio Navbar -->
-     <nav class="navbar bg-second-color dark:bg-black">
-        <div class="navbar-content bg-second-color dark:bg-black">
+     <nav class="navbar bg-second-color">
+        <div class="navbar-content bg-second-color mx-3">
             <img src="{{ asset('imgs/logo/logo.png') }}" nonce="{{ csp_nonce() }}" alt="Celke" class="logo">
         </div>
         
-        <div class="navbar-content dark:bg-black">
+        <div class="navbar-content mx-3">
             <a href="{{route('login')}}" class="text-white">Login</a>
         </div>
     </nav>
