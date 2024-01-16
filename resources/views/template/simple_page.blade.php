@@ -27,17 +27,17 @@
             <div class="notification">
                 <i class="fa-solid fa-bell text-white"></i>
                 <span class="number">7</span>
-                <div class="dropdown-menu">
+                <div class="dropdown-menu dark:bg-black">
                     <div class="dropdown-content">
                         <li>
-                            <img src="{{ asset('images/users/user.jpg') }}" nonce="{{ csp_nonce() }}" alt="Usuario" width="40">
-                            <div class="text">
+                            <img src="{{ asset('imgs/users/user.jpg') }}" nonce="{{ csp_nonce() }}" alt="Usuario" width="40">
+                            <div class="text-white">
                                 Fusce ut leo pretium, luctus elit id, vulputate lectus.
                             </div>
                         </li>
                         <li>
-                            <img src="{{ asset('images/users/user.jpg') }}" nonce="{{ csp_nonce() }}" alt="Usuario" width="40">
-                            <div class="text">
+                            <img src="{{ asset('imgs/users/user.jpg') }}" nonce="{{ csp_nonce() }}" alt="Usuario" width="40">
+                            <div class="text-white">
                                 Fusce ut leo pretium, luctus elit id, vulputate lectus.
                             </div>
                         </li>
@@ -47,7 +47,7 @@
             
             <div class="avatar">
                 <img src="{{ asset('imgs/users/user.jpg') }}" nonce="{{ csp_nonce() }}" alt="Usuario" width="40">
-                <div class="dropdown-menu setting">
+                <div class="dropdown-menu setting dark:bg-black">
                     <div class="item">
                         <a href="{{route('get-user-perfil')}}" class="text-white">
                             <span class="fa-solid fa-user"></span> Perfil

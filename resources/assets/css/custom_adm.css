@@ -329,9 +329,9 @@
 
 .top-list .title-content {
     float: left;
-    color: var(--main-bg-color);
+    color: black;
     padding: 10px 16px;
-    font-size: 17px;
+    font-size: 25px;
 }
 
 .top-list .top-list-right {
