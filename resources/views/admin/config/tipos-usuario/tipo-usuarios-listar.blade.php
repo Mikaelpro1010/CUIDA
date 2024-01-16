@@ -12,7 +12,7 @@
         @endcan
     </div>
 
-    <form class="" action="{{ route('get-roles-list') }}" method="GET">
+    <form action="{{ route('get-roles-list') }}" method="GET">
         <div class="row-input">
             <div class="column">
                 <label for="pesquisa">Nome:</label>
@@ -20,13 +20,13 @@
                     value="{{ request()->pesquisa }}">
             </div>
 
-            <div class="column">
+            <div class="column align-items-end">
                 <button class="btn btn-primary form-control mt-4" type="submit">
                     <i class="fa-solid fa-magnifying-glass"></i>
                     Buscar
                 </button>
             </div>
-            <div class="column">
+            <div class="column align-items-end">
                 <a id="btnLimpaForm" class="btn btn-warning form-control mt-4">
                     Limpar
                     <i class="fa-solid fa-eraser"></i>

@@ -5,7 +5,7 @@
     <div class="top-list">
         <span class="title-content">Editar Tipo de Usuário</span>
         <div class="top-list-right">
-            <a href="{{ route('get-roles-list') }}" class="btn-info">Listar</a>
+            <a href="{{ route('get-roles-list') }}" class="btn btn-outline-info">Listar</a>
         </div>
     </div>
     <form method="POST" action="{{ route('patch-update-role', $role) }}">
