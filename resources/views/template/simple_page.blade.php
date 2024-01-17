@@ -13,8 +13,8 @@
 
 <body class="dark:bg-black">
         <!-- Inicio Navbar -->
-    <nav class="navbar bg-blue-950 dark:bg-black">
-        <div class="navbar-content bg-blue-950 dark:bg-black">
+    <nav class="navbar fourth-bg-color dark:bg-black">
+        <div class="navbar-content fourth-bg-color dark:bg-black">
             <div class="bars text-white">
                 <i class="fa-solid fa-bars dark:border p-1"></i>
             </div>
@@ -75,7 +75,7 @@
 
     <div class="content dark:bg-black">
         <!-- Inicio da Sidebar -->
-        <div class="sidebar bg-blue-950 dark:bg-black">
+        <div class="sidebar second-bg-color dark:bg-black">
 
             @auth
             <a href="{{route('home')}}" class="sidebar-nav text-white dark:bg-black"><i class="icon fa-solid fa-house"></i><span>Dashboard</span></a>

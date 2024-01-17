@@ -728,8 +728,12 @@ video {
   background-color: rgb(0 0 0 / var(--tw-bg-opacity));
 }
 
-.bg-second-color{
+.second-bg-color{
   background-color: #1e2746;
+}
+
+.fourth-bg-color{
+  background-color: #131b38;
 }
 
 .bg-slate-900{

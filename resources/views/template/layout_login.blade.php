@@ -11,8 +11,8 @@
     </head>
     <body class="dark:bg-black">
         <!-- Inicio Navbar -->
-        <nav class="navbar bg-second-color dark:bg-black dark:border">
-            <div class="navbar-content bg-second-color mx-3 dark:bg-black">
+        <nav class="navbar second-bg-color dark:bg-black dark:border">
+            <div class="navbar-content second-bg-color mx-3 dark:bg-black">
                 <img src="{{ asset('imgs/logo/logo.png') }}" nonce="{{ csp_nonce() }}" alt="Celke" class="logo">
             </div>
             
