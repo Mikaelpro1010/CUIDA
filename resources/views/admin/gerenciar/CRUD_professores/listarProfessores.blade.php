@@ -20,8 +20,8 @@
                 <tr>
                     <th class="list-head-content">ID</th>
                     <th class="list-head-content">Nome</th>
-                    <th class="list-head-content table-sm-none">Disciplina</th>
-                    <th class="list-head-content table-sm-none">Ações</th>
+                    <th class="list-head-content">Disciplina</th>
+                    <th class="list-head-content">Ações</th>
                 </tr>
             </thead>
             <tbody class="list-body">
@@ -29,8 +29,8 @@
                 <tr>
                     <td class="list-body-content"> {{$professor->id}} </td>
                     <td class="list-body-content">{{$professor->name}}</td>
-                    <td class="list-body-content table-sm-none">{{$professor->disciplina}}</td>
-                    <td class="list-body-content table-sm-none">
+                    <td class="list-body-content">{{$professor->disciplina}}</td>
+                    <td class="list-body-content">
                         <a class="btn btn-outline-primary" href="{{ route('visualizarProfessor', $professor) }}">Visualizar</a>
                         <a class="btn btn-outline-warning" href="{{ route('editarProfessor', $professor) }}">Editar</a>
                         <a class="btn btn-outline-danger" href="javascript:deleteItem({{ $professor->id }})">Deletar</a>

@@ -2,8 +2,8 @@
 
 @section('content')
 <div class="row">
-        @include('componentes/flash-message')
     <div class="top-list">
+        @include('componentes/flash-message')
         @can(permissionConstant()::GERENCIAR_TIPOS_USUARIOS_CREATE)
         <span class="title-content">Tipos de Usuários</span>
         <div class="top-list-right">

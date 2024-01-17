@@ -8,7 +8,7 @@
             <a href="{{ route('get-roles-list') }}" class="btn btn-outline-info">Listar</a>
         </div>
     </div>
-    <form method="POST" action="{{ route('post-store-role') }}">
+    <form method="post" action="{{ route('post-store-role') }}">
         {{ csrf_field() }}
         <div class="row g-2">
             <div class="col-md-12">

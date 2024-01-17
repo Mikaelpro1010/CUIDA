@@ -24,7 +24,7 @@
         @endcomponent
 
         <div class="text-center">
-            <button type="submit" id="btnEditForm" class="btn-warning">Salvar</button>
+            <button type="submit" id="btnEditForm" class="btn btn-outline-warning">Salvar</button>
         </div>
     </form>
 </div>
