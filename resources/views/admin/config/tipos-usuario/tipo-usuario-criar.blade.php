@@ -23,7 +23,7 @@
         @endcomponent
 
         <div class="text-center">
-            <a type="submit" class="btn btn-outline-success mt-3">Cadastrar</a>
+            <button type="submit" class="btn btn-outline-success mt-3">Cadastrar</button>
         </div>
     </form>
 </div>
