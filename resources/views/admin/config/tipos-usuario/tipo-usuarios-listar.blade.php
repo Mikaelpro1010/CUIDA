@@ -98,8 +98,8 @@
 
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-warning" data-bs-dismiss="modal">cancelar</button>
-                    <button id="btnDeleteConfirm" type="button" class="btn btn-danger">deletar</button>
+                    <button type="button" class="btn btn-outline-warning" data-bs-dismiss="modal">cancelar</button>
+                    <button id="btnDeleteConfirm" type="button" class="btn btn-outline-danger">deletar</button>
                 </div>
             </div>
         </div>

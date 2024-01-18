@@ -32,7 +32,7 @@
             </span>
         </div>
         <div class="view-det-adm">
-            <span class="view-adm-title">Última Atualização: </span>
+            <span class="view-adm-title">Última Att.: </span>
             <span class="view-adm-info">
                 {{ formatarDataHora(auth()->user()->updated_at)}}
             </span>
