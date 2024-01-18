@@ -4,7 +4,7 @@
 <!-- Inicio do conteudo do administrativo -->
 <div class="row">
     <div class="top-list">
-        @include('componentes/flash-message')
+        @include('componentes.flash-message')
         @can(permissionConstant()::GERENCIAR_PROFESSORES_CREATE)
             <span class="title-content">Listar</span>
             <div class="top-list-right">

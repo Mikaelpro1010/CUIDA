@@ -10,7 +10,7 @@
         </div>
     </div>
     @can(permissionConstant()::GERENCIAR_PROFESSORES_VIEW)
-    <div class="content-adm">
+    <div class="content-adm p-3">
         <div class="view-det-adm">
             <span class="view-adm-title">Nome: </span>
             <span class="view-adm-info">{{$professor->name}}</span>

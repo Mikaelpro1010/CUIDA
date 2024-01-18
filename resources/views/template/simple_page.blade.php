@@ -102,26 +102,6 @@
             <a href="{{ route('listarProfessores') }}" class="sidebar-nav text-white dark:bg-black"><i class="icon fa-solid fa-eye"></i><span>Gerenciar Professores</span></a>
             
             @endcan
-            <!-- @if (session('warning'))
-                <div class="alert alert-warning alert-dismissible fade show" role="alert">
-                    <li>{{ session('warning') }}</li>
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                </div>
-            @endif
-            @if (session('success'))
-            <div class="alert alert-success alert-dismissible fade show" role="alert">
-                <li>{{ session('success') }}</li>
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-            </div>
-            @endif
-            @if (isset($errors) && $errors->any())
-                <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                    @foreach ($errors->all() as $error)
-                        <li>{{ $error }}</li>
-                    @endforeach
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                </div>
-                @endif -->
             <!-- Fim da Sidebar -->
         </div>
         @yield('main')

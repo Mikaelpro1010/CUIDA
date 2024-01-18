@@ -3,11 +3,11 @@
 @section('titulo', 'EscutaSol - Editar Perfil de Usuário')
 
 @section('content')
-<div class="row">
+<div class="row p-3">
     <div class="top-list">
         <span class="title-content">Editar Perfil de Usuário</span>
         <div class="top-list-right">
-            <a class="btn btn-warning" href="{{ route('get-user-perfil-password')}}">
+            <a class="btn btn-outline-warning" href="{{ route('get-user-perfil-password')}}">
                 <i class="fa-solid fa-pen-to-square"></i>
                 Editar Senha
             </a>

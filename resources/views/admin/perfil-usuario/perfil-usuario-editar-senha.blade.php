@@ -2,7 +2,7 @@
 
 @section('titulo', 'EscutaSol - Editar Senha')
 @section('content')
-<div class="row">
+<div class="row p-3">
     <div class="top-list">
         <span class="title-content">Alterar Senha</span>
     </div>
