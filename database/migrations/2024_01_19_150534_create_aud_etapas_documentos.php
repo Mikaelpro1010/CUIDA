@@ -30,6 +30,6 @@ class CreateAudEtapasDocumentos extends Migration
      */
     public function down()
     {
-        //
+        Schema::dropIfExists('aud_etapas_documentos');
     }
 }
