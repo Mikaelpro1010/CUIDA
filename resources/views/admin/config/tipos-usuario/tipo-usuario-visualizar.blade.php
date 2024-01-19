@@ -1,11 +1,11 @@
 @extends('template.base')
 
 @section('content')
-<div class="row">
+<div class="row p-3">
     <div class="top-list">
         <span class="title-content">Informações do Tipo de Usuário</span>
         <div class="top-list-right">
-            <a class="btn btn-warning" href="{{ route('get-edit-role-view', $role) }}">
+            <a class="btn btn-outline-warning" href="{{ route('get-edit-role-view', $role) }}">
                 <i class="fa-solid fa-pen-to-square me-1"></i>
                 Editar Tipo de Usuário
             </a>

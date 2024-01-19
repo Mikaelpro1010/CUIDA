@@ -1,7 +1,7 @@
 @extends('template.base')
 
 @section('content')
-<div class="row">
+<div class="row p-3">
     <div class="top-list">
         <span class="title-content">Editar Tipo de Usuário</span>
         <div class="top-list-right">

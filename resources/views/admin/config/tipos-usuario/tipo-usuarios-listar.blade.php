@@ -1,7 +1,7 @@
 @extends('template.base')
 
 @section('content')
-<div class="row">
+<div class="row p-3">
     <div class="top-list">
         @include('componentes/flash-message')
         @can(permissionConstant()::GERENCIAR_TIPOS_USUARIOS_CREATE)
