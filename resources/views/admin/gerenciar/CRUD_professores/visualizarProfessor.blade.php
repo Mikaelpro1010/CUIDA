@@ -2,7 +2,7 @@
 
 @section('content')
 <!-- Inicio do conteudo do administrativo -->
-<div class="row">
+<div class="row p-3">
     <div class="top-list">
         <span class="title-content">Visualizar</span>
         <div class="top-list-right">
