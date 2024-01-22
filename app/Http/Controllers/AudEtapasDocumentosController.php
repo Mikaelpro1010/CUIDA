@@ -14,4 +14,8 @@ class AudEtapasDocumentosController extends Controller
         ->paginate(10);
         return view('admin/gerenciar/aud-etapas-documentos/listarAudEtapasDocumentos', compact('AudEtapasDocumentos'));
     }
+
+    public function visualizarCadastroAudEtapasDocumentos(){
+        return view('admin/gerenciar/aud-etapas-documentos/cadastrarAudEtapasDocumentos');
+    }
 }
