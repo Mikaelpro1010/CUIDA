@@ -38,4 +38,9 @@ class AudEtapasDocumentosController extends Controller
             
         return redirect()->route('listarAudEtapasDocumentos')->with('success','Etapa de Documento cadastrado com sucesso!');
     }
+
+    public function visualizarAudEtapasDocumentos(AudEtapasDocumentos $AudEtapaDocumento){
+        
+        return view('admin/gerenciar/aud-etapas-documentos/visualizarAudEtapasDocumentos', compact('AudEtapaDocumento'));
+    }
 }
