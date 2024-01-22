@@ -31,8 +31,10 @@
                 @foreach($AudEtapasDocumentos as $AudEtapaDocumento)
                 <tr>
                     <td class="list-body-content"> {{$AudEtapaDocumento->id}} </td>
-                    <td class="list-body-content">{{$AudEtapaDocumento->name}}</td>
-                    <td class="list-body-content table-sm-none">{{$AudEtapaDocumento->nota}}</td>
+                    <td class="list-body-content">{{$AudEtapaDocumento->nome}}</td>
+                    <td class="list-body-content">{{$AudEtapaDocumento->icone}}</td>
+                    <td class="list-body-content">{{$AudEtapaDocumento->lado_timeline}}</td>
+                    <td class="list-body-content table-sm-none">{{$AudEtapaDocumento->cadastrado_por}}</td>
                     <td class="list-body-content">
                         <a class="btn btn-outline-primary" href="{{ route('visualizarAudEtapasDocumentos', $AudEtapaDocumento) }}">Visualizar</a>
                         <a class="btn btn-outline-warning" href="{{ route('editarAudEtapasDocumentos', $AudEtapaDocumento) }}">Editar</a>
