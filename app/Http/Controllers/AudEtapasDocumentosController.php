@@ -43,4 +43,9 @@ class AudEtapasDocumentosController extends Controller
         
         return view('admin/gerenciar/aud-etapas-documentos/visualizarAudEtapasDocumentos', compact('AudEtapaDocumento'));
     }
+
+    public function editarAudEtapaDocumento(AudEtapasDocumentos $AudEtapaDocumento){
+        
+        return view('admin/gerenciar/aud-etapas-documentos/editarAudEtapasDocumentos', compact('AudEtapaDocumento'));
+    }
 }
