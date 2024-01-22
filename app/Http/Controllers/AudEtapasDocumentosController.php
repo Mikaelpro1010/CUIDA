@@ -66,4 +66,11 @@ class AudEtapasDocumentosController extends Controller
         
         return redirect()->route('listarAudEtapasDocumentos')->with('success','Etapa de Documento editado com sucesso!');
     }
+
+    public function deletarAudEtapaDocumento(Request $request){
+
+        $AudEtapaDocumento = AudEtapasDocumentos::find($request->id);
+        $AudEtapaDocumento->delete();
+        return redirect()->route('listarAudEtapasDocumentos')->with('success','Etapa de Documento deletado com sucesso!');
+    }
 }
