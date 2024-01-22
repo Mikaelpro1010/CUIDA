@@ -17,19 +17,19 @@
             <div class="row-input">
                 <div class="column">
                     <label class="title-input">Nome</label>
-                    <input type="text" name="nome" id="nome" class="input-adm" placeholder="Nome completo">
+                    <input type="text" name="nome" id="nome" class="input-adm" placeholder="Nome">
                 </div>
                 <div class="column">
                     <label class="title-input">Icone</label>
-                    <input type="text" name="icone" id="icone" class="input-adm">
+                    <input type="text" name="icone" id="icone" class="input-adm" placeholder="Icone">
                 </div>
                 <div class="column">
                     <label class="title-input">Lado Timeline</label>
-                    <input type="text" name="lado_timeline" id="lado_timeline" class="input-adm">
+                    <input type="text" name="lado_timeline" id="lado_timeline" class="input-adm" placeholder="Lado Timeline">
                 </div>
                 <div class="column">
                     <label class="title-input">Cadastrado Por</label>
-                    <input type="number" name="cadastrado_por" id="cadastrado_por" class="input-adm">
+                    <input type="number" name="cadastrado_por" id="cadastrado_por" class="input-adm" placeholder="Cadastrado Por">
                 </div>
             </div>
     
