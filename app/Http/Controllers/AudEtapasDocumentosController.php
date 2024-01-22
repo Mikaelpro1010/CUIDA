@@ -48,4 +48,22 @@ class AudEtapasDocumentosController extends Controller
         
         return view('admin/gerenciar/aud-etapas-documentos/editarAudEtapasDocumentos', compact('AudEtapaDocumento'));
     }
+
+    public function atualizarAudEtapaDocumento(Request $request, AudEtapasDocumentos $AudEtapaDocumento){
+        
+        $request->validate([
+            'nome' => 'required|string|max:255',
+            'icone' => 'required|string|max:255',
+            'lado_timeline' => 'required|string|max:255',
+        ]);
+        
+        $AudEtapaDocumento->nome = $request->nome;
+        $AudEtapaDocumento->icone = $request->icone;
+        $AudEtapaDocumento->lado_timeline = $request->lado_timeline;
+        $AudEtapaDocumento->cadastrado_por = $request->cadastrado_por;
+        
+        $AudEtapaDocumento->save();
+        
+        return redirect()->route('listarAudEtapasDocumentos')->with('success','Etapa de Documento editado com sucesso!');
+    }
 }
