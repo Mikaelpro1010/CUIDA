@@ -33,4 +33,9 @@ class AudPrazosDocumentosController extends Controller
             
         return redirect()->route('listarAudPrazosDocumentos')->with('success','Etapa de Prazo cadastrado com sucesso!');
     }
+
+    public function visualizarAudPrazoDocumento(AudPrazosDocumentos $AudPrazoDocumento){
+        
+        return view('admin/gerenciar/aud-prazos-documentos/visualizarAudPrazoDocumento', compact('AudPrazoDocumento'));
+    }
 }
