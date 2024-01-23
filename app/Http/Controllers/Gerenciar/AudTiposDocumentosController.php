@@ -14,4 +14,8 @@ class AudTiposDocumentosController extends Controller
         ->paginate(10);
         return view('admin/gerenciar/aud-tipos-documentos/listarAudTiposDocumentos', compact('AudTiposDocumentos'));
     }
+
+    public function visualizarCadastroAudTiposDocumentos(){
+        return view('admin/gerenciar/aud-tipos-documentos/cadastrarAudTiposDocumentos');
+    }
 }
