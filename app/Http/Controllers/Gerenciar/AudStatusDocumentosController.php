@@ -14,4 +14,8 @@ class AudStatusDocumentosController extends Controller
         ->paginate(10);
         return view('admin/gerenciar/aud-status-documentos/listarAudStatusDocumentos', compact('AudStatusDocumentos'));
     }
+
+    public function visualizarCadastroAudStatusDocumentos(){
+        return view('admin/gerenciar/aud-status-documentos/cadastrarAudStatusDocumentos');
+    }
 }
