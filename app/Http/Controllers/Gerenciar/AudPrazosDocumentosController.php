@@ -18,4 +18,19 @@ class AudPrazosDocumentosController extends Controller
     public function visualizarCadastroAudPrazosDocumentos(){
         return view('admin/gerenciar/aud-prazos-documentos/cadastrarAudPrazosDocumentos');
     }
+
+    public function cadastrarAudPrazosDocumentos(Request $request){
+        
+        $request->validate([
+            'nome' => 'required|string|max:255',
+        ]);
+        
+        $AudPrazoDocumento = new AudPrazosDocumentos;
+        
+        $AudPrazoDocumento->nome = $request->nome;
+        
+        $AudPrazoDocumento->save();
+            
+        return redirect()->route('listarAudPrazosDocumentos')->with('success','Etapa de Prazo cadastrado com sucesso!');
+    }
 }
