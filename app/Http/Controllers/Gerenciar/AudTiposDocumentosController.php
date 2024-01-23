@@ -18,4 +18,19 @@ class AudTiposDocumentosController extends Controller
     public function visualizarCadastroAudTiposDocumentos(){
         return view('admin/gerenciar/aud-tipos-documentos/cadastrarAudTiposDocumentos');
     }
+
+    public function cadastrarAudTiposDocumentos(Request $request){
+        
+        $request->validate([
+            'nome' => 'required|string|max:255',
+        ]);
+        
+        $AudTipoDocumento = new AudTiposDocumentos;
+        
+        $AudTipoDocumento->nome = $request->nome;
+        
+        $AudTipoDocumento->save();
+            
+        return redirect()->route('listarAudTiposDocumentos')->with('success','Tipos de Documentos cadastrado com sucesso!');
+    }
 }
