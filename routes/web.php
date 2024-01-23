@@ -112,6 +112,15 @@ Route::middleware(['auth:web'])->group(
                 Route::post('/atualizarAudPrazosDocumentos/atualizar/{AudPrazoDocumento}', 'AudPrazosDocumentosController@atualizarAudPrazoDocumento')->name("atualizarAudPrazoDocumento");
                 Route::post('/deletarAudPrazosDocumentos', 'AudPrazosDocumentosController@deletarAudPrazoDocumento')->name("deletarAudPrazoDocumento");
                 
+                //Gerenciar Status de Documentos
+                Route::get('/listarAudStatusDocumentos', 'AudStatusDocumentosController@listarAudStatusDocumentos')->name("listarAudStatusDocumentos");
+                Route::get('/visualizarCadastroAudStatusDocumentos', 'AudStatusDocumentosController@visualizarCadastroAudStatusDocumentos')->name("visualizarCadastroAudStatusDocumentos");
+                Route::post('/cadastrarAudStatusDocumentos', 'AudStatusDocumentosController@cadastrarAudStatusDocumentos')->name("cadastrarAudStatusDocumentos");
+                Route::get('/visualizarAudStatusDocumentos/{AudStatusDocumento}', 'AudStatusDocumentosController@visualizarAudStatusDocumento')->name("visualizarAudStatusDocumento");
+                Route::get('/editarAudStatusDocumentos/{AudStatusDocumento}/acessar', 'AudStatusDocumentosController@editarAudStatusDocumento')->name("editarAudStatusDocumento");
+                Route::post('/atualizarAudStatusDocumentos/atualizar/{AudStatusDocumento}', 'AudStatusDocumentosController@atualizarAudStatusDocumento')->name("atualizarAudStatusDocumento");
+                Route::post('/deletarAudStatusDocumentos', 'AudStatusDocumentosController@deletarAudStatusDocumento')->name("deletarAudStatusDocumento");
+                
                 
                 //Gerenciar Alunos
                 Route::get('/listarAlunos', 'AlunoController@listarAlunos')->name("listarAlunos");
