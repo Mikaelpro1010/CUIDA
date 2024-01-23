@@ -93,13 +93,24 @@ Route::middleware(['auth:web'])->group(
         // //Gerenciamento
         Route::namespace('Gerenciar')->prefix('admin')->group(
             function () {
+
+                //Gerenciar Etapas de Documentos
                 Route::get('/listarAudEtapasDocumentos', 'AudEtapasDocumentosController@listarAudEtapasDocumentos')->name("listarAudEtapasDocumentos");
                 Route::get('/visualizarCadastroAudEtapasDocumentos', 'AudEtapasDocumentosController@visualizarCadastroAudEtapasDocumentos')->name("visualizarCadastroAudEtapasDocumentos");
                 Route::post('/cadastrarAudEtapasDocumentos', 'AudEtapasDocumentosController@cadastrarAudEtapasDocumentos')->name("cadastrarAudEtapasDocumentos");
                 Route::get('/visualizarAudEtapasDocumentos/{AudEtapaDocumento}', 'AudEtapasDocumentosController@visualizarAudEtapaDocumento')->name("visualizarAudEtapaDocumento");
                 Route::get('/editarAudEtapasDocumentos/{AudEtapaDocumento}/acessar', 'AudEtapasDocumentosController@editarAudEtapaDocumento')->name("editarAudEtapaDocumento");
                 Route::post('/atualizarAudEtapasDocumentos/atualizar/{AudEtapaDocumento}', 'AudEtapasDocumentosController@atualizarAudEtapaDocumento')->name("atualizarAudEtapaDocumento");
-                Route::post('/deletarAudEtapasDocumentos', 'AudEtapasDocumentosController@deletarAudEtapasDocumentos')->name("deletarAudEtapaDocumento");
+                Route::post('/deletarAudEtapasDocumentos', 'AudEtapasDocumentosController@deletarAudEtapaDocumento')->name("deletarAudEtapaDocumento");
+                
+                //Gerenciar Prazos de Documentos
+                Route::get('/listarAudPrazosDocumentos', 'AudPrazosDocumentosController@listarAudPrazosDocumentos')->name("listarAudPrazosDocumentos");
+                Route::get('/visualizarCadastroAudPrazosDocumentos', 'AudPrazosDocumentosController@visualizarCadastroAudPrazosDocumentos')->name("visualizarCadastroAudPrazosDocumentos");
+                Route::post('/cadastrarAudPrazosDocumentos', 'AudPrazosDocumentosController@cadastrarAudPrazosDocumentos')->name("cadastrarAudPrazosDocumentos");
+                Route::get('/visualizarAudPrazosDocumentos/{AudPrazoDocumento}', 'AudPrazosDocumentosController@visualizarAudPrazoDocumento')->name("visualizarAudPrazoDocumento");
+                Route::get('/editarAudPrazosDocumentos/{AudPrazoDocumento}/acessar', 'AudPrazosDocumentosController@editarAudPrazoDocumento')->name("editarAudPrazoDocumento");
+                Route::post('/atualizarAudPrazosDocumentos/atualizar/{AudPrazoDocumento}', 'AudPrazosDocumentosController@atualizarAudPrazoDocumento')->name("atualizarAudPrazoDocumento");
+                Route::post('/deletarAudPrazosDocumentos', 'AudPrazosDocumentosController@deletarAudPrazoDocumento')->name("deletarAudPrazoDocumento");
                 
                 
                 //Gerenciar Alunos
