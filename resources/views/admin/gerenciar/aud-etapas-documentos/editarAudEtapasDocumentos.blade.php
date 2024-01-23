@@ -16,7 +16,7 @@
             <div class="row-input">
                 <div class="column">
                     <label class="title-input">Nome</label>
-                    <input type="text" name="name" id="name" class="input-adm" value="{{$AudEtapaDocumento->nome}}">
+                    <input type="text" name="nome" id="nome" class="input-adm" value="{{$AudEtapaDocumento->nome}}">
                 </div>
                 <div class="column">
                     <label class="title-input">Icone</label>
