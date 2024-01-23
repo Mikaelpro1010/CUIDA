@@ -14,4 +14,8 @@ class AudPrazosDocumentosController extends Controller
         ->paginate(10);
         return view('admin/gerenciar/aud-prazos-documentos/listarAudPrazosDocumentos', compact('AudPrazosDocumentos'));
     }
+
+    public function visualizarCadastroAudPrazosDocumentos(){
+        return view('admin/gerenciar/aud-prazos-documentos/cadastrarAudPrazosDocumentos');
+    }
 }
