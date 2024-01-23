@@ -33,4 +33,9 @@ class AudTiposDocumentosController extends Controller
             
         return redirect()->route('listarAudTiposDocumentos')->with('success','Tipos de Documentos cadastrado com sucesso!');
     }
+
+    public function visualizarAudTipoDocumento(AudTiposDocumentos $AudTipoDocumento){
+        
+        return view('admin/gerenciar/aud-tipos-documentos/visualizarAudTiposDocumentos', compact('AudTiposDocumento'));
+    }
 }
