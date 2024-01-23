@@ -33,4 +33,9 @@ class AudStatusDocumentosController extends Controller
             
         return redirect()->route('listarAudStatusDocumentos')->with('success','Status de Prazo cadastrado com sucesso!');
     }
+
+    public function visualizarAudStatusDocumento(AudStatusDocumentos $AudStatusDocumento){
+        
+        return view('admin/gerenciar/aud-status-documentos/visualizarAudStatusDocumentos', compact('AudStatusDocumento'));
+    }
 }
