@@ -31,11 +31,16 @@ class AudStatusDocumentosController extends Controller
         
         $AudStatusDocumento->save();
             
-        return redirect()->route('listarAudStatusDocumentos')->with('success','Status de Prazo cadastrado com sucesso!');
+        return redirect()->route('listarAudStatusDocumentos')->with('success','Status de Status cadastrado com sucesso!');
     }
 
     public function visualizarAudStatusDocumento(AudStatusDocumentos $AudStatusDocumento){
         
         return view('admin/gerenciar/aud-status-documentos/visualizarAudStatusDocumentos', compact('AudStatusDocumento'));
+    }
+
+    public function editarAudStatusDocumento(AudStatusDocumentos $AudStatusDocumento){
+        
+        return view('admin/gerenciar/aud-status-documentos/editarAudStatusDocumentos', compact('AudStatusDocumento'));
     }
 }
