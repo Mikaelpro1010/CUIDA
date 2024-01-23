@@ -56,4 +56,11 @@ class AudStatusDocumentosController extends Controller
         
         return redirect()->route('listarAudStatusDocumentos')->with('success','Status de Documento editado com sucesso!');
     }
+
+    public function deletarAudStatusDocumento(Request $request){
+
+        $AudStatusDocumento = AudStatusDocumentos::find($request->id);
+        $AudStatusDocumento->delete();
+        return redirect()->route('listarAudStatusDocumentos')->with('success','Status de Documento deletado com sucesso!');
+    }
 }
