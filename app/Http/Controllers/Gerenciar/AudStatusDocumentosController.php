@@ -43,4 +43,17 @@ class AudStatusDocumentosController extends Controller
         
         return view('admin/gerenciar/aud-status-documentos/editarAudStatusDocumentos', compact('AudStatusDocumento'));
     }
+
+    public function atualizarAudStatusDocumento(Request $request, AudStatusDocumentos $AudStatusDocumento){
+        
+        $request->validate([
+            'nome' => 'required|string|max:255',
+        ]);
+        
+        $AudStatusDocumento->nome = $request->nome;
+        
+        $AudStatusDocumento->save();
+        
+        return redirect()->route('listarAudStatusDocumentos')->with('success','Status de Documento editado com sucesso!');
+    }
 }
