@@ -43,4 +43,18 @@ class AudPrazosDocumentosController extends Controller
         
         return view('admin/gerenciar/aud-prazos-documentos/editarAudPrazosDocumentos', compact('AudPrazoDocumento'));
     }
+
+    public function atualizarAudPrazoDocumento(Request $request, AudPrazosDocumentos $AudPrazoDocumento){
+        
+        $request->validate([
+            'nome' => 'required|string|max:255',
+        ]);
+        
+        $AudPrazoDocumento->nome = $request->nome;
+        
+        $AudPrazoDocumento->save();
+        
+        return redirect()->route('listarAudPrazosDocumentos')->with('success','Prazo de Documento editado com sucesso!');
+    }
+
 }
