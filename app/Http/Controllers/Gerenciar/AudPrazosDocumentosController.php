@@ -31,11 +31,16 @@ class AudPrazosDocumentosController extends Controller
         
         $AudPrazoDocumento->save();
             
-        return redirect()->route('listarAudPrazosDocumentos')->with('success','Etapa de Prazo cadastrado com sucesso!');
+        return redirect()->route('listarAudPrazosDocumentos')->with('success','Prazo de Prazo cadastrado com sucesso!');
     }
 
     public function visualizarAudPrazoDocumento(AudPrazosDocumentos $AudPrazoDocumento){
         
-        return view('admin/gerenciar/aud-prazos-documentos/visualizarAudPrazoDocumento', compact('AudPrazoDocumento'));
+        return view('admin/gerenciar/aud-prazos-documentos/visualizarAudPrazosDocumentos', compact('AudPrazoDocumento'));
+    }
+
+    public function editarAudPrazoDocumento(AudPrazosDocumentos $AudPrazoDocumento){
+        
+        return view('admin/gerenciar/aud-prazos-documentos/editarAudPrazosDocumentos', compact('AudPrazoDocumento'));
     }
 }
