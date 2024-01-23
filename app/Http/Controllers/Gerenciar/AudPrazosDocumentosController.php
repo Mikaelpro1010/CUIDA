@@ -57,4 +57,11 @@ class AudPrazosDocumentosController extends Controller
         return redirect()->route('listarAudPrazosDocumentos')->with('success','Prazo de Documento editado com sucesso!');
     }
 
+    public function deletarAudPrazoDocumento(Request $request){
+
+        $AudPrazoDocumento = AudPrazosDocumentos::find($request->id);
+        $AudPrazoDocumento->delete();
+        return redirect()->route('listarAudPrazosDocumentos')->with('success','Prazo de Documento deletado com sucesso!');
+    }
+
 }
