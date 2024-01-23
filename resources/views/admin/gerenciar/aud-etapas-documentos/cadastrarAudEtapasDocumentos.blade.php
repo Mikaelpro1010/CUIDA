@@ -38,7 +38,6 @@
             </div>
         </form>
     </div>
-    @endcan
     <!-- Fim do conteudo do administrativo -->
 </div>
 @endsection
