@@ -43,4 +43,17 @@ class AudTiposDocumentosController extends Controller
         
         return view('admin/gerenciar/aud-tipos-documentos/editarAudTiposDocumentos', compact('AudTipoDocumento'));
     }
+
+    public function atualizarAudTipoDocumento(Request $request, AudTiposDocumentos $AudTipoDocumento){
+        
+        $request->validate([
+            'nome' => 'required|string|max:255',
+        ]);
+        
+        $AudTipoDocumento->nome = $request->nome;
+        
+        $AudTipoDocumento->save();
+        
+        return redirect()->route('listarAudTiposDocumentos')->with('success','Tipos de Documento editado com sucesso!');
+    }
 }
