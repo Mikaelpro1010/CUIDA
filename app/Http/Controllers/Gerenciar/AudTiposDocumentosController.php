@@ -56,4 +56,11 @@ class AudTiposDocumentosController extends Controller
         
         return redirect()->route('listarAudTiposDocumentos')->with('success','Tipos de Documento editado com sucesso!');
     }
+
+    public function deletarAudTipoDocumento(Request $request){
+
+        $AudTipoDocumento = AudTiposDocumentos::find($request->id);
+        $AudTipoDocumento->delete();
+        return redirect()->route('listarAudTiposDocumentos')->with('success','Tipos de Documento deletado com sucesso!');
+    }
 }
