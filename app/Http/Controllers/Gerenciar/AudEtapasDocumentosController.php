@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Gerenciar;
 
 use App\Http\Controllers\Controller;
 use App\Constants\Permission;
@@ -39,7 +39,7 @@ class AudEtapasDocumentosController extends Controller
         return redirect()->route('listarAudEtapasDocumentos')->with('success','Etapa de Documento cadastrado com sucesso!');
     }
 
-    public function visualizarAudEtapasDocumentos(AudEtapasDocumentos $AudEtapaDocumento){
+    public function visualizarAudEtapaDocumento(AudEtapasDocumentos $AudEtapaDocumento){
         
         return view('admin/gerenciar/aud-etapas-documentos/visualizarAudEtapasDocumentos', compact('AudEtapaDocumento'));
     }
@@ -74,3 +74,4 @@ class AudEtapasDocumentosController extends Controller
         return redirect()->route('listarAudEtapasDocumentos')->with('success','Etapa de Documento deletado com sucesso!');
     }
 }
+
