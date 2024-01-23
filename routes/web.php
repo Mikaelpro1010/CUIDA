@@ -97,8 +97,8 @@ Route::middleware(['auth:web'])->group(
                 Route::get('/visualizarCadastroAudEtapasDocumentos', 'AudEtapasDocumentosController@visualizarCadastroAudEtapasDocumentos')->name("visualizarCadastroAudEtapasDocumentos");
                 Route::post('/cadastrarAudEtapasDocumentos', 'AudEtapasDocumentosController@cadastrarAudEtapasDocumentos')->name("cadastrarAudEtapasDocumentos");
                 Route::get('/visualizarAudEtapasDocumentos/{AudEtapaDocumento}', 'AudEtapasDocumentosController@visualizarAudEtapaDocumento')->name("visualizarAudEtapaDocumento");
-                Route::get('/editarAudEtapasDocumentos/{AudEtapaDocumento}/acessar', 'AudEtapasDocumentosController@editarAudEtapasDocumentos')->name("editarAudEtapaDocumento");
-                Route::post('/atualizarAudEtapasDocumentos/atualizar/{AudEtapaDocumento}', 'AudEtapasDocumentosController@atualizaratualizarAudEtapaDocumento')->name("atualizarAudEtapaDocumento");
+                Route::get('/editarAudEtapasDocumentos/{AudEtapaDocumento}/acessar', 'AudEtapasDocumentosController@editarAudEtapaDocumento')->name("editarAudEtapaDocumento");
+                Route::post('/atualizarAudEtapasDocumentos/atualizar/{AudEtapaDocumento}', 'AudEtapasDocumentosController@atualizarAudEtapaDocumento')->name("atualizarAudEtapaDocumento");
                 Route::post('/deletarAudEtapasDocumentos', 'AudEtapasDocumentosController@deletarAudEtapasDocumentos')->name("deletarAudEtapaDocumento");
                 
                 
