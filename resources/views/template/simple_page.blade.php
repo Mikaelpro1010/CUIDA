@@ -108,6 +108,8 @@
             <a href="{{ route('listarAudPrazosDocumentos') }}" class="sidebar-nav text-white dark:bg-black"><i class="icon fa-solid fa-eye"></i><span>Prazos de Documentos</span></a>
             
             <a href="{{ route('listarAudStatusDocumentos') }}" class="sidebar-nav text-white dark:bg-black"><i class="icon fa-solid fa-eye"></i><span>Status de Documentos</span></a>
+            
+            <a href="{{ route('listarAudTiposDocumentos') }}" class="sidebar-nav text-white dark:bg-black"><i class="icon fa-solid fa-eye"></i><span>Tipos de Documentos</span></a>
             <!-- Fim da Sidebar -->
         </div>
         @yield('main')
