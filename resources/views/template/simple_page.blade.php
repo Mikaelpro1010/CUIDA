@@ -91,7 +91,7 @@
             </div>
 
             <button class="dropdown-btn text-white dark:bg-black">
-                <i class="icon fa-solid fa-users"></i><span>Configurações</span><i class="fa-solid fa-caret-down"></i>
+                <i class="icon fa-solid fa-gear"></i><span>Configurações</span><i class="fa-solid fa-caret-down"></i>
             </button>
             <div class="dropdown-container text-white dark:bg-black">
                 <a href="{{ route('listarAudEtapasDocumentos') }}" class="sidebar-nav text-white dark:bg-black"><i class="icon fa-solid fa-user-check"></i><span>Etapas de Documentos</span></a>
