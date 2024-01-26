@@ -21,9 +21,19 @@ class AudTiposDocumentosController extends Controller
 
     public function cadastrarAudTiposDocumentos(Request $request){
         
+        $mensagens = [
+            'nome.required' => 'O campo nome é obrigatório.',
+            'nome.string' => 'O campo nome deve ser uma string.',
+            'nome.max' => 'O campo nome não pode ter mais de 255 caracteres.',
+            'interno.required' => 'O campo interno é obrigatório.',
+            'interno.integer' => 'O campo interno deve ser um número inteiro.',
+            'interno.min' => 'O campo interno deve ser maior que zero.',
+        ];
+    
         $request->validate([
             'nome' => 'required|string|max:255',
-        ]);
+            'interno' => 'required|integer|min:1',
+        ], $mensagens);
         
         $AudTipoDocumento = new AudTiposDocumentos;
         
@@ -47,9 +57,19 @@ class AudTiposDocumentosController extends Controller
 
     public function atualizarAudTipoDocumento(Request $request, AudTiposDocumentos $AudTipoDocumento){
         
+        $mensagens = [
+            'nome.required' => 'O campo nome é obrigatório.',
+            'nome.string' => 'O campo nome deve ser uma string.',
+            'nome.max' => 'O campo nome não pode ter mais de 255 caracteres.',
+            'interno.required' => 'O campo interno é obrigatório.',
+            'interno.integer' => 'O campo interno deve ser um número inteiro.',
+            'interno.min' => 'O campo interno deve ser maior que zero.',
+        ];
+    
         $request->validate([
             'nome' => 'required|string|max:255',
-        ]);
+            'interno' => 'required|integer|min:1',
+        ], $mensagens);
         
         $AudTipoDocumento->nome = $request->nome;
         $AudTipoDocumento->interno = $request->interno;
