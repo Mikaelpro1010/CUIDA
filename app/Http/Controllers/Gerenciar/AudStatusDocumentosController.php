@@ -20,10 +20,15 @@ class AudStatusDocumentosController extends Controller
     }
 
     public function cadastrarAudStatusDocumentos(Request $request){
-        
+        $mensagens = [
+            'nome.required' => 'O campo nome é obrigatório.',
+            'nome.string' => 'O campo nome deve ser uma string.',
+            'nome.max' => 'O campo nome não pode ter mais de 255 caracteres.',
+        ];
+
         $request->validate([
             'nome' => 'required|string|max:255',
-        ]);
+        ], $mensagens);
         
         $AudStatusDocumento = new AudStatusDocumentos;
         
@@ -46,9 +51,15 @@ class AudStatusDocumentosController extends Controller
 
     public function atualizarAudStatusDocumento(Request $request, AudStatusDocumentos $AudStatusDocumento){
         
+        $mensagens = [
+            'nome.required' => 'O campo nome é obrigatório.',
+            'nome.string' => 'O campo nome deve ser uma string.',
+            'nome.max' => 'O campo nome não pode ter mais de 255 caracteres.',
+        ];
+
         $request->validate([
             'nome' => 'required|string|max:255',
-        ]);
+        ], $mensagens);
         
         $AudStatusDocumento->nome = $request->nome;
         
