@@ -37,7 +37,7 @@ class AudTiposDocumentosController extends Controller
 
     public function visualizarAudTipoDocumento(AudTiposDocumentos $AudTipoDocumento){
         
-        return view('admin/gerenciar/aud-tipos-documentos/visualizarAudTiposDocumentos', compact('AudTiposDocumento'));
+        return view('admin/gerenciar/aud-tipos-documentos/visualizarAudTiposDocumentos', compact('AudTipoDocumento'));
     }
 
     public function editarAudTipoDocumento(AudTiposDocumentos $AudTipoDocumento){
