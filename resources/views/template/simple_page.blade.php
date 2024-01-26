@@ -102,6 +102,12 @@
             <a href="{{ route('listarProfessores') }}" class="sidebar-nav text-white dark:bg-black"><i class="icon fa-solid fa-eye"></i><span>Gerenciar Professores</span></a>
             
             @endcan
+
+            <a href="{{ route('listarAudEtapasDocumentos') }}" class="sidebar-nav text-white dark:bg-black"><i class="icon fa-solid fa-eye"></i><span>Etapas de Documentos</span></a>
+            
+            <a href="{{ route('listarAudPrazosDocumentos') }}" class="sidebar-nav text-white dark:bg-black"><i class="icon fa-solid fa-eye"></i><span>Prazos de Documentos</span></a>
+            
+            <a href="{{ route('listarAudStatusDocumentos') }}" class="sidebar-nav text-white dark:bg-black"><i class="icon fa-solid fa-eye"></i><span>Status de Documentos</span></a>
             <!-- Fim da Sidebar -->
         </div>
         @yield('main')
