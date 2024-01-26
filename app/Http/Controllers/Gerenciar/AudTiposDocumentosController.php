@@ -28,6 +28,7 @@ class AudTiposDocumentosController extends Controller
         $AudTipoDocumento = new AudTiposDocumentos;
         
         $AudTipoDocumento->nome = $request->nome;
+        $AudTipoDocumento->interno = $request->interno;
         
         $AudTipoDocumento->save();
             
@@ -51,6 +52,7 @@ class AudTiposDocumentosController extends Controller
         ]);
         
         $AudTipoDocumento->nome = $request->nome;
+        $AudTipoDocumento->interno = $request->interno;
         
         $AudTipoDocumento->save();
         
