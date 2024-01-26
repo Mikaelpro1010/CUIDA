@@ -89,6 +89,16 @@
                 <a href="" class="sidebar-nav text-white dark:bg-black"><i class="icon fa-solid fa-user-gear"></i><span>Link 2</span></a>
                 <a href="#" class="sidebar-nav text-white dark:bg-black"><i class="icon fa-solid fa-chalkboard-user"></i><span>Link 3</span></a>
             </div>
+
+            <button class="dropdown-btn text-white dark:bg-black">
+                <i class="icon fa-solid fa-users"></i><span>Configurações</span><i class="fa-solid fa-caret-down"></i>
+            </button>
+            <div class="dropdown-container text-white dark:bg-black">
+                <a href="{{ route('listarAudEtapasDocumentos') }}" class="sidebar-nav text-white dark:bg-black"><i class="icon fa-solid fa-user-check"></i><span>Etapas de Documentos</span></a>
+                <a href="{{ route('listarAudPrazosDocumentos') }}" class="sidebar-nav text-white dark:bg-black"><i class="icon fa-solid fa-user-gear"></i><span>Prazos de Documentos</span></a>
+                <a href="{{ route('listarAudStatusDocumentos') }}" class="sidebar-nav text-white dark:bg-black"><i class="icon fa-solid fa-chalkboard-user"></i><span>Status de Documentos</span></a>
+                <a href="{{ route('listarAudTiposDocumentos') }}" class="sidebar-nav text-white dark:bg-black"><i class="icon fa-solid fa-chalkboard-user"></i><span>Tipos de Documentos</span></a>
+            </div>
             @endauth
             
             @can(permissionConstant()::GERENCIAR_ALUNOS_LIST)
@@ -102,14 +112,6 @@
             <a href="{{ route('listarProfessores') }}" class="sidebar-nav text-white dark:bg-black"><i class="icon fa-solid fa-eye"></i><span>Gerenciar Professores</span></a>
             
             @endcan
-
-            <a href="{{ route('listarAudEtapasDocumentos') }}" class="sidebar-nav text-white dark:bg-black"><i class="icon fa-solid fa-eye"></i><span>Etapas de Documentos</span></a>
-            
-            <a href="{{ route('listarAudPrazosDocumentos') }}" class="sidebar-nav text-white dark:bg-black"><i class="icon fa-solid fa-eye"></i><span>Prazos de Documentos</span></a>
-            
-            <a href="{{ route('listarAudStatusDocumentos') }}" class="sidebar-nav text-white dark:bg-black"><i class="icon fa-solid fa-eye"></i><span>Status de Documentos</span></a>
-            
-            <a href="{{ route('listarAudTiposDocumentos') }}" class="sidebar-nav text-white dark:bg-black"><i class="icon fa-solid fa-eye"></i><span>Tipos de Documentos</span></a>
             <!-- Fim da Sidebar -->
         </div>
         @yield('main')
