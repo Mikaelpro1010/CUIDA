@@ -19,6 +19,7 @@
                 <tr>
                     <th class="list-head-content">ID</th>
                     <th class="list-head-content">Nome</th>
+                    <th class="list-head-content">Interno</th>
                     <th class="list-head-content">Ações</th>
                 </tr>
             </thead>
@@ -27,6 +28,7 @@
                 <tr>
                     <td class="list-body-content"> {{$AudTipoDocumento->id}} </td>
                     <td class="list-body-content">{{$AudTipoDocumento->nome}}</td>
+                    <td class="list-body-content">{{$AudTipoDocumento->interno}}</td>
                     <td class="list-body-content">
                         <a class="btn btn-outline-primary" href="{{ route('visualizarAudTipoDocumento', $AudTipoDocumento) }}">Visualizar</a>
                         <a class="btn btn-outline-warning" href="{{ route('editarAudTipoDocumento', $AudTipoDocumento) }}">Editar</a>
