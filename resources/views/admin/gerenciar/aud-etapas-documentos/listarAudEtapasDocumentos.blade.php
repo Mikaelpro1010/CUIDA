@@ -73,17 +73,3 @@
     <!-- Fim do conteudo do administrativo -->
 </div>
 @endsection
-
-
-@push('scripts')
-<script>
-    function deleteItem(id) {
-        $('#deletar').val(id);
-        $('#modalDelete').modal('show');
-    }
-
-    function close_modal() {
-        $('#modalDelete').modal('hide');
-    }
-</script>
-@endpush

@@ -52,6 +52,7 @@ mix
       [
         "resources/assets/js/darkMode.js",
         "resources/assets/js/logout.js",
+        "resources/assets/js/delete_elemento.js",
         "node_modules/jquery/dist/jquery.js",
         "resources/assets/js/scripts.js",
         "node_modules/bootstrap/dist/js/bootstrap.bundle.js",
