@@ -30,7 +30,7 @@
                     <td class="list-body-content">
                         <a class="btn btn-outline-primary" href="{{ route('visualizarAudStatusDocumento', $AudStatusDocumento) }}">Visualizar</a>
                         <a class="btn btn-outline-warning" href="{{ route('editarAudStatusDocumento', $AudStatusDocumento) }}">Editar</a>
-                        <a class="btn btn-outline-danger" href="javascript:deleteItem({{ $AudStatusDocumento->id }})">Deletar</a>
+                        <a id="deleteButton{{ $AudStatusDocumento->id }}" class="btn btn-outline-danger delete-btn" data-item-id="{{ $AudStatusDocumento->id }}">Deletar</a>
                     </td>
                 </tr>
                 @endforeach
