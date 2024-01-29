@@ -74,6 +74,7 @@
     <!-- Fim Navbar -->
 
     <div class="content dark:bg-black">
+
         <!-- Inicio da Sidebar -->
         <div class="sidebar second-bg-color dark:bg-black">
 
@@ -94,10 +95,10 @@
                 <i class="icon fa-solid fa-gear"></i><span>Configurações</span><i class="fa-solid fa-caret-down"></i>
             </button>
             <div class="dropdown-container text-white dark:bg-black">
-                <a href="{{ route('listarAudEtapasDocumentos') }}" class="sidebar-nav text-white dark:bg-black"><i class="icon fa-solid fa-user-check"></i><span>Etapas de Documentos</span></a>
-                <a href="{{ route('listarAudPrazosDocumentos') }}" class="sidebar-nav text-white dark:bg-black"><i class="icon fa-solid fa-user-gear"></i><span>Prazos de Documentos</span></a>
-                <a href="{{ route('listarAudStatusDocumentos') }}" class="sidebar-nav text-white dark:bg-black"><i class="icon fa-solid fa-chalkboard-user"></i><span>Status de Documentos</span></a>
-                <a href="{{ route('listarAudTiposDocumentos') }}" class="sidebar-nav text-white dark:bg-black"><i class="icon fa-solid fa-chalkboard-user"></i><span>Tipos de Documentos</span></a>
+                <a href="{{ route('listarAudEtapasDocumentos') }}" class="sidebar-nav text-white dark:bg-black"><i class="icon fa-solid fa-file-lines"></i><span>Etapas de Documentos</span></a>
+                <a href="{{ route('listarAudPrazosDocumentos') }}" class="sidebar-nav text-white dark:bg-black"><i class="icon fa-solid fa-file-lines"></i><span>Prazos de Documentos</span></a>
+                <a href="{{ route('listarAudStatusDocumentos') }}" class="sidebar-nav text-white dark:bg-black"><i class="icon fa-solid fa-file-lines"></i><span>Status de Documentos</span></a>
+                <a href="{{ route('listarAudTiposDocumentos') }}" class="sidebar-nav text-white dark:bg-black"><i class="icon fa-solid fa-file-lines"></i><span>Tipos de Documentos</span></a>
             </div>
             @endauth
             
