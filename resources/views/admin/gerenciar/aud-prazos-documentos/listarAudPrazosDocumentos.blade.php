@@ -56,8 +56,8 @@
                         {{ csrf_field() }}
                         <input type="hidden" id="deletar" name="id" value="">
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancelar</button>
-                            <button type="submit" class="btn btn-success" onclick="close_modal()">Deletar</button>
+                            <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal">Cancelar</button>
+                            <button type="submit" class="btn btn-outline-success" onclick="close_modal()">Deletar</button>
                         </div>
                     </form>
                 </div>
