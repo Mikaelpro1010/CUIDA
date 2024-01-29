@@ -30,12 +30,16 @@ class AudEtapasDocumentosController extends Controller
             'lado_timeline.required' => 'O campo lado_timeline é obrigatório.',
             'lado_timeline.string' => 'O campo lado_timeline deve ser uma string.',
             'lado_timeline.max' => 'O campo lado_timeline não pode ter mais de 255 caracteres.',
+            'cadastrado_por.required' => 'O campo cadastrado_por é obrigatório.',
+            'cadastrado_por.integer' => 'O campo cadastrado_por deve ser um número inteiro.',
+            'cadastrado_por.min' => 'O campo cadastrado_por deve ser maior que zero.',
         ];
 
         $request->validate([
             'nome' => 'required|string|max:255',
             'icone' => 'required|string|max:255',
             'lado_timeline' => 'required|string|max:255',
+            'cadastrado_por' => 'required|integer|min:1',
         ], $mensagens);
         
         $AudEtapaDocumento = new AudEtapasDocumentos;
@@ -62,11 +66,27 @@ class AudEtapasDocumentosController extends Controller
 
     public function atualizarAudEtapaDocumento(Request $request, AudEtapasDocumentos $AudEtapaDocumento){
         
+        $mensagens = [
+            'nome.required' => 'O campo nome é obrigatório.',
+            'nome.string' => 'O campo nome deve ser uma string.',
+            'nome.max' => 'O campo nome não pode ter mais de 255 caracteres.',
+            'icone.required' => 'O campo icone é obrigatório.',
+            'icone.string' => 'O campo icone deve ser uma string.',
+            'icone.max' => 'O campo icone não pode ter mais de 255 caracteres.',
+            'lado_timeline.required' => 'O campo lado_timeline é obrigatório.',
+            'lado_timeline.string' => 'O campo lado_timeline deve ser uma string.',
+            'lado_timeline.max' => 'O campo lado_timeline não pode ter mais de 255 caracteres.',
+            'cadastrado_por.required' => 'O campo cadastrado_por é obrigatório.',
+            'cadastrado_por.integer' => 'O campo cadastrado_por deve ser um número inteiro.',
+            'cadastrado_por.min' => 'O campo cadastrado_por deve ser maior que zero.',
+        ];
+
         $request->validate([
             'nome' => 'required|string|max:255',
             'icone' => 'required|string|max:255',
             'lado_timeline' => 'required|string|max:255',
-        ]);
+            'cadastrado_por' => 'required|integer|min:1',
+        ], $mensagens);
         
         $AudEtapaDocumento->nome = $request->nome;
         $AudEtapaDocumento->icone = $request->icone;
