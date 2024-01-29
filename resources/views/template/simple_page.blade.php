@@ -63,7 +63,7 @@
                         <a class="text-white" href="{{ route('logout') }}" id="logout-link">
                             <span class="fa-solid fa-sign-out"></span> Sair
                         </a>
-                        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                        <form id="logout-form" action="{{ route('logout') }}" method="POST">
                             {{ csrf_field() }}
                         </form>
                     </div>
