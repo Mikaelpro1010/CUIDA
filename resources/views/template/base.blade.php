@@ -3,7 +3,7 @@
 @section('main')
     <!-- Inicio do conteudo do administrativo -->
     <main class="wrapper dark:bg-black dark:border">
-        <div class="card p-3">
+        <div class="card">
             <!-- Exibição de mensagens de erro -->
             @if($errors->any())
             <div class="alert alert-danger">
