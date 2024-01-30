@@ -21,7 +21,20 @@
                 </div>
                 <div class="column">
                     <label class="title-input">Interno</label>
-                    <input type="number" name="interno" id="interno" class="input-adm" placeholder="Interno">
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="interno" id="exampleRadios1" value="1" checked>
+                        <label class="form-check-label" for="exampleRadios1">
+                          Sim
+                        </label>
+                      </div>
+                      <div class="form-check">
+                        <input class="form-check-input" type="radio" name="interno" id="exampleRadios2" value="2">
+                        <label class="form-check-label" for="exampleRadios2">
+                          Não
+                        </label>
+                      </div>
+                    </div>
+                    {{-- <input type="number" name="interno" id="interno" class="input-adm" placeholder="Interno"> --}}
                 </div>
             </div>
     

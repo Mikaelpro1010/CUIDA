@@ -38,7 +38,7 @@ class AudEtapasDocumentosController extends Controller
         $request->validate([
             'nome' => 'required|string|max:255',
             'icone' => 'required|string|max:255',
-            'lado_timeline' => 'required|string|max:255',
+            'lado_timeline' => 'required',
             'cadastrado_por' => 'required|integer|min:1',
         ], $mensagens);
         
@@ -84,7 +84,7 @@ class AudEtapasDocumentosController extends Controller
         $request->validate([
             'nome' => 'required|string|max:255',
             'icone' => 'required|string|max:255',
-            'lado_timeline' => 'required|string|max:255',
+            'lado_timeline' => 'required',
             'cadastrado_por' => 'required|integer|min:1',
         ], $mensagens);
         
