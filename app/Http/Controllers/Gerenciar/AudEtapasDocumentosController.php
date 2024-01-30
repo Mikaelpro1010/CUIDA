@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Constants\Permission;
 use Illuminate\Http\Request;
 use App\Models\AudEtapasDocumentos;
+use App\Models\User;
 
 class AudEtapasDocumentosController extends Controller
 {
@@ -20,6 +21,9 @@ class AudEtapasDocumentosController extends Controller
     }
 
     public function cadastrarAudEtapasDocumentos(Request $request){
+        
+        $user = auth()->user();
+
         $mensagens = [
             'nome.required' => 'O campo nome é obrigatório.',
             'nome.string' => 'O campo nome deve ser uma string.',
@@ -29,17 +33,12 @@ class AudEtapasDocumentosController extends Controller
             'icone.max' => 'O campo icone não pode ter mais de 255 caracteres.',
             'lado_timeline.required' => 'O campo lado_timeline é obrigatório.',
             'lado_timeline.string' => 'O campo lado_timeline deve ser uma string.',
-            'lado_timeline.max' => 'O campo lado_timeline não pode ter mais de 255 caracteres.',
-            'cadastrado_por.required' => 'O campo cadastrado_por é obrigatório.',
-            'cadastrado_por.integer' => 'O campo cadastrado_por deve ser um número inteiro.',
-            'cadastrado_por.min' => 'O campo cadastrado_por deve ser maior que zero.',
         ];
 
         $request->validate([
             'nome' => 'required|string|max:255',
             'icone' => 'required|string|max:255',
             'lado_timeline' => 'required',
-            'cadastrado_por' => 'required|integer|min:1',
         ], $mensagens);
         
         $AudEtapaDocumento = new AudEtapasDocumentos;
@@ -47,7 +46,7 @@ class AudEtapasDocumentosController extends Controller
         $AudEtapaDocumento->nome = $request->nome;
         $AudEtapaDocumento->icone = $request->icone;
         $AudEtapaDocumento->lado_timeline = $request->lado_timeline;
-        $AudEtapaDocumento->cadastrado_por = $request->cadastrado_por;
+        $AudEtapaDocumento->cadastrado_por = $user->id;
         
         $AudEtapaDocumento->save();
             
@@ -75,23 +74,17 @@ class AudEtapasDocumentosController extends Controller
             'icone.max' => 'O campo icone não pode ter mais de 255 caracteres.',
             'lado_timeline.required' => 'O campo lado_timeline é obrigatório.',
             'lado_timeline.string' => 'O campo lado_timeline deve ser uma string.',
-            'lado_timeline.max' => 'O campo lado_timeline não pode ter mais de 255 caracteres.',
-            'cadastrado_por.required' => 'O campo cadastrado_por é obrigatório.',
-            'cadastrado_por.integer' => 'O campo cadastrado_por deve ser um número inteiro.',
-            'cadastrado_por.min' => 'O campo cadastrado_por deve ser maior que zero.',
         ];
 
         $request->validate([
             'nome' => 'required|string|max:255',
             'icone' => 'required|string|max:255',
             'lado_timeline' => 'required',
-            'cadastrado_por' => 'required|integer|min:1',
         ], $mensagens);
         
         $AudEtapaDocumento->nome = $request->nome;
         $AudEtapaDocumento->icone = $request->icone;
         $AudEtapaDocumento->lado_timeline = $request->lado_timeline;
-        $AudEtapaDocumento->cadastrado_por = $request->cadastrado_por;
         
         $AudEtapaDocumento->save();
         
