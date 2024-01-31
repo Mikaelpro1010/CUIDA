@@ -26,7 +26,7 @@
                 <div class="column">
                     <label class="title-input">Lado Timeline</label>
                     <select name="lado_timeline" class="input-adm" aria-label="Default select example">
-                        <option selected>Open this select menu</option>
+                        <option selected>Menu de seleção</option>
                         <option value="left">Left</option>
                         <option value="rigth">Rigth</option>
                     </select>

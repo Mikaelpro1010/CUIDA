@@ -22,7 +22,7 @@
                 <div class="column">
                     <label class="title-input">Interno</label>
                     <select name="interno" class="input-adm" aria-label="Default select example">
-                        <option selected>Open this select menu</option>
+                        <option selected>Menu de seleção</option>
                         <option value="1">Sim</option>
                         <option value="2">Não</option>
                     </select>
