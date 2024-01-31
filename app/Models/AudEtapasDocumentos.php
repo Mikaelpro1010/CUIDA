@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class AudEtapasDocumentos extends Model
 {
     protected $fillable = [
-        'nome', 'icone', 'lado_timeline', 'cadastrado_por',
+        'nome', 'icone', 'lado_timeline', 'usuario_id',
     ];
 
     // Relacionamento com o modelo Usuario
