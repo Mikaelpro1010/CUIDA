@@ -21,25 +21,17 @@
                 </div>
                 <div class="column">
                     <label class="title-input">Interno</label>
-                    <div class="form-check">
-                        <input class="form-check-input" type="radio" name="interno" id="exampleRadios1" value="1" checked>
-                        <label class="form-check-label" for="exampleRadios1">
-                          Sim
-                        </label>
-                      </div>
-                      <div class="form-check">
-                        <input class="form-check-input" type="radio" name="interno" id="exampleRadios2" value="2">
-                        <label class="form-check-label" for="exampleRadios2">
-                          Não
-                        </label>
-                      </div>
-                    </div>
+                    <select name="interno" class="input-adm" aria-label="Default select example">
+                        <option selected>Open this select menu</option>
+                        <option value="1">Sim</option>
+                        <option value="2">Não</option>
+                    </select>
                     {{-- <input type="number" name="interno" id="interno" class="input-adm" placeholder="Interno"> --}}
                 </div>
             </div>
     
-            <div class="text-center">
-                <button type="submit" class="btn btn-outline-success">Cadastrar</button>
+            <div>
+                <button type="submit" class="btn btn-outline-success">Salvar</button>
             </div>
         </form>
     </div>

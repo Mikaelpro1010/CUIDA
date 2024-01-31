@@ -65,7 +65,7 @@ class AudTiposDocumentosController extends Controller
     
         $request->validate([
             'nome' => 'required|string|max:255',
-            'interno' => 'required|integer',
+            'interno' => 'required',
         ], $mensagens);
         
         $AudTipoDocumento->nome = $request->nome;

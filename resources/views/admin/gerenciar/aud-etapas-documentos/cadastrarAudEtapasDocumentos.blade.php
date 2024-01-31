@@ -25,29 +25,16 @@
                 </div>
                 <div class="column">
                     <label class="title-input">Lado Timeline</label>
-                    <div class="form-check">
-                        <input class="form-check-input" type="radio" name="lado_timeline" id="exampleRadios1" value="left" checked>
-                        <label class="form-check-label" for="exampleRadios1">
-                          Left
-                        </label>
-                      </div>
-                      <div class="form-check">
-                        <input class="form-check-input" type="radio" name="lado_timeline" id="exampleRadios2" value="rigth">
-                        <label class="form-check-label" for="exampleRadios2">
-                          Rigth
-                        </label>
-                      </div>
-                    </div>
-                    {{-- <input type="text" name="lado_timeline" id="lado_timeline" class="input-adm" placeholder="Lado Timeline"> --}}
-                </div>
-                <div class="column">
-                    <label class="title-input">Cadastrado Por</label>
-                    <input type="number" name="cadastrado_por" id="cadastrado_por" class="input-adm" placeholder="Cadastrado Por">
+                    <select name="lado_timeline" class="input-adm" aria-label="Default select example">
+                        <option selected>Open this select menu</option>
+                        <option value="left">Left</option>
+                        <option value="rigth">Rigth</option>
+                    </select>
                 </div>
             </div>
-    
-            <div class="text-center">
-                <button type="submit" class="btn btn-outline-success">Cadastrar</button>
+            
+            <div>
+                <button type="submit" class="btn btn-outline-success">Salvar</button>
             </div>
         </form>
     </div>

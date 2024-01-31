@@ -21,8 +21,8 @@
                 </div>
             </div>
     
-            <div class="text-center">
-                <button type="submit" class="btn btn-outline-success">Cadastrar</button>
+            <div>
+                <button type="submit" class="btn btn-outline-success">Salvar</button>
             </div>
         </form>
     </div>
