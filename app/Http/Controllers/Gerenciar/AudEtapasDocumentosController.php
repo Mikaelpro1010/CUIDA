@@ -46,7 +46,7 @@ class AudEtapasDocumentosController extends Controller
         $AudEtapaDocumento->nome = $request->nome;
         $AudEtapaDocumento->icone = $request->icone;
         $AudEtapaDocumento->lado_timeline = $request->lado_timeline;
-        $AudEtapaDocumento->cadastrado_por = $user->id;
+        $AudEtapaDocumento->usuario_id = $user->id;
         
         $AudEtapaDocumento->save();
             

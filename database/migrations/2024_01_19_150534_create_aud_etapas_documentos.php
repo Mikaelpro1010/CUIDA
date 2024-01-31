@@ -18,7 +18,8 @@ class CreateAudEtapasDocumentos extends Migration
             $table->string('nome');
             $table->string('icone');
             $table->string('lado_timeline');
-            $table->integer('cadastrado_por');
+            $table->unsignedBigInteger('usuario_id');
+            $table->foreign('usuario_id')->references('id')->on('users');
             $table->timestamps();
         });
     }
