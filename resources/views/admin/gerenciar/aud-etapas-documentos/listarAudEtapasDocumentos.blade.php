@@ -32,7 +32,7 @@
                     <td class="list-body-content">{{$AudEtapaDocumento->nome}}</td>
                     <td class="list-body-content">{{$AudEtapaDocumento->icone}}</td>
                     <td class="list-body-content">{{$AudEtapaDocumento->lado_timeline}}</td>
-                    <td class="list-body-content table-sm-none">{{$AudEtapaDocumento->cadastrado_por}}</td>
+                    <td class="list-body-content table-sm-none">{{$AudEtapaDocumento->usuario->name}}</td>
                     <td class="list-body-content">
                         <a class="btn btn-outline-primary" href="{{ route('visualizarAudEtapaDocumento', $AudEtapaDocumento) }}">Visualizar</a>
                         <a class="btn btn-outline-warning" href="{{ route('editarAudEtapaDocumento', $AudEtapaDocumento) }}">Editar</a>
