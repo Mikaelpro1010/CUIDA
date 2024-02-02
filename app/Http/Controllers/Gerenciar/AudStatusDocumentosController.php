@@ -20,6 +20,9 @@ class AudStatusDocumentosController extends Controller
     }
 
     public function cadastrarAudStatusDocumentos(Request $request){
+
+        $user = auth()->user();
+
         $mensagens = [
             'nome.required' => 'O campo nome é obrigatório.',
             'nome.string' => 'O campo nome deve ser uma string.',
@@ -33,6 +36,7 @@ class AudStatusDocumentosController extends Controller
         $AudStatusDocumento = new AudStatusDocumentos;
         
         $AudStatusDocumento->nome = $request->nome;
+        $AudStatusDocumento->usuario_id = $user->id;
         
         $AudStatusDocumento->save();
             
