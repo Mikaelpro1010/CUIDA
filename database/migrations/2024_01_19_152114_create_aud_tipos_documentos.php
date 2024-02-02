@@ -17,6 +17,8 @@ class CreateAudTiposDocumentos extends Migration
             $table->increments('id');
             $table->string('nome');
             $table->integer('interno');
+            $table->unsignedBigInteger('usuario_id');
+            $table->foreign('usuario_id')->references('id')->on('users');
             $table->timestamps();
         });
     }

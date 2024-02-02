@@ -21,6 +21,8 @@ class AudTiposDocumentosController extends Controller
 
     public function cadastrarAudTiposDocumentos(Request $request){
         
+        $user = auth()->user();
+
         $mensagens = [
             'nome.required' => 'O campo nome é obrigatório.',
             'nome.string' => 'O campo nome deve ser uma string.',
@@ -37,6 +39,7 @@ class AudTiposDocumentosController extends Controller
         
         $AudTipoDocumento->nome = $request->nome;
         $AudTipoDocumento->interno = $request->interno;
+        $AudTipoDocumento->usuario_id = $user->id;
         
         $AudTipoDocumento->save();
             
