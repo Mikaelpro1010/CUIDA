@@ -19,6 +19,7 @@
                 <tr>
                     <th class="list-head-content">ID</th>
                     <th class="list-head-content">Nome</th>
+                    <th class="list-head-content table-sm-none">Cadastrado Por</th>
                     <th class="list-head-content">Ações</th>
                 </tr>
             </thead>
@@ -27,6 +28,7 @@
                 <tr>
                     <td class="list-body-content"> {{$AudPrazoDocumento->id}} </td>
                     <td class="list-body-content">{{$AudPrazoDocumento->nome}}</td>
+                    <td class="list-body-content table-sm-none">{{$AudPrazoDocumento->usuario->name}}</td>
                     <td class="list-body-content">
                         <a class="btn btn-outline-primary" href="{{ route('visualizarAudPrazoDocumento', $AudPrazoDocumento) }}">Visualizar</a>
                         <a class="btn btn-outline-warning" href="{{ route('editarAudPrazoDocumento', $AudPrazoDocumento) }}">Editar</a>

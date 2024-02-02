@@ -16,6 +16,8 @@ class CreateAudPrazosDocumentos extends Migration
         Schema::create('aud_prazos_documentos', function (Blueprint $table) {
             $table->increments('id');
             $table->string('nome');
+            $table->unsignedBigInteger('usuario_id');
+            $table->foreign('usuario_id')->references('id')->on('users');
             $table->timestamps();
         });
     }

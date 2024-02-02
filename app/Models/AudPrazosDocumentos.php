@@ -9,4 +9,10 @@ class AudPrazosDocumentos extends Model
     protected $fillable = [
         'nome',
     ];
+
+    // Relacionamento com o modelo Usuario
+    public function usuario()
+    {
+        return $this->belongsTo(User::class, 'usuario_id');
+    }
 }
