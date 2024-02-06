@@ -16,19 +16,19 @@
             <div class="row-input">
                 <div class="column">
                     <label class="title-input">Nome</label>
-                    <input type="text" name="nome" id="nome" class="input-adm" value="{{$AudEtapaDocumento->nome}}">
+                    <input type="text" name="nome" id="nome" class="form-control" value="{{$AudEtapaDocumento->nome}}">
                 </div>
                 <div class="column">
                     <label class="title-input">Icone</label>
-                    <input type="text" name="icone" id="icone" class="input-adm" value="{{$AudEtapaDocumento->icone}}">
+                    <input type="text" name="icone" id="icone" class="form-control" value="{{$AudEtapaDocumento->icone}}">
                 </div>
                 <div class="column">
                     <label class="title-input">Lado Timeline</label>
-                    <input type="text" name="lado_timeline" id="lado_timeline" class="input-adm" value="{{$AudEtapaDocumento->lado_timeline}}">
+                    <input type="text" name="lado_timeline" id="lado_timeline" class="form-control" value="{{$AudEtapaDocumento->lado_timeline}}">
                 </div>
                 <div class="column">
                     <label class="title-input">Cadastrado Por</label>
-                    <input type="number" name="cadastrado_por" id="cadastrado_por" class="input-adm" value="{{$AudEtapaDocumento->cadastrado_por}}">
+                    <input type="number" name="cadastrado_por" id="cadastrado_por" class="form-control" value="{{$AudEtapaDocumento->cadastrado_por}}">
                 </div>
             </div>
             <div class="text-center">

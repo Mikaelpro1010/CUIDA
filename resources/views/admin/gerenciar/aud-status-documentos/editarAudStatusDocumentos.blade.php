@@ -16,7 +16,7 @@
             <div class="row-input">
                 <div class="column">
                     <label class="title-input">Nome</label>
-                    <input type="text" name="nome" id="nome" class="input-adm" value="{{$AudStatusDocumento->nome}}">
+                    <input type="text" name="nome" id="nome" class="form-control" value="{{$AudStatusDocumento->nome}}">
                 </div>
             </div>
             <div class="text-center">

@@ -17,7 +17,7 @@
             <div class="row-input">
                 <div class="column">
                     <label class="title-input">Nome</label>
-                    <input type="text" name="nome" id="nome" class="input-adm" placeholder="Nome">
+                    <input type="text" name="nome" id="nome" class="form-control" placeholder="Nome">
                 </div>
             </div>
     

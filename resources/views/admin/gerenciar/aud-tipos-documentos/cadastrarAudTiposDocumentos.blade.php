@@ -17,11 +17,11 @@
             <div class="row-input">
                 <div class="column">
                     <label class="title-input">Nome</label>
-                    <input type="text" name="nome" id="nome" class="input-adm" placeholder="Nome">
+                    <input type="text" name="nome" id="nome" class="form-control" placeholder="Nome">
                 </div>
                 <div class="column">
                     <label class="title-input">Interno</label>
-                    <select name="interno" class="input-adm" aria-label="Default select example">
+                    <select name="interno" class="form-select" aria-label="Default select example">
                         <option selected>Menu de seleção</option>
                         <option value="1">Sim</option>
                         <option value="2">Não</option>

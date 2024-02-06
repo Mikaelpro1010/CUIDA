@@ -17,15 +17,15 @@
             <div class="row-input">
                 <div class="column">
                     <label class="title-input">Nome</label>
-                    <input type="text" name="nome" id="nome" class="input-adm" placeholder="Nome">
+                    <input type="text" name="nome" id="nome" class="form-control" placeholder="Nome">
                 </div>
                 <div class="column">
                     <label class="title-input">Icone</label>
-                    <input type="text" name="icone" id="icone" class="input-adm" placeholder="Icone">
+                    <input type="text" name="icone" id="icone" class="form-control" placeholder="Icone">
                 </div>
                 <div class="column">
                     <label class="title-input">Lado Timeline</label>
-                    <select name="lado_timeline" class="input-adm" aria-label="Default select example">
+                    <select name="lado_timeline" class="form-select" aria-label="Default select example">
                         <option selected>Menu de seleção</option>
                         <option value="left">Left</option>
                         <option value="rigth">Rigth</option>
