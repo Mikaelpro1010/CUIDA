@@ -41,7 +41,7 @@ class AudStatusDocumentosController extends Controller
         
         $AudStatusDocumento->save();
             
-        return redirect()->route('listarAudStatusDocumentos')->with('success','Status de Status cadastrado com sucesso!');
+        return redirect()->route('listarAudStatusDocumentos')->with('success','Status de Documento cadastrado com sucesso!');
     }
 
     public function visualizarAudStatusDocumento(AudStatusDocumentos $AudStatusDocumento){
