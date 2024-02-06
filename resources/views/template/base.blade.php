@@ -3,14 +3,15 @@
 @section('main')
     <!-- Inicio do conteudo do administrativo -->
     <main class="wrapper dark:bg-black dark:border">
-        <div class="card">
+        <div class="card p-1">
             <!-- Exibição de mensagens de erro -->
             @if($errors->any())
-            <div class="alert alert-danger">
                 @foreach ($errors->all() as $error)
-                    <li>{{ $error }}</li>
+                <div class="alert alert-danger alert-dismissible fade show p-3">
+                    <span>{{ $error }}</span>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
                 @endforeach
-            </div>
             @endif
             @yield('content')
         </div>
