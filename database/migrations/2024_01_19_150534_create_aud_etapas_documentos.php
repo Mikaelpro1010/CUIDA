@@ -15,7 +15,7 @@ class CreateAudEtapasDocumentos extends Migration
     {
         Schema::create('aud_etapas_documentos', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('nome');
+            $table->string('nome')->unique();
             $table->string('icone');
             $table->string('lado_timeline');
             $table->unsignedBigInteger('usuario_id');

@@ -15,7 +15,7 @@ class CreateAudStatusDocumentos extends Migration
     {
         Schema::create('aud_status_documentos', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('nome');
+            $table->string('nome')->unique();
             $table->unsignedBigInteger('usuario_id');
             $table->foreign('usuario_id')->references('id')->on('users');
             $table->timestamps();
