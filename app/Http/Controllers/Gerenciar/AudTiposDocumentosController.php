@@ -28,11 +28,12 @@ class AudTiposDocumentosController extends Controller
             'nome.max' => 'O campo nome não pode ter mais de 255 caracteres.',
             'nome.unique' => 'O nome já está em uso, escolha outro.',
             'interno.required' => 'O campo interno é obrigatório.',
+            'interno.in' => 'O valor do campo interno é inválido.',
         ];
     
         $request->validate([
             'nome' => 'required|string|max:255|unique:aud_tipos_documentos',
-            'interno' => 'required',
+            'interno' => 'required|in:1,2',
         ], $mensagens);
         
         $AudTipoDocumento = new AudTiposDocumentos;
@@ -64,11 +65,12 @@ class AudTiposDocumentosController extends Controller
             'nome.max' => 'O campo nome não pode ter mais de 255 caracteres.',
             'nome.unique' => 'O nome já está em uso, escolha outro.',
             'interno.required' => 'O campo interno é obrigatório.',
+            'interno.in' => 'O valor do campo interno é inválido.',
         ];
     
         $request->validate([
             'nome' => 'required|string|max:255|unique:aud_tipos_documentos',
-            'interno' => 'required',
+            'interno' => 'required|in:1,2',
         ], $mensagens);
         
         $AudTipoDocumento->nome = $request->nome;
