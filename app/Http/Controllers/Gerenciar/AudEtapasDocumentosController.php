@@ -34,12 +34,13 @@ class AudEtapasDocumentosController extends Controller
             'icone.max' => 'O campo icone não pode ter mais de 255 caracteres.',
             'lado_timeline.required' => 'O campo lado_timeline é obrigatório.',
             'lado_timeline.string' => 'O campo lado_timeline deve ser uma string.',
+            'lado_timelin.in' => 'O valor do campo lado_timeline é inválido.',
         ];
 
         $request->validate([
             'nome' => 'required|string|max:255|unique:aud_etapas_documentos',
             'icone' => 'required|string|max:255',
-            'lado_timeline' => 'required',
+            'lado_timeline' => 'required|in:left,rigth',
         ], $mensagens);
         
         $AudEtapaDocumento = new AudEtapasDocumentos;
@@ -76,12 +77,13 @@ class AudEtapasDocumentosController extends Controller
             'icone.max' => 'O campo icone não pode ter mais de 255 caracteres.',
             'lado_timeline.required' => 'O campo lado_timeline é obrigatório.',
             'lado_timeline.string' => 'O campo lado_timeline deve ser uma string.',
+            'lado_timelin.in' => 'O valor do campo lado_timeline é inválido.',
         ];
 
         $request->validate([
             'nome' => 'required|string|max:255|unique:aud_etapas_documentos',
             'icone' => 'required|string|max:255',
-            'lado_timeline' => 'required',
+            'lado_timeline' => 'required|in:left,rigth',
         ], $mensagens);
         
         $AudEtapaDocumento->nome = $request->nome;
