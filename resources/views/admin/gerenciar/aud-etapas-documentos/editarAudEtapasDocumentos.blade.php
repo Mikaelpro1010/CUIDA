@@ -24,7 +24,11 @@
                 </div>
                 <div class="column">
                     <label class="title-input">Lado Timeline</label>
-                    <input type="text" name="lado_timeline" id="lado_timeline" class="form-control" value="{{$AudEtapaDocumento->lado_timeline}}">
+                    <select name="lado_timeline" class="form-select" aria-label="Default select example">
+                        <option selected>Menu de seleção</option>
+                        <option value="left">Left</option>
+                        <option value="rigth">Rigth</option>
+                    </select>
                 </div>
             </div>
             <button type="submit" class="btn btn-outline-warning">Salvar</button>

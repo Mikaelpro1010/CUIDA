@@ -20,7 +20,11 @@
                 </div>
                 <div class="column">
                     <label class="title-input">Interno</label>
-                    <input type="number" name="interno" id="interno" class="form-control" value="{{$AudTipoDocumento->interno}}">
+                    <select name="interno" class="form-select" aria-label="Default select example">
+                        <option selected>Menu de seleção</option>
+                        <option value="1">Sim</option>
+                        <option value="2">Não</option>
+                    </select>
                 </div>
             </div>
             <button type="submit" class="btn btn-outline-warning">Salvar</button>
