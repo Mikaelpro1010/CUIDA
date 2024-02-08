@@ -5,7 +5,6 @@
 <!-- Inicio do conteudo do administrativo -->
 <div class="row p-3">
     <div class="top-list">
-        @include('componentes/flash-message')
         <span class="title-content">Listar</span>
         <div class="top-list-right">
             <a href="{{route('visualizarCadastroAudStatusDocumentos')}}" class="btn btn-outline-success">Cadastrar</a>
