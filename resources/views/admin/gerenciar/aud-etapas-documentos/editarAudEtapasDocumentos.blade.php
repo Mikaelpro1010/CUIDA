@@ -26,14 +26,8 @@
                     <label class="title-input">Lado Timeline</label>
                     <input type="text" name="lado_timeline" id="lado_timeline" class="form-control" value="{{$AudEtapaDocumento->lado_timeline}}">
                 </div>
-                <div class="column">
-                    <label class="title-input">Cadastrado Por</label>
-                    <input type="number" name="cadastrado_por" id="cadastrado_por" class="form-control" value="{{$AudEtapaDocumento->cadastrado_por}}">
-                </div>
             </div>
-            <div class="text-center">
-                <button type="submit" class="btn btn-outline-warning">Salvar</button>
-            </div>
+            <button type="submit" class="btn btn-outline-warning">Salvar</button>
         </form>
     </div>
     <!-- Fim do conteudo do administrativo -->

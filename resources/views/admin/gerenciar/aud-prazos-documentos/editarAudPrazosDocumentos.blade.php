@@ -19,9 +19,7 @@
                     <input type="text" name="nome" id="nome" class="form-control" value="{{$AudPrazoDocumento->nome}}">
                 </div>
             </div>
-            <div class="text-center">
-                <button type="submit" class="btn btn-outline-warning">Salvar</button>
-            </div>
+            <button type="submit" class="btn btn-outline-warning">Salvar</button>
         </form>
     </div>
     <!-- Fim do conteudo do administrativo -->

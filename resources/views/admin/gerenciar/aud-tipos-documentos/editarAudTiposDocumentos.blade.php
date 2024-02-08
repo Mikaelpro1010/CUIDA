@@ -23,9 +23,7 @@
                     <input type="number" name="interno" id="interno" class="form-control" value="{{$AudTipoDocumento->interno}}">
                 </div>
             </div>
-            <div class="text-center">
-                <button type="submit" class="btn btn-outline-warning">Salvar</button>
-            </div>
+            <button type="submit" class="btn btn-outline-warning">Salvar</button>
         </form>
     </div>
     <!-- Fim do conteudo do administrativo -->
