@@ -8,7 +8,7 @@
             <!-- Exibição de mensagens de erro -->
             @if($errors->any())
                 @foreach ($errors->all() as $error)
-                <div class="alert alert-danger alert-dismissible bg-danger text-white fade show p-3">
+                <div class="alert alert-danger alert-dismissible fade show p-3">
                     <span>{{ $error }}</span>
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>

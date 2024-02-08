@@ -687,25 +687,9 @@ select.input-adm:focus {
     padding: 12px 7px;
 }
 
-.alert-success {
-    background-color: var(--success-color-second);
-    color: var(--success-color);
-    margin: 10px 0;
-    border-radius: 4px;
-    padding: 12px 7px;
-}
-
 .alert-warning {
     background-color: var(--warning-color-second);
     color: var(--warning-color);
-    margin: 10px 0;
-    border-radius: 4px;
-    padding: 12px 7px;
-}
-
-.alert-danger {
-    background-color: var(--danger-color-second);
-    color: var(--danger-color);
     margin: 10px 0;
     border-radius: 4px;
     padding: 12px 7px;
