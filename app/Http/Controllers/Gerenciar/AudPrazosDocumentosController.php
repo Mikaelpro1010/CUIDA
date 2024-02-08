@@ -41,7 +41,7 @@ class AudPrazosDocumentosController extends Controller
         
         $AudPrazoDocumento->save();
             
-        return redirect()->route('listarAudPrazosDocumentos')->with('success','Prazo de Prazo cadastrado com sucesso!');
+        return redirect()->route('listarAudPrazosDocumentos')->with('success','Prazo de Documento cadastrado com sucesso!');
     }
 
     public function visualizarAudPrazoDocumento(AudPrazosDocumentos $AudPrazoDocumento){
