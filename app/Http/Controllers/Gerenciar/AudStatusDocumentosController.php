@@ -60,12 +60,17 @@ class AudStatusDocumentosController extends Controller
             'nome.required' => 'O campo nome é obrigatório.',
             'nome.string' => 'O campo nome deve ser uma string.',
             'nome.max' => 'O campo nome não pode ter mais de 255 caracteres.',
-            'nome.unique' => 'O nome já está em uso, escolha outro.',
         ];
 
         $request->validate([
-            'nome' => 'required|string|max:255|unique:aud_status_documentos',
+            'nome' => 'required|string|max:255',
         ], $mensagens);
+
+        if($request->nome !== $AudStatusDocumento->nome){
+            $request->validate([
+                'nome' => 'unique:aud_status_documentos',
+            ], $mensagens);
+        }
         
         $AudStatusDocumento->nome = $request->nome;
         
