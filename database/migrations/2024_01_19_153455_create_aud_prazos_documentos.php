@@ -19,6 +19,7 @@ class CreateAudPrazosDocumentos extends Migration
             $table->unsignedBigInteger('usuario_id');
             $table->foreign('usuario_id')->references('id')->on('users');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
