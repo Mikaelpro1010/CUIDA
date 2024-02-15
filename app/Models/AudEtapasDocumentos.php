@@ -3,9 +3,12 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class AudEtapasDocumentos extends Model
 {
+    use SoftDeletes;
+    
     protected $fillable = [
         'nome', 'icone', 'lado_timeline', 'usuario_id',
     ];
