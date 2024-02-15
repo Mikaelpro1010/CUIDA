@@ -26,8 +26,8 @@
                     <label class="title-input">Lado Timeline</label>
                     <select name="lado_timeline" class="form-select" aria-label="Default select example">
                         <option selected>Menu de seleção</option>
-                        <option value="left">Left</option>
-                        <option value="rigth">Rigth</option>
+                        <option value="left" {{ $AudEtapaDocumento->lado_timeline == 'left' ? 'selected' : '' }}>Left</option>
+                        <option value="rigth" {{ $AudEtapaDocumento->lado_timeline == 'rigth' ? 'selected' : '' }}>Rigth</option>
                     </select>
                 </div>
             </div>
