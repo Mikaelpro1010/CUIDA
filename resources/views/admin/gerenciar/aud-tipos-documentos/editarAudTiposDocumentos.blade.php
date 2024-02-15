@@ -22,8 +22,8 @@
                     <label class="title-input">Interno</label>
                     <select name="interno" class="form-select" aria-label="Default select example">
                         <option selected>Menu de seleção</option>
-                        <option value="1">Sim</option>
-                        <option value="2">Não</option>
+                        <option value="1" {{$AudTipoDocumento->interno == '1' ? 'selected' : ''}}>Sim</option>
+                        <option value="2"{{$AudTipoDocumento->interno == '2' ? 'selected' : ''}}>Não</option>
                     </select>
                 </div>
             </div>
