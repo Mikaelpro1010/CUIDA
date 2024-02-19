@@ -15,7 +15,7 @@ class CreateAudTiposDocumentos extends Migration
     {
         Schema::create('aud_tipos_documentos', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('nome')->unique();
+            $table->string('nome');
             $table->integer('interno');
             $table->unsignedBigInteger('usuario_id');
             $table->foreign('usuario_id')->references('id')->on('users');
