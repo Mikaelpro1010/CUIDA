@@ -5,6 +5,7 @@ use App\Http\Controllers\Controller;
 use App\Constants\Permission;
 use Illuminate\Http\Request;
 use App\Models\AudTiposDocumentos;
+use Illuminate\Validation\Rule;
 
 class AudTiposDocumentosController extends Controller
 {
@@ -32,7 +33,14 @@ class AudTiposDocumentosController extends Controller
         ];
     
         $request->validate([
-            'nome' => 'required|string|max:255|unique:aud_tipos_documentos',
+            'nome' => [
+                'required',
+                'string',
+                'max:255',
+                Rule::unique('aud_tipos_documentos')->where(function ($query) {
+                    return $query->whereNull('deleted_at');
+                }),
+            ],
             'interno' => 'required|in:1,2',
         ], $mensagens);
         
@@ -74,7 +82,9 @@ class AudTiposDocumentosController extends Controller
 
         if($request->nome !== $AudTipoDocumento->nome){
             $request->validate([
-                'nome' => 'unique:aud_tipos_documentos',
+                Rule::unique('aud_tipos_documentos')->where(function ($query) {
+                    return $query->whereNull('deleted_at');
+                }),
             ], $mensagens);
         }
         

@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Constants\Permission;
 use Illuminate\Http\Request;
 use App\Models\AudPrazosDocumentos;
+use Illuminate\Validation\Rule;
 
 class AudPrazosDocumentosController extends Controller
 {
@@ -31,7 +32,14 @@ class AudPrazosDocumentosController extends Controller
         ];
 
         $request->validate([
-            'nome' => 'required|string|max:255|unique:aud_prazos_documentos',
+            'nome' => [
+                'required',
+                'string',
+                'max:255',
+                Rule::unique('aud_prazos_documentos')->where(function ($query) {
+                    $query->whereNull('deleted_at');
+                }),
+            ],
         ], $mensagens);
         
         $AudPrazoDocumento = new AudPrazosDocumentos;
@@ -69,7 +77,14 @@ class AudPrazosDocumentosController extends Controller
 
         if($request->nome !== $AudPrazoDocumento->nome){
             $request->validate([
-                'nome' => 'unique:aud_prazos_documentos',
+                'nome' => [
+                    'required',
+                    'string',
+                    'max:255',
+                    Rule::unique('aud_prazos_documentos')->where(function ($query) {
+                        $query->whereNull('deleted_at');
+                    }),
+                ],
             ], $mensagens);
         }
 

@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Constants\Permission;
 use Illuminate\Http\Request;
 use App\Models\AudStatusDocumentos;
+use Illuminate\Validation\Rule;
 
 class AudStatusDocumentosController extends Controller
 {
@@ -31,7 +32,14 @@ class AudStatusDocumentosController extends Controller
         ];
 
         $request->validate([
-            'nome' => 'required|string|max:255|unique:aud_status_documentos',
+            'nome' => [
+                'required',
+                'string',
+                'max:255',
+                Rule::unique('aud_status_documentos')->where(function ($query) {
+                    $query->whereNull('deleted_at');
+                }),
+            ],
         ], $mensagens);
         
         $AudStatusDocumento = new AudStatusDocumentos;
@@ -68,7 +76,11 @@ class AudStatusDocumentosController extends Controller
 
         if($request->nome !== $AudStatusDocumento->nome){
             $request->validate([
-                'nome' => 'unique:aud_status_documentos',
+                'nome' => [
+                    Rule::unique('aud_status_documentos')->where(function ($query) {
+                        $query->whereNull('deleted_at');
+                    }),
+                ],
             ], $mensagens);
         }
         

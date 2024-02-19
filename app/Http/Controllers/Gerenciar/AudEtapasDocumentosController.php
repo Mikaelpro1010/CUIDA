@@ -7,6 +7,7 @@ use App\Constants\Permission;
 use Illuminate\Http\Request;
 use App\Models\AudEtapasDocumentos;
 use App\Models\User;
+use Illuminate\Validation\Rule;
 
 class AudEtapasDocumentosController extends Controller
 {
@@ -19,11 +20,11 @@ class AudEtapasDocumentosController extends Controller
     public function visualizarCadastroAudEtapasDocumentos(){
         return view('admin/gerenciar/aud-etapas-documentos/cadastrarAudEtapasDocumentos');
     }
-
+    
     public function cadastrarAudEtapasDocumentos(Request $request){
-        
-        $user = auth()->user();
 
+        $user = auth()->user();
+        
         $mensagens = [
             'nome.required' => 'O campo nome é obrigatório.',
             'nome.string' => 'O campo nome deve ser uma string.',
@@ -36,20 +37,28 @@ class AudEtapasDocumentosController extends Controller
             'lado_timeline.string' => 'O campo lado_timeline deve ser uma string.',
             'lado_timelin.in' => 'O valor do campo lado_timeline é inválido.',
         ];
+        
+        
+        $AudEtapaDocumento = new AudEtapasDocumentos;
 
         $request->validate([
-            'nome' => 'required|string|max:255|unique:aud_etapas_documentos',
+            'nome' => [
+                'required',
+                'string',
+                'max:255',
+                Rule::unique('aud_etapas_documentos')->where(function ($query) {
+                    $query->whereNull('deleted_at');
+                }),
+            ],
             'icone' => 'required|string|max:255',
             'lado_timeline' => 'required|in:left,rigth',
         ], $mensagens);
-        
-        $AudEtapaDocumento = new AudEtapasDocumentos;
         
         $AudEtapaDocumento->nome = $request->nome;
         $AudEtapaDocumento->icone = $request->icone;
         $AudEtapaDocumento->lado_timeline = $request->lado_timeline;
         $AudEtapaDocumento->usuario_id = $user->id;
-        
+
         $AudEtapaDocumento->save();
             
         return redirect()->route('listarAudEtapasDocumentos')->with('success','Etapa de Documento cadastrado com sucesso!');
@@ -88,7 +97,11 @@ class AudEtapasDocumentosController extends Controller
 
         if($request->nome !== $AudEtapaDocumento->nome){
             $request->validate([
-                'nome' => 'unique:aud_etapas_documentos',
+                'nome' => [
+                    Rule::unique('aud_etapas_documentos')->where(function ($query) {
+                        $query->whereNull('deleted_at');
+                    }),
+                ]
             ], $mensagens);
         }
         
