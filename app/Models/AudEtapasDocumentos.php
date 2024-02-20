@@ -18,4 +18,10 @@ class AudEtapasDocumentos extends Model
     {
         return $this->belongsTo(User::class, 'usuario_id');
     }
+
+    // Relação "Um para Um" com aud_documentos
+    public function documento()
+    {
+        return $this->hasOne(AudDocumentos::class, 'aud_etapa_documento_id');
+    }
 }
