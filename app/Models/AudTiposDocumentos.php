@@ -18,4 +18,10 @@ class AudTiposDocumentos extends Model
     {
         return $this->belongsTo(User::class, 'usuario_id');
     }
+
+    // Relação "Um para Um" com aud_documentos
+    public function documento()
+    {
+        return $this->hasOne(AudDocumentos::class, 'aud_tipo_documento_id');
+    }
 }
