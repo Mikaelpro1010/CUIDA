@@ -94,6 +94,9 @@ Route::middleware(['auth:web'])->group(
         Route::namespace('Gerenciar')->prefix('admin')->group(
             function () {
 
+                //Gerenciar Documentos
+                Route::get('/visualizarCadastroOficios', 'DocumentosController@visualizarCadastroOficios')->name("visualizarCadastroOficios");
+                
                 //Gerenciar Etapas de Documentos
                 Route::get('/listarAudEtapasDocumentos', 'AudEtapasDocumentosController@listarAudEtapasDocumentos')->name("listarAudEtapasDocumentos");
                 Route::get('/visualizarCadastroAudEtapasDocumentos', 'AudEtapasDocumentosController@visualizarCadastroAudEtapasDocumentos')->name("visualizarCadastroAudEtapasDocumentos");
